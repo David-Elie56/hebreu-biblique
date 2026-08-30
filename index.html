@@ -3315,12 +3315,14 @@ function viewRevisionSheet(){
   let sectionsHTML = '';
   cards.forEach(card=>{
     const h3 = card.querySelector('h3');
-    const points = Array.from(card.querySelectorAll('.rule, .callout'));
-    if(!points.length) return;
+    const textPoints = Array.from(card.querySelectorAll('.rule, .callout'));
+    const tables = Array.from(card.querySelectorAll('.tblwrap'));
+    if(!textPoints.length && !tables.length) return;
     const heading = h3 ? h3.innerText.trim() : '';
-    sectionsHTML += `<div style="margin-bottom:16px;">
+    sectionsHTML += `<div style="margin-bottom:18px;">
       ${heading ? `<h4 style="font-family:'Inter',sans-serif;font-size:13px;color:var(--gold-dim);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">${heading}</h4>` : ''}
-      ${points.map(p=>`<div style="padding:8px 0;border-bottom:1px dashed var(--parchment2);font-size:14.5px;">${p.innerHTML}</div>`).join('')}
+      ${textPoints.map(p=>`<div style="padding:8px 0;border-bottom:1px dashed var(--parchment2);font-size:14.5px;">${p.innerHTML}</div>`).join('')}
+      ${tables.map(t=>t.outerHTML).join('')}
     </div>`;
   });
   if(!sectionsHTML){
