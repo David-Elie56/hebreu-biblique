@@ -2485,6 +2485,7 @@ let PROGRESS = {vocabKnown:{}, scores:{}, visited:{}, exams:{}};
 let SESSION = null;      // {username, role, name}
 let USERS = {};          // username -> {pwd, role, name, teacher, createdAt}
 let ALLPROGRESS = {};    // username -> progress object (cache)
+let USERS_READY = null;  // Promise résolue une fois USERS/edits/cours personnalisés chargés
 
 function simpleHash(s){
   let h = 0;
@@ -2876,6 +2877,10 @@ async function doLogin(){
   const u = document.getElementById('loginUser').value.trim();
   const p = document.getElementById('loginPass').value;
   const err = document.getElementById('loginErr');
+  if(USERS_READY){
+    err.textContent = '';
+    await USERS_READY;
+  }
   const rec = USERS[u];
   if(!rec || rec.pwd !== simpleHash(p)){ err.textContent = 'Identifiant ou mot de passe incorrect.'; return; }
   SESSION = {username:u, role:rec.role, name:rec.name, teacher:rec.teacher||null};
@@ -3058,16 +3063,25 @@ const NAVSECTIONS = [
   {key:'home', label:'Accueil', icon:'⌂'},
 ];
 
+async function ensureProgressLoaded(usernames){
+  const missing = usernames.filter(u=>!ALLPROGRESS[u]);
+  if(!missing.length) return;
+  const r = await gasCall('getAllProgress', {});
+  if(r && r.ok && r.all){
+    Object.keys(r.all).forEach(u=>{ if(!ALLPROGRESS[u]) ALLPROGRESS[u] = r.all[u]; });
+  }
+  missing.forEach(u=>{ if(!ALLPROGRESS[u]) ALLPROGRESS[u] = {visited:{}, vocabKnown:{}, scores:{}, exams:{}}; });
+}
 async function go(view, extra){
   STATE.view = view;
   if(extra) Object.assign(STATE, extra);
   window.scrollTo(0,0);
   if(view==='teacher' && SESSION){
     const students = Object.keys(USERS).filter(u=>USERS[u].role==='student' && USERS[u].teacher===SESSION.username);
-    await Promise.all(students.map(u=>loadProgressFor(u)));
+    await ensureProgressLoaded(students);
   } else if(view==='admin' && SESSION){
     const all = Object.keys(USERS).filter(u=>USERS[u].role==='student');
-    await Promise.all(all.map(u=>loadProgressFor(u)));
+    await ensureProgressLoaded(all);
   }
   render();
   if(view==='suggestions'){
@@ -4920,10 +4934,9 @@ function closeLegalModal(){
    INIT
    ========================================================================= */
 (async function init(){
-  await loadUsers();
-  await loadApprovedEdits();
-  await loadCustomLessons();
-  render();
+  render(); // affiche l'écran de connexion immédiatement, sans attendre le réseau
+  USERS_READY = Promise.all([loadUsers(), loadApprovedEdits(), loadCustomLessons()]);
+  await USERS_READY;
 })();
 </script>
 </body>
