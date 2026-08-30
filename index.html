@@ -460,6 +460,19 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
 }
 #quickEditBadge.show{display:flex;}
 .qe-recbtn.recording{background:var(--red);color:#fff;border-color:var(--red);}
+.corr-tip{position:relative; cursor:help; border-bottom:1px dotted var(--gold-dim); display:inline-block;}
+.corr-tip-bubble{
+  display:none; position:absolute; bottom:130%; left:50%; transform:translateX(-50%);
+  background:var(--ink2); color:var(--parchment); font-family:'Inter',sans-serif; font-size:12px;
+  line-height:1.5; padding:10px 13px; border-radius:8px; white-space:normal; text-align:left;
+  width:max-content; max-width:260px; box-shadow:var(--shadow); z-index:60;
+}
+.corr-tip-bubble div+div{margin-top:6px;padding-top:6px;border-top:1px solid rgba(246,239,217,.2);}
+.corr-tip-bubble::after{
+  content:""; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+  border:5px solid transparent; border-top-color:var(--ink2);
+}
+.corr-tip:hover .corr-tip-bubble{display:block;}
 </style>
 </head>
 <body>
@@ -3006,28 +3019,28 @@ function buildExamQuestions(block){
     shuffle(alphabetRows).slice(0,3).forEach(row=>{
       const distractors = shuffle(alphabetRows.filter(r=>r[0]!==row[0])).slice(0,3).map(r=>r[1]);
       const options = shuffle([row[1]].concat(distractors));
-      qs.push({prompt:'Quelle lettre correspond au nom « '+row[0]+' » ?', promptHeb:false, options, correct:row[1], render:o=>'<span class="heb" style="font-size:32px;">'+o+'</span>',
+      qs.push({prompt:'Quelle lettre correspond au nom « '+row[0]+' » ?', promptHeb:false, options, correct:row[1], render:o=>'<span class="heb" style="font-size:32px;">'+o+'</span>', lessonNum:1,
         explain:'Le nom « '+row[0]+' » correspond à la lettre '+row[1]+' (valeur numérique '+row[4]+', cours 1 — l\'alphabet).'});
     });
     shuffle(EX_TRANSLIT).slice(0,3).forEach(w=>{
       const distractors = shuffle(EX_TRANSLIT.filter(x=>x.heb!==w.heb)).slice(0,3).map(x=>x.fr);
       const options = shuffle([w.fr].concat(distractors));
-      qs.push({instruction:'Que signifie ce mot ?', prompt:w.heb, promptHeb:true, options, correct:w.fr, render:o=>o,
+      qs.push({instruction:'Que signifie ce mot ?', prompt:w.heb, promptHeb:true, options, correct:w.fr, render:o=>o, lessonNum:2,
         explain:w.heb+' se lit « '+w.tr+' » et signifie « '+w.fr+' » (cours 2 — les voyelles).'});
     });
     shuffle(EX_SHEVA).slice(0,3).forEach(w=>{
-      qs.push({instruction:'Ce shéwa est-il mobile, quiescent ou composé ?', prompt:w.word, promptHeb:true, options:['mobile','quiescent','composé'], correct:w.answer, render:o=>o,
+      qs.push({instruction:'Ce shéwa est-il mobile, quiescent ou composé ?', prompt:w.word, promptHeb:true, options:['mobile','quiescent','composé'], correct:w.answer, render:o=>o, lessonNum:3,
         explain:w.note+' (cours 3 — le shéwa).'});
     });
     shuffle(EX_SYLL).slice(0,3).forEach(w=>{
-      qs.push({instruction:'La dernière syllabe de ce mot est-elle ouverte ou fermée ?', prompt:w.word, promptHeb:true, options:['ouverte','fermée'], correct:w.answer, render:o=>o,
+      qs.push({instruction:'La dernière syllabe de ce mot est-elle ouverte ou fermée ?', prompt:w.word, promptHeb:true, options:['ouverte','fermée'], correct:w.answer, render:o=>o, lessonNum:4,
         explain:w.note+' (cours 4 — la division syllabique).'});
     });
     const v5 = VOCAB.filter(v=>v.c===5);
     shuffle(v5).slice(0,3).forEach(w=>{
       const distractors = shuffle(v5.filter(x=>x.heb!==w.heb)).slice(0,3).map(x=>x.fr);
       const options = shuffle([w.fr].concat(distractors));
-      qs.push({instruction:'Que signifie ce mot ?', prompt:w.heb, promptHeb:true, options, correct:w.fr, render:o=>o,
+      qs.push({instruction:'Que signifie ce mot ?', prompt:w.heb, promptHeb:true, options, correct:w.fr, render:o=>o, lessonNum:5,
         explain:w.heb+' ('+w.tr+') signifie « '+w.fr+' » (cours 5 — vocabulaire).'});
     });
   }else{
@@ -3045,10 +3058,10 @@ function buildExamQuestions(block){
       const explain = w.heb+' ('+w.tr+') signifie « '+w.fr+' » (cours '+w.c+').';
       if(dir==='heb2fr'){
         const options = shuffle([w.fr].concat(distractors.map(x=>x.fr)));
-        qs.push({instruction:'Traduisez ce mot en français.', prompt:w.heb, promptHeb:true, options, correct:w.fr, render:o=>o, explain});
+        qs.push({instruction:'Traduisez ce mot en français.', prompt:w.heb, promptHeb:true, options, correct:w.fr, render:o=>o, explain, lessonNum:w.c});
       }else{
         const options = shuffle([w.heb].concat(distractors.map(x=>x.heb)));
-        qs.push({instruction:'Quel est le mot hébreu correspondant ?', prompt:w.fr, promptHeb:false, options, correct:w.heb, render:o=>'<span class="heb" style="font-size:38px;">'+o+'</span>', explain});
+        qs.push({instruction:'Quel est le mot hébreu correspondant ?', prompt:w.fr, promptHeb:false, options, correct:w.heb, render:o=>'<span class="heb" style="font-size:38px;">'+o+'</span>', explain, lessonNum:w.c});
       }
     });
     qs = qs.concat(conjQs, specialQs);
@@ -3062,6 +3075,10 @@ function startExam(blockId){
   EXAM = {block, items: buildExamQuestions(block), index:0, correct:0, answered:false, mistakes:[]};
   go('exam');
 }
+function extractLessonNumFromExplain(explain){
+  const m = /cours\s+(\d+)/i.exec(explain||'');
+  return m ? parseInt(m[1],10) : null;
+}
 function answerExam(i){
   if(EXAM.answered) return;
   EXAM.answered = true;
@@ -3071,7 +3088,8 @@ function answerExam(i){
   if(isCorrect){
     EXAM.correct++;
   }else{
-    EXAM.mistakes.push({instruction:item.instruction, prompt:item.prompt, promptHeb:item.promptHeb, correct:item.correct, render:item.render, explain:item.explain});
+    const lessonNum = item.lessonNum || extractLessonNumFromExplain(item.explain);
+    EXAM.mistakes.push({instruction:item.instruction, prompt:item.prompt, promptHeb:item.promptHeb, correct:item.correct, chosen, render:item.render, explain:item.explain, lessonNum});
   }
   item.options.forEach((o,j)=>{
     const el = document.getElementById('eopt'+j);
@@ -3272,6 +3290,7 @@ function viewCours(){
   return `
   <div class="topline">
     <div><div class="eyebrow">Cours ${n} / ${LESSON_TITLES.length}</div><h1>${title}</h1></div>
+    <button class="navbtn" onclick="go('revisionsheet',{lesson:${n}})">📋 Fiche de révision</button>
   </div>
   ${gnLegendHTML()}
   ${LESSONS[n-1]}
@@ -3280,6 +3299,46 @@ function viewCours(){
     <button class="navbtn" ${n<=1?'disabled':''} onclick="go('cours',{lesson:${n-1}})">← Cours précédent</button>
     <button class="navbtn" ${n>=LESSON_TITLES.length||!isLessonUnlocked(n+1)?'disabled':''} onclick="go('cours',{lesson:${n+1}})">Cours suivant →</button>
   </div>`;
+}
+
+/* ---- Fiche de révision (extraction automatique très synthétique) ---- */
+function viewRevisionSheet(){
+  const n = STATE.lesson;
+  if(!isLessonUnlocked(n)){
+    return `<div class="topline"><div><div class="eyebrow">Verrouillé</div><h1>🔒 Cours ${n}</h1></div></div>
+    <div class="card"><p>Ce cours n'est pas encore débloqué.</p></div>`;
+  }
+  const title = LESSON_TITLES[n-1] || ('Cours '+n);
+  const tmp = document.createElement('div');
+  tmp.innerHTML = LESSONS[n-1] || '';
+  const cards = Array.from(tmp.querySelectorAll('.card'));
+  let sectionsHTML = '';
+  cards.forEach(card=>{
+    const h3 = card.querySelector('h3');
+    const points = Array.from(card.querySelectorAll('.rule, .callout'));
+    if(!points.length) return;
+    const heading = h3 ? h3.innerText.trim() : '';
+    sectionsHTML += `<div style="margin-bottom:16px;">
+      ${heading ? `<h4 style="font-family:'Inter',sans-serif;font-size:13px;color:var(--gold-dim);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">${heading}</h4>` : ''}
+      ${points.map(p=>`<div style="padding:8px 0;border-bottom:1px dashed var(--parchment2);font-size:14.5px;">${p.innerHTML}</div>`).join('')}
+    </div>`;
+  });
+  if(!sectionsHTML){
+    sectionsHTML = '<p class="ui" style="font-size:13px;color:var(--text-soft);">Ce cours ne contient pas de règle ou d\'encadré à synthétiser — consultez le cours complet.</p>';
+  }
+  const vocab = VOCAB.filter(v=>v.c===n);
+  const vocabHTML = vocab.length ? `<div class="card">
+    <h3><span class="en">À retenir</span>Vocabulaire du cours</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;">
+      ${vocab.map(v=>`<div style="padding:6px 0;"><span class="heb" style="font-size:1.3em;">${v.heb}</span><div class="ui" style="font-size:12px;color:var(--text-soft);">${v.fr}</div></div>`).join('')}
+    </div>
+  </div>` : '';
+  return `<div class="topline">
+    <div><div class="eyebrow">Fiche de révision — Cours ${n}/${LESSON_TITLES.length}</div><h1>${title}</h1></div>
+    <button class="navbtn" onclick="go('cours',{lesson:${n}})">← Retour au cours complet</button>
+  </div>
+  <div class="card">${sectionsHTML}</div>
+  ${vocabHTML}`;
 }
 
 function viewVocab(){
@@ -3850,15 +3909,21 @@ function viewExam(){
     <div class="card">
       <h3><span class="en">Fiche de révision</span>Points à revoir avant de retenter</h3>
       <p>Voici les questions où une erreur a été commise, avec l'explication de la bonne réponse.</p>
-      ${mistakes.map(m=>`
+      ${mistakes.map(m=>{
+        const bubbleParts = [];
+        if(m.lessonNum) bubbleParts.push('<b>'+lessonLabelFor(m.lessonNum)+'</b>');
+        if(m.explain) bubbleParts.push(m.explain);
+        if(m.chosen!==undefined && m.chosen!==null) bubbleParts.push('Ta réponse : '+(m.render ? m.render(m.chosen) : m.chosen));
+        const bubbleHTML = bubbleParts.length ? '<span class="corr-tip-bubble">'+bubbleParts.map(p=>'<div>'+p+'</div>').join('')+'</span>' : '';
+        return `
         <div class="rule">
           ${m.instruction ? '<div class="ui" style="font-size:12px;color:var(--text-soft);margin-bottom:4px;">'+m.instruction+'</div>' : ''}
           <div style="margin-bottom:6px;">${m.promptHeb ? '<span class="heb" style="font-size:36px;">'+m.prompt+'</span>' : '<b>'+m.prompt+'</b>'}
-            &nbsp;→&nbsp; ${m.render ? m.render(m.correct) : m.correct}
+            &nbsp;→&nbsp; <span class="corr-tip">${m.render ? m.render(m.correct) : m.correct}${bubbleHTML}</span>
           </div>
           <div style="font-family:'Inter',sans-serif;font-size:13px;color:var(--text-soft);">${m.explain||''}</div>
         </div>
-      `).join('')}
+      `;}).join('')}
     </div>` : '';
     return `<div class="topline"><div><div class="eyebrow">Résultat</div><h1>${res.passed?'Examen réussi 🎉':'Examen non réussi'}</h1></div></div>
     <div class="qbox" style="text-align:center;">
@@ -4146,6 +4211,7 @@ function renderContentOnly(){
   let html = '';
   if(STATE.view==='home') html = viewHome();
   else if(STATE.view==='cours') html = viewCours();
+  else if(STATE.view==='revisionsheet') html = viewRevisionSheet();
   else if(STATE.view==='vocab') html = viewVocab();
   else if(STATE.view==='vocabquiz') html = viewVocabQuiz();
   else if(STATE.view==='exercices') html = viewExercices();
