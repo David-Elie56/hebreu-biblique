@@ -2619,6 +2619,51 @@ async function restoreStudentPrompt(username, date){
   }
 }
 
+/* ---- Récupération d'un compte entièrement disparu (recherche dans les sauvegardes) ---- */
+async function findLostAccount(){
+  const username = (document.getElementById('lostAccountUser').value || '').trim();
+  const box = document.getElementById('lostAccountResult');
+  if(!username){ box.style.color='var(--red)'; box.textContent='Merci de saisir un identifiant.'; return; }
+  if(USERS[username]){ box.style.color='var(--red)'; box.textContent="Ce compte existe déjà dans la liste actuelle — pas besoin de le restaurer."; return; }
+  box.style.color='var(--text-soft)'; box.textContent='Recherche dans les sauvegardes…';
+  const datesR = await gasCall('listBackups', {});
+  if(!datesR || !datesR.ok || !datesR.dates || !datesR.dates.length){
+    box.style.color='var(--red)'; box.textContent='Aucune sauvegarde disponible.'; return;
+  }
+  for(const date of datesR.dates){ // du plus récent au plus ancien
+    const r = await gasCall('getStudentAccountBackup', {date, username});
+    if(r && r.ok && r.data){
+      box.style.color='var(--text-soft)';
+      box.innerHTML = `Compte retrouvé dans la sauvegarde du <b>${date}</b> : <b>${r.data.name}</b> (${roleLabel(r.data.role)}).<br>
+        <button class="navbtn" style="margin-top:8px;" onclick="restoreLostAccount('${username}','${date}')">Restaurer ce compte</button>`;
+      return;
+    }
+  }
+  box.style.color='var(--red)'; box.textContent="Aucune trace de ce compte dans les 90 derniers jours de sauvegarde. Vérifiez l'orthographe exacte de l'identifiant.";
+}
+async function restoreLostAccount(username, date){
+  const box = document.getElementById('lostAccountResult');
+  const r = await gasCall('restoreStudentAccount', {username, date});
+  if(r && r.ok){
+    await loadUsers();
+    box.style.color='var(--green)';
+    box.innerHTML = `Compte de <b>${username}</b> restauré ✓ (mot de passe : celui qu'il avait avant sa disparition). <button class="btn-ghost" style="margin-left:8px;" onclick="restoreLostAccountProgress('${username}','${date}')">Restaurer aussi sa progression du ${date}</button>`;
+    render();
+  }else{
+    box.style.color='var(--red)'; box.textContent = (r && r.error) || "Échec de la restauration du compte.";
+  }
+}
+async function restoreLostAccountProgress(username, date){
+  const r = await gasCall('restoreStudentProgress', {username, date});
+  const box = document.getElementById('lostAccountResult');
+  if(r && r.ok){
+    delete ALLPROGRESS[username];
+    box.style.color='var(--green)'; box.textContent = 'Compte et progression de '+username+' restaurés depuis le '+date+' ✓';
+  }else{
+    box.style.color='var(--red)'; box.textContent = "Compte restauré, mais aucune progression trouvée à cette date (peut-être normal pour un compte récent).";
+  }
+}
+
 /* ---- Suggestions : couleur / orthographe / prononciation / notes, avec brouillon + validation admin ---- */
 const EDIT_STATUS_LABELS = {draft:'Brouillon', pending:'En attente de validation', approved:'✓ Publié', rejected:'✗ Refusé'};
 function viewSuggestions(){
@@ -3932,6 +3977,15 @@ function viewAdmin(){
     <div id="backupsList"></div>
   </div>
   <div class="card">
+    <h3><span class="en">Compte disparu</span>Retrouver et restaurer un compte supprimé</h3>
+    <p style="font-family:'Inter',sans-serif;font-size:13.5px;color:var(--text-soft);">Si un compte a complètement disparu de la liste (ci-dessous), tapez son identifiant exact : l'outil cherche automatiquement dans les sauvegardes des 90 derniers jours la dernière fois où ce compte existait, et vous permet de le recréer sans toucher aux autres comptes.</p>
+    <div class="acctform">
+      <input id="lostAccountUser" type="text" placeholder="Identifiant exact du compte (ex : denoual)">
+      <button class="navbtn" onclick="findLostAccount()">Rechercher dans les sauvegardes</button>
+    </div>
+    <div id="lostAccountResult" class="ui" style="font-size:13px;margin-top:10px;"></div>
+  </div>
+  <div class="card">
     <h3><span class="en">Nouveau compte</span>Créer un enseignant</h3>
     <div class="acctform">
       <input id="newTeaName" type="text" placeholder="Nom complet">
@@ -4913,7 +4967,7 @@ function openLegalModal(){
     <p><b>Interdiction de copie et de reproduction</b><br>Toute reproduction, représentation, copie, modification, traduction, adaptation, diffusion ou exploitation, totale ou partielle, de ces contenus, par quelque procédé que ce soit (impression, capture d'écran, extraction, transmission à un tiers, republication sur un autre support ou service, etc.), est strictement interdite sans l'autorisation écrite préalable de YEHI-OR INSTITUT. Toute utilisation non autorisée est susceptible de constituer une contrefaçon.</p>
     <p><b>Association</b><br><b>YEHI-OR INSTITUT</b> est une association déclarée régie par la loi du 1er juillet 1901, enregistrée sous le numéro RNA <b>W953012803</b>.</p>
     <p>Site de l'association : <a href="https://www.yehior-institut.fr/" target="_blank" rel="noopener">yehior-institut.fr</a></p>
-    <p><b>Éditeur du site</b><br>Ce site est édité par <b>Simplika</b>.<br>Contact : <a href="mailto:contact.simplika@gmail.com">contact.simplika@gmail.com</a> — 06 38 44 55 69</p>
+    <p><b>Éditeur du site</b><br>Ce site est édité par <b>Simplika</b>.<br>Contact : <a href="mailto:contact.simplika@gmail.com">contact.simplika@gmail.com</a> — 06 64 99 59 65</p>
     <h2 style="margin-top:22px;">Protection des données personnelles (RGPD)</h2>
     <p><b>Responsable du traitement</b><br>L'association <b>YEHI-OR INSTITUT</b> est responsable du traitement des données personnelles collectées dans le cadre de l'utilisation de cette application pédagogique.</p>
     <p><b>Données collectées</b><br>Identifiant de connexion, mot de passe (stocké sous forme hachée, jamais en clair), nom, rôle (élève/enseignant/administrateur), progression pédagogique (cours consultés, résultats aux exercices et examens, vocabulaire mémorisé) et, le cas échéant, enregistrements vocaux ajoutés par les enseignants ou l'administrateur à titre pédagogique.</p>
