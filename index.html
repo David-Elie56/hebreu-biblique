@@ -2560,12 +2560,13 @@ async function loadBackupsList(){
   box.innerHTML = r.dates.map(d=>`
     <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--parchment2);">
       <span style="font-family:'Inter',sans-serif;font-size:13.5px;">${d}</span>
-      <button class="btn-ghost" style="padding:6px 12px;border-radius:8px;font-size:12.5px;" onclick="restoreBackupPrompt('${d}')">Restaurer cette date</button>
+      <button class="btn-ghost" style="padding:6px 12px;border-radius:8px;font-size:12.5px;color:var(--red);" onclick="restoreBackupPrompt('${d}')">⚠️ Tout restaurer à cette date</button>
     </div>`).join('');
+  box.insertAdjacentHTML('beforeend', '<p class="ui" style="font-size:12px;color:var(--text-soft);margin-top:8px;">Pour récupérer UN SEUL élève sans toucher aux autres comptes, utilisez plutôt l\'outil "Compte disparu" ci-dessus.</p>');
 }
 async function restoreBackupPrompt(date){
-  const ok = confirm('Restaurer la sauvegarde du '+date+' va ÉCRASER tous les comptes et progressions actuels par ceux de cette date. Cette action est irréversible (sauf à restaurer une sauvegarde plus récente ensuite). Continuer ?');
-  if(!ok) return;
+  const typed = prompt('⚠️ ATTENTION : ceci va ÉCRASER TOUS les comptes et TOUTES les progressions actuels (y compris les mots de passe déjà changés) par ceux du '+date+'.\n\nSi vous voulez juste récupérer UN élève, utilisez plutôt "Compte disparu" — pas cet outil.\n\nPour confirmer cette restauration GLOBALE, tapez exactement : RESTAURER TOUT');
+  if(typed !== 'RESTAURER TOUT'){ if(typed!==null) alert('Texte incorrect — restauration annulée par sécurité.'); return; }
   const r = await gasCall('restoreBackup', {date});
   if(r && r.ok){
     alert('Sauvegarde du '+date+' restaurée. La page va se recharger.');
