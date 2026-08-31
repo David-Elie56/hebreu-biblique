@@ -2530,6 +2530,18 @@ async function gasCall(action, payload){
     return await res.json();
   }catch(e){ console.error('Synchronisation Google Sheets impossible :', e); return {ok:false, error:String(e)}; }
 }
+async function testGasConnectionLogin(){
+  const msg = document.getElementById('loginGasMsg');
+  if(!msg) return;
+  msg.style.color = 'var(--text-soft)'; msg.textContent = 'Test en cours…';
+  try{
+    const r = await gasCall('ping', {});
+    if(r && r.ok){ msg.style.color='var(--green)'; msg.textContent = 'Connexion au Google Sheet réussie ✓ — si la connexion échoue quand même, le souci vient de l\'identifiant/mot de passe.'; }
+    else{ msg.style.color='var(--red)'; msg.textContent = "Connexion au Google Sheet impossible. Le script Apps Script a probablement changé d'adresse ou de droits d'accès — vérifiez son déploiement (Déployer > Gérer les déploiements > l'URL doit être \"Anyone\" en accès)."; }
+  }catch(e){
+    msg.style.color='var(--red)'; msg.textContent = 'Connexion impossible (erreur réseau) : ' + (e && e.message ? e.message : e);
+  }
+}
 async function testGasConnection(){
   const msg = document.getElementById('gasMsg');
   msg.style.color = 'var(--text-soft)'; msg.textContent = 'Test en cours…';
@@ -2885,22 +2897,37 @@ function saveGasUrlFromInput(){
   msg.textContent = url ? 'URL personnalisée enregistrée sur cet appareil/navigateur.' : "Revenu à l'URL par défaut de l'application.";
 }
 
+let USERS_LOAD_FAILED = false; // vrai si la dernière tentative de connexion au Google Sheet a échoué
 async function loadUsers(){
   const g = await gasCall('getUsers', {});
   if(g && g.ok){
+    USERS_LOAD_FAILED = false;
     USERS = g.users || {};
+    // Ne créer le compte admin par défaut que si le Google Sheet a répondu
+    // normalement et qu'il est réellement vide (nouvelle installation) —
+    // jamais en cas d'échec de connexion, pour ne pas écraser les vrais
+    // comptes existants avec un compte par défaut.
+    if(!USERS['admin']){
+      USERS['admin'] = {pwd: simpleHash('admin'), role:'admin', name:'Super admin', teacher:null, createdAt: Date.now()};
+      await saveUsers();
+    }
   }else{
+    // Échec de connexion au Google Sheet : on NE SAUVEGARDE JAMAIS rien
+    // automatiquement ici (pour ne pas risquer d'effacer les vrais comptes
+    // si la connexion revient plus tard). On utilise juste une copie locale
+    // de secours si disponible, uniquement pour l'affichage.
+    USERS_LOAD_FAILED = true;
     try{
       const r = await window.storage.get('users', true);
-      if(r && r.value) USERS = JSON.parse(r.value);
+      USERS = (r && r.value) ? JSON.parse(r.value) : {};
     }catch(e){ USERS = {}; }
-  }
-  if(!USERS['admin']){
-    USERS['admin'] = {pwd: simpleHash('admin'), role:'admin', name:'Super admin', teacher:null, createdAt: Date.now()};
-    await saveUsers();
   }
 }
 async function saveUsers(){
+  if(USERS_LOAD_FAILED){
+    console.error('saveUsers() bloqué : la dernière lecture du Google Sheet a échoué, écrire maintenant risquerait d\'effacer les vrais comptes.');
+    return;
+  }
   await gasCall('saveUsers', {users: USERS});
   try{ await window.storage.set('users', JSON.stringify(USERS), true); }catch(e){}
 }
@@ -2938,6 +2965,10 @@ async function doLogin(){
   if(USERS_READY){
     err.textContent = '';
     await USERS_READY;
+  }
+  if(USERS_LOAD_FAILED){
+    err.textContent = "Connexion au Google Sheet impossible pour l'instant — réessayez dans un instant, ou utilisez « Tester la connexion » ci-dessous pour vérifier.";
+    return;
   }
   const rec = USERS[u];
   if(!rec || rec.pwd !== simpleHash(p)){ err.textContent = 'Identifiant ou mot de passe incorrect.'; return; }
@@ -4202,6 +4233,8 @@ function viewLogin(){
     <button onclick="doLogin()">Se connecter</button>
     <div class="err" id="loginErr"></div>
     <div class="hint">Premier accès ? Compte super admin par défaut : <b>admin</b> / <b>admin</b> — à changer immédiatement dans « Mon compte ».<br>Les comptes élèves et enseignants sont créés par l'enseignant ou l'administrateur.</div>
+    <button type="button" class="btn-ghost" style="margin-top:12px;font-size:12px;padding:6px 12px;" onclick="testGasConnectionLogin()">Tester la connexion au Google Sheet</button>
+    <div id="loginGasMsg" class="ui" style="font-size:12px;margin-top:6px;"></div>
   </div></div>`;
 }
 
