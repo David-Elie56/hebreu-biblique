@@ -1304,7 +1304,7 @@ const lesson10 = `
     ["Pluriel","<span class=\"heb\">סוּסוֹת</span>","<span class=\"heb\">סוּסוֹת</span>","<span class=\"heb\">סוּסֵי</span>","<span class=\"heb\">סוּסִים</span>"]
   ])}
   <p>Quelques mots irréguliers fréquents dans le texte biblique :</p>
-  ${tableHTML(null, ["Mot","État construit sg./pl.","État absolu sg./pl."], [
+  ${tableHTML(null, ["Mot","État construit pl./sg.","État absolu pl./sg."], [
     ["Homme / Femme","<span class=\"heb\">אִישׁ · אֵשֶׁת</span>","<span class=\"heb\">אִישׁ · אִשָּׁה</span>"],
     ["Ville","<span class=\"heb\">עִיר · עָרֵי</span>","<span class=\"heb\">עִיר · עָרִים</span>"],
     ["Jour","<span class=\"heb\">יוֹם · יְמֵי</span>","<span class=\"heb\">יוֹם · יָמִים</span>"],
@@ -2963,8 +2963,11 @@ async function doLogin(){
   const u = document.getElementById('loginUser').value.trim();
   const p = document.getElementById('loginPass').value;
   const err = document.getElementById('loginErr');
+  err.textContent = '';
+  // Lancée tout de suite, en parallèle de la vérification des identifiants
+  // (gagne du temps si le mot de passe est correct — le cas le plus fréquent).
+  const progressPromise = u ? loadProgressFor(u) : Promise.resolve(null);
   if(USERS_READY){
-    err.textContent = '';
     await USERS_READY;
   }
   if(USERS_LOAD_FAILED){
@@ -2974,7 +2977,7 @@ async function doLogin(){
   const rec = USERS[u];
   if(!rec || rec.pwd !== simpleHash(p)){ err.textContent = 'Identifiant ou mot de passe incorrect.'; return; }
   SESSION = {username:u, role:rec.role, name:rec.name, teacher:rec.teacher||null};
-  PROGRESS = await loadProgressFor(u);
+  PROGRESS = await progressPromise;
   STATE = {view:'home', lesson:1, ex:null, vocabFilter:null, vocabSearch:''};
   render();
 }
