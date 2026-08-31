@@ -336,17 +336,32 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
 .gn-legend i{width:14px;height:14px;border-radius:4px;display:inline-block;}
 
 /* ---------- clavier virtuel hébreu ---------- */
-.hebkeyboard{background:var(--parchment);border:1px solid var(--parchment2);border-radius:10px;padding:10px;margin:8px 0 14px;}
-.hebkb-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:5px;}
-.hebkb-row:last-child{margin-bottom:0;}
-.hebkbtn{
-  min-width:32px;height:32px;padding:0 6px;border-radius:6px;border:1px solid var(--parchment2);
-  background:var(--paper);cursor:pointer;font-size:16px!important;line-height:1;
+.azkeyboard{background:var(--parchment);border:1px solid var(--parchment2);border-radius:10px;padding:10px;margin:8px 0 14px;}
+.azkb-row{display:flex;gap:4px;margin-bottom:4px;justify-content:center;}
+.azkb-row:last-child{margin-bottom:0;}
+.azkbtn{
+  position:relative;min-width:30px;height:36px;flex:1;max-width:38px;padding:0 2px;border-radius:6px;border:1px solid var(--parchment2);
+  background:var(--paper);cursor:pointer;font-size:17px!important;line-height:1;
   display:inline-flex;align-items:center;justify-content:center;transition:background .1s;
+  -webkit-user-select:none;user-select:none;touch-action:manipulation;
 }
-.hebkbtn:hover{background:rgba(184,147,90,.15);}
-.hebkb-wide{min-width:70px;font-family:'Inter',sans-serif;font-size:12px!important;padding:0 10px;}
-.hebkb-niqqud .hebkbtn{font-size:18px!important;}
+.azkbtn:hover{background:rgba(184,147,90,.15);}
+.azkbtn:active{background:rgba(184,147,90,.3);}
+.azkbtn.azempty{background:transparent;border-color:transparent;cursor:default;}
+.azsub{position:absolute;bottom:1px;right:3px;font-family:'Inter',sans-serif;font-size:8px;color:var(--gold-dim);}
+.azwide{min-width:70px;max-width:none;flex:2;font-family:'Inter',sans-serif;font-size:12px!important;padding:0 10px;}
+.az-popup{
+  position:fixed;z-index:2000;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;
+  background:var(--ink2);border:1px solid var(--gold-dim);border-radius:10px;padding:8px;
+  box-shadow:var(--shadow);max-width:260px;
+}
+.az-popopt{
+  position:relative;min-width:44px;height:44px;padding:0 4px;border-radius:6px;border:1px solid rgba(246,239,217,.2);
+  background:var(--ink3);color:var(--parchment);cursor:pointer;font-size:19px!important;line-height:1;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.az-popopt:hover, .az-popopt:active{background:var(--gold-dim);}
+.azpopnum{position:absolute;top:1px;left:3px;font-family:'Inter',sans-serif;font-size:8px;color:var(--gold-light);}
 
 /* ---------- traçage des lettres (canvas + pointer events) ---------- */
 .hwcanvaswrap{position:relative;width:300px;height:300px;margin:10px auto;border:2px dashed var(--parchment2);border-radius:12px;background:var(--paper);touch-action:none;}
@@ -426,9 +441,9 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
   main{padding:22px 18px 60px;}
   .topline h1{font-size:22px;}
   .optiongrid{grid-template-columns:1fr;}
-  .hebkbtn{min-width:40px!important;height:40px!important;font-size:19px!important;}
-  .hebkb-niqqud .hebkbtn{font-size:21px!important;}
-  .hebkb-wide{min-width:88px!important;}
+  .azkbtn{height:40px!important;font-size:19px!important;}
+  .azwide{min-width:88px!important;}
+  .az-popopt{min-width:48px;height:48px;font-size:21px!important;}
   .playbtn{width:40px;height:40px;font-size:17px;}
 }
 #legalFooter{
@@ -645,23 +660,182 @@ function playHebSound(key, btn){
 }
 
 /* =========================================================================
-   CLAVIER VIRTUEL HÉBREU (pour les champs de saisie des enseignants/admin)
+   CLAVIER VIRTUEL HÉBREU — AZERTY PHONÉTIQUE (pour les champs de saisie des
+   enseignants/admin). Chaque touche AZERTY correspond à une lettre hébraïque
+   au son proche (repris du tableau de l'alphabet du cours 1). Un appui bref
+   insère la lettre nue ; un appui MAINTENU ouvre toutes les variantes liées
+   (lettre sans daguesh/forme finale, puis la lettre avec chaque voyelle),
+   numérotées — sélection au clic ou en tapant le chiffre au clavier.
    ========================================================================= */
-const HEB_KB_LETTERS = ['א','ב','ג','ד','ה','ו','ז','ח','ט','י','כ','ך','ל','מ','ם','נ','ן','ס','ע','פ','ף','צ','ץ','ק','ר','ש','ת'];
-const HEB_KB_NIQQUD = [
-  {ch:'\u05B0',label:'שְׁ'},{ch:'\u05B1',label:'חֱ'},{ch:'\u05B2',label:'חֲ'},{ch:'\u05B3',label:'חֳ'},
-  {ch:'\u05B4',label:'חִ'},{ch:'\u05B5',label:'חֵ'},{ch:'\u05B6',label:'חֶ'},{ch:'\u05B7',label:'חַ'},
-  {ch:'\u05B8',label:'חָ'},{ch:'\u05B9',label:'חֹ'},{ch:'\u05BB',label:'חֻ'},{ch:'\u05BC',label:'חּ'},
-  {ch:'\u05C1',label:'שׁ'},{ch:'\u05C2',label:'שׂ'},{ch:'\u05BE',label:'־'}
+const AZERTY_ROWS = [
+  ['a','z','e','r','t','y','u','i','o','p'],
+  ['q','s','d','f','g','h','j','k','l','m'],
+  ['w','x','c','v','b','n']
 ];
+// base = lettre principale de la touche (son de référence) ; alts = autres
+// lettres au son proche (sans daguesh, forme finale, ou lettre différente
+// mais au son similaire) accessibles par appui maintenu.
+const AZERTY_HEB_MAP = {
+  a:{base:'א',alts:['ע']},               // Alef (muet) / Ayin (muet)
+  b:{base:'בּ',alts:['ב']},               // Beth (B) / Veth (V)
+  c:{base:'שׁ',alts:['שׂ']},              // Shin (Sh) / Sin (S)
+  d:{base:'ד',alts:[]},                  // Daleth (D)
+  g:{base:'גּ',alts:[]},                  // Guimel (G)
+  h:{base:'ה',alts:[]},                  // Hé (H)
+  k:{base:'כּ',alts:['כ','ך']},           // Kaf (K) / Khaf (J espagnol) / forme finale
+  l:{base:'ל',alts:[]},                  // Lamed (L)
+  m:{base:'מ',alts:['ם']},               // Mem (M) / forme finale
+  n:{base:'נ',alts:['ן']},               // Noun (N) / forme finale
+  p:{base:'פּ',alts:['פ','ף']},           // Pé (P) / Fé (F) / forme finale
+  q:{base:'ק',alts:[]},                  // Qof (Q)
+  r:{base:'ר',alts:[]},                  // Resh (R roulé)
+  s:{base:'ס',alts:[]},                  // Samekh (S)
+  t:{base:'ט',alts:['תּ']},               // Teth (T) / Tav (Th/T)
+  v:{base:'ו',alts:[]},                  // Vav (V/W)
+  w:{base:'צ',alts:['ץ']},               // Tsadé (Ts) / forme finale
+  x:{base:'ח',alts:[]},                  // Heth (H guttural)
+  y:{base:'י',alts:[]},                  // Yod (Y)
+  z:{base:'ז',alts:[]}                   // Zayin (Z)
+};
+// Voyelles (niqqud) combinables avec la lettre de base de chaque touche.
+const AZ_NIQQUD_POINTS = ['\u05B0','\u05B7','\u05B8','\u05B4','\u05B5','\u05B6','\u05B9','\u05BB','\u05B2','\u05B1','\u05B3'];
+// (dans l'ordre : shéwa, patah, qamats, hiriq, tséré, ségol, holam, qoubouts, hataf-patah, hataf-ségol, hataf-qamats)
+
+function buildAzVariants(key){
+  const map = AZERTY_HEB_MAP[key];
+  if(!map) return [];
+  const variants = [];
+  map.alts.forEach(alt=>variants.push(alt));
+  AZ_NIQQUD_POINTS.forEach(n=>variants.push(map.base+n));
+  if(map.alts.length===1){
+    AZ_NIQQUD_POINTS.forEach(n=>variants.push(map.alts[0]+n));
+  }
+  return variants;
+}
 function hebKeyboardHTML(targetId){
-  const letterBtns = HEB_KB_LETTERS.map(l=>`<button type="button" class="hebkbtn heb" onclick="hebKbInsert('${targetId}','${l}')">${l}</button>`).join('');
-  const niqqudBtns = HEB_KB_NIQQUD.map(n=>`<button type="button" class="hebkbtn heb" onclick="hebKbInsert('${targetId}','${n.ch}')" title="${n.label}">${n.label}</button>`).join('');
-  return `<div class="hebkeyboard">
-    <div class="hebkb-row">${letterBtns}</div>
-    <div class="hebkb-row hebkb-niqqud">${niqqudBtns}</div>
-    <div class="hebkb-row"><button type="button" class="hebkbtn hebkb-wide" onclick="hebKbInsert('${targetId}',' ')">Espace</button><button type="button" class="hebkbtn hebkb-wide" onclick="hebKbBackspace('${targetId}')">⌫ Effacer</button></div>
+  const rows = AZERTY_ROWS.map(row=>{
+    const keys = row.map(k=>{
+      const map = AZERTY_HEB_MAP[k];
+      if(!map) return `<button type="button" class="azkbtn azempty" disabled aria-hidden="true"></button>`;
+      return `<button type="button" class="azkbtn heb" data-az-key="${k}" data-az-target="${targetId}">${map.base}<span class="azsub">${k.toUpperCase()}</span></button>`;
+    }).join('');
+    return `<div class="azkb-row">${keys}</div>`;
+  }).join('');
+  return `<div class="azkeyboard">
+    ${rows}
+    <div class="azkb-row"><button type="button" class="azkbtn azwide" onclick="hebKbInsert('${targetId}',' ')">Espace</button><button type="button" class="azkbtn azwide" onclick="hebKbBackspace('${targetId}')">⌫ Effacer</button></div>
+    <p class="ui" style="font-size:11px;color:var(--text-soft);margin:6px 2px 0;">Appui bref = lettre nue. Appui maintenu = voyelles/variantes (clic ou touche numérique pour choisir).</p>
   </div>`;
+}
+
+/* ---- Gestion de l'appui bref / maintenu sur le clavier AZERTY ---- */
+let AZ_LP_TIMER = null;
+let AZ_LP_KEY = null;      // {key, targetId} en cours de pression
+let AZ_LP_FIRED = false;   // true si le popup de variantes a été déclenché (annule le clic bref)
+const AZ_LP_DELAY = 450;
+
+function azKbPointerDown(key, targetId){
+  clearTimeout(AZ_LP_TIMER);
+  AZ_LP_KEY = {key, targetId};
+  AZ_LP_FIRED = false;
+  AZ_LP_TIMER = setTimeout(()=>{
+    AZ_LP_FIRED = true;
+    openAzVariantPopup(key, targetId);
+  }, AZ_LP_DELAY);
+}
+function azKbPointerUp(){
+  clearTimeout(AZ_LP_TIMER);
+  if(!AZ_LP_FIRED && AZ_LP_KEY){
+    const map = AZERTY_HEB_MAP[AZ_LP_KEY.key];
+    if(map) hebKbInsert(AZ_LP_KEY.targetId, map.base);
+  }
+  AZ_LP_KEY = null;
+}
+function azKbPointerCancel(){
+  clearTimeout(AZ_LP_TIMER);
+  AZ_LP_KEY = null;
+}
+(function initAzKeyboardDelegation(){
+  document.addEventListener('mousedown', function(e){
+    const btn = e.target.closest('.azkbtn[data-az-key]');
+    if(!btn) return;
+    azKbPointerDown(btn.dataset.azKey, btn.dataset.azTarget);
+  });
+  document.addEventListener('mouseup', function(e){
+    if(!AZ_LP_KEY) return;
+    azKbPointerUp();
+  });
+  document.addEventListener('mouseleave', function(e){
+    if(e.target && e.target.closest && e.target.closest('.azkbtn[data-az-key]')) azKbPointerCancel();
+  }, true);
+  document.addEventListener('touchstart', function(e){
+    const btn = e.target.closest('.azkbtn[data-az-key]');
+    if(!btn) return;
+    azKbPointerDown(btn.dataset.azKey, btn.dataset.azTarget);
+  }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    const btn = e.target.closest('.azkbtn[data-az-key]');
+    if(!btn) return;
+    e.preventDefault();
+    azKbPointerUp();
+  });
+  document.addEventListener('touchcancel', function(){ azKbPointerCancel(); });
+})();
+
+function openAzVariantPopup(key, targetId){
+  closeAzVariantPopup();
+  const btn = document.querySelector('.azkbtn[data-az-key="'+key+'"][data-az-target="'+targetId+'"]');
+  if(!btn) return;
+  const variants = buildAzVariants(key);
+  if(!variants.length) return;
+  const rect = btn.getBoundingClientRect();
+  const popup = document.createElement('div');
+  popup.id = 'azVariantPopup';
+  popup.className = 'az-popup';
+  popup.innerHTML = variants.map((v,i)=>{
+    const num = i<9 ? '<span class="azpopnum">'+(i+1)+'</span>' : '';
+    return `<button type="button" class="az-popopt heb" data-idx="${i}">${v}${num}</button>`;
+  }).join('');
+  document.body.appendChild(popup);
+  const popW = popup.offsetWidth, popH = popup.offsetHeight;
+  let left = rect.left + rect.width/2 - popW/2;
+  left = Math.max(6, Math.min(left, window.innerWidth - popW - 6));
+  let top = rect.top - popH - 8;
+  if(top<6) top = rect.bottom + 8;
+  popup.style.left = left+'px';
+  popup.style.top = top+'px';
+  popup.dataset.targetId = targetId;
+  popup.querySelectorAll('.az-popopt').forEach((el,i)=>{
+    el.addEventListener('click', function(ev){
+      ev.stopPropagation();
+      hebKbInsert(targetId, variants[i]);
+      closeAzVariantPopup();
+    });
+  });
+  AZ_POPUP_KEYHANDLER = function(e){
+    if(e.key>='1' && e.key<='9'){
+      const idx = parseInt(e.key,10)-1;
+      if(variants[idx]!==undefined){
+        hebKbInsert(targetId, variants[idx]);
+        closeAzVariantPopup();
+      }
+    }else if(e.key==='Escape'){
+      closeAzVariantPopup();
+    }
+  };
+  document.addEventListener('keydown', AZ_POPUP_KEYHANDLER);
+  setTimeout(()=>{ document.addEventListener('click', azPopupOutsideClick); }, 0);
+}
+let AZ_POPUP_KEYHANDLER = null;
+function azPopupOutsideClick(e){
+  const popup = document.getElementById('azVariantPopup');
+  if(popup && !popup.contains(e.target)) closeAzVariantPopup();
+}
+function closeAzVariantPopup(){
+  const popup = document.getElementById('azVariantPopup');
+  if(popup) popup.remove();
+  if(AZ_POPUP_KEYHANDLER){ document.removeEventListener('keydown', AZ_POPUP_KEYHANDLER); AZ_POPUP_KEYHANDLER = null; }
+  document.removeEventListener('click', azPopupOutsideClick);
 }
 function hebKbInsert(targetId, ch){
   const el = document.getElementById(targetId);
@@ -3040,49 +3214,72 @@ function conjugQuestionsForRange(start, end, count){
   if(!cells.length) return [];
   return shuffle(cells).slice(0, count).map(cell=>{
     const rest = cells.filter(x=>x.heb!==cell.heb);
-    const distractors = shuffle(rest).slice(0,3).map(x=>x.heb);
-    const options = shuffle([cell.heb].concat(distractors));
+    const distractors = shuffle(rest).slice(0,3).map(x=>ov(x.heb));
+    const options = shuffle([ov(cell.heb)].concat(distractors));
     const instruction = 'Quelle est la forme correspondante ?';
-    const promptTxt = 'Racine <span class="heb" style="font-size:1em;">'+cell.root+'</span> — '+cell.table+(cell.colLabel?' ('+cell.colLabel+')':'')+' — '+cell.label;
-    return {instruction, prompt:promptTxt, promptHeb:false, options, correct:cell.heb, render:o=>'<span class="heb" style="font-size:38px;">'+o+'</span>',
-      explain:cell.root+', '+cell.table.toLowerCase()+' — '+cell.label+' → '+cell.heb+' (cours '+cell.course+').'};
+    const promptTxt = 'Racine <span class="heb" style="font-size:1em;">'+ov(cell.root)+'</span> — '+cell.table+(cell.colLabel?' ('+cell.colLabel+')':'')+' — '+cell.label;
+    return {instruction, prompt:promptTxt, promptHeb:false, options, correct:ov(cell.heb), render:o=>'<span class="heb" style="font-size:38px;">'+o+'</span>',
+      explain:ov(cell.root)+', '+cell.table.toLowerCase()+' — '+cell.label+' → '+ov(cell.heb)+' (cours '+cell.course+').'};
   });
 }
+// Applique les corrections d'orthographe/voyelle faites par l'admin (TEXT_OVERRIDES)
+// à un mot hébreu utilisé dans une question d'examen, pour que les corrections
+// se répercutent bien dans les examens (pas seulement dans les cours).
+function ov(heb){ return TEXT_OVERRIDES[heb] || heb; }
+// Comme ov(), mais pour un texte plus long où le mot hébreu n'est qu'une
+// partie de la phrase (ex. les questions "état construit"/"suffixes" pré-écrites).
+function ovText(str){
+  if(!str) return str;
+  let out = str;
+  Object.keys(TEXT_OVERRIDES).forEach(k=>{
+    if(k && out.indexOf(k)!==-1) out = out.split(k).join(TEXT_OVERRIDES[k]);
+  });
+  return out;
+}
+function applyOverridesToQ(q){
+  return Object.assign({}, q, {
+    prompt: ovText(q.prompt),
+    options: q.options.map(ov),
+    correct: ov(q.correct),
+    explain: ovText(q.explain)
+  });
+}
+
 function buildExamQuestions(block){
   let qs = [];
   if(block.start===1){
     shuffle(alphabetRows).slice(0,3).forEach(row=>{
-      const distractors = shuffle(alphabetRows.filter(r=>r[0]!==row[0])).slice(0,3).map(r=>r[1]);
-      const options = shuffle([row[1]].concat(distractors));
-      qs.push({prompt:'Quelle lettre correspond au nom « '+row[0]+' » ?', promptHeb:false, options, correct:row[1], render:o=>'<span class="heb" style="font-size:32px;">'+o+'</span>', lessonNum:1,
-        explain:'Le nom « '+row[0]+' » correspond à la lettre '+row[1]+' (valeur numérique '+row[4]+', cours 1 — l\'alphabet).'});
+      const distractors = shuffle(alphabetRows.filter(r=>r[0]!==row[0])).slice(0,3).map(r=>ov(r[1]));
+      const options = shuffle([ov(row[1])].concat(distractors));
+      qs.push({prompt:'Quelle lettre correspond au nom « '+row[0]+' » ?', promptHeb:false, options, correct:ov(row[1]), render:o=>'<span class="heb" style="font-size:32px;">'+o+'</span>', lessonNum:1,
+        explain:'Le nom « '+row[0]+' » correspond à la lettre '+ov(row[1])+' (valeur numérique '+row[4]+', cours 1 — l\'alphabet).'});
     });
     shuffle(EX_TRANSLIT).slice(0,3).forEach(w=>{
       const distractors = shuffle(EX_TRANSLIT.filter(x=>x.heb!==w.heb)).slice(0,3).map(x=>x.fr);
       const options = shuffle([w.fr].concat(distractors));
-      qs.push({instruction:'Que signifie ce mot ?', prompt:w.heb, promptHeb:true, options, correct:w.fr, render:o=>o, lessonNum:2,
-        explain:w.heb+' se lit « '+w.tr+' » et signifie « '+w.fr+' » (cours 2 — les voyelles).'});
+      qs.push({instruction:'Que signifie ce mot ?', prompt:ov(w.heb), promptHeb:true, options, correct:w.fr, render:o=>o, lessonNum:2,
+        explain:ov(w.heb)+' se lit « '+w.tr+' » et signifie « '+w.fr+' » (cours 2 — les voyelles).'});
     });
     shuffle(EX_SHEVA).slice(0,3).forEach(w=>{
-      qs.push({instruction:'Ce shéwa est-il mobile, quiescent ou composé ?', prompt:w.word, promptHeb:true, options:['mobile','quiescent','composé'], correct:w.answer, render:o=>o, lessonNum:3,
+      qs.push({instruction:'Ce shéwa est-il mobile, quiescent ou composé ?', prompt:ov(w.word), promptHeb:true, options:['mobile','quiescent','composé'], correct:w.answer, render:o=>o, lessonNum:3,
         explain:w.note+' (cours 3 — le shéwa).'});
     });
     shuffle(EX_SYLL).slice(0,3).forEach(w=>{
-      qs.push({instruction:'La dernière syllabe de ce mot est-elle ouverte ou fermée ?', prompt:w.word, promptHeb:true, options:['ouverte','fermée'], correct:w.answer, render:o=>o, lessonNum:4,
+      qs.push({instruction:'La dernière syllabe de ce mot est-elle ouverte ou fermée ?', prompt:ov(w.word), promptHeb:true, options:['ouverte','fermée'], correct:w.answer, render:o=>o, lessonNum:4,
         explain:w.note+' (cours 4 — la division syllabique).'});
     });
     const v5 = VOCAB.filter(v=>v.c===5);
     shuffle(v5).slice(0,3).forEach(w=>{
       const distractors = shuffle(v5.filter(x=>x.heb!==w.heb)).slice(0,3).map(x=>x.fr);
       const options = shuffle([w.fr].concat(distractors));
-      qs.push({instruction:'Que signifie ce mot ?', prompt:w.heb, promptHeb:true, options, correct:w.fr, render:o=>o, lessonNum:5,
-        explain:w.heb+' ('+w.tr+') signifie « '+w.fr+' » (cours 5 — vocabulaire).'});
+      qs.push({instruction:'Que signifie ce mot ?', prompt:ov(w.heb), promptHeb:true, options, correct:w.fr, render:o=>o, lessonNum:5,
+        explain:ov(w.heb)+' ('+w.tr+') signifie « '+w.fr+' » (cours 5 — vocabulaire).'});
     });
   }else{
     const conjQs = conjugQuestionsForRange(block.start, block.end, 6);
     let specialQs = [];
-    if(block.start<=11 && block.end>=11) specialQs = specialQs.concat(shuffle(ETAT_CONSTRUIT_Q).slice(0,3));
-    if(block.start<=12 && block.end>=12) specialQs = specialQs.concat(shuffle(SUFFIXES_Q).slice(0,3));
+    if(block.start<=11 && block.end>=11) specialQs = specialQs.concat(shuffle(ETAT_CONSTRUIT_Q).slice(0,3).map(applyOverridesToQ));
+    if(block.start<=12 && block.end>=12) specialQs = specialQs.concat(shuffle(SUFFIXES_Q).slice(0,3).map(applyOverridesToQ));
     const target = 14;
     const vocabCount = Math.max(4, target - conjQs.length - specialQs.length);
     const pool = VOCAB.filter(v=>v.c>=block.start && v.c<=block.end);
@@ -3090,13 +3287,13 @@ function buildExamQuestions(block){
       const dir = Math.random()<0.5 ? 'heb2fr' : 'fr2heb';
       const rest = pool.filter(x=>x.heb!==w.heb);
       const distractors = shuffle(rest).slice(0,3);
-      const explain = w.heb+' ('+w.tr+') signifie « '+w.fr+' » (cours '+w.c+').';
+      const explain = ov(w.heb)+' ('+w.tr+') signifie « '+w.fr+' » (cours '+w.c+').';
       if(dir==='heb2fr'){
         const options = shuffle([w.fr].concat(distractors.map(x=>x.fr)));
-        qs.push({instruction:'Traduisez ce mot en français.', prompt:w.heb, promptHeb:true, options, correct:w.fr, render:o=>o, explain, lessonNum:w.c});
+        qs.push({instruction:'Traduisez ce mot en français.', prompt:ov(w.heb), promptHeb:true, options, correct:w.fr, render:o=>o, explain, lessonNum:w.c});
       }else{
-        const options = shuffle([w.heb].concat(distractors.map(x=>x.heb)));
-        qs.push({instruction:'Quel est le mot hébreu correspondant ?', prompt:w.fr, promptHeb:false, options, correct:w.heb, render:o=>'<span class="heb" style="font-size:38px;">'+o+'</span>', explain, lessonNum:w.c});
+        const options = shuffle([ov(w.heb)].concat(distractors.map(x=>ov(x.heb))));
+        qs.push({instruction:'Quel est le mot hébreu correspondant ?', prompt:w.fr, promptHeb:false, options, correct:ov(w.heb), render:o=>'<span class="heb" style="font-size:38px;">'+o+'</span>', explain, lessonNum:w.c});
       }
     });
     qs = qs.concat(conjQs, specialQs);
