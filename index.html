@@ -353,7 +353,7 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
 .az-popup{
   position:fixed;z-index:2000;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;
   background:var(--ink2);border:1px solid var(--gold-dim);border-radius:10px;padding:8px;
-  box-shadow:var(--shadow);max-width:260px;
+  box-shadow:var(--shadow);max-width:260px;max-height:70vh;overflow-y:auto;
 }
 .az-popopt{
   position:relative;min-width:44px;height:44px;padding:0 4px;border-radius:6px;border:1px solid rgba(246,239,217,.2);
@@ -361,6 +361,7 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
   display:inline-flex;align-items:center;justify-content:center;
 }
 .az-popopt:hover, .az-popopt:active{background:var(--gold-dim);}
+.az-popback{grid-column:1/-1;font-family:'Inter',sans-serif;font-size:12px!important;background:var(--ink3);color:var(--gold-light);}
 .azpopnum{position:absolute;top:1px;left:3px;font-family:'Inter',sans-serif;font-size:8px;color:var(--gold-light);}
 
 /* ---------- traçage des lettres (canvas + pointer events) ---------- */
@@ -682,11 +683,11 @@ const AZERTY_HEB_MAP = {
   d:{base:'ד',alts:[]},                  // Daleth (D)
   g:{base:'גּ',alts:[]},                  // Guimel (G)
   h:{base:'ה',alts:[]},                  // Hé (H)
-  k:{base:'כּ',alts:['כ','ך']},           // Kaf (K) / Khaf (J espagnol) / forme finale
+  k:{base:'כּ',alts:['כ','ךּ','ך']},       // Kaf (daguesh) / Khaf (sans) / Kaf finale (daguesh) / Khaf finale (sans)
   l:{base:'ל',alts:[]},                  // Lamed (L)
   m:{base:'מ',alts:['ם']},               // Mem (M) / forme finale
   n:{base:'נ',alts:['ן']},               // Noun (N) / forme finale
-  p:{base:'פּ',alts:['פ','ף']},           // Pé (P) / Fé (F) / forme finale
+  p:{base:'פּ',alts:['פ','ףּ','ף']},       // Pé (daguesh) / Fé (sans) / Pé finale (daguesh) / Fé finale (sans)
   q:{base:'ק',alts:[]},                  // Qof (Q)
   r:{base:'ר',alts:[]},                  // Resh (R roulé)
   s:{base:'ס',alts:[]},                  // Samekh (S)
@@ -700,17 +701,34 @@ const AZERTY_HEB_MAP = {
 // Voyelles (niqqud) combinables avec la lettre de base de chaque touche.
 const AZ_NIQQUD_POINTS = ['\u05B0','\u05B7','\u05B8','\u05B4','\u05B5','\u05B6','\u05B9','\u05BB','\u05B2','\u05B1','\u05B3'];
 // (dans l'ordre : shéwa, patah, qamats, hiriq, tséré, ségol, holam, qoubouts, hataf-patah, hataf-ségol, hataf-qamats)
+// Formes composées (mater lectionis) — ajoutées après les 11 voyelles simples,
+// cf. cours 2 : hiriq maleh (י ִ), holam maleh (וֹ), chourouq (וּ).
+function niqqudComboSet(baseChar){
+  const combos = AZ_NIQQUD_POINTS.map(n=>baseChar+n);
+  combos.push(baseChar+'\u05B4\u05D9'); // hiriq maleh (hiriq + yod)
+  combos.push(baseChar+'\u05D5\u05B9'); // holam maleh (vav + holam)
+  combos.push(baseChar+'\u05D5\u05BC'); // chourouq (vav + dagesh)
+  return combos;
+}
 
 function buildAzVariants(key){
   const map = AZERTY_HEB_MAP[key];
-  if(!map) return [];
+  if(!map) return null;
+  if(map.alts.length>=2){
+    // Plusieurs formes distinctes (ex. K, P) : on choisit d'abord la forme
+    // (avec/sans daguesh, normale/finale), puis les voyelles pour ce choix.
+    return {twoStep:true, choices:[map.base].concat(map.alts)};
+  }
   const variants = [];
   map.alts.forEach(alt=>variants.push(alt));
-  AZ_NIQQUD_POINTS.forEach(n=>variants.push(map.base+n));
+  niqqudComboSet(map.base).forEach(v=>variants.push(v));
   if(map.alts.length===1){
-    AZ_NIQQUD_POINTS.forEach(n=>variants.push(map.alts[0]+n));
+    niqqudComboSet(map.alts[0]).forEach(v=>variants.push(v));
   }
-  return variants;
+  return {twoStep:false, variants};
+}
+function buildAzNiqqudVariants(baseChar){
+  return niqqudComboSet(baseChar);
 }
 function hebKeyboardHTML(targetId){
   const rows = AZERTY_ROWS.map(row=>{
@@ -723,7 +741,7 @@ function hebKeyboardHTML(targetId){
   }).join('');
   return `<div class="azkeyboard">
     ${rows}
-    <div class="azkb-row"><button type="button" class="azkbtn azwide" onclick="hebKbInsert('${targetId}',' ')">Espace</button><button type="button" class="azkbtn azwide" onclick="hebKbBackspace('${targetId}')">⌫ Effacer</button></div>
+    <div class="azkb-row"><button type="button" class="azkbtn azwide" onclick="hebKbInsert('${targetId}','&#x05BE;')" title="Maqaf">־ Maqaf</button><button type="button" class="azkbtn azwide" onclick="hebKbInsert('${targetId}',' ')">Espace</button><button type="button" class="azkbtn azwide" onclick="hebKbBackspace('${targetId}')">⌫ Effacer</button></div>
     <p class="ui" style="font-size:11px;color:var(--text-soft);margin:6px 2px 0;">Appui bref = lettre nue. Appui maintenu = voyelles/variantes (clic ou touche numérique pour choisir).</p>
   </div>`;
 }
@@ -786,17 +804,39 @@ function openAzVariantPopup(key, targetId){
   closeAzVariantPopup();
   const btn = document.querySelector('.azkbtn[data-az-key="'+key+'"][data-az-target="'+targetId+'"]');
   if(!btn) return;
-  const variants = buildAzVariants(key);
-  if(!variants.length) return;
+  const result = buildAzVariants(key);
+  if(!result) return;
   const rect = btn.getBoundingClientRect();
   const popup = document.createElement('div');
   popup.id = 'azVariantPopup';
   popup.className = 'az-popup';
-  popup.innerHTML = variants.map((v,i)=>{
-    const num = i<9 ? '<span class="azpopnum">'+(i+1)+'</span>' : '';
-    return `<button type="button" class="az-popopt heb" data-idx="${i}">${v}${num}</button>`;
-  }).join('');
   document.body.appendChild(popup);
+  AZ_POPUP_TARGET_ID = targetId;
+  AZ_POPUP_ANCHOR_RECT = rect;
+
+  if(result.twoStep){
+    const showStep1 = function(){
+      renderAzPopupStep(popup, result.choices, function(chosen){ showStep2(chosen); });
+    };
+    const showStep2 = function(chosen){
+      renderAzPopupStep(popup, buildAzNiqqudVariants(chosen), function(finalChoice){
+        hebKbInsert(targetId, finalChoice);
+        closeAzVariantPopup();
+      }, {backLabel:'◀ Retour', onBack:showStep1});
+    };
+    showStep1();
+  }else{
+    renderAzPopupStep(popup, result.variants, function(chosen){
+      hebKbInsert(targetId, chosen);
+      closeAzVariantPopup();
+    });
+  }
+  setTimeout(()=>{ document.addEventListener('click', azPopupOutsideClick); }, 0);
+}
+let AZ_POPUP_TARGET_ID = null;
+let AZ_POPUP_ANCHOR_RECT = null;
+function positionAzPopup(popup){
+  const rect = AZ_POPUP_ANCHOR_RECT;
   const popW = popup.offsetWidth, popH = popup.offsetHeight;
   let left = rect.left + rect.width/2 - popW/2;
   left = Math.max(6, Math.min(left, window.innerWidth - popW - 6));
@@ -804,27 +844,36 @@ function openAzVariantPopup(key, targetId){
   if(top<6) top = rect.bottom + 8;
   popup.style.left = left+'px';
   popup.style.top = top+'px';
-  popup.dataset.targetId = targetId;
-  popup.querySelectorAll('.az-popopt').forEach((el,i)=>{
-    el.addEventListener('click', function(ev){
-      ev.stopPropagation();
-      hebKbInsert(targetId, variants[i]);
-      closeAzVariantPopup();
-    });
+}
+// Affiche une étape du menu (liste d'options) dans le popup, avec sélection
+// au clic ou en tapant 1-9. options peut inclure un bouton "retour" (opts.onBack).
+function renderAzPopupStep(popup, options, onSelect, opts){
+  opts = opts || {};
+  let html = '';
+  if(opts.onBack) html += `<button type="button" class="az-popopt az-popback">${opts.backLabel||'◀'}</button>`;
+  html += options.map((v,i)=>{
+    const num = i<9 ? '<span class="azpopnum">'+(i+1)+'</span>' : '';
+    return `<button type="button" class="az-popopt heb" data-idx="${i}">${v}${num}</button>`;
+  }).join('');
+  popup.innerHTML = html;
+  positionAzPopup(popup);
+  if(opts.onBack){
+    const backBtn = popup.querySelector('.az-popback');
+    if(backBtn) backBtn.addEventListener('click', function(ev){ ev.stopPropagation(); opts.onBack(); });
+  }
+  popup.querySelectorAll('.az-popopt.heb').forEach((el,i)=>{
+    el.addEventListener('click', function(ev){ ev.stopPropagation(); onSelect(options[i]); });
   });
+  if(AZ_POPUP_KEYHANDLER) document.removeEventListener('keydown', AZ_POPUP_KEYHANDLER);
   AZ_POPUP_KEYHANDLER = function(e){
     if(e.key>='1' && e.key<='9'){
       const idx = parseInt(e.key,10)-1;
-      if(variants[idx]!==undefined){
-        hebKbInsert(targetId, variants[idx]);
-        closeAzVariantPopup();
-      }
+      if(options[idx]!==undefined) onSelect(options[idx]);
     }else if(e.key==='Escape'){
       closeAzVariantPopup();
     }
   };
   document.addEventListener('keydown', AZ_POPUP_KEYHANDLER);
-  setTimeout(()=>{ document.addEventListener('click', azPopupOutsideClick); }, 0);
 }
 let AZ_POPUP_KEYHANDLER = null;
 function azPopupOutsideClick(e){
