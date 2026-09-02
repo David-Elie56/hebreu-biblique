@@ -3239,6 +3239,13 @@ async function createAccount(username, password, name, role, teacherUsername){
   await saveUsers();
   return true;
 }
+async function assignStudentToTeacher(username, teacherUsername){
+  const rec = USERS[username];
+  if(!rec || rec.role!=='student') return false;
+  rec.teacher = teacherUsername || null;
+  await saveUsers();
+  return true;
+}
 
 async function loadProgressFor(username){
   if(ALLPROGRESS[username]) return ALLPROGRESS[username];
@@ -4363,11 +4370,37 @@ async function submitCreateStudent(){
   const user = document.getElementById('newStuUser').value.trim();
   const pass = document.getElementById('newStuPass').value;
   const msg = document.getElementById('createMsg');
-  if(!name||!user||!pass){ msg.style.color='var(--red)'; msg.textContent='Merci de remplir tous les champs.'; return; }
+  if(!user){ msg.style.color='var(--red)'; msg.textContent='Merci de saisir un identifiant.'; return; }
+  const existing = USERS[user];
+  if(existing){
+    if(existing.role!=='student'){
+      msg.style.color='var(--red)'; msg.textContent="Cet identifiant est déjà utilisé par un compte enseignant/admin.";
+      return;
+    }
+    if(existing.teacher===SESSION.username){
+      msg.style.color='var(--red)'; msg.textContent="Cet élève est déjà dans votre classe.";
+      return;
+    }
+    const currentLabel = existing.teacher ? ('actuellement dans la classe de '+((USERS[existing.teacher]&&USERS[existing.teacher].name)||existing.teacher)) : "actuellement sans enseignant assigné";
+    msg.style.color='var(--text-soft)';
+    msg.innerHTML = `Un compte « ${existing.name} » existe déjà avec cet identifiant (${currentLabel}). <button class="btn-ghost" style="margin-left:6px;padding:4px 10px;font-size:12px;" onclick="confirmAssignStudent('${user}')">L'ajouter à ma classe</button>`;
+    return;
+  }
+  if(!name||!pass){ msg.style.color='var(--red)'; msg.textContent='Merci de remplir tous les champs pour créer un nouveau compte.'; return; }
   const ok = await createAccount(user, pass, name, 'student', SESSION.username);
   if(!ok){ msg.style.color='var(--red)'; msg.textContent="Cet identifiant existe déjà."; return; }
   msg.style.color='var(--green)'; msg.textContent="Compte créé pour "+name+".";
   go('teacher');
+}
+async function confirmAssignStudent(username){
+  const msg = document.getElementById('createMsg');
+  const ok = await assignStudentToTeacher(username, SESSION.username);
+  if(ok){
+    msg.style.color='var(--green)'; msg.textContent="Élève ajouté à votre classe.";
+    go('teacher');
+  }else{
+    msg.style.color='var(--red)'; msg.textContent="Échec de l'ajout.";
+  }
 }
 
 /* ---- Vue Super admin ---- */
@@ -4458,11 +4491,34 @@ async function submitCreateStudent2(){
   const pass = document.getElementById('newStu2Pass').value;
   const teacher = document.getElementById('newStu2Teacher').value || null;
   const msg = document.getElementById('createStu2Msg');
-  if(!name||!user||!pass){ msg.style.color='var(--red)'; msg.textContent='Merci de remplir tous les champs.'; return; }
+  if(!user){ msg.style.color='var(--red)'; msg.textContent='Merci de saisir un identifiant.'; return; }
+  const existing = USERS[user];
+  if(existing){
+    if(existing.role!=='student'){
+      msg.style.color='var(--red)'; msg.textContent="Cet identifiant est déjà utilisé par un compte enseignant/admin.";
+      return;
+    }
+    const currentLabel = existing.teacher ? ('actuellement dans la classe de '+((USERS[existing.teacher]&&USERS[existing.teacher].name)||existing.teacher)) : "actuellement sans enseignant assigné";
+    const newLabel = teacher ? ((USERS[teacher]&&USERS[teacher].name)||teacher) : "aucun enseignant";
+    msg.style.color='var(--text-soft)';
+    msg.innerHTML = `Un compte « ${existing.name} » existe déjà avec cet identifiant (${currentLabel}). <button class="btn-ghost" style="margin-left:6px;padding:4px 10px;font-size:12px;" onclick="confirmAssignStudent2('${user}','${teacher||''}')">Réassigner à ${newLabel}</button>`;
+    return;
+  }
+  if(!name||!pass){ msg.style.color='var(--red)'; msg.textContent='Merci de remplir tous les champs pour créer un nouveau compte.'; return; }
   const ok = await createAccount(user, pass, name, 'student', teacher);
   if(!ok){ msg.style.color='var(--red)'; msg.textContent="Cet identifiant existe déjà."; return; }
   msg.style.color='var(--green)'; msg.textContent="Compte créé pour "+name+".";
   go('admin');
+}
+async function confirmAssignStudent2(username, teacher){
+  const msg = document.getElementById('createStu2Msg');
+  const ok = await assignStudentToTeacher(username, teacher || null);
+  if(ok){
+    msg.style.color='var(--green)'; msg.textContent="Élève réassigné.";
+    go('admin');
+  }else{
+    msg.style.color='var(--red)'; msg.textContent="Échec de la réassignation.";
+  }
 }
 
 const EXO_LABELS = {
