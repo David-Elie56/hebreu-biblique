@@ -136,6 +136,7 @@ button{font-family:'Inter', sans-serif; cursor:pointer;}
 main{
   padding:34px 44px 70px;
   max-width:980px;
+  min-width:0;
 }
 .topline{
   display:flex;align-items:baseline;justify-content:space-between;
@@ -3138,8 +3139,9 @@ function editPreviewHTML(e){
 async function loadMyEdits(){
   const box = document.getElementById('myEditsList');
   const r = await gasCall('listEdits', {filter:{authorUsername:SESSION.username}});
-  if(!r || !r.ok || !r.edits.length){ box.innerHTML = '<p class="ui" style="font-size:13px;color:var(--text-soft);">Aucune proposition pour l\'instant.</p>'; return; }
-  box.innerHTML = r.edits.map(e=>`
+  const edits = (r && r.ok && r.edits) ? r.edits.filter(e=>e.kind!=='deleteAccountRequest') : [];
+  if(!edits.length){ box.innerHTML = '<p class="ui" style="font-size:13px;color:var(--text-soft);">Aucune proposition pour l\'instant.</p>'; return; }
+  box.innerHTML = edits.map(e=>`
     <div style="padding:10px 0;border-bottom:1px solid var(--parchment2);">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
         <span><b>${editKindLabel(e.kind)}</b> ${editCourseBadgeHTML(e)}</span>
@@ -3157,7 +3159,7 @@ async function loadPendingQueue(){
   const box = document.getElementById('pendingEditsList');
   if(!box) return;
   const r = await gasCall('listEdits', {filter:{status:'pending'}});
-  LAST_PENDING_EDITS = (r && r.ok && r.edits) ? r.edits : [];
+  LAST_PENDING_EDITS = (r && r.ok && r.edits) ? r.edits.filter(e=>e.kind!=='deleteAccountRequest') : [];
   if(!LAST_PENDING_EDITS.length){ box.innerHTML = '<p class="ui" style="font-size:13px;color:var(--text-soft);">Aucune proposition en attente.</p>'; return; }
   box.innerHTML = LAST_PENDING_EDITS.map(e=>`
     <div style="padding:10px 0;border-bottom:1px solid var(--parchment2);">
@@ -3517,6 +3519,9 @@ async function go(view, extra){
   if(view==='suggestions'){
     loadMyEdits();
     if(SESSION && SESSION.role==='admin') loadPendingQueue();
+  }
+  if(view==='admin' && SESSION && SESSION.role==='admin'){
+    loadDeleteRequests();
   }
 }
 
@@ -4321,7 +4326,8 @@ function viewExam(){
 }
 
 /* ---- Tableau de progression (partagé enseignant / admin) ---- */
-function studentTable(students){
+function studentTable(students, context){
+  context = context || 'admin'; // 'admin' | 'teacher'
   const blocks = examBlocks();
   const rows = students.map(u=>{
     const p = ALLPROGRESS[u] || {visited:{}, vocabKnown:{}, exams:{}};
@@ -4332,24 +4338,84 @@ function studentTable(students){
       const e = (p.exams||{})[b.id];
       return `<td>${e ? (e.score+"/"+e.total+(e.passed?" ✓":" ✗")) : "—"}</td>`;
     }).join('');
+    const actions = context==='teacher'
+      ? `<button class="btn-ghost" style="border:1px solid var(--parchment2);font-size:11px;padding:5px 10px;" onclick="go('studentrecover',{recoverUser:'${u}'})">Récupérer</button>
+         <button class="btn-ghost" style="border:1px solid var(--parchment2);font-size:11px;padding:5px 10px;" onclick="removeStudentFromMyClass('${u}')">Retirer de ma classe</button>
+         <button class="btn-ghost" style="border:1px solid var(--parchment2);font-size:11px;padding:5px 10px;color:var(--red);" onclick="requestDeleteStudent('${u}')">Demander la suppression</button>`
+      : `<button class="btn-ghost" style="border:1px solid var(--parchment2);font-size:11px;padding:5px 10px;" onclick="resetPwd('${u}')">Réinit. mdp</button>
+         <button class="btn-ghost" style="border:1px solid var(--parchment2);font-size:11px;padding:5px 10px;" onclick="go('studentrecover',{recoverUser:'${u}'})">Récupérer</button>
+         <button class="btn-ghost" style="border:1px solid var(--parchment2);font-size:11px;padding:5px 10px;color:var(--red);" onclick="adminDeleteStudent('${u}')">Supprimer</button>`;
     return `<tr>
       <td>${rec.name}</td><td>${u}</td>
       <td>${visited}/${LESSON_TITLES.length}</td>
       <td>${known}/${VOCAB.length}</td>
       ${examCells}
-      <td>
-        <button class="btn-ghost" style="border:1px solid var(--parchment2);font-size:11px;padding:5px 10px;" onclick="resetPwd('${u}')">Réinit. mdp</button>
-        <button class="btn-ghost" style="border:1px solid var(--parchment2);font-size:11px;padding:5px 10px;" onclick="go('studentrecover',{recoverUser:'${u}'})">Récupérer</button>
-      </td>
+      <td style="white-space:normal;">${actions}</td>
     </tr>`;
   }).join('');
   const examHeaders = blocks.map((b,i)=>`<th>Examen ${i+1}</th>`).join('');
   return `<div class="tblwrap"><table class="gridtbl"><thead><tr><th>Nom</th><th>Identifiant</th><th>Cours</th><th>Vocab.</th>${examHeaders}<th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
+async function removeStudentFromMyClass(username){
+  const ok = confirm("Retirer cet élève de votre classe ? Son compte n'est pas supprimé, il redevient simplement sans enseignant assigné.");
+  if(!ok) return;
+  await assignStudentToTeacher(username, null);
+  go('teacher');
+}
+async function requestDeleteStudent(username){
+  const rec = USERS[username];
+  const ok = confirm("Demander à l'administrateur la suppression définitive du compte de "+((rec&&rec.name)||username)+" ? Le compte ne sera supprimé qu'après validation par l'admin.");
+  if(!ok) return;
+  const edit = {targetText:username, kind:'deleteAccountRequest', payload:(rec&&rec.name)||username, authorUsername:SESSION.username, authorRole:SESSION.role, status:'pending', audience:'all'};
+  await gasCall('saveEdit', {edit});
+  alert('Demande envoyée à l\'administrateur.');
+  go('teacher');
+}
+async function adminDeleteStudent(username){
+  const rec = USERS[username];
+  const ok = confirm("Supprimer DÉFINITIVEMENT le compte de "+((rec&&rec.name)||username)+" ? Cette action est irréversible.");
+  if(!ok) return;
+  const r = await gasCall('deleteUserAccount', {username});
+  if(r && r.ok){
+    delete USERS[username];
+    alert('Compte supprimé.');
+    go('admin');
+  }else{
+    alert("Échec de la suppression.");
+  }
+}
+async function loadDeleteRequests(){
+  const box = document.getElementById('deleteRequestsList');
+  if(!box) return;
+  const r = await gasCall('listEdits', {filter:{status:'pending', kind:'deleteAccountRequest'}});
+  const reqs = (r && r.ok && r.edits) ? r.edits : [];
+  if(!reqs.length){ box.innerHTML = '<p class="ui" style="font-size:13px;color:var(--text-soft);">Aucune demande en attente.</p>'; return; }
+  box.innerHTML = reqs.map(e=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding:8px 0;border-bottom:1px solid var(--parchment2);">
+      <span>Suppression de <b>${e.payload}</b> (${e.targetText}) demandée par ${e.authorUsername}</span>
+      <span>
+        <button class="navbtn" style="padding:5px 10px;font-size:11.5px;" onclick="approveDeleteRequest('${e.id}','${e.targetText}')">Approuver et supprimer</button>
+        <button class="btn-ghost" style="padding:5px 10px;font-size:11.5px;" onclick="gasCall('setEditStatus',{id:'${e.id}',status:'rejected'}).then(()=>loadDeleteRequests())">Refuser</button>
+      </span>
+    </div>`).join('');
+}
+async function approveDeleteRequest(editId, username){
+  const r = await gasCall('deleteUserAccount', {username});
+  if(r && r.ok){
+    delete USERS[username];
+    await gasCall('setEditStatus', {id:editId, status:'approved'});
+    loadDeleteRequests();
+    render();
+  }else{
+    alert("Échec de la suppression.");
+  }
+}
+
 
 /* ---- Vue Enseignant ---- */
 function viewTeacher(){
   const students = Object.keys(USERS).filter(u=>USERS[u].role==='student' && USERS[u].teacher===SESSION.username).sort();
+  const availableStudents = Object.keys(USERS).filter(u=>USERS[u].role==='student' && !USERS[u].teacher).sort();
   return `<div class="topline"><div><div class="eyebrow">Enseignant</div><h1>Mes élèves</h1></div></div>
   <div class="card">
     <h3><span class="en">Nouveau compte</span>Créer un élève</h3>
@@ -4362,8 +4428,16 @@ function viewTeacher(){
     <div id="createMsg" class="ui" style="font-size:13px;margin-top:8px;"></div>
   </div>
   <div class="card">
+    <h3><span class="en">${availableStudents.length} élève(s)</span>Élèves disponibles (sans enseignant)</h3>
+    ${availableStudents.length ? availableStudents.map(u=>`
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--parchment2);">
+        <span>${USERS[u].name} <span class="tag">${u}</span></span>
+        <button class="navbtn" style="padding:5px 10px;font-size:11.5px;" onclick="assignStudentToTeacher('${u}',SESSION.username).then(()=>go('teacher'))">M'attribuer</button>
+      </div>`).join('') : '<p class="ui" style="font-size:13px;color:var(--text-soft);">Aucun élève sans enseignant pour le moment.</p>'}
+  </div>
+  <div class="card">
     <h3><span class="en">${students.length} élève(s)</span>Progression</h3>
-    ${students.length ? studentTable(students) : '<p>Aucun élève pour le moment.</p>'}
+    ${students.length ? studentTable(students, 'teacher') : '<p>Aucun élève pour le moment.</p>'}
   </div>`;
 }
 async function submitCreateStudent(){
@@ -4467,12 +4541,16 @@ function viewAdmin(){
     <div id="createStu2Msg" class="ui" style="font-size:13px;margin-top:8px;"></div>
   </div>
   <div class="card">
+    <h3><span class="en">Validation</span>Demandes de suppression de compte</h3>
+    <div id="deleteRequestsList"><p class="ui" style="font-size:13px;color:var(--text-soft);">Chargement…</p></div>
+  </div>
+  <div class="card">
     <h3><span class="en">${teachers.length} compte(s)</span>Enseignants</h3>
     ${teachers.length ? teacherTable(teachers) : '<p>Aucun enseignant.</p>'}
   </div>
   <div class="card">
     <h3><span class="en">${students.length} compte(s)</span>Tous les élèves</h3>
-    ${students.length ? studentTable(students) : '<p>Aucun élève.</p>'}
+    ${students.length ? studentTable(students, 'admin') : '<p>Aucun élève.</p>'}
   </div>`;
 }
 async function submitCreateTeacher(){
