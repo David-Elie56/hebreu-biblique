@@ -533,7 +533,8 @@ const LESSON_TITLES = [
   "L'infinitif absolu — construit",
   "Volitifs — Interrogatif",
   "Les verbes פ״א au Qal — Les particules יֵשׁ & אֵין",
-  "Participe passif — Verbe d'action et d'état"
+  "Participe passif — Verbe d'action et d'état",
+  "Le ה de direction — La particule אִם"
 ];
 const BASE_LESSON_COUNT = LESSON_TITLES.length; // nombre de cours "d'origine", avant les cours ajoutés par l'admin
 
@@ -2043,7 +2044,70 @@ const lesson25 = `
 </div>
 `;
 
-const LESSONS = [lesson1,lesson2,lesson3,lesson4,lesson5,lesson6,lesson7,lesson8,lesson9,lesson10,lesson11,lesson12,lesson13,lesson14,lesson15,lesson16,lesson17,lesson18,lesson19,lesson20,lesson21,lesson22,lesson23,lesson24,lesson25];
+/* ---- COURS 26 : Le ה de direction — La particule אִם ---- */
+const lesson26 = `
+<div class="card">
+  <h3><span class="en en-heb">אִם</span>Le ה de direction</h3>
+  <p>Pour indiquer une direction en hébreu on utilise généralement le mot <span class="heb">אֶל</span>. Mais une <b>direction</b> peut s'exprimer aussi par la présence d'un <span class="heb">ה</span> + <span class="heb">ָ</span> suffixé.</p>
+  ${ex('עִמָּהֶם תַּרְשִׁישָׁה','« Avec eux vers Tarsis »','Jonas 1,3 — יונה א ג')}
+  <div class="rule">L'ajout de ce suffixe ne crée pas de déplacement de l'accent.</div>
+  <div class="callout warn"><span class="ico">⚠️</span><span>Ne pas confondre le <span class="heb">ה</span> de direction avec la terminaison des noms au féminin.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">אִם</span>La particule אִם</h3>
+  <p>La particule <span class="heb">אִם</span> est une conjonction exprimant la <b>condition</b>. C'est l'équivalent du « si » français.</p>
+  ${ex('אִם־בְּחֻקֹּתַי תֵּלֵכוּ וְאֶת־מִצְוֹתַי תִּשְׁמְרוּ וַעֲשִׂיתֶם אֹתָם׃','« Si vous suivez mes lois et gardez mes commandements et les mettez en pratique… »','Lévitique 26,3 — ויקרא כו ג')}
+  <p>Elle a cependant des sens un peu plus variés selon le sens de la phrase :</p>
+  ${tableHTML(null, ["Significations","Exemples"], [
+    ["« ou…, ou… » / « soit…, soit… »<br><span class=\"tr\" style=\"font-style:italic;\">(utilisée de manière répétée, elle exprime le choix)</span>", "<span class=\"heb\">…אִם־בְּהֵמָה אִם־אִישׁ לֹא יִחְיֶה…׃</span><div class=\"tr\" style=\"font-style:italic;margin-top:4px;\">Exode 19,13 — שמות יט יג</div>"],
+    ["« quand », « lorsque », « certes », « mais »", "<span class=\"heb\">וְאִם־יִהְיֶה הַיֹּבֵל לִבְנֵי יִשְׂרָאֵל…׃</span><div class=\"tr\" style=\"font-style:italic;margin-top:4px;\">Nombres 36,4 — במדבר לו ד</div>"],
+    ["« non », « ne pas »<br><span class=\"tr\" style=\"font-style:italic;\">(dans un sens de serment)</span>", "<span class=\"heb\">אִם־יִרְאוּ אֶת־הָאָרֶץ אֲשֶׁר נִשְׁבַּעְתִּי לַאֲבֹתָם…׃</span><div class=\"tr\" style=\"font-style:italic;margin-top:4px;\">Nombres 14,23 — במדבר יד כג</div>"],
+    ["« si, est-ce que ? »<br><span class=\"tr\" style=\"font-style:italic;\">(particule interrogative)</span>", "<span class=\"heb\">אִם־אֶחְיֶה מֵחֳלִי זֶה…׃</span><div class=\"tr\" style=\"font-style:italic;margin-top:4px;\">2 Rois 1,2 — מלכים ב א ב</div>"]
+  ])}
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <p class="ui" style="font-family:'Inter',sans-serif;font-size:12.5px;color:var(--text-soft);">Versets illustrant le <span class="heb" style="font-size:1em;">ה</span> de direction et la particule <span class="heb" style="font-size:1em;">אִם</span> — à lire à voix haute.</p>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַתִּתֹּם הַשָּׁנָה הַהִוא וַיָּבֹאוּ אֵלָיו בַּשָּׁנָה הַשֵּׁנִית וַיֹּאמְרוּ לוֹ לֹא־נְכַחֵד מֵאֲדֹנִי כִּי אִם־תַּם הַכֶּסֶף וּמִקְנֵה הַבְּהֵמָה אֶל־אֲדֹנִי לֹא נִשְׁאַר לִפְנֵי אֲדֹנִי בִּלְתִּי אִם־גְּוִיָּתֵנוּ וְאַדְמָתֵנוּ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 47,18 — בראשית מז יח</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">לֹא־תִגַּע בּוֹ יָד כִּי־סָקוֹל יִסָּקֵל אוֹ־יָרֹה יִיָּרֶה אִם־בְּהֵמָה אִם־אִישׁ לֹא יִחְיֶה בִּמְשֹׁךְ הַיֹּבֵל הֵמָּה יַעֲלוּ בָהָר׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Exode 19,13 — שמות יט יג</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וְאִם־יִהְיֶה הַיֹּבֵל לִבְנֵי יִשְׂרָאֵל וְנוֹסְפָה נַחֲלָתָן עַל נַחֲלַת הַמַּטֶּה אֲשֶׁר תִּהְיֶינָה לָהֶם וּמִנַּחֲלַת מַטֵּה אֲבֹתֵינוּ יִגָּרַע נַחֲלָתָן׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Nombres 36,4 — במדבר לו ד</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיָּקָם יוֹנָה לִבְרֹחַ תַּרְשִׁישָׁה מִלִּפְנֵי יְהוָה וַיֵּרֶד יָפוֹ וַיִּמְצָא אָנִיָּה ׀ בָּאָה תַרְשִׁישׁ וַיִּתֵּן שְׂכָרָהּ וַיֵּרֶד בָּהּ לָבוֹא עִמָּהֶם תַּרְשִׁישָׁה מִלִּפְנֵי יהוה׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Jonas 1,3 — יונה א ג</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיִּפֹּל אֲחַזְיָה בְּעַד הַשְּׂבָכָה בַּעֲלִיָּתוֹ אֲשֶׁר בְּשֹׁמְרוֹן וַיָּחַל וַיִּשְׁלַח מַלְאָכִים וַיֹּאמֶר אֲלֵהֶם לְכוּ דִרְשׁוּ בְּבַעַל זְבוּב אֱלֹהֵי עֶקְרוֹן אִם־אֶחְיֶה מֵחֳלִי זֶה׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">2 Rois 1,2 — מלכים ב א ב</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">וַיְהִי רָעָב בָּאָרֶץ וַיֵּרֶד אַבְרָם מִצְרַיְמָה לָגוּר שָׁם כִּי־כָבֵד הָרָעָב בָּאָרֶץ׃</span>
+    <div class="ui" style="font-family:'Inter',sans-serif;font-size:12px;color:var(--text-soft);margin-top:6px;"><span class="heb" style="font-size:1em;">וַיֵּרֶד</span> : Il descendit &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">לָגוּר</span> : Pour habiter</div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Genèse 12,10 — בראשית יב י</div>
+  </div>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">וַיִּקְרְעוּ שִׂמְלֹתָם וַיַּעֲמֹס אִישׁ עַל־חֲמֹרוֹ וַיָּשֻׁבוּ הָעִירָה׃</span>
+    <div class="ui" style="font-family:'Inter',sans-serif;font-size:12px;color:var(--text-soft);margin-top:6px;"><span class="heb" style="font-size:1em;">וַיִּקְרְעוּ</span> : Ils déchirèrent &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">שִׂמְלָה</span> : vêtement &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">וַיַּעֲמֹס</span> : il chargeait &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">וַיָּשֻׁבוּ</span> : ils retournèrent</div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Genèse 44,13 — בראשית מד יג</div>
+  </div>
+</div>
+`;
+
+const LESSONS = [lesson1,lesson2,lesson3,lesson4,lesson5,lesson6,lesson7,lesson8,lesson9,lesson10,lesson11,lesson12,lesson13,lesson14,lesson15,lesson16,lesson17,lesson18,lesson19,lesson20,lesson21,lesson22,lesson23,lesson24,lesson25,lesson26];
 
 /* =========================================================================
    EXERCICES DE CONJUGAISON — corrigés officiels Yehi-Or (blanc à révéler)
@@ -2610,7 +2674,21 @@ const VOCAB = [
  {heb:"גּוּר",tr:"Gour",g:"v",fr:"Il a séjourné, habité",c:25},
  {heb:"כָּבֵד",tr:"Kavèd",g:"v",fr:"Il était lourd, honoré",c:25},
  {heb:"קָטֹן",tr:"Qaton",g:"v",fr:"Il était petit, diminué",c:25},
- {heb:"שָׁלַם",tr:"Shalam",g:"v",fr:"Il a achevé, fini",c:25}
+ {heb:"שָׁלַם",tr:"Shalam",g:"v",fr:"Il a achevé, fini",c:25},
+ {heb:"אֳנִיָּה",tr:"Oniyah",g:"F",fr:"Vaisseau",c:26},
+ {heb:"יוֹבֵל",tr:"Yovèl",g:"M",fr:"Jubilé",c:26},
+ {heb:"נַחֲלָה",tr:"Na'halah",g:"F",fr:"Propriété, héritage",c:26},
+ {heb:"בְּעַד",tr:"Bé'ad",g:"—",fr:"Autour / Pour, à cause de / Au travers, parmi",c:26},
+ {heb:"כָּבֵד",tr:"Kavèd",g:"M",fr:"Lourd / Riche, puissant",c:26},
+ {heb:"חֲמוֹר",tr:"'Hamor",g:"M",fr:"Âne",c:26},
+ {heb:"רַק",tr:"Raq",g:"—",fr:"Seul, seulement",c:26},
+ {heb:"רָשָׁע",tr:"Rash'a",g:"M",fr:"Méchant, injuste",c:26},
+ {heb:"שָׁכַב",tr:"Shakhav",g:"v",fr:"Il s'est/était couché",c:26},
+ {heb:"שָׁאַר",tr:"Shaar",g:"v",fr:"Il restait",c:26},
+ {heb:"חָלָה",tr:"'Halah",g:"v",fr:"Il est malade/faible",c:26},
+ {heb:"סָקַל",tr:"Saqal",g:"v",fr:"Il a lapidé",c:26},
+ {heb:"יָרָה",tr:"Yarah",g:"v",fr:"Il a jeté/lancé",c:26},
+ {heb:"בָּרַח",tr:"Bara'h",g:"v",fr:"Il a fui/s'est enfuit",c:26}
 ];
 
 /* =========================================================================
