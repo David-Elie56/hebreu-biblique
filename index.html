@@ -5224,10 +5224,10 @@ function ensurePdfJsLoaded(){
   if(PDFJS_LOADING) return PDFJS_LOADING;
   PDFJS_LOADING = new Promise((resolve, reject)=>{
     const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.js';
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js';
     script.onload = ()=>{
       try{
-        window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js';
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
         resolve();
       }catch(e){ reject(e); }
     };
