@@ -536,7 +536,8 @@ const LESSON_TITLES = [
   "Volitifs — Interrogatif",
   "Les verbes פ״א au Qal — Les particules יֵשׁ & אֵין",
   "Participe passif — Verbe d'action et d'état",
-  "Le ה de direction — La particule אִם"
+  "Le ה de direction — La particule אִם",
+  "Kéré et Kétiv — Les nombres ordinaux — Les particules שֶ et כְשֶ"
 ];
 const BASE_LESSON_COUNT = LESSON_TITLES.length; // nombre de cours "d'origine", avant les cours ajoutés par l'admin
 
@@ -2109,7 +2110,94 @@ const lesson26 = `
 </div>
 `;
 
-const LESSONS = [lesson1,lesson2,lesson3,lesson4,lesson5,lesson6,lesson7,lesson8,lesson9,lesson10,lesson11,lesson12,lesson13,lesson14,lesson15,lesson16,lesson17,lesson18,lesson19,lesson20,lesson21,lesson22,lesson23,lesson24,lesson25,lesson26];
+/* ---- COURS 27 : Kéré et Kétiv — Les nombres ordinaux — Les particules שֶ et כְשֶ ---- */
+const lesson27 = `
+<div class="card">
+  <h3><span class="en en-heb">כְּתִיב · קְרֵי</span>Kétiv et Qéré</h3>
+  <p>Dans le texte écrit de la Bible hébraïque, nous pouvons voir, dans la marge ou en bas du texte, des mots qui corrigent certains mots du texte. Les mots dans le texte sont appelés <span class="heb">כְּתִיב</span> « écrit » et les mots de la marge <span class="heb">קְרֵי</span> « à lire ».</p>
+  <p>Dans les versions numériques de la Bible hébraïque, les <span class="heb">קְרֵי</span> peuvent être mis dans la marge ou dans le texte avec le <span class="heb">כְּתִיב</span> mis entre parenthèses.</p>
+  <div class="callout warn"><span class="ico">⚠️</span><span><b>Remarques :</b> ces corrections de lecture ont été effectuées par les massorètes. Ils ont écrit les corrections en marge car on ne doit pas modifier le <span class="heb">כְּתִיב</span> du texte, peu importe l'erreur (orthographe, grammaire, ou autre).</span></div>
+  ${ex('וַיֹּאמֶר אֵלָיו יְהוָה (מזה) מַה־זֶּה בְּיָדֶךָ וַיֹּאמֶר מַטֶּה׃','« Qu\'est-ce que c\'est dans ta main ? » et il répondit « un bâton ».','Exode 4,2 — שמות ד ב')}
+</div>
+<div class="card">
+  <h3><span class="en en-heb">רִאשׁוֹן</span>Les nombres ordinaux</h3>
+  <p>Les nombres ordinaux sont des adjectifs de 1 à 10. Ils s'accordent en genre et en nombre.</p>
+  ${tableHTML(null, ["","Féminin / נְקֵבָה","Masculin / זָכָר"], [
+    ["Premier, Première","<span class=\"heb\">רִאשׁוֹנָה / רִאשׁוֹנוֹת</span>","<span class=\"heb\">רִאשׁוֹן / רִאשׁוֹנִים</span>"],
+    ["Deuxième","<span class=\"heb\">שֵׁנִית</span>","<span class=\"heb\">שֵׁנִי / שְׁנַיִים</span>"],
+    ["Troisième","<span class=\"heb\">שְׁלִישִׁית / שְׁלִישִׁיָּה</span>","<span class=\"heb\">שְׁלִישִׁי / שְׁלִישִׁים</span>"],
+    ["Quatrième","<span class=\"heb\">רְבִיעִית</span>","<span class=\"heb\">רְבִיעִי / רְבִיעִים</span>"],
+    ["Cinquième","<span class=\"heb\">חֲמִישִׁית</span>","<span class=\"heb\">חֲמִישִׁי</span>"],
+    ["Sixième","<span class=\"heb\">שִׁשִּׁית</span>","<span class=\"heb\">שִׁשִּׁי</span>"],
+    ["Septième","<span class=\"heb\">שְׁבִיעִית</span>","<span class=\"heb\">שְׁבִיעִי</span>"],
+    ["Huitième","<span class=\"heb\">שְׁמִינִית</span>","<span class=\"heb\">שְׁמִינִי</span>"],
+    ["Neuvième","<span class=\"heb\">תְּשִׁיעִית</span>","<span class=\"heb\">תְּשִׁיעִי</span>"],
+    ["Dixième","<span class=\"heb\">עֲשִׂירִית</span>","<span class=\"heb\">עֲשִׂירִי</span>"]
+  ])}
+  <div class="callout warn"><span class="ico">⚠️</span><span><b>Remarques :</b> les ordinaux sont formés en ajoutant aux cardinaux le suffixe <span class="heb">ִי</span> au masculin et <span class="heb">ִית</span> au féminin. Les pluriels indiqués dans le tableau sont ceux qui apparaissent dans la Bible. À partir de 11, ce sont les nombres cardinaux qui sont utilisés en valeur ordinale.</span></div>
+  ${ex('אַרְבָּעָה עָשָׂר יוֹם','Le quatorzième jour','—')}
+  <p>Les ordinaux peuvent exprimer aussi la quantième partie :</p>
+  ${ex('שְׁלִישִׁית','Le tiers','—')}
+</div>
+<div class="card">
+  <h3><span class="en en-heb">שֶ · כְּשֶ</span>Les particules שֶ et כְּשֶ</h3>
+  <div class="rule"><b>La particule כַּאֲשֶׁר</b><br>Après le pronom relatif <span class="heb">אֲשֶׁר</span>, nous voyons maintenant <span class="heb">כַּאֲשֶׁר</span> qui se compose ainsi : pronom <span class="heb">אֲשֶׁר</span> + préfixe <span class="heb">כְּ</span>. Ce pronom relatif, qui signifie « <b>comme ce que</b> », est généralement traduit par « <b>lorsque</b> ». Cette particule a aussi pour sens : « suivant ce que, quand, … ».</div>
+  ${ex('וַיַּעַשׂ הָאִישׁ כַּאֲשֶׁר אָמַר יוֹסֵף','« L\'homme fit comme ce qu\'il a dit à Joseph »','Genèse 43,17 — בראשית מג יז')}
+  <div class="rule"><b>La particule שֶ</b>, contraction de <span class="heb">אֲשֶׁר</span><br>Cette forme contractée se place en préfixe du mot auquel elle est associée.</div>
+  ${ex('יֵשׁ דָּבָר שֶׁיֹּאמַר','« Il y a une parole qui dit »','Ecclésiaste 1,10 — קהלת א י')}
+  <div class="rule"><b>La particule כְּשֶ</b>, contraction de <span class="heb">כַּאֲשֶׁר</span><br>Comme précédemment, la contraction devient une particule qui se met en préfixe du mot.</div>
+  ${ex('וְגַם־בַּדֶּרֶךְ (כשהסכל) כְּשֶׁסָּכָל הֹלֵךְ','« Et aussi, sur le chemin quand/lorsque l\'insensé marche »','Ecclésiaste 10,3 — קהלת י ג')}
+  <div class="callout warn"><span class="ico">⚠️</span><span><b>Remarques :</b> ces particules sont très utilisées dans le livre de l'Ecclésiaste <span class="heb">קֹהֶלֶת</span>. L'exemple ci-dessus illustre à la fois le <span class="heb">כְּתִיב</span> et le <span class="heb">קְרֵי</span>.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיַּעַשׂ הָאִישׁ כַּאֲשֶׁר אָמַר יוֹסֵף וַיָּבֵא הָאִישׁ אֶת־הָאֲנָשִׁים בֵּיתָה יוֹסֵף׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 43,17 — בראשית מג יז</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וְהָיָה לָכֶם לְמִשְׁמֶרֶת עַד אַרְבָּעָה עָשָׂר יוֹם לַחֹדֶשׁ הַזֶּה וְשָׁחֲטוּ אֹתוֹ כֹּל קְהַל עֲדַת־יִשְׂרָאֵל בֵּין הָעַרְבָּיִם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Exode 12,6 — שמות יב ו</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">אִם־רָעָה בְּעֵינֵי אֲדֹנֶיהָ אֲשֶׁר־(לא) לוֹ יְעָדָהּ וְהֶפְדָּהּ לְעַם נָכְרִי לֹא־יִמְשֹׁל לְמָכְרָהּ בְּבִגְדוֹ־בָהּ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Exode 21,8 — שמות כא ח</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">(למרבה) לְמַרְבֵּה הַמִּשְׂרָה וּלְשָׁלוֹם אֵין־קֵץ עַל־כִּסֵּא דָוִד וְעַל־מַמְלַכְתּוֹ לְהָכִין אֹתָהּ וּלְסַעֲדָהּ בְּמִשְׁפָּט וּבִצְדָקָה מֵעַתָּה וְעַד־עוֹלָם קִנְאַת יְהוָה צְבָאוֹת תַּעֲשֶׂה־זֹּאת׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Esaïe 9,6 — ישעיהו ט ו</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">מִנְחָה תַעֲשֶׂה עָלָיו בַּבֹּקֶר בַּבֹּקֶר שִׁשִּׁית הָאֵיפָה וְשֶׁמֶן שְׁלִישִׁית הַהִין לָרֹס אֶת־הַסֹּלֶת מִנְחָה לַיהוָה חֻקּוֹת עוֹלָם תָּמִיד׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Ezéchiel 46,14 — יחזקאל מו יד</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">יֵשׁ דָּבָר שֶׁיֹּאמַר רְאֵה־זֶה חָדָשׁ הוּא כְּבָר הָיָה לְעֹלָמִים אֲשֶׁר הָיָה מִלְּפָנֵנוּ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Ecclésiaste 1,10 — קהלת א י</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וְגַם־בַּדֶּרֶךְ (כשהסכל) כְּשֶׁסָּכָל הֹלֵךְ לִבּוֹ חָסֵר וְאָמַר לַכֹּל סָכָל הוּא׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Ecclésiaste 10,3 — קהלת י ג</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">אֵלֶּה מוֹעֲדֵי יְהוָה מִקְרָאֵי קֹדֶשׁ אֲשֶׁר־תִּקְרְאוּ אֹתָם בְּמוֹעֲדָם׃</span><br>
+    <span class="heb" style="font-size:1.15em;">בַּחֹדֶשׁ הָרִאשׁוֹן בְּאַרְבָּעָה עָשָׂר לַחֹדֶשׁ בֵּין הָעַרְבָּיִם פֶּסַח לַיהוָה׃</span><br>
+    <span class="heb" style="font-size:1.15em;">וּבַחֲמִשָּׁה עָשָׂר יוֹם לַחֹדֶשׁ הַזֶּה חַג הַמַּצּוֹת לַיהוָה שִׁבְעַת יָמִים מַצּוֹת תֹּאכֵלוּ׃</span>
+    <div class="ui" style="font-family:'Inter',sans-serif;font-size:12px;color:var(--text-soft);margin-top:6px;"><span class="heb" style="font-size:1em;">מִקְרָא</span> : convocation &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">פֶּסַח</span> : Pâque &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">מָצָה</span> : Pain sans levain</div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Lévitique 23,4-6 — ויקרא כג ד־ו</div>
+  </div>
+</div>
+`;
+
+const LESSONS = [lesson1,lesson2,lesson3,lesson4,lesson5,lesson6,lesson7,lesson8,lesson9,lesson10,lesson11,lesson12,lesson13,lesson14,lesson15,lesson16,lesson17,lesson18,lesson19,lesson20,lesson21,lesson22,lesson23,lesson24,lesson25,lesson26,lesson27];
 
 /* =========================================================================
    EXERCICES DE CONJUGAISON — corrigés officiels Yehi-Or (blanc à révéler)
@@ -2690,7 +2778,16 @@ const VOCAB = [
  {heb:"חָלָה",tr:"'Halah",g:"v",fr:"Il est malade/faible",c:26},
  {heb:"סָקַל",tr:"Saqal",g:"v",fr:"Il a lapidé",c:26},
  {heb:"יָרָה",tr:"Yarah",g:"v",fr:"Il a jeté/lancé",c:26},
- {heb:"בָּרַח",tr:"Bara'h",g:"v",fr:"Il a fui/s'est enfuit",c:26}
+ {heb:"בָּרַח",tr:"Bara'h",g:"v",fr:"Il a fui/s'est enfuit",c:26},
+ {heb:"עֵדָה",tr:"'Édah",g:"F",fr:"Communauté",c:27},
+ {heb:"קָהָל",tr:"Qahal",g:"M",fr:"Assemblée",c:27},
+ {heb:"מִנְחָה",tr:"Min'hah",g:"F",fr:"Don, présent, offrande",c:27},
+ {heb:"תָּמִיד",tr:"Tamid",g:"—",fr:"Perpétuité, toujours",c:27},
+ {heb:"סָכָל",tr:"Sakhal",g:"M",fr:"Fou, insensé",c:27},
+ {heb:"מוֹעֵד",tr:"Moèd",g:"M",fr:"Temps fixé, rendez-vous / Réunion",c:27},
+ {heb:"קֹדֶשׁ",tr:"Qodèsh",g:"M",fr:"Sainteté",c:27},
+ {heb:"שָׁחַט",tr:"Sha'hat",g:"v",fr:"Il a égorgé",c:27},
+ {heb:"מָכַר",tr:"Makhar",g:"v",fr:"Il a vendu",c:27}
 ];
 
 /* =========================================================================
