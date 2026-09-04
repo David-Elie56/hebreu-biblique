@@ -3310,8 +3310,8 @@ async function loadUsers(){
     // jamais en cas d'échec de connexion, pour ne pas écraser les vrais
     // comptes existants avec un compte par défaut.
     if(!USERS['admin']){
-      USERS['admin'] = {pwd: simpleHash('admin'), role:'admin', name:'Super admin', teacher:null, createdAt: Date.now()};
-      await saveUsers();
+      const r = await gasCall('createUserAccountSafe', {username:'admin', pwdHash: simpleHash('admin'), name:'Super admin', role:'admin', teacherUsername:null});
+      if(r && r.ok) USERS['admin'] = {pwd: simpleHash('admin'), role:'admin', name:'Super admin', teacher:null, createdAt: Date.now()};
     }
   }else{
     // Échec de connexion au Google Sheet : on NE SAUVEGARDE JAMAIS rien
@@ -3325,26 +3325,27 @@ async function loadUsers(){
     }catch(e){ USERS = {}; }
   }
 }
-async function saveUsers(){
-  if(USERS_LOAD_FAILED){
-    console.error('saveUsers() bloqué : la dernière lecture du Google Sheet a échoué, écrire maintenant risquerait d\'effacer les vrais comptes.');
-    return;
-  }
-  await gasCall('saveUsers', {users: USERS});
-  try{ await window.storage.set('users', JSON.stringify(USERS), true); }catch(e){}
-}
+// IMPORTANT — sécurité anti-écrasement concurrent : chacune des fonctions
+// ci-dessous modifie UN SEUL compte via une action serveur dédiée qui relit
+// l'état frais du tableur juste avant d'écrire, plutôt que d'envoyer toute
+// la liste des comptes telle que vue par ce navigateur (qui peut être
+// obsolète si quelqu'un d'autre a modifié un compte entre-temps).
 async function createAccount(username, password, name, role, teacherUsername){
   if(!username || USERS[username]) return false;
-  USERS[username] = {pwd: simpleHash(password), role, name, teacher: teacherUsername || null, createdAt: Date.now()};
-  await saveUsers();
-  return true;
+  if(USERS_LOAD_FAILED) return false;
+  const r = await gasCall('createUserAccountSafe', {username, pwdHash: simpleHash(password), name, role, teacherUsername: teacherUsername||null});
+  if(r && r.ok){
+    USERS[username] = {pwd: simpleHash(password), role, name, teacher: teacherUsername || null, createdAt: Date.now()};
+    return true;
+  }
+  return false;
 }
 async function assignStudentToTeacher(username, teacherUsername){
   const rec = USERS[username];
   if(!rec || rec.role!=='student') return false;
-  rec.teacher = teacherUsername || null;
-  await saveUsers();
-  return true;
+  const r = await gasCall('updateUserFields', {username, fields:{teacher: teacherUsername||null}});
+  if(r && r.ok){ rec.teacher = teacherUsername || null; return true; }
+  return false;
 }
 
 async function loadProgressFor(username){
@@ -3400,15 +3401,23 @@ async function changeMyPassword(){
   const msg = document.getElementById('pwdMsg');
   if(!p1 || p1.length<3){ msg.style.color='var(--red)'; msg.textContent='Mot de passe trop court (3 caractères min.).'; return; }
   if(p1!==p2){ msg.style.color='var(--red)'; msg.textContent='Les mots de passe ne correspondent pas.'; return; }
-  USERS[SESSION.username].pwd = simpleHash(p1);
-  await saveUsers();
-  msg.style.color='var(--green)'; msg.textContent='Mot de passe mis à jour.';
+  const r = await gasCall('updateUserFields', {username:SESSION.username, fields:{pwd: simpleHash(p1)}});
+  if(r && r.ok){
+    USERS[SESSION.username].pwd = simpleHash(p1);
+    msg.style.color='var(--green)'; msg.textContent='Mot de passe mis à jour.';
+  }else{
+    msg.style.color='var(--red)'; msg.textContent="Échec de la mise à jour.";
+  }
 }
 async function resetPwd(username){
   const np = Math.random().toString(36).slice(2,8);
-  USERS[username].pwd = simpleHash(np);
-  await saveUsers();
-  alert("Nouveau mot de passe pour " + username + " : " + np);
+  const r = await gasCall('updateUserFields', {username, fields:{pwd: simpleHash(np)}});
+  if(r && r.ok){
+    USERS[username].pwd = simpleHash(np);
+    alert("Nouveau mot de passe pour " + username + " : " + np);
+  }else{
+    alert("Échec de la réinitialisation.");
+  }
 }
 
 /* ---- Examens tous les 5 cours ---- */
