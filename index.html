@@ -501,7 +501,7 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
 </div>
 
 <div id="legalFooter">
-  © YEHI-OR INSTITUT — Tous droits réservés. Site édité par Simplika. <a onclick="openLegalModal()">Mentions légales</a>
+  © Simplika — Tous droits réservés. <a onclick="openLegalModal()">Mentions légales</a>
 </div>
 <button id="quickEditBadge" title="Corriger ce mot" aria-label="Corriger ce mot">✎</button>
 
@@ -3008,11 +3008,25 @@ let STATE = {view:'home', lesson:1, ex:null, vocabFilter:null, vocabSearch:''};
 let PROGRESS = {vocabKnown:{}, scores:{}, visited:{}, exams:{}};
 
 /* ---- Comptes & session ---- */
-let SESSION = null;      // {username, role, name}
+let SESSION = null;      // {username, password, role, name, teacher} — le mot de passe n'est gardé qu'en mémoire (jamais sur disque), le temps de la session, pour authentifier les appels serveur suivants.
 let USERS = {};          // username -> {pwd, role, name, teacher, createdAt}
 let ALLPROGRESS = {};    // username -> progress object (cache)
-let USERS_READY = null;  // Promise résolue une fois USERS/edits/cours personnalisés chargés
 
+// Échappe tout texte fourni par un utilisateur (nom de compte, suggestion...)
+// avant de l'insérer dans la page — empêche qu'un compte "piégé" avec du
+// code HTML/JavaScript dans son nom ne s'exécute chez quelqu'un d'autre qui
+// consulte la liste des comptes (faille XSS corrigée ici).
+function esc(s){
+  return String(s==null?'':s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+// Valide qu'une valeur destinée à un attribut style="color:...` est bien une
+// couleur CSS simple (hexadécimale) avant de l'insérer telle quelle — sinon
+// remplace par une couleur neutre. Empêche l'injection de code via ce canal.
+function safeColor(s){
+  return /^#[0-9a-fA-F]{3,8}$/.test(s||'') ? s : '#999999';
+}
 function simpleHash(s){
   let h = 0;
   for(let i=0;i<s.length;i++){ h = (Math.imul(31,h) + s.charCodeAt(i))|0; }
@@ -3034,11 +3048,20 @@ function setGasUrl(url){ localStorage.setItem('hb_gas_url', (url||'').trim()); }
 async function gasCall(action, payload){
   const url = gasUrl();
   if(!url) return null;
+  // Injecte automatiquement les identifiants du compte connecté sur CHAQUE
+  // appel (sauf 'ping'/'login', qui n'en ont pas besoin ou les vérifient
+  // eux-mêmes) — c'est ce qui permet au serveur de vérifier qui fait
+  // vraiment la demande, au lieu de faire confiance à n'importe quel appel.
+  const body = Object.assign({}, payload);
+  if(action!=='ping' && action!=='login' && SESSION){
+    body.username = SESSION.username;
+    body.password = SESSION.password;
+  }
   try{
     const res = await fetch(url, {
       method:'POST',
       headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body: JSON.stringify(Object.assign({action}, payload))
+      body: JSON.stringify(Object.assign({action}, body))
     });
     return await res.json();
   }catch(e){ console.error('Synchronisation Google Sheets impossible :', e); return {ok:false, error:String(e)}; }
@@ -3097,7 +3120,7 @@ function viewStudentRecover(){
   const current = ALLPROGRESS[u] || {visited:{}, vocabKnown:{}, exams:{}};
   const curVisited = Object.keys(current.visited||{}).length;
   const curKnown = Object.values(current.vocabKnown||{}).filter(v=>v).length;
-  return `<div class="topline"><div><div class="eyebrow">Récupération</div><h1>${rec.name} (${u})</h1></div>
+  return `<div class="topline"><div><div class="eyebrow">Récupération</div><h1>${esc(rec.name)} (${esc(u)})</h1></div>
     <button class="navbtn" onclick="go(SESSION.role==='admin'?'admin':'teacher')">← Retour</button></div>
   <div class="card">
     <h3>État actuel de son compte</h3>
@@ -3134,7 +3157,7 @@ async function loadStudentBackupsList(username){
 async function previewStudentBackup(username, date){
   const box = document.getElementById('preview-'+username+'-'+date);
   box.innerHTML = '<p class="ui" style="font-size:12.5px;color:var(--text-soft);">Chargement…</p>';
-  const r = await gasCall('getStudentBackup', {username, date});
+  const r = await gasCall('getStudentBackup', {targetUsername:username, date});
   if(!r || !r.ok || !r.data){
     box.innerHTML = '<p class="ui" style="font-size:12.5px;color:var(--text-soft);">Aucune donnée pour cet élève à cette date.</p>';
     return;
@@ -3147,7 +3170,7 @@ async function previewStudentBackup(username, date){
 async function restoreStudentPrompt(username, date){
   const ok = confirm('Restaurer la progression de '+username+' à la date du '+date+' va remplacer sa progression ACTUELLE par celle de cette date (les autres élèves ne sont pas concernés). Continuer ?');
   if(!ok) return;
-  const r = await gasCall('restoreStudentProgress', {username, date});
+  const r = await gasCall('restoreStudentProgress', {targetUsername:username, date});
   if(r && r.ok){
     delete ALLPROGRESS[username];
     await loadProgressFor(username);
@@ -3170,10 +3193,10 @@ async function findLostAccount(){
     box.style.color='var(--red)'; box.textContent='Aucune sauvegarde disponible.'; return;
   }
   for(const date of datesR.dates){ // du plus récent au plus ancien
-    const r = await gasCall('getStudentAccountBackup', {date, username});
+    const r = await gasCall('getStudentAccountBackup', {date, targetUsername:username});
     if(r && r.ok && r.data){
       box.style.color='var(--text-soft)';
-      box.innerHTML = `Compte retrouvé dans la sauvegarde du <b>${date}</b> : <b>${r.data.name}</b> (${roleLabel(r.data.role)}).<br>
+      box.innerHTML = `Compte retrouvé dans la sauvegarde du <b>${date}</b> : <b>${esc(r.data.name)}</b> (${roleLabel(r.data.role)}).<br>
         <button class="navbtn" style="margin-top:8px;" onclick="restoreLostAccount('${username}','${date}')">Restaurer ce compte</button>`;
       return;
     }
@@ -3182,7 +3205,7 @@ async function findLostAccount(){
 }
 async function restoreLostAccount(username, date){
   const box = document.getElementById('lostAccountResult');
-  const r = await gasCall('restoreStudentAccount', {username, date});
+  const r = await gasCall('restoreStudentAccount', {targetUsername:username, date});
   if(r && r.ok){
     await loadUsers();
     box.style.color='var(--green)';
@@ -3193,7 +3216,7 @@ async function restoreLostAccount(username, date){
   }
 }
 async function restoreLostAccountProgress(username, date){
-  const r = await gasCall('restoreStudentProgress', {username, date});
+  const r = await gasCall('restoreStudentProgress', {targetUsername:username, date});
   const box = document.getElementById('lostAccountResult');
   if(r && r.ok){
     delete ALLPROGRESS[username];
@@ -3326,25 +3349,25 @@ function editCourseBadgeHTML(e){
 function editPreviewHTML(e){
   if(e.kind==='text'){
     return `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-      <div><div class="ui" style="font-size:11px;color:var(--text-soft);">Avant</div><span class="heb" style="font-size:1.2em;">${e.targetText}</span></div>
+      <div><div class="ui" style="font-size:11px;color:var(--text-soft);">Avant</div><span class="heb" style="font-size:1.2em;">${esc(e.targetText)}</span></div>
       <span style="color:var(--gold-dim);">→</span>
-      <div><div class="ui" style="font-size:11px;color:var(--text-soft);">Après</div><span class="heb" style="font-size:1.2em;">${e.payload}</span></div>
+      <div><div class="ui" style="font-size:11px;color:var(--text-soft);">Après</div><span class="heb" style="font-size:1.2em;">${esc(e.payload)}</span></div>
     </div>`;
   }
   if(e.kind==='color'){
     return `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-      <div><div class="ui" style="font-size:11px;color:var(--text-soft);">Avant</div><span class="heb" style="font-size:1.2em;">${e.targetText}</span></div>
+      <div><div class="ui" style="font-size:11px;color:var(--text-soft);">Avant</div><span class="heb" style="font-size:1.2em;">${esc(e.targetText)}</span></div>
       <span style="color:var(--gold-dim);">→</span>
-      <div><div class="ui" style="font-size:11px;color:var(--text-soft);">Après</div><span class="heb" style="font-size:1.2em;color:${e.payload};">${e.targetText}</span> <span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:${e.payload};vertical-align:middle;"></span></div>
+      <div><div class="ui" style="font-size:11px;color:var(--text-soft);">Après</div><span class="heb" style="font-size:1.2em;color:${safeColor(e.payload)};">${esc(e.targetText)}</span> <span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:${safeColor(e.payload)};vertical-align:middle;"></span></div>
     </div>`;
   }
   if(e.kind==='audio'){
     return `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-      <span class="heb" style="font-size:1.2em;">${e.targetText}</span>
-      <button type="button" class="btn-ghost" style="padding:5px 10px;font-size:11.5px;" onclick="playRecordedAudio('${e.payload}', this)">🔊 Écouter l'enregistrement</button>
+      <span class="heb" style="font-size:1.2em;">${esc(e.targetText)}</span>
+      <button type="button" class="btn-ghost" style="padding:5px 10px;font-size:11.5px;" onclick="playRecordedAudio('${esc(e.payload)}', this)">🔊 Écouter l'enregistrement</button>
     </div>`;
   }
-  return `<div class="ui" style="font-size:12.5px;">${e.payload}</div>`;
+  return `<div class="ui" style="font-size:12.5px;">${esc(e.payload)}</div>`;
 }
 async function loadMyEdits(){
   const box = document.getElementById('myEditsList');
@@ -3413,24 +3436,26 @@ function saveGasUrlFromInput(){
 }
 
 let USERS_LOAD_FAILED = false; // vrai si la dernière tentative de connexion au Google Sheet a échoué
+// Tentative de création du compte admin par défaut au tout premier
+// démarrage (feuille "Users" encore vide). Le serveur n'accepte cette
+// création SANS identifiants que si aucun compte n'existe déjà — dans
+// tous les autres cas, cet appel échoue silencieusement, ce qui est le
+// comportement normal et attendu (rien à faire dans ce cas).
+async function attemptBootstrapAdmin(){
+  try{
+    await gasCall('createUserAccountSafe', {newUsername:'admin', newPassword:'admin', name:'Super admin', role:'admin', teacherUsername:null});
+  }catch(e){ /* installation déjà faite, ou erreur réseau — sans conséquence ici */ }
+}
+// Charge la liste complète des comptes — désormais appelée UNIQUEMENT après
+// une connexion réussie (le serveur exige des identifiants valides pour
+// cette action, ce qui empêche quiconque de récupérer la liste des comptes
+// sans se connecter).
 async function loadUsers(){
   const g = await gasCall('getUsers', {});
   if(g && g.ok){
     USERS_LOAD_FAILED = false;
     USERS = g.users || {};
-    // Ne créer le compte admin par défaut que si le Google Sheet a répondu
-    // normalement et qu'il est réellement vide (nouvelle installation) —
-    // jamais en cas d'échec de connexion, pour ne pas écraser les vrais
-    // comptes existants avec un compte par défaut.
-    if(!USERS['admin']){
-      const r = await gasCall('createUserAccountSafe', {username:'admin', pwdHash: simpleHash('admin'), name:'Super admin', role:'admin', teacherUsername:null});
-      if(r && r.ok) USERS['admin'] = {pwd: simpleHash('admin'), role:'admin', name:'Super admin', teacher:null, createdAt: Date.now()};
-    }
   }else{
-    // Échec de connexion au Google Sheet : on NE SAUVEGARDE JAMAIS rien
-    // automatiquement ici (pour ne pas risquer d'effacer les vrais comptes
-    // si la connexion revient plus tard). On utilise juste une copie locale
-    // de secours si disponible, uniquement pour l'affichage.
     USERS_LOAD_FAILED = true;
     try{
       const r = await window.storage.get('users', true);
@@ -3445,10 +3470,9 @@ async function loadUsers(){
 // obsolète si quelqu'un d'autre a modifié un compte entre-temps).
 async function createAccount(username, password, name, role, teacherUsername){
   if(!username || USERS[username]) return false;
-  if(USERS_LOAD_FAILED) return false;
-  const r = await gasCall('createUserAccountSafe', {username, pwdHash: simpleHash(password), name, role, teacherUsername: teacherUsername||null});
+  const r = await gasCall('createUserAccountSafe', {newUsername:username, newPassword:password, name, role, teacherUsername: teacherUsername||null});
   if(r && r.ok){
-    USERS[username] = {pwd: simpleHash(password), role, name, teacher: teacherUsername || null, createdAt: Date.now()};
+    USERS[username] = {role, name, teacher: teacherUsername || null, createdAt: Date.now()};
     return true;
   }
   return false;
@@ -3456,7 +3480,7 @@ async function createAccount(username, password, name, role, teacherUsername){
 async function assignStudentToTeacher(username, teacherUsername){
   const rec = USERS[username];
   if(!rec || rec.role!=='student') return false;
-  const r = await gasCall('updateUserFields', {username, fields:{teacher: teacherUsername||null}});
+  const r = await gasCall('updateUserFields', {targetUsername:username, fields:{teacher: teacherUsername||null}});
   if(r && r.ok){ rec.teacher = teacherUsername || null; return true; }
   return false;
 }
@@ -3464,7 +3488,7 @@ async function assignStudentToTeacher(username, teacherUsername){
 async function loadProgressFor(username){
   if(ALLPROGRESS[username]) return ALLPROGRESS[username];
   let p = {visited:{}, vocabKnown:{}, scores:{}, exams:{}};
-  const g = await gasCall('getProgress', {username});
+  const g = await gasCall('getProgress', {targetUsername:username});
   if(g && g.ok && g.data){
     p = g.data;
   }else{
@@ -3478,7 +3502,7 @@ async function loadProgressFor(username){
 }
 async function saveProgress(){
   if(!SESSION) return;
-  await gasCall('saveProgress', {username:SESSION.username, data:PROGRESS});
+  await gasCall('saveProgress', {targetUsername:SESSION.username, data:PROGRESS});
   try{ await window.storage.set('progress:'+SESSION.username, JSON.stringify(PROGRESS), true); }catch(e){}
 }
 async function doLogin(){
@@ -3486,19 +3510,18 @@ async function doLogin(){
   const p = document.getElementById('loginPass').value;
   const err = document.getElementById('loginErr');
   err.textContent = '';
-  // Lancée tout de suite, en parallèle de la vérification des identifiants
-  // (gagne du temps si le mot de passe est correct — le cas le plus fréquent).
-  const progressPromise = u ? loadProgressFor(u) : Promise.resolve(null);
-  if(USERS_READY){
-    await USERS_READY;
-  }
-  if(USERS_LOAD_FAILED){
+  const pingR = await gasCall('ping', {});
+  if(!pingR || !pingR.ok){
     err.textContent = "Connexion au Google Sheet impossible pour l'instant — réessayez dans un instant, ou utilisez « Tester la connexion » ci-dessous pour vérifier.";
     return;
   }
-  const rec = USERS[u];
-  if(!rec || rec.pwd !== simpleHash(p)){ err.textContent = 'Identifiant ou mot de passe incorrect.'; return; }
-  SESSION = {username:u, role:rec.role, name:rec.name, teacher:rec.teacher||null};
+  const loginR = await gasCall('login', {username:u, password:p});
+  if(!loginR || !loginR.ok){ err.textContent = (loginR && loginR.error) || 'Identifiant ou mot de passe incorrect.'; return; }
+  // Le mot de passe n'est gardé qu'en mémoire, pour authentifier les appels
+  // serveur suivants pendant cette session — jamais écrit sur le disque.
+  SESSION = {username:u, password:p, role:loginR.user.role, name:loginR.user.name, teacher:loginR.user.teacher||null};
+  const progressPromise = loadProgressFor(u);
+  await Promise.all([loadUsers(), loadApprovedEdits(), loadCustomLessons()]);
   PROGRESS = await progressPromise;
   STATE = {view:'home', lesson:1, ex:null, vocabFilter:null, vocabSearch:''};
   render();
@@ -3514,9 +3537,9 @@ async function changeMyPassword(){
   const msg = document.getElementById('pwdMsg');
   if(!p1 || p1.length<3){ msg.style.color='var(--red)'; msg.textContent='Mot de passe trop court (3 caractères min.).'; return; }
   if(p1!==p2){ msg.style.color='var(--red)'; msg.textContent='Les mots de passe ne correspondent pas.'; return; }
-  const r = await gasCall('updateUserFields', {username:SESSION.username, fields:{pwd: simpleHash(p1)}});
+  const r = await gasCall('updateUserFields', {targetUsername:SESSION.username, fields:{password: p1}});
   if(r && r.ok){
-    USERS[SESSION.username].pwd = simpleHash(p1);
+    SESSION.password = p1;
     msg.style.color='var(--green)'; msg.textContent='Mot de passe mis à jour.';
   }else{
     msg.style.color='var(--red)'; msg.textContent="Échec de la mise à jour.";
@@ -3524,9 +3547,8 @@ async function changeMyPassword(){
 }
 async function resetPwd(username){
   const np = Math.random().toString(36).slice(2,8);
-  const r = await gasCall('updateUserFields', {username, fields:{pwd: simpleHash(np)}});
+  const r = await gasCall('updateUserFields', {targetUsername:username, fields:{password: np}});
   if(r && r.ok){
-    USERS[username].pwd = simpleHash(np);
     alert("Nouveau mot de passe pour " + username + " : " + np);
   }else{
     alert("Échec de la réinitialisation.");
@@ -3751,7 +3773,7 @@ function renderSidebar(){
     <div><div class="name">Hébreu Biblique</div><div class="sub">אלף בית · יהי אור</div></div>
   </div>`;
 
-  h += `<div class="userbox"><div class="uname">${SESSION.name}</div><div class="urole">${roleLabel(SESSION.role)}</div></div>`;
+  h += `<div class="userbox"><div class="uname">${esc(SESSION.name)}</div><div class="urole">${roleLabel(SESSION.role)}</div></div>`;
 
   h += `<div class="navgroup"><div class="navitem ${STATE.view==='home'?'active':''}" onclick="go('home')"><span class="num">⌂</span>Accueil</div></div>`;
 
@@ -3829,7 +3851,7 @@ function viewHome(){
 
   return `
   <div class="topline">
-    <div><div class="eyebrow">יְהִי אוֹר · Bonjour ${SESSION.name}</div><h1>Étudier l'hébreu biblique</h1></div>
+    <div><div class="eyebrow">יְהִי אוֹר · Bonjour ${esc(SESSION.name)}</div><h1>Étudier l'hébreu biblique</h1></div>
   </div>
   <div class="card">
     <h3><span class="en">${LESSON_TITLES.length} leçons</span>Parcours du cours</h3>
@@ -4565,7 +4587,7 @@ function studentTable(students, context){
          <button class="btn-ghost" style="border:1px solid var(--parchment2);font-size:11px;padding:5px 10px;" onclick="go('studentrecover',{recoverUser:'${u}'})">Récupérer</button>
          <button class="btn-ghost" style="border:1px solid var(--parchment2);font-size:11px;padding:5px 10px;color:var(--red);" onclick="adminDeleteStudent('${u}')">Supprimer</button>`;
     return `<tr>
-      <td>${rec.name}</td><td>${u}</td>
+      <td>${esc(rec.name)}</td><td>${esc(u)}</td>
       <td>${visited}/${LESSON_TITLES.length}</td>
       <td>${known}/${VOCAB.length}</td>
       ${examCells}
@@ -4594,7 +4616,7 @@ async function adminDeleteStudent(username){
   const rec = USERS[username];
   const ok = confirm("Supprimer DÉFINITIVEMENT le compte de "+((rec&&rec.name)||username)+" ? Cette action est irréversible.");
   if(!ok) return;
-  const r = await gasCall('deleteUserAccount', {username});
+  const r = await gasCall('deleteUserAccount', {targetUsername:username});
   if(r && r.ok){
     delete USERS[username];
     alert('Compte supprimé.');
@@ -4611,7 +4633,7 @@ async function loadDeleteRequests(){
   if(!reqs.length){ box.innerHTML = '<p class="ui" style="font-size:13px;color:var(--text-soft);">Aucune demande en attente.</p>'; return; }
   box.innerHTML = reqs.map(e=>`
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding:8px 0;border-bottom:1px solid var(--parchment2);">
-      <span>Suppression de <b>${e.payload}</b> (${e.targetText}) demandée par ${e.authorUsername}</span>
+      <span>Suppression de <b>${esc(e.payload)}</b> (${esc(e.targetText)}) demandée par ${esc(e.authorUsername)}</span>
       <span>
         <button class="navbtn" style="padding:5px 10px;font-size:11.5px;" onclick="approveDeleteRequest('${e.id}','${e.targetText}')">Approuver et supprimer</button>
         <button class="btn-ghost" style="padding:5px 10px;font-size:11.5px;" onclick="gasCall('setEditStatus',{id:'${e.id}',status:'rejected'}).then(()=>loadDeleteRequests())">Refuser</button>
@@ -4619,7 +4641,7 @@ async function loadDeleteRequests(){
     </div>`).join('');
 }
 async function approveDeleteRequest(editId, username){
-  const r = await gasCall('deleteUserAccount', {username});
+  const r = await gasCall('deleteUserAccount', {targetUsername:username});
   if(r && r.ok){
     delete USERS[username];
     await gasCall('setEditStatus', {id:editId, status:'approved'});
@@ -4650,7 +4672,7 @@ function viewTeacher(){
     <h3><span class="en">${availableStudents.length} élève(s)</span>Élèves disponibles (sans enseignant)</h3>
     ${availableStudents.length ? availableStudents.map(u=>`
       <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--parchment2);">
-        <span>${USERS[u].name} <span class="tag">${u}</span></span>
+        <span>${esc(USERS[u].name)} <span class="tag">${esc(u)}</span></span>
         <button class="navbtn" style="padding:5px 10px;font-size:11.5px;" onclick="assignStudentToTeacher('${u}',SESSION.username).then(()=>go('teacher'))">M'attribuer</button>
       </div>`).join('') : '<p class="ui" style="font-size:13px;color:var(--text-soft);">Aucun élève sans enseignant pour le moment.</p>'}
   </div>
@@ -4677,7 +4699,7 @@ async function submitCreateStudent(){
     }
     const currentLabel = existing.teacher ? ('actuellement dans la classe de '+((USERS[existing.teacher]&&USERS[existing.teacher].name)||existing.teacher)) : "actuellement sans enseignant assigné";
     msg.style.color='var(--text-soft)';
-    msg.innerHTML = `Un compte « ${existing.name} » existe déjà avec cet identifiant (${currentLabel}). <button class="btn-ghost" style="margin-left:6px;padding:4px 10px;font-size:12px;" onclick="confirmAssignStudent('${user}')">L'ajouter à ma classe</button>`;
+    msg.innerHTML = `Un compte « ${esc(existing.name)} » existe déjà avec cet identifiant (${esc(currentLabel)}). <button class="btn-ghost" style="margin-left:6px;padding:4px 10px;font-size:12px;" onclick="confirmAssignStudent('${esc(user)}')">L'ajouter à ma classe</button>`;
     return;
   }
   if(!name||!pass){ msg.style.color='var(--red)'; msg.textContent='Merci de remplir tous les champs pour créer un nouveau compte.'; return; }
@@ -4701,7 +4723,7 @@ async function confirmAssignStudent(username){
 function teacherTable(teachers){
   const rows = teachers.map(u=>{
     const n = Object.keys(USERS).filter(x=>USERS[x].teacher===u).length;
-    return `<tr><td>${USERS[u].name}</td><td>${u}</td><td>${n} élève(s)</td>
+    return `<tr><td>${esc(USERS[u].name)}</td><td>${esc(u)}</td><td>${n} élève(s)</td>
     <td style="white-space:normal;">
       <button class="btn-ghost" style="border:1px solid var(--parchment2);font-size:11px;padding:5px 10px;" onclick="resetPwd('${u}')">Réinit. mdp</button>
       <button class="btn-ghost" style="border:1px solid var(--parchment2);font-size:11px;padding:5px 10px;color:var(--red);" onclick="adminDeleteTeacher('${u}')">Supprimer</button>
@@ -4720,7 +4742,7 @@ async function adminDeleteTeacher(username){
   for(const u of students){
     await assignStudentToTeacher(u, null);
   }
-  const r = await gasCall('deleteUserAccount', {username});
+  const r = await gasCall('deleteUserAccount', {targetUsername:username});
   if(r && r.ok){
     delete USERS[username];
     alert('Compte enseignant supprimé.');
@@ -4732,7 +4754,7 @@ async function adminDeleteTeacher(username){
 function viewAdmin(){
   const teachers = Object.keys(USERS).filter(u=>USERS[u].role==='teacher').sort();
   const students = Object.keys(USERS).filter(u=>USERS[u].role==='student').sort();
-  const teacherOptions = teachers.map(t=>`<option value="${t}">${USERS[t].name} (${t})</option>`).join('');
+  const teacherOptions = teachers.map(t=>`<option value="${esc(t)}">${esc(USERS[t].name)} (${esc(t)})</option>`).join('');
   const currentGasUrl = gasUrl();
   const usingDefault = !((localStorage.getItem('hb_gas_url')||'').trim());
   return `<div class="topline"><div><div class="eyebrow">Super admin</div><h1>Administration</h1></div></div>
@@ -4822,7 +4844,7 @@ async function submitCreateStudent2(){
     const currentLabel = existing.teacher ? ('actuellement dans la classe de '+((USERS[existing.teacher]&&USERS[existing.teacher].name)||existing.teacher)) : "actuellement sans enseignant assigné";
     const newLabel = teacher ? ((USERS[teacher]&&USERS[teacher].name)||teacher) : "aucun enseignant";
     msg.style.color='var(--text-soft)';
-    msg.innerHTML = `Un compte « ${existing.name} » existe déjà avec cet identifiant (${currentLabel}). <button class="btn-ghost" style="margin-left:6px;padding:4px 10px;font-size:12px;" onclick="confirmAssignStudent2('${user}','${teacher||''}')">Réassigner à ${newLabel}</button>`;
+    msg.innerHTML = `Un compte « ${esc(existing.name)} » existe déjà avec cet identifiant (${esc(currentLabel)}). <button class="btn-ghost" style="margin-left:6px;padding:4px 10px;font-size:12px;" onclick="confirmAssignStudent2('${esc(user)}','${esc(teacher||'')}')">Réassigner à ${esc(newLabel)}</button>`;
     return;
   }
   if(!name||!pass){ msg.style.color='var(--red)'; msg.textContent='Merci de remplir tous les champs pour créer un nouveau compte.'; return; }
@@ -4911,7 +4933,7 @@ function viewHistory(){
 
 /* ---- Mon compte ---- */
 function viewAccount(){
-  return `<div class="topline"><div><div class="eyebrow">Mon compte</div><h1>${SESSION.name}</h1></div></div>
+  return `<div class="topline"><div><div class="eyebrow">Mon compte</div><h1>${esc(SESSION.name)}</h1></div></div>
   <div class="card">
     <h3>Informations</h3>
     <p>Identifiant : <b>${SESSION.username}</b><br>Rôle : <b>${roleLabel(SESSION.role)}</b></p>
@@ -5769,19 +5791,18 @@ function openLegalModal(){
   overlay.innerHTML = `<div class="modal-box">
     <button class="modal-close" onclick="closeLegalModal()" aria-label="Fermer">✕</button>
     <h2>Mentions légales</h2>
-    <p><b>Propriété intellectuelle</b><br>L'ensemble des contenus pédagogiques de cette application (cours, textes, exercices, corrigés, illustrations, structure et supports associés) est la propriété exclusive de l'association <b>YEHI-OR INSTITUT</b> et est protégé par le Code de la propriété intellectuelle ainsi que par le droit d'auteur.</p>
-    <p><b>Interdiction de copie et de reproduction</b><br>Toute reproduction, représentation, copie, modification, traduction, adaptation, diffusion ou exploitation, totale ou partielle, de ces contenus, par quelque procédé que ce soit (impression, capture d'écran, extraction, transmission à un tiers, republication sur un autre support ou service, etc.), est strictement interdite sans l'autorisation écrite préalable de YEHI-OR INSTITUT. Toute utilisation non autorisée est susceptible de constituer une contrefaçon.</p>
-    <p><b>Association</b><br><b>YEHI-OR INSTITUT</b> est une association déclarée régie par la loi du 1er juillet 1901, enregistrée sous le numéro RNA <b>W953012803</b>.</p>
-    <p>Site de l'association : <a href="https://www.yehior-institut.fr/" target="_blank" rel="noopener">yehior-institut.fr</a></p>
+    <p><b>Propriété intellectuelle</b><br>L'ensemble des contenus pédagogiques de cette application (cours, textes, exercices, corrigés, illustrations, structure et supports associés) est la propriété exclusive de <b>Simplika</b> et est protégé par le Code de la propriété intellectuelle ainsi que par le droit d'auteur.</p>
+    <p><b>Interdiction de copie et de reproduction</b><br>Toute reproduction, représentation, copie, modification, traduction, adaptation, diffusion ou exploitation, totale ou partielle, de ces contenus, par quelque procédé que ce soit (impression, capture d'écran, extraction, transmission à un tiers, republication sur un autre support ou service, etc.), est strictement interdite sans l'autorisation écrite préalable de Simplika. Toute utilisation non autorisée est susceptible de constituer une contrefaçon.</p>
+    <p><b>Association</b><br><b>Simplika</b> est une association déclarée régie par la loi du 1er juillet 1901, enregistrée sous le numéro RNA <b>W953012803</b>.</p>
     <p><b>Éditeur du site</b><br>Ce site est édité par <b>Simplika</b>.<br>Contact : <a href="mailto:contact.simplika@gmail.com">contact.simplika@gmail.com</a> — 06 64 99 59 65</p>
     <h2 style="margin-top:22px;">Protection des données personnelles (RGPD)</h2>
-    <p><b>Responsable du traitement</b><br>L'association <b>YEHI-OR INSTITUT</b> est responsable du traitement des données personnelles collectées dans le cadre de l'utilisation de cette application pédagogique.</p>
+    <p><b>Responsable du traitement</b><br><b>Simplika</b> est responsable du traitement des données personnelles collectées dans le cadre de l'utilisation de cette application pédagogique.</p>
     <p><b>Données collectées</b><br>Identifiant de connexion, mot de passe (stocké sous forme hachée, jamais en clair), nom, rôle (élève/enseignant/administrateur), progression pédagogique (cours consultés, résultats aux exercices et examens, vocabulaire mémorisé) et, le cas échéant, enregistrements vocaux ajoutés par les enseignants ou l'administrateur à titre pédagogique.</p>
     <p><b>Finalité et base légale</b><br>Ces données sont traitées dans le seul but de fournir le service pédagogique (gestion des comptes, suivi de la progression), sur la base de l'exécution du service demandé par l'utilisateur ou son représentant légal.</p>
     <p><b>Hébergement des données</b><br>Les données sont stockées via les services Google Sheets et Google Drive (Google Ireland Limited / Google LLC), dans le cadre des garanties contractuelles offertes par Google pour le traitement de données conformément au RGPD.</p>
     <p><b>Durée de conservation</b><br>Les données sont conservées pendant la durée d'utilisation du compte. Des sauvegardes automatiques quotidiennes sont conservées 90 jours glissants, à des fins de restauration en cas d'incident.</p>
     <p><b>Cookies et stockage local</b><br>L'application utilise le stockage local du navigateur (localStorage) uniquement à des fins techniques (ex. mémoriser l'adresse de synchronisation), sans aucune finalité publicitaire ni traçage à des fins commerciales.</p>
-    <p><b>Vos droits</b><br>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, de portabilité et d'opposition concernant vos données personnelles. Pour exercer ces droits, contactez l'association YEHI-OR INSTITUT via <a href="https://www.yehior-institut.fr/" target="_blank" rel="noopener">yehior-institut.fr</a>.</p>
+    <p><b>Vos droits</b><br>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, de portabilité et d'opposition concernant vos données personnelles. Pour exercer ces droits, contactez Simplika via <a href="mailto:contact.simplika@gmail.com">contact.simplika@gmail.com</a>.</p>
   </div>`;
   document.body.appendChild(overlay);
 }
@@ -5795,8 +5816,7 @@ function closeLegalModal(){
    ========================================================================= */
 (async function init(){
   render(); // affiche l'écran de connexion immédiatement, sans attendre le réseau
-  USERS_READY = Promise.all([loadUsers(), loadApprovedEdits(), loadCustomLessons()]);
-  await USERS_READY;
+  await attemptBootstrapAdmin();
 })();
 </script>
 </body>
