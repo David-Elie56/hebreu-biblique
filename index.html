@@ -428,6 +428,21 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
 ::-webkit-scrollbar{width:10px;}
 ::-webkit-scrollbar-thumb{background:var(--parchment2);border-radius:10px;}
 
+/* Bandeau d'avertissement (positionnement du daguesh sur mobile) — visible
+   uniquement sur petit écran, refermable, mémorisé via localStorage. */
+.mobile-only-notice{
+  display:none; align-items:center; gap:10px; padding:10px 14px;
+  background:#fff3e0; border-bottom:1px solid #e0b878; color:#6b4a1e;
+  font-family:'Inter',sans-serif; font-size:12.5px; line-height:1.4; position:relative;
+}
+.mobile-only-notice button{
+  background:none; border:none; color:#6b4a1e; font-size:15px; cursor:pointer;
+  flex:none; padding:2px 6px;
+}
+@media (max-width:860px){
+  .mobile-only-notice.show{ display:flex; }
+}
+
 @media (max-width:860px){
   #shell{grid-template-columns:1fr;}
   .sidebar{display:none;}
@@ -494,6 +509,10 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
 </style>
 </head>
 <body>
+<div id="mobileDageshNotice" class="mobile-only-notice" style="display:none;">
+  <span>📱 Sur certains téléphones (notamment iPhone), le point du <b>daguesh</b> peut apparaître légèrement décalé pour quelques mots vocalisés. Le texte reste correct — c'est un problème d'affichage propre à certains navigateurs mobiles, pas une erreur du cours.</span>
+  <button onclick="dismissDageshNotice()" aria-label="Fermer cet avertissement">✕</button>
+</div>
 <div id="shell">
   <nav class="sidebar" id="sidebar"></nav>
   <div class="tabbar" id="tabbar"></div>
@@ -5816,8 +5835,21 @@ function closeLegalModal(){
    ========================================================================= */
 (async function init(){
   render(); // affiche l'écran de connexion immédiatement, sans attendre le réseau
+  initDageshNotice();
   await attemptBootstrapAdmin();
 })();
+function initDageshNotice(){
+  try{
+    if(localStorage.getItem('hb_dagesh_notice_dismissed')==='1') return;
+  }catch(e){}
+  const el = document.getElementById('mobileDageshNotice');
+  if(el) el.classList.add('show');
+}
+function dismissDageshNotice(){
+  const el = document.getElementById('mobileDageshNotice');
+  if(el) el.classList.remove('show');
+  try{ localStorage.setItem('hb_dagesh_notice_dismissed','1'); }catch(e){}
+}
 </script>
 </body>
 </html>
