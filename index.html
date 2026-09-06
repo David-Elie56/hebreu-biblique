@@ -556,7 +556,30 @@ const LESSON_TITLES = [
   "Les verbes פ״א au Qal — Les particules יֵשׁ & אֵין",
   "Participe passif — Verbe d'action et d'état",
   "Le ה de direction — La particule אִם",
-  "Kéré et Kétiv — Les nombres ordinaux — Les particules שֶ et כְשֶ"
+  "Kéré et Kétiv — Les nombres ordinaux — Les particules שֶ et כְשֶ",
+  "Piel — פִּעֵל",
+  "Poual — פֻּעַל",
+  "Hitpaël — הִתְפַּעֵל",
+  "Les verbes ע״ג, ל״ג, ל״א au פִּעֵל, פֻּעַל et הִתְפַּעֵל",
+  "Nifal — נִפְעַל",
+  "Hifil — הִפְעִיל",
+  "Hofal — הָפְעַל",
+  "Les verbes ל״ג, ל״א, פ״ג au נִפְעַל, הִפְעִיל et הָפְעַל",
+  "Lire dans la Bible hébraïque — Dictionnaire — Les adverbes",
+  "Les verbes avec suffixe pronominal",
+  "Analyse verbale — Les verbes פ״ן au קַל, נִפְעַל, הִפְעִיל, הָפְעַל",
+  "Les verbes irréguliers נָתַן et לָקַח",
+  "Les verbes פ״י et פ״ו au קַל, נִפְעַל, הִפְעִיל, הָפְעַל",
+  "Les verbes יָכֹל, הָלַךְ et יָשֵׁן",
+  "Les verbes פ״יצ au קַל, נִפְעַל, הִפְעִיל, הָפְעַל",
+  "Les verbes creux עו״י au קַל et נִפְעַל",
+  "Les verbes creux עו״י aux formes causatives et intensives",
+  "Le verbe יָקַץ — Les modes de comparaison",
+  "Les verbes ל״ה",
+  "Les verbes géminés ע״ע",
+  "Hishtaphel — Nitpael — Les verbes à plusieurs lettres faibles",
+  "Les verbes quadrilitères — Les accents — La particule שֶׁל — Nationalité",
+  "Forme pausale — Conjugaisons rares — Suffixes rares — ה et ן paragogiques"
 ];
 const BASE_LESSON_COUNT = LESSON_TITLES.length; // nombre de cours "d'origine", avant les cours ajoutés par l'admin
 
@@ -2242,7 +2265,110 @@ const lesson26 = `
 </div>
 `;
 
-/* ---- COURS 27 : Kéré et Kétiv — Les nombres ordinaux — Les particules שֶ et כְשֶ ---- */
+/* ---- COURS 28 : Piel — פִּעֵל ---- */
+const lesson28 = `
+<div class="card">
+  <h3><span class="en en-heb">בנְיָנִים</span>Rappel — les 7 binyanim</h3>
+  <p>L'hébreu biblique est composé de <b>7 binyanim</b> (« constructions »). Chaque binyan définit un mode d'action, donc une conjugaison. La racine <span class="heb">פ.ע.ל</span> (« faire, agir »), à la 3ᵉ pers. masc. sing., sert de modèle pour présenter chaque binyan.</p>
+  ${tableHTML(null, ["Mode d'action","Binyan","Exemple"], [
+    ["Simple","<span class=\"heb\">קַל</span> (Paal <span class=\"heb\">פָּעַל</span>)","Manger"],
+    ["Simple passif/réfléchi","Niphal <span class=\"heb\">נִפְעַל</span>","Être mangé / se manger"],
+    ["Intensif","Piel <span class=\"heb\">פִּעֵל</span>","Dévorer"],
+    ["Intensif passif","Poual <span class=\"heb\">פֻּעַל</span>","Être dévoré"],
+    ["Intensif réfléchi","Hithpael <span class=\"heb\">הִתְפַּעֵל</span>","Se dévorer"],
+    ["Causatif","Hifil <span class=\"heb\">הִפְעִיל</span>","Nourrir"],
+    ["Causatif passif","Hofal <span class=\"heb\">הָפְעַל</span>","Être nourri"]
+  ], [1])}
+  <div class="callout info"><span class="ico">💡</span><span>Un verbe n'existe pas forcément à tous les modes d'action : certains verbes ne peuvent tout simplement pas se dire à certains binyanim.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">פִּעֵל</span>Le Piel — sens intensif</h3>
+  <p>Le <span class="heb">פִּעֵל</span> est une conjugaison dite <b>intensive</b> : les verbes y prennent un sens plus intense, selon trois cas de figure.</p>
+  ${tableHTML(null, ["Cas","Exemple"], [
+    ["1. Un verbe rendu intensif peut prendre un sens <b>causatif</b>.", "<span class=\"heb\">לָמַד</span> « étudier » → <span class=\"heb\">לִמֵּד</span> « enseigner »"],
+    ["2. D'autres verbes peuvent <b>changer de sens</b>.", "<span class=\"heb\">סָפַר</span> « compter » → <span class=\"heb\">סִפֵּר</span> « raconter »"],
+    ["3. Certains verbes <b>n'existent qu'au Piel</b>.", "<span class=\"heb\">בִּקֵּשׁ</span> « chercher »"]
+  ], [1])}
+  <div class="rule">Les verbes au <span class="heb">פִּעֵל</span> se reconnaissent à la présence d'un <b>דָּגֵשׁ חָזָק</b> (daguesh fort) dans la <b>2ᵉ lettre de la racine</b>.</div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">קָטַל</span>Le Piel à l'accompli (Qatal)</h3>
+  ${tableHTML("קָטַל au פִּעֵל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">קִטַּלְתִּי</span>","","1ˢ sg."],
+    ["<span class=\"heb\">קִטַּלְתְּ</span>","<span class=\"heb\">קִטַּלְתָּ</span>","2ᵉ sg."],
+    ["<span class=\"heb\">קִטְּלָה</span>","<span class=\"heb\">קִטֵּל</span>","3ᵉ sg."],
+    ["<span class=\"heb\">קִטַּלְנוּ</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\">קִטַּלְתֶּן</span>","<span class=\"heb\">קִטַּלְתֶּם</span>","2ᵉ pl."],
+    ["<span class=\"heb\">קִטְּלוּ</span>","","3ᵉ pl."]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>Le <span class="heb">דָּגֵשׁ</span> et le <span class="heb">ִ</span> sont présents à toutes les personnes ; le <span class="heb">ֵ</span> n'apparaît qu'à la 3ᵉ pers. masc. sing. ; ailleurs, la vocalisation se fait avec un <span class="heb">ַ</span>. (Certains verbes se vocalisent d'un <span class="heb">ָ</span> au lieu d'un <span class="heb">ֵ</span>, comme <span class="heb">דִּבָּר</span> — on reconnaît toujours le Piel par le daguesh.)</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">יִקְטֹל</span>Le Piel à l'inaccompli (Yiqtol)</h3>
+  ${tableHTML("יִקְטֹל au פִּעֵל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">אֲקַטֵּל</span>","","1ˢ sg."],
+    ["<span class=\"heb\">תְּקַטְּלִי</span>","<span class=\"heb\">תְּקַטֵּל</span>","2ᵉ sg."],
+    ["<span class=\"heb\">תְּקַטֵּל</span>","<span class=\"heb\">יְקַטֵּל</span>","3ᵉ sg."],
+    ["<span class=\"heb\">נְקַטֵּל</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\">תְּקַטֵּלְנָה</span>","<span class=\"heb\">תְּקַטְּלוּ</span>","2ᵉ pl."],
+    ["<span class=\"heb\">תְּקַטֵּלְנָה</span>","<span class=\"heb\">יְקַטְּלוּ</span>","3ᵉ pl."]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>Les préfixes sont tous vocalisés d'un <span class="heb">ְ</span>, sauf le <span class="heb">א</span> de la 1ʳᵉ pers. sing. qui prend un <span class="heb">ֲ</span>.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">בֵּינוֹנִי</span>Participe, impératif, infinitif</h3>
+  ${tableHTML("Participe présent — בֵּינוֹנִי פוֹעֵל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">מְקַטֶּלֶת</span> ou <span class=\"heb\">מְקַטְּלָה</span>","<span class=\"heb\">מְקַטֵּל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\">מְקַטְּלוֹת</span>","<span class=\"heb\">מְקַטְּלִים</span>","Pl. / רַבִּים"]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>Le participe présent se reconnaît à la présence d'un <span class="heb">מְ</span>. Le féminin singulier a deux formes possibles.</span></div>
+  ${tableHTML("Impératif — צִיווּי", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">קַטְּלִי</span>","<span class=\"heb\">קַטֵּל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\">קַטֵּלְנָה</span>","<span class=\"heb\">קַטְּלוּ</span>","Pl. / רַבִּים"]
+  ], [0,1])}
+  ${tableHTML("Infinitif — שֵׁם־הַפּוֹעַל", ["Forme","Type"], [
+    ["<span class=\"heb\">קַטֵּל</span> (rare : <span class=\"heb\">קֹטֵל</span>)","Infinitif absolu — הַמָּקוֹר"],
+    ["<span class=\"heb\">קַטֵּל</span> / <span class=\"heb\">לְקַטֵּל</span>","Infinitif construit — שֵׁם־הַפּוֹעַל"]
+  ], [0])}
+  <div class="callout warn"><span class="ico">⚠️</span><span>Pour le cohortatif et le jussif, mêmes règles que pour le volitif (ex. <span class="heb">אֲבַקְּשָׁה</span> « que je cherche »). Pour le <span class="heb">ו</span> conversif, mêmes règles qu'au Qal.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">אֲנִי טֶרֶם אֲכַלֶּה לְדַבֵּר אֶל־לִבִּי וְהִנֵּה רִבְקָה יֹצֵאת וְכַדָּהּ עַל־שִׁכְמָהּ וַתֵּרֶד הָעַיְנָה וַתִּשְׁאָב וָאֹמַר אֵלֶיהָ הַשְׁקִינִי נָא׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 24,45 — בראשית כד מה</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">שִׁבְעַת יָמִים תְּכַפֵּר עַל־הַמִּזְבֵּחַ וְקִדַּשְׁתָּ אֹתוֹ וְהָיָה הַמִּזְבֵּחַ קֹדֶשׁ קָדָשִׁים כָּל־הַנֹּגֵעַ בַּמִּזְבֵּחַ יִקְדָּשׁ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Exode 29,37 — שמות כט לז</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וּמָשַׁחְתָּ אֶת־מִזְבַּח הָעֹלָה וְאֶת־כָּל־כֵּלָיו וְקִדַּשְׁתָּ אֶת־הַמִּזְבֵּחַ וְהָיָה הַמִּזְבֵּחַ קֹדֶשׁ קָדָשִׁים׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Exode 40,10 — שמות מ י</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וְלֹא־יְחַלֵּל זַרְעוֹ בְּעַמָּיו כִּי אֲנִי יהוה מְקַדְּשׁוֹ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Lévitique 21,15 — ויקרא כא טו</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וְהָיָה טֶרֶם־יִקְרָאוּ וַאֲנִי אֶעֱנֶה עוֹד הֵם מְדַבְּרִים וַאֲנִי אֶשְׁמָע׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Ésaïe 65,24 — ישעיהו סה כד</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">דִּרְשׁוּ יהוה וְעֻזּוֹ בַּקְּשׁוּ פָנָיו תָּמִיד׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">1 Chroniques 16,11 — דברי הימים א טז יא</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">וְיָדְעוּ הַגּוֹיִם כִּי אֲנִי יהוה מְקַדֵּשׁ אֶת־יִשְׂרָאֵל בִּהְיוֹת מִקְדָּשִׁי בְּתוֹכָם לְעוֹלָם׃</span>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Ézéchiel 37,28 — יחזקאל לז כח</div>
+  </div>
+</div>
+`;
 const lesson27 = `
 <div class="card">
   <h3><span class="en en-heb">כְּתִיב · קְרֵי</span>Kétiv et Qéré</h3>
@@ -2329,12 +2455,1827 @@ const lesson27 = `
 </div>
 `;
 
-const LESSONS = [lesson1,lesson2,lesson3,lesson4,lesson5,lesson6,lesson7,lesson8,lesson9,lesson10,lesson11,lesson12,lesson13,lesson14,lesson15,lesson16,lesson17,lesson18,lesson19,lesson20,lesson21,lesson22,lesson23,lesson24,lesson25,lesson26,lesson27];
+/* ---- COURS 29 : Poual — פֻּעַל ---- */
+const lesson29 = `
+<div class="card">
+  <h3><span class="en en-heb">פֻּעַל</span>Le Poual — forme passive du Piel</h3>
+  <p>Étant liés, le <span class="heb">פִּעֵל</span> et le <span class="heb">פֻּעַל</span> ont des caractéristiques semblables. La forme <b>passive</b> exprime le fait de <b>subir l'action</b>.</p>
+  ${ex('בֻּקַּשׁ','« Il a été demandé »')}
+  <div class="rule">Tout comme le <span class="heb">פִּעֵל</span>, le <span class="heb">פֻּעַל</span> est caractérisé par la présence d'un <b>דָּגֵשׁ חָזָק</b> dans la 2ᵉ lettre de la racine. La seule différence sera le <span class="heb">ֻ</span> à la place du <span class="heb">ִ</span> du Piel.</div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">קֻטַּל</span>Le Poual à l'accompli (Qatal)</h3>
+  ${tableHTML("קֻטַּל au פֻּעַל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">קֻטַּלְתִּי</span>","","1ˢ sg."],
+    ["<span class=\"heb\">קֻטַּלְתְּ</span>","<span class=\"heb\">קֻטַּלְתָּ</span>","2ᵉ sg."],
+    ["<span class=\"heb\">קֻטְּלָה</span>","<span class=\"heb\">קֻטַּל</span>","3ᵉ sg."],
+    ["<span class=\"heb\">קֻטַּלְנוּ</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\">קֻטַּלְתֶּן</span>","<span class=\"heb\">קֻטַּלְתֶּם</span>","2ᵉ pl."],
+    ["<span class=\"heb\">קֻטְּלוּ</span>","","3ᵉ pl."]
+  ], [0,1])}
+</div>
+<div class="card">
+  <h3><span class="en en-heb">יְקֻטַּל</span>Le Poual à l'inaccompli (Yiqtol)</h3>
+  ${tableHTML("יְקֻטַּל au פֻּעַל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">אֲקֻטַּל</span>","","1ˢ sg."],
+    ["<span class=\"heb\">תְּקֻטְּלִי</span>","<span class=\"heb\">תְּקֻטַּל</span>","2ᵉ sg."],
+    ["<span class=\"heb\">תְּקֻטַּל</span>","<span class=\"heb\">יְקֻטַּל</span>","3ᵉ sg."],
+    ["<span class=\"heb\">נְקֻטַּל</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\">תְּקֻטַּלְנָה</span>","<span class=\"heb\">תְּקֻטְּלוּ</span>","2ᵉ pl."],
+    ["<span class=\"heb\">תְּקֻטַּלְנָה</span>","<span class=\"heb\">יְקֻטְּלוּ</span>","3ᵉ pl."]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>Les préfixes sont tous vocalisés d'un <span class="heb">ְ</span>, sauf le <span class="heb">א</span> de la 1ʳᵉ pers. sing. qui prend un <span class="heb">ֲ</span>, comme au Piel.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">מְקֻטָּל</span>Participe et infinitif</h3>
+  ${tableHTML("Participe présent — בֵּינוֹנִי פוֹעָל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">מְקֻטֶּלֶת</span> ou <span class=\"heb\">מְקֻטָּלָה</span>","<span class=\"heb\">מְקֻטָּל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\">מְקֻטָּלוֹת</span>","<span class=\"heb\">מְקֻטָּלִים</span>","Pl. / רַבִּים"]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>Comme au Piel, le participe présent est préfixé d'un <span class="heb">מְ</span> ; sa vocalisation est <span class="heb">מְ...ָּ</span>.</span></div>
+  ${tableHTML(null, ["Forme","Type"], [
+    ["<span class=\"heb\">קֻטֹּל</span>","Infinitif absolu — הַמָּקוֹר"],
+    ["<span class=\"heb\">קֻטַּל</span>","Infinitif construit — שֵׁם־הַפּוֹעַל"]
+  ], [0])}
+  <div class="callout warn"><span class="ico">⚠️</span><span><b>L'impératif n'existe pas au Poual</b> (forme passive). Pour le cohortatif et le jussif, mêmes règles qu'au Piel. Pour le <span class="heb">ו</span> conversif, mêmes règles qu'au Qal.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">כִּי־גֻנֹּב גֻּנַּבְתִּי מֵאֶרֶץ הָעִבְרִים וְגַם־פֹּה לֹא־עָשִׂיתִי מְאוּמָה כִּי־שָׂמוּ אֹתִי בַּבּוֹר׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 40,15 — בראשית מ טו</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וּמֶלֶךְ יִשְׂרָאֵל וִיהוֹשָׁפָט מֶלֶךְ־יְהוּדָה יֹשְׁבִים אִישׁ עַל־כִּסְאוֹ מְלֻבָּשִׁים בְּגָדִים בְּגֹרֶן פֶּתַח שַׁעַר שֹׁמְרוֹן וְכָל־הַנְּבִיאִים מִתְנַבְּאִים לִפְנֵיהֶם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">1 Rois 22,10 — מלכים ב כב י</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">בַּיָּמִים הָהֵם וּבָעֵת הַהִיא נְאֻם־יהוה יְבֻקַּשׁ אֶת־עֲוֹן יִשְׂרָאֵל וְאֵינֶנּוּ וְאֶת־חַטֹּאת יְהוּדָה וְלֹא תִמָּצֶאינָה כִּי אֶסְלַח לַאֲשֶׁר אַשְׁאִיר׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Jérémie 50,20 — ירמיהו נ כ</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">כִּי־מִי אֲשֶׁר (יבחר) יְחֻבַּר אֶל כָּל־הַחַיִּים יֵשׁ בִּטָּחוֹן כִּי־לְכֶלֶב חַי הוּא טוֹב מִן־הָאַרְיֵה הַמֵּת׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Ecclésiaste 9,4 — קהלת ט ד</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">שָׁמוֹעַ שָׁמַעְתִּי אֶפְרַיִם מִתְנוֹדֵד יִסַּרְתַּנִי וָאִוָּסֵר כְּעֵגֶל לֹא לֻמָּד הֲשִׁיבֵנִי וְאָשׁוּבָה כִּי אַתָּה יהוה אֱלֹהָי׃</span>
+    <div class="ui" style="font-family:'Inter',sans-serif;font-size:12px;color:var(--text-soft);margin-top:6px;"><span class="heb" style="font-size:1em;">מִתְנוֹדֵד</span> : se lamentant &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">יִסַּרְתַּנִי וָאִוָּסֵר</span> : Tu m'as corrigé et j'ai été corrigé &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">הֲשִׁיבֵנִי וְאָשׁוּבָה</span> : Ramène-moi et je retournerai</div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Jérémie 31,18 — ירמיהו לא יח</div>
+  </div>
+</div>
+`;
+
+/* ---- COURS 30 : Hitpaël — הִתְפַּעֵל ---- */
+const lesson30 = `
+<div class="card">
+  <h3><span class="en en-heb">הִתְפַּעֵל</span>Le Hitpaël — forme réfléchie de l'intensif</h3>
+  <p>Le <span class="heb">הִתְפַּעֵל</span> est une forme <b>réfléchie</b> de l'intensif : il aura donc des ressemblances avec le <span class="heb">פִּעֵל</span> et le <span class="heb">פֻּעַל</span>.</p>
+  <p>Le Hitpaël se reconnaît par la présence de trois éléments, selon le temps et la personne :</p>
+  ${tableHTML(null, ["Élément","Description"], [
+    ["Préfixe <span class=\"heb\">הִתְ־</span>", "présent selon le temps et la personne"],
+    ["<span class=\"heb\">ְ</span> sous la 1ʳᵉ lettre de la racine", ""],
+    ["<span class=\"heb\">דָּגֵשׁ חָזָק</span> + <span class=\"heb\">ַ</span> ou <span class=\"heb\">ֵ</span> dans et sous la 2ᵉ lettre de la racine", ""]
+  ])}
+</div>
+<div class="card">
+  <h3><span class="en en-heb">הִתְקַטַּל</span>Le Hitpaël à l'accompli (Qatal)</h3>
+  ${tableHTML("הִתְקַטַּל au הִתְפַּעֵל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">הִתְקַטַּלְתִּי</span>","","1ˢ sg."],
+    ["<span class=\"heb\">הִתְקַטַּלְתְּ</span>","<span class=\"heb\">הִתְקַטַּלְתָּ</span>","2ᵉ sg."],
+    ["<span class=\"heb\">הִתְקַטְּלָה</span>","<span class=\"heb\">הִתְקַטֵּל</span>","3ᵉ sg."],
+    ["<span class=\"heb\">הִתְקַטַּלְנוּ</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\">הִתְקַטַּלְתֶּן</span>","<span class=\"heb\">הִתְקַטַּלְתֶּם</span>","2ᵉ pl."],
+    ["<span class=\"heb\">הִתְקַטְּלוּ</span>","","3ᵉ pl."]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>La vocalisation de la 2ᵉ lettre de la racine est <span class="heb">ַ</span>, sauf aux 3ᵉ pers. masc. sing. et plur. (<span class="heb">ֵ</span>). Le préfixe <span class="heb">הִתְ־</span> est constant.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">יִתְקַטֵּל</span>Yiqtol, impératif, participe</h3>
+  ${tableHTML("יִתְקַטֵּל au הִתְפַּעֵל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">אֶתְקַטֵּל</span>","","1ˢ sg."],
+    ["<span class=\"heb\">תִּתְקַטְּלִי</span>","<span class=\"heb\">תִּתְקַטֵּל</span>","2ᵉ sg."],
+    ["<span class=\"heb\">תִּתְקַטֵּל</span>","<span class=\"heb\">יִתְקַטֵּל</span>","3ᵉ sg."],
+    ["<span class=\"heb\">נִתְקַטֵּל</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\">תִּתְקַטֵּלְנָה</span>","<span class=\"heb\">תִּתְקַטְּלוּ</span>","2ᵉ pl."],
+    ["<span class=\"heb\">תִּתְקַטֵּלְנָה</span>","<span class=\"heb\">יִתְקַטְּלוּ</span>","3ᵉ pl."]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>Le <span class="heb">ה</span> du préfixe <span class="heb">הִתְ־</span> est remplacé par le préfixe du Yiqtol ; la vocalisation de la 2ᵉ lettre de la racine reste <span class="heb">ֵ</span>.</span></div>
+  ${tableHTML("Impératif — צִיווּי", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">הִתְקַטְּלִי</span>","<span class=\"heb\">הִתְקַטֵּל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\">הִתְקַטֵּלְנָה</span>","<span class=\"heb\">הִתְקַטְּלוּ</span>","Pl. / רַבִּים"]
+  ], [0,1])}
+  ${tableHTML("Participe présent — בֵּינוֹנִי פּוֹעֵל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">מִתְקַטֶּלֶת</span> ou <span class=\"heb\">מִתְקַטְּלָה</span>","<span class=\"heb\">מִתְקַטֵּל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\">מִתְקַטְּלוֹת</span>","<span class=\"heb\">מִתְקַטְּלִים</span>","Pl. / רַבִּים"]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>À l'impératif, le <span class="heb">ה</span> du préfixe réapparaît (il ressemble alors à la 3ᵉ pers. masc. sing./plur. du Qatal). Au participe, le <span class="heb">ה</span> est remplacé par le <span class="heb">מ</span> qui marque le participe présent.</span></div>
+  ${tableHTML(null, ["Forme","Type"], [
+    ["<span class=\"heb\">הִתְקַטֵּל</span>","Infinitif absolu — הַמָּקוֹר"],
+    ["<span class=\"heb\">לְהִתְקַטֵּל</span>","Infinitif construit — שֵׁם־הַפּוֹעַל"]
+  ], [0])}
+  <div class="callout warn"><span class="ico">⚠️</span><span>Pour le cohortatif/jussif, mêmes règles que pour le volitif. Pour le <span class="heb">ו</span> conversif, mêmes règles qu'au Qal. La vocalisation de la 2ᵉ lettre de la racine peut être <span class="heb">ָ</span> à la 3ᵉ pers. masc. sing. du Qatal, à toutes les personnes du Yiqtol, et au masc. sing. de l'impératif.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">שׁ ס צ ז</span>Lettres sifflantes et dentales — cas particuliers</h3>
+  <p>Quand la 1ʳᵉ lettre de la racine est une <b>sifflante</b> (<span class="heb">שׁ ס צ ז</span>), une inversion se produit généralement entre le <span class="heb">ת</span> du préfixe et cette lettre :</p>
+  ${tableHTML(null, ["Lettre","Changement","Exemple"], [
+    ["<span class=\"heb\">שׁ</span> ou <span class=\"heb\">ס</span>","inversion simple","<span class=\"heb\">שׁ.מ.ר</span> → <span class=\"heb\">הִשְׁתַּמֵּר</span> « se garder »"],
+    ["<span class=\"heb\">צ</span>","le <span class=\"heb\">ת</span> du préfixe devient <span class=\"heb\">ט</span>","<span class=\"heb\">צ.ד.ק</span> → <span class=\"heb\">הִצְטַדֵּק</span> « se justifier »"],
+    ["<span class=\"heb\">ז</span>","le <span class=\"heb\">ת</span> du préfixe devient <span class=\"heb\">ד</span>","<span class=\"heb\">ז.מ.ן</span> → <span class=\"heb\">הִזְדַּמֵּן</span> « se préparer »"]
+  ], [0,2])}
+  <p>Quand la 1ʳᵉ lettre de la racine est une <b>dentale</b> (<span class="heb">ת ט ד</span>), le <span class="heb">ת</span> du préfixe disparaît souvent, compensé par un <span class="heb">דָּגֵשׁ חָזָק</span> dans cette lettre :</p>
+  ${ex('ט.מ.א ← הִטַּמֵּא',"« se souiller »")}
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">אַל־תְּשַׁקְּצוּ אֶת־נַפְשֹׁתֵיכֶם בְּכָל־הַשֶּׁרֶץ הַשֹּׁרֵץ וְלֹא תִטַּמְּאוּ בָּהֶם וְנִטְמֵתֶם בָּם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Lévitique 11,43 — ויקרא יא מג</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וָאֶתְנַפַּל לִפְנֵי יהוה אֵת אַרְבָּעִים הַיּוֹם וְאֶת־אַרְבָּעִים הַלַּיְלָה אֲשֶׁר הִתְנַפָּלְתִּי כִּי־אָמַר יהוה לְהַשְׁמִיד אֶתְכֶם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Deutéronome 9,25 — דברים ט כה</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיֹּאמְרוּ כָל־הָעָם אֶל־שְׁמוּאֵל הִתְפַּלֵּל בְּעַד־עֲבָדֶיךָ אֶל־יהוה אֱלֹהֶיךָ וְאַל־נָמוּת כִּי־יָסַפְנוּ עַל־כָּל־חַטֹּאתֵינוּ רָעָה לִשְׁאֹל לָנוּ מֶלֶךְ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">1 Samuel 12,19 — שמואל א יב יט</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיֹּאמֶר אֲלֵיהֶם יִרְמְיָהוּ הַנָּבִיא שָׁמַעְתִּי הִנְנִי מִתְפַּלֵּל אֶל־יהוה אֱלֹהֵיכֶם כְּדִבְרֵיכֶם וְהָיָה כָּל־הַדָּבָר אֲשֶׁר־יַעֲנֶה יהוה אֶתְכֶם אַגִּיד לָכֶם לֹא־אֶמְנַע מִכֶּם דָּבָר׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Jérémie 42,4 — ירמיהו מב ד</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">בְּבוֹא הַזִּיפִים וַיֹּאמְרוּ לְשָׁאוּל הֲלֹא דָוִד מִסְתַּתֵּר עִמָּנוּ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Psaumes 54,2 — תהלים נד ב</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיֹּאמֶר לָהֶם שִׁמְעוּנִי הַלְוִיִּם עַתָּה הִתְקַדְּשׁוּ וְקַדְּשׁוּ אֶת־בֵּית יהוה אֱלֹהֵי אֲבֹתֵיכֶם וְהוֹצִיאוּ אֶת־הַנִּדָּה מִן־הַקֹּדֶשׁ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">2 Chroniques 29,5 — דברי הימים ב כט ה</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">וַיָּבֹאוּ הַזִּיפִים אֶל־שָׁאוּל הַגִּבְעָתָה לֵאמֹר הֲלוֹא דָוִד מִסְתַּתֵּר בְּגִבְעַת הַחֲכִילָה עַל פְּנֵי הַיְשִׁימֹן׃</span>
+    <div class="ui" style="font-family:'Inter',sans-serif;font-size:12px;color:var(--text-soft);margin-top:6px;"><span class="heb" style="font-size:1em;">וַיָּבֹאוּ</span> : Ils vinrent &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">הַזִּפִים</span> : Les Ziphim &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">גִּבְעָה</span> : Guibéa, colline &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">חֲכִילָה</span> : Hakhila &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">יְשִׁימֹן</span> : Yéshimon, Désert</div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">1 Samuel 26,1 — שמואל א כו,א</div>
+  </div>
+  <div class="callout info"><span class="ico">✎</span><span>Entraîne-toi : conjugue la racine <span class="heb">ק.ש.ר</span> (« se lier / conspirer ») au Hitpaël, à tous les temps — infinitif, participe, accompli, inaccompli, impératif.</span></div>
+</div>
+`;
+
+/* ---- COURS 31 : Les verbes ע״ג, ל״ג, ל״א au פִּעֵל, פֻּעַל et הִתְפַּעֵל ---- */
+const lesson31 = `
+<div class="card">
+  <h3><span class="en en-heb">ע״ג</span>Les verbes ע״ג — 2ᵉ lettre גרונית</h3>
+  <p>Au <span class="heb">פִּעֵל</span>, <span class="heb">פֻּעַל</span> et <span class="heb">הִתְפַּעֵל</span>, la 1ʳᵉ lettre de la racine <b>ne porte jamais de <span class="heb">ְ</span></b> — il n'y a donc pas de changement de vocalisation en cas de <span class="heb">פ״ג</span>. Seule la <b>2ᵉ lettre</b> pose problème quand elle est gutturale (elle ne peut recevoir le daguesh fort attendu).</p>
+  ${tableHTML(null, ["Lettre 2ᵉ position","Effet","Exemple"], [
+    ["<span class=\"heb\">ר</span> (et la gutturale <span class=\"heb\">א</span>)","allongement compensatoire de la voyelle précédente", "Piel : <span class=\"heb\">ַ</span>→<span class=\"heb\">ֵ</span> (ex. <span class=\"heb\">בֵּרֵךְ</span>) ; Poual : <span class=\"heb\">ֻ</span>→<span class=\"heb\">ֹ</span> comme à l'infinitif construit (ex. <span class=\"heb\">לְבָרֵךְ</span>)"],
+    ["<span class=\"heb\">ע ח ה</span>","pas d'allongement ; seul le <span class=\"heb\">ֻ</span> devient <span class=\"heb\">ָ</span>","<span class=\"heb\">מִהֲרָה</span> « elle se hâta »"]
+  ], [2])}
+  <div class="callout info"><span class="ico">💡</span><span>À la 3ᵉ pers. masc. sing. du Piel, on rencontre parfois des verbes vocalisés d'un <span class="heb">ָ</span> : <span class="heb">נִחַם</span> « il a consolé ».</span></div>
+  <p>Exemple complet avec la racine <span class="heb">ב.ר.ך</span> (« bénir ») :</p>
+  ${tableHTML(null, ["Binyan","Qatal 3ms","Infinitif construit","Participe ms"], [
+    ["Piel","<span class=\"heb\">בֵּרֵךְ</span>","<span class=\"heb\">לְבָרֵךְ</span>","<span class=\"heb\">מְבָרֵךְ</span>"],
+    ["Poual","<span class=\"heb\">בֹּרַךְ</span>","—","<span class=\"heb\">מְבֹרָךְ</span>"],
+    ["Hitpaël","<span class=\"heb\">הִתְבָּרֵךְ</span>","<span class=\"heb\">לְהִתְבָּרֵךְ</span>","<span class=\"heb\">מִתְבָּרֵךְ</span>"]
+  ])}
+</div>
+<div class="card">
+  <h3><span class="en en-heb">ל״א ל״ג</span>Les verbes avec une gutturale en 3ᵉ position</h3>
+  <p><b><span class="heb">א</span> en 3ᵉ lettre</b> — comme au Qal, l'<span class="heb">א</span> quiescent en fin de syllabe allonge la voyelle précédente : au Qatal du Piel/Poual/Hitpaël, la voyelle qui précède devient un <span class="heb">ֵ</span> ; au Yiqtol et à l'impératif, un <span class="heb">ֵ</span> apparaît aussi aux 2ᵉ et 3ᵉ pers. féminin pluriel.</p>
+  ${ex('מִלֵּאתִי',"« J'ai rempli » (au lieu d'une forme régulière attendue)")}
+  ${ex('תְּמַלֵּאנָה',"« Elles rempliront »")}
+  <p><b><span class="heb">ה</span> et <span class="heb">ע</span> en 3ᵉ lettre</b> — ces deux gutturales gardent leur <span class="heb">ַ</span>, sauf à la 2ᵉ pers. fém. sing. du Qatal où elles prennent généralement un <span class="heb">ָ</span> :</p>
+  ${ex('שִׁלַּחְתִּי',"« J'ai envoyé »")}
+  ${ex('שִׁלַּחַתְּ',"« Tu as envoyé » (fém.)")}
+  <p>Exemple complet avec la racine <span class="heb">מ.ל.א</span> (« remplir ») :</p>
+  ${tableHTML(null, ["Binyan","Qatal 3ms","Infinitif construit","Participe ms"], [
+    ["Piel","<span class=\"heb\">מִלֵּא</span>","<span class=\"heb\">לְמַלֵּא</span>","<span class=\"heb\">מְמַלֵּא</span>"],
+    ["Poual","<span class=\"heb\">מֻלָּא</span>","—","<span class=\"heb\">מְמֻלָּא</span>"],
+    ["Hitpaël","<span class=\"heb\">הִתְמַלֵּא</span>","<span class=\"heb\">לְהִתְמַלֵּא</span>","<span class=\"heb\">מִתְמַלֵּא</span>"]
+  ])}
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיְהִי כַּעֲבֹר הַצָּהֳרַיִם וַיִּתְנַבְּאוּ עַד לַעֲלוֹת הַמִּנְחָה וְאֵין־קוֹל וְאֵין־עֹנֶה וְאֵין קָשֶׁב׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">1 Rois 18,29 — מלכים א יח כט</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">כְּאִישׁ אֲשֶׁר אִמּוֹ תְּנַחֲמֶנּוּ כֵּן אָנֹכִי אֲנַחֶמְכֶם וּבִירוּשָׁלַ‍ִם תְּנֻחָמוּ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Ésaïe 66,13 — ישעיהו סו יג</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַתְּשַׁלְּחוּ אֶת־שְׁמָי וַתְּשָׁבוּ אִישׁ אֶת־עַבְדּוֹ וְאִישׁ אֶת־שִׁפְחָתוֹ אֲשֶׁר שִׁלַּחְתֶּם חָפְשִׁים לְנַפְשָׁם וַתִּכְבְּשׁוּ אֹתָם לִהְיוֹת לָכֶם לַעֲבָדִים וְלִשְׁפָחוֹת׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Jérémie 34,16 — ירמיהו לד טז</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">עֲמַדְתֶּם עַל־חַרְבְּכֶם עֲשִׂיתֶן תּוֹעֵבָה וְאִישׁ אֶת־אֵשֶׁת רֵעֵהוּ טִמֵּאתֶם וְהָאָרֶץ תִּירָשׁוּ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Ézéchiel 33,26 — יחזקאל לג כו</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">וַיֹּאמֶר מֶלֶךְ־יִשְׂרָאֵל אֶל־יְהוֹשָׁפָט הֲלוֹא אָמַרְתִּי אֵלֶיךָ לֹא־יִתְנַבֵּא עָלַי טוֹב כִּי אִם־לְרָע׃</span>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">2 Chroniques 18,17 — דברי הימים ב יח יז</div>
+  </div>
+</div>
+`;
+
+/* ---- COURS 32 : Nifal — נִפְעַל ---- */
+const lesson32 = `
+<div class="card">
+  <h3><span class="en en-heb">נִפְעַל</span>Le Nifal — forme passive/réfléchie du Qal</h3>
+  <p>Le <span class="heb">נִפְעַל</span> est la forme <b>passive et réfléchie</b> du <span class="heb">קַל / פָּעַל</span>.</p>
+  <p>Il se caractérise par la présence d'un <span class="heb">נ</span> en préfixe. Ce <span class="heb">נ</span> peut être <b>assimilé</b> (disparaître) : dans ce cas, la 1ʳᵉ lettre de la racine prend un <span class="heb">דָּגֵשׁ</span> qui témoigne de cette assimilation et permet de reconnaître le Nifal.</p>
+  ${ex('נִשְׁמַר',"« il s'est gardé » ou « il a été gardé » (sens passif et réfléchi)")}
+</div>
+<div class="card">
+  <h3><span class="en en-heb">נִקְטַל</span>Le Nifal à l'accompli (Qatal)</h3>
+  ${tableHTML("קָטַל au נִפְעַל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">נִקְטַלְתִּי</span>","","1ˢ sg."],
+    ["<span class=\"heb\">נִקְטַלְתְּ</span>","<span class=\"heb\">נִקְטַלְתָּ</span>","2ᵉ sg."],
+    ["<span class=\"heb\">נִקְטְלָה</span>","<span class=\"heb\">נִקְטַל</span>","3ᵉ sg."],
+    ["<span class=\"heb\">נִקְטַלְנוּ</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\">נִקְטַלְתֶּן</span>","<span class=\"heb\">נִקְטַלְתֶּם</span>","2ᵉ pl."],
+    ["<span class=\"heb\">נִקְטְלוּ</span>","","3ᵉ pl."]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>Le <span class="heb">נ</span> en préfixe est présent à toutes les personnes.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">יִקָּטֵל</span>Yiqtol, impératif, participe</h3>
+  ${tableHTML("יִקָּטֵל au נִפְעַל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">אֶקָּטֵל</span> / <span class=\"heb\">אִקָּטֵל</span>","","1ˢ sg."],
+    ["<span class=\"heb\">תִּקָּטְלִי</span>","<span class=\"heb\">תִּקָּטֵל</span>","2ᵉ sg."],
+    ["<span class=\"heb\">תִּקָּטֵל</span>","<span class=\"heb\">יִקָּטֵל</span>","3ᵉ sg."],
+    ["<span class=\"heb\">נִקָּטֵל</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\">תִּקָּטַלְנָה</span>","<span class=\"heb\">תִּקָּטְלוּ</span>","2ᵉ pl."],
+    ["<span class=\"heb\">תִּקָּטַלְנָה</span>","<span class=\"heb\">יִקָּטְלוּ</span>","3ᵉ pl."]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>La vocalisation des préfixes est régulière, sauf à la 1ʳᵉ pers. sing. (<span class="heb">ֶ</span> ou <span class="heb">ִ</span>). Le <span class="heb">דָּגֵשׁ</span>, présent à toutes les personnes, témoigne de l'assimilation du <span class="heb">נ</span>. À la 2ᵉ et 3ᵉ pers. fém. plur., la 2ᵉ lettre de la racine prend un <span class="heb">ַ</span>.</span></div>
+  ${tableHTML("Impératif — צִיווּי", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">הִקָּטְלִי</span>","<span class=\"heb\">הִקָּטֵל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\">הִקָּטַלְנָה</span>","<span class=\"heb\">הִקָּטְלוּ</span>","Pl. / רַבִּים"]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>À l'impératif comme au Yiqtol, le <span class="heb">נ</span> est assimilé (<span class="heb">דָּגֵשׁ</span>) et un <span class="heb">ה</span> est ajouté en préfixe pour compenser l'absence de préfixe attendu.</span></div>
+  ${tableHTML("Participe présent — בֵּינוֹנִי פּוֹעֵל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">נִקְטָלָה</span> / <span class=\"heb\">נִקְטֶלֶת</span>","<span class=\"heb\">נִקְטָל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\">נִקְטָלוֹת</span>","<span class=\"heb\">נִקְטָלִים</span>","Pl. / רַבִּים"]
+  ], [0,1])}
+  <div class="callout warn"><span class="ico">⚠️</span><span>Le masculin singulier du participe présent ressemble à la 3ᵉ pers. masc. sing. du Qatal — ne pas les confondre ! Le participe a un <span class="heb">ָ</span> sous la 2ᵉ lettre de la racine, le Qatal un <span class="heb">ַ</span>.</span></div>
+  ${tableHTML(null, ["Forme","Type"], [
+    ["<span class=\"heb\">נִקְטֹל</span> / <span class=\"heb\">הִקָּטֹל</span>","Infinitif absolu — הַמָּקוֹר"],
+    ["<span class=\"heb\">לְהִקָּטֵל</span>","Infinitif construit — שֵׁם־הַפּוֹעַל"]
+  ], [0])}
+  <div class="callout info"><span class="ico">💡</span><span>Comme à l'impératif, le <span class="heb">נ</span> est assimilé et le <span class="heb">ה</span> compense l'absence de préfixe. Pour le cohortatif/jussif : mêmes règles que le volitif. Pour le <span class="heb">ו</span> conversif : mêmes règles qu'au Qal.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">ע״ג</span>Les verbes ע״ג au Nifal</h3>
+  <p>La vocalisation des verbes <span class="heb">ע״ג</span> au Nifal est stable : le seul changement est le remplacement des <span class="heb">ְ</span> sous les gutturales par des <span class="heb">ֲ</span>.</p>
+  ${tableHTML(null, ["Forme","Personne","Exemple"], [
+    ["Qatal","3ᵉ fém. sing.","<span class=\"heb\">נִבְחֲרָה</span> « elle a été choisie »"],
+    ["Qatal","3ᵉ plur.","<span class=\"heb\">נִבְחֲרוּ</span> « ils/elles ont été choisis(ies) »"],
+    ["Yiqtol","2ᵉ fém. sing.","<span class=\"heb\">תִּבָּחֲרִי</span> « tu seras choisie »"],
+    ["Yiqtol","2ᵉ masc. plur.","<span class=\"heb\">תִּבָּחֲרוּ</span> « vous serez choisis »"],
+    ["Yiqtol","3ᵉ masc. plur.","<span class=\"heb\">יִבָּחֲרוּ</span> « ils seront choisis »"],
+    ["Impératif","fém. sing.","<span class=\"heb\">הִבָּחֲרִי</span> « choisie… ! »"],
+    ["Impératif","masc. plur.","<span class=\"heb\">הִבָּחֲרוּ</span> « choisissez… ! »"]
+  ], [2])}
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַהֲקִמֹתִי אֶת־בְּרִיתִי אִתְּכֶם וְלֹא־יִכָּרֵת כָּל־בָּשָׂר עוֹד מִמֵּי הַמַּבּוּל וְלֹא־יִהְיֶה עוֹד מַבּוּל לְשַׁחֵת הָאָרֶץ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 9,11 — בראשית ט יא</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וְרָאוּ כָּל־עַמֵּי הָאָרֶץ כִּי שֵׁם יהוה נִקְרָא עָלֶיךָ וְיָרְאוּ מִמֶּךָּ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Deutéronome 28,10 — דברים כח י</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וְקֻבְּרוּ כָּל־עַם הָאָרֶץ וְהָיָה לָהֶם לְשֵׁם יוֹם הִכָּבְדִי נְאֻם אֲדֹנָי יהוה׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Ézéchiel 39,13 — יחזקאל לט יג</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וּבְכָל־זֶה לֹא הָיִיתִי בִּירוּשָׁלָ‍ִם כִּי בִּשְׁנַת שְׁלֹשִׁים וּשְׁתַּיִם לְאַרְתַּחְשַׁסְתְּא מֶלֶךְ־בָּבֶל בָּאתִי אֶל־הַמֶּלֶךְ וּלְקֵץ יָמִים נִשְׁאַלְתִּי מִן־הַמֶּלֶךְ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Néhémie 13,6 — נחמיה יג ו</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">נִדְרַשְׁתִּי לְלוֹא שָׁאָלוּ נִמְצֵאתִי לְלֹא בִקְשֻׁנִי אָמַרְתִּי הִנֵּנִי הִנֵּנִי אֶל־גּוֹי לֹא־קֹרָא בִשְׁמִי׃</span>
+    <div class="ui" style="font-family:'Inter',sans-serif;font-size:12px;color:var(--text-soft);margin-top:6px;"><span class="heb" style="font-size:1em;">בִקְשֻׁנִי</span> : ils me cherchent</div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Ésaïe 65,1 — ישעיהו סה א</div>
+  </div>
+</div>
+`;
+
+/* ---- COURS 33 : Hifil — הִפְעִיל ---- */
+const lesson33 = `
+<div class="card">
+  <h3><span class="en en-heb">הִפְעִיל</span>Le Hifil — forme causative</h3>
+  <p>Le <span class="heb">הִפְעִיל</span> est une forme <b>causative</b> : le sujet <b>fait faire</b> l'action exprimée par le verbe.</p>
+  ${ex('הִגְדִּיל',"« Il a fait grandir »")}
+  <p>Il se caractérise par : un préfixe <span class="heb">הִ־</span> ; une vocalisation <span class="heb">י ִ</span> ; et une vocalisation <span class="heb">ְ</span> sur la 2ᵉ lettre de la racine.</p>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">הִקְטִיל</span>Le Hifil à l'accompli (Qatal)</h3>
+  ${tableHTML("קָטַל au הִפְעִיל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">הִקְטַלְתִּי</span>","","1ˢ sg."],
+    ["<span class=\"heb\">הִקְטַלְתְּ</span>","<span class=\"heb\">הִקְטַלְתָּ</span>","2ᵉ sg."],
+    ["<span class=\"heb\">הִקְטִילָה</span>","<span class=\"heb\">הִקְטִיל</span>","3ᵉ sg."],
+    ["<span class=\"heb\">הִקְטַלְנוּ</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\">הִקְטַלְתֶּן</span>","<span class=\"heb\">הִקְטַלְתֶּם</span>","2ᵉ pl."],
+    ["<span class=\"heb\">הִקְטִילוּ</span>","","3ᵉ pl."]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>Le préfixe <span class="heb">הִ</span> est présent à toutes les personnes. La vocalisation <span class="heb">י ִ</span> n'apparaît qu'à la 3ᵉ pers. sing. et plur.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">יַקְטִיל</span>Yiqtol, impératif, participe</h3>
+  ${tableHTML("יַקְטִיל au הִפְעִיל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">אַקְטִיל</span>","","1ˢ sg."],
+    ["<span class=\"heb\">תַּקְטִילִי</span>","<span class=\"heb\">תַּקְטִיל</span> (<span class=\"heb\">תַּקְטֵל</span>)","2ᵉ sg."],
+    ["<span class=\"heb\">תַּקְטִיל</span> (<span class=\"heb\">תַּקְטֵל</span>)","<span class=\"heb\">יַקְטִיל</span> (<span class=\"heb\">יַקְטֵל</span>)","3ᵉ sg."],
+    ["<span class=\"heb\">נַקְטִיל</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\">תַּקְטֵלְנָה</span>","<span class=\"heb\">תַּקְטִילוּ</span>","2ᵉ pl."],
+    ["<span class=\"heb\">תַּקְטֵלְנָה</span>","<span class=\"heb\">יַקְטִילוּ</span>","3ᵉ pl."]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>Le préfixe <span class="heb">הִ</span> est remplacé par les préfixes du Yiqtol, vocalisés d'un <span class="heb">ַ</span>. Les 2ᵉ et 3ᵉ pers. fém. plur. n'ont pas la vocalisation <span class="heb">י ִ</span> (remplacée par <span class="heb">ֵ</span> sous la 2ᵉ lettre). Aux 2ᵉ pers. masc. sing. et 3ᵉ pers. masc./fém. sing., il existe une forme brève (entre parenthèses), utilisée notamment au jussif et au <span class="heb">ו</span> conversif.</span></div>
+  ${tableHTML("Impératif — צִיווּי", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">הַקְטִילִי</span>","<span class=\"heb\">הַקְטֵל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\">הַקְטֵלְנָה</span>","<span class=\"heb\">הַקְטִילוּ</span>","Pl. / רַבִּים"]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>Le préfixe <span class="heb">ה</span> réapparaît, vocalisé d'un <span class="heb">ַ</span> ; le masculin singulier utilise la forme brève du verbe.</span></div>
+  ${tableHTML("Participe présent — פּוֹעֵל בֵּינוֹנִי", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">מַקְטֶלֶת</span> / <span class=\"heb\">מַקְטִילָה</span>","<span class=\"heb\">מַקְטִיל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\">מַקְטִילוֹת</span>","<span class=\"heb\">מַקְטִילִים</span>","Pl. / רַבִּים"]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>Le préfixe <span class="heb">מַ</span> remplace le <span class="heb">הַ</span>.</span></div>
+  ${tableHTML(null, ["Forme","Type"], [
+    ["<span class=\"heb\">הַקְטֵל</span>","Infinitif absolu — הַמָּקוֹר"],
+    ["<span class=\"heb\">לְהַקְטִיל</span>","Infinitif construit — שֵׁם־הַפּוֹעַל"]
+  ], [0])}
+  <div class="callout warn"><span class="ico">⚠️</span><span>Sans préfixe, l'infinitif construit prend la forme brève, semblable à l'infinitif absolu et à l'impératif. Pour le cohortatif/jussif, mêmes règles que le volitif (ex. <span class="heb">יַמְלֵךְ</span> « qu'il établisse roi »). Pour le <span class="heb">ו</span> conversif, mêmes règles qu'au Qal (ex. <span class="heb">וַיַּגְדֵּל</span> « et il rendit grand »).</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיִּכְלוּ הַמַּיִם מִן־הַחֵמֶת וַתַּשְׁלֵךְ אֶת־הַיֶּלֶד תַּחַת אַחַד הַשִּׂיחִם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 21,15 — בראשית כא טו</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וּבְכֹל אֲשֶׁר־אָמַרְתִּי אֲלֵיכֶם תִּשָּׁמֵרוּ וְשֵׁם אֱלֹהִים אֲחֵרִים לֹא תַזְכִּירוּ לֹא יִשָּׁמַע עַל־פִּיךָ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Exode 23,13 — שמות כג יג</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיַּעַן יוֹנָתָן וַיֹּאמֶר לַאֲדֹנִיָּהוּ אֲבָל אֲדֹנֵינוּ הַמֶּלֶךְ־דָּוִד הִמְלִיךְ אֶת־שְׁלֹמֹה׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">1 Rois 1,43 — מלכים א א מג</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">כָּל־אֵלֶּה אַנְשֵׁי מִלְחָמָה עֹדְרֵי מַעֲרָכָה בְּלֵבָב שָׁלֵם בָּאוּ חֶבְרוֹנָה לְהַמְלִיךְ אֶת־דָּוִיד עַל־כָּל־יִשְׂרָאֵל וְגַם כָּל־שֵׁרִית יִשְׂרָאֵל לֵב אֶחָד לְהַמְלִיךְ אֶת־דָּוִיד׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">1 Chroniques 12,39 — דברי הימים א יב לט</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">וַיֹּאמֶר יהוה אֶל־שְׁמוּאֵל שְׁמַע בְּקוֹלָם וְהִמְלַכְתָּ לָהֶם מֶלֶךְ וַיֹּאמֶר שְׁמוּאֵל אֶל־אַנְשֵׁי יִשְׂרָאֵל לְכוּ אִישׁ לְעִירוֹ׃</span>
+    <div class="ui" style="font-family:'Inter',sans-serif;font-size:12px;color:var(--text-soft);margin-top:6px;"><span class="heb" style="font-size:1em;">לְכוּ</span> : marchez</div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">1 Samuel 8,22 — שמואל א ח כב</div>
+  </div>
+</div>
+`;
+
+/* ---- COURS 34 : Hofal — הָפְעַל ---- */
+const lesson34 = `
+<div class="card">
+  <h3><span class="en en-heb">הָפְעַל</span>Le Hofal — forme causale passive</h3>
+  <p>Le <span class="heb">הָפְעַל</span> est la forme <b>passive</b> du <span class="heb">הִפְעִיל</span> : c'est donc une forme causale passive.</p>
+  ${ex('הָגְדַּל',"« Il a été rendu grand »")}
+  <div class="rule">Le Hofal est caractérisé par un préfixe <span class="heb">הָ</span>, vocalisé par un <b>qamats qatan</b> (<span class="heb">ָ</span>, prononcé « o »).</div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">הָקְטַל</span>Le Hofal à l'accompli (Qatal)</h3>
+  ${tableHTML("קָטַל au הָפְעַל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">הָקְטַלְתִּי</span>","","1ˢ sg."],
+    ["<span class=\"heb\">הָקְטַלְתְּ</span>","<span class=\"heb\">הָקְטַלְתָּ</span>","2ᵉ sg."],
+    ["<span class=\"heb\">הָקְטְלָה</span>","<span class=\"heb\">הָקְטַל</span>","3ᵉ sg."],
+    ["<span class=\"heb\">הָקְטַלְנוּ</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\">הָקְטַלְתֶּן</span>","<span class=\"heb\">הָקְטַלְתֶּם</span>","2ᵉ pl."],
+    ["<span class=\"heb\">הָקְטְלוּ</span>","","3ᵉ pl."]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>Le préfixe <span class="heb">הָ</span> est présent à toutes les formes. La vocalisation ressemble à celle du Hifil ; seuls le préfixe et les 3ᵉ pers. sing./plur. changent.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">יָקְטַל</span>Yiqtol, participe, infinitif</h3>
+  ${tableHTML("יָקְטַל au הָפְעַל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">אָקְטַל</span>","","1ˢ sg."],
+    ["<span class=\"heb\">תָּקְטְלִי</span>","<span class=\"heb\">תָּקְטַל</span>","2ᵉ sg."],
+    ["<span class=\"heb\">תָּקְטַל</span>","<span class=\"heb\">יָקְטַל</span>","3ᵉ sg."],
+    ["<span class=\"heb\">נָקְטַל</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\">תָּקְטַלְנָה</span>","<span class=\"heb\">תָּקְטְלוּ</span>","2ᵉ pl."],
+    ["<span class=\"heb\">תָּקְטַלְנָה</span>","<span class=\"heb\">יָקְטְלוּ</span>","3ᵉ pl."]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>Le préfixe <span class="heb">הָ</span> est remplacé par les préfixes du Yiqtol, tout en gardant la vocalisation <span class="heb">ָ</span> (qamats qatan) ; elle reste constante. La vocalisation constante du <span class="heb">הָ</span>/préfixe et le <span class="heb">ְ</span> sous la 2ᵉ lettre de la racine permettent de distinguer le Hofal du Hifil.</span></div>
+  ${tableHTML("Participe présent — פּוֹעֵל בֵּינוֹנִי", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">מָקְטֶלֶת</span> / <span class=\"heb\">מָקְטָלָה</span>","<span class=\"heb\">מָקְטָל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\">מָקְטָלוֹת</span>","<span class=\"heb\">מָקְטָלִים</span>","Pl. / רַבִּים"]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>Le participe présent est le plus souvent vocalisé d'un <span class="heb">ֻ</span> sous le <span class="heb">מ</span> plutôt que du qamats qatan, bien que celui-ci reste possible. La 2ᵉ lettre de la racine est vocalisée d'un <span class="heb">ָ</span>.</span></div>
+  ${tableHTML(null, ["Forme","Type"], [
+    ["<span class=\"heb\">הָקְטֵל</span>","Infinitif absolu — הַמָּקוֹר"],
+    ["<span class=\"heb\">הָקְטַל</span>","Infinitif construit — שֵׁם־הַפּוֹעַל"]
+  ], [0])}
+  <div class="callout warn"><span class="ico">⚠️</span><span>Il n'existe <b>ni volitif ni impératif</b> au Hofal (forme passive), et pas d'infinitif construit avec préfixe pour les verbes forts. Pour le <span class="heb">ו</span> conversif, mêmes règles qu'au Qal. Bien que rare, la vocalisation <span class="heb">ֻ</span> peut remplacer le qamats qatan.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">עָלֶיךָ הָשְׁלַכְתִּי מֵרָחֶם מִבֶּטֶן אִמִּי אֵלִי אָתָּה׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Psaumes 22,11 — תהלים כב יא</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">בְּעַשְׁתֵּי־עֶשְׂרֵה שָׁנָה לְצִדְקִיָּהוּ בַּחֹדֶשׁ הָרְבִיעִי בְּתִשְׁעָה לַחֹדֶשׁ הָבְקְעָה הָעִיר׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Jérémie 39,2 — ירמיהו לט ב</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">בִּשְׁנַת אַחַת לְדָרְיָוֶשׁ בֶּן־אֲחַשְׁוֵרוֹשׁ מִזֶּרַע מָדָי אֲשֶׁר הָמְלַךְ עַל מַלְכוּת כַּשְׂדִּים׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Daniel 9,1 — דניאל ט א</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וְהָאֲנָשִׁים עֹשִׂים בֶּאֱמוּנָה בַּמְּלָאכָה וַעֲלֵיהֶם מֻפְקָדִים יַחַת וְעֹבַדְיָהוּ הַלְוִיִּם מִן־בְּנֵי מְרָרִי וּזְכַרְיָה וּמְשֻׁלָּם מִן־בְּנֵי הַקְּהָתִים לְנַצֵּחַ וְהַלְוִיִּם כָּל־מֵבִין בִּכְלֵי־שִׁיר׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">2 Chroniques 34,12 — דברי הימים ב לד יב</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">וְהַכֹּהֵן הַמָּשִׁיחַ תַּחְתָּיו מִבָּנָיו יַעֲשֶׂה אֹתָהּ חָק־עוֹלָם לַיהוה כָּלִיל תָּקְטָר׃</span>
+    <div class="ui" style="font-family:'Inter',sans-serif;font-size:12px;color:var(--text-soft);margin-top:6px;"><span class="heb" style="font-size:1em;">כָּלִיל</span> : entièrement</div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Lévitique 6,15 — ויקרא ו טו</div>
+  </div>
+</div>
+`;
+
+/* ---- COURS 35 : Les verbes ל״ג, ל״א, פ״ג au נִפְעַל, הִפְעִיל et הָפְעַל ---- */
+const lesson35 = `
+<div class="card">
+  <h3><span class="en en-heb">פ״ג</span>Les verbes פ״ג au Nifal et au Hifil</h3>
+  <p>La gutturale ne tolérant pas le <span class="heb">ְ</span>, la 1ʳᵉ lettre de la racine est vocalisée par un <b>shéwa coloré</b>, et la voyelle du préfixe s'assimile à la voyelle de cette 1ʳᵉ lettre. Si celle-ci doit prendre un <span class="heb">דָּגֵשׁ חָזָק</span> (impossible pour une gutturale), la voyelle du préfixe s'allonge à la place.</p>
+  ${tableHTML(null, ["Binyan / forme","Effet"], [
+    ["Nifal — Qatal, Participe","Le <span class=\"heb\">ְ</span> devient <span class=\"heb\">ֱ</span> ; le <span class=\"heb\">נ</span> du préfixe se vocalise à l'identique"],
+    ["Nifal — Impératif, Yiqtol, Infinitif","La 1ʳᵉ lettre prend un <span class=\"heb\">דָּגֵשׁ חָזָק</span> ; la voyelle du préfixe s'allonge en <span class=\"heb\">ֵ</span>"],
+    ["Hifil — Qatal","Le <span class=\"heb\">ְ</span> devient <span class=\"heb\">ֱ</span> ; le <span class=\"heb\">ה</span> du préfixe se vocalise à l'identique"],
+    ["Hifil — Yiqtol, Impératif, Infinitif, Participe","Le <span class=\"heb\">ְ</span> de la 1ʳᵉ lettre est coloré par la vocalisation du préfixe et devient <span class=\"heb\">ֲ</span>"]
+  ], [1])}
+  <div class="callout warn"><span class="ico">⚠️</span><span>Au Hofal, à toutes les conjugaisons, le <span class="heb">ְ</span> de la 1ʳᵉ lettre s'assimile à la vocalisation du préfixe et devient <span class="heb">ֳ</span> ; suivie d'un <span class="heb">ְ</span>, la 1ʳᵉ lettre devient <span class="heb">ָ</span> ; la prononciation des voyelles reste « o ». (Au Nifal, il est possible de voir la 1ʳᵉ lettre garder le <span class="heb">ֱ</span> à la place du <span class="heb">ֲ</span> coloré, ex. <span class="heb">נֶחְמַד</span> « il a été désiré ».)</span></div>
+  <p>Exemple complet avec la racine <span class="heb">ע.ב.ד</span> (« servir ») :</p>
+  ${tableHTML(null, ["Binyan","Qatal 3ms","Infinitif construit","Participe ms"], [
+    ["Nifal","<span class=\"heb\">נֶעֱבַד</span>","<span class=\"heb\">לְהֵעָבֵד</span>","<span class=\"heb\">נֶעֱבָד</span>"],
+    ["Hifil","<span class=\"heb\">הֶעֱבִיד</span>","<span class=\"heb\">לְהַעֲבִיד</span>","<span class=\"heb\">מַעֲבִיד</span>"],
+    ["Hofal","<span class=\"heb\">הָעֳבַד</span>","—","<span class=\"heb\">מָעֳבָד</span>"]
+  ])}
+</div>
+<div class="card">
+  <h3><span class="en en-heb">ל״א</span>Les verbes ל״א au Nifal et au Hifil</h3>
+  <p>Comme dans les autres formes, en fin de syllabe l'<span class="heb">א</span> est quiescent et perd sa valeur consonantique, provoquant l'allongement de la voyelle précédente (<span class="heb">ֶ</span> devient <span class="heb">ֵ</span> au Nifal/Hifil/Hofal).</p>
+  <p>Quand il garde sa valeur consonantique (au Qatal du Nifal), la voyelle qui précède s'allonge normalement, devenant un <span class="heb">ָ</span> à la 3ᵉ pers. masc. sing. — seul le contexte permet de distinguer le passé du participe présent. Au Yiqtol et à l'impératif, c'est un <span class="heb">ֶ</span> qui apparaît aux 2ᵉ et 3ᵉ personnes du féminin pluriel.</p>
+  <p>Exemple complet avec la racine <span class="heb">מ.צ.א</span> (« trouver ») :</p>
+  ${tableHTML(null, ["Binyan","Qatal 3ms","Infinitif construit","Participe ms"], [
+    ["Nifal","<span class=\"heb\">נִמְצָא</span>","<span class=\"heb\">לְהִמָּצֵא</span>","<span class=\"heb\">נִמְצָא</span>"],
+    ["Hifil","<span class=\"heb\">הִמְצִיא</span>","<span class=\"heb\">לְהַמְצִיא</span>","<span class=\"heb\">מַמְצִיא</span>"]
+  ])}
+</div>
+<div class="card">
+  <h3><span class="en en-heb">ל״ה ל״ע</span>Les verbes avec ה ou ע en 3ᵉ lettre</h3>
+  <p>En 3ᵉ lettre de la racine, ces deux gutturales gardent leur <span class="heb">ַ</span>, sauf à la 2ᵉ pers. fém. sing. du Qatal où elles prennent généralement un <span class="heb">ָ</span>. Après une voyelle longue, elles attirent un <span class="heb">ַ</span> furtif.</p>
+  ${tableHTML(null, ["Forme","Exemple"], [
+    ["Nifal Qatal 1ˢ sg.","<span class=\"heb\">נִשְׁמַעְתִּי</span> « je fus entendu »"],
+    ["Nifal Qatal 2ᵉ fém. sing.","<span class=\"heb\">נִשְׁמַעַתְּ</span> « tu fus entendue »"],
+    ["Hifil Qatal 3ms","<span class=\"heb\">הִשְׁמִיעַ</span> « il fit entendre »"]
+  ], [1])}
+  <div class="callout info"><span class="ico">💡</span><span>Le participe du Nifal est vocalisé par un <span class="heb">ַ</span> au lieu du <span class="heb">ֶ</span> au féminin singulier : <span class="heb">נִשְׁלַחַת</span> « (elle) est envoyée ». La conjugaison du Hofal reste régulière pour ce type de verbe.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיֹּאמֶר אַבְרָהָם אָנֹכִי אִשָּׁבֵעַ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 21,24 — בראשית כא כד</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַאֲנִי דָנִיֵּאל נִהְיֵיתִי וְנֶחֱלֵיתִי יָמִים וָאָקוּם וָאֶעֱשָׂה אֶת־מְלֶאכֶת הַמֶּלֶךְ וָאֶשְׁתּוֹמֵם עַל־הַמַּרְאֶה וְאֵין מֵבִין׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Daniel 8,27 — דניאל ח כז</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וּזְכַרְתֶּם־שָׁם אֶת־דַּרְכֵיכֶם וְאֵת כָּל־עֲלִילוֹתֵיכֶם אֲשֶׁר נִטְמֵאתֶם בָּם וּנְקֹטֹתֶם בִּפְנֵיכֶם בְּכָל־רָעוֹתֵיכֶם אֲשֶׁר עֲשִׂיתֶם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Ézéchiel 20,43 — יחזקאל ב מג</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וְרוּחַ אֱלֹהִים לָבְשָׁה אֶת־זְכַרְיָה בֶּן־יְהוֹיָדָע הַכֹּהֵן וַיַּעֲמֹד מֵעַל לָעָם וַיֹּאמֶר לָהֶם כֹּה אָמַר הָאֱלֹהִים לָמָה אַתֶּם עֹבְרִים אֶת־מִצְוֹת יהוה וְלֹא תַצְלִיחוּ כִּי־עֲזַבְתֶּם אֶת־יהוה וַיַּעֲזֹב אֶתְכֶם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">2 Chroniques 24,20 — דברי הימים ב כד כ</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">וְאֶת־הָעָם הֶעֱבִיר אֹתוֹ לֶעָרִים מִקְצֵה גְבוּל־מִצְרַיִם וְעַד־קָצֵהוּ׃</span>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Genèse 47,21 — בראשית מז כא</div>
+  </div>
+</div>
+`;
+
+/* ---- COURS 36 : Lire dans la Bible hébraïque — Dictionnaire — Les adverbes ---- */
+const lesson36 = `
+<div class="card">
+  <h3><span class="en en-heb">תַּנַ״ךְ</span>Lire dans la Bible hébraïque</h3>
+  <p>Pour se repérer dans la Bible hébraïque, il faut savoir comment elle est organisée, et que les chapitres et versets sont signalés par des lettres qui ont chacune une valeur numérique.</p>
+  <p>La Bible hébraïque se nomme le <span class="heb">תַּנַ״ךְ</span> (<b>Ta</b>Na<b>Kh</b>), acronyme des trois parties qui la composent :</p>
+  ${tableHTML(null, ["Partie","Sens","Contenu"], [
+    ["<span class=\"heb\">תּוֹרָה</span> — Torah","Enseignement","De Genèse à Deutéronome"],
+    ["<span class=\"heb\">נְבִיאִים</span> — Néviim","Prophètes","Tous les prophètes, de Josué à Malachie"],
+    ["<span class=\"heb\">כְּתוּבִים</span> — Ketouvim","Les écrits, hagiographes","De Psaumes à Chroniques"]
+  ], [0])}
+</div>
+<div class="card">
+  <h3><span class="en">Guématria</span>Valeurs numériques des lettres</h3>
+  ${tableHTML("Unités, dizaines, centaines", ["Lettre","Valeur","Lettre","Valeur"], [
+    ["<span class=\"heb\">א</span>","1","<span class=\"heb\">י</span>","10"],
+    ["<span class=\"heb\">ב</span>","2","<span class=\"heb\">כ</span>","20"],
+    ["<span class=\"heb\">ג</span>","3","<span class=\"heb\">ל</span>","30"],
+    ["<span class=\"heb\">ד</span>","4","<span class=\"heb\">מ</span>","40"],
+    ["<span class=\"heb\">ה</span>","5","<span class=\"heb\">נ</span>","50"],
+    ["<span class=\"heb\">ו</span>","6","<span class=\"heb\">ס</span>","60"],
+    ["<span class=\"heb\">ז</span>","7","<span class=\"heb\">ע</span>","70"],
+    ["<span class=\"heb\">ח</span>","8","<span class=\"heb\">פ</span>","80"],
+    ["<span class=\"heb\">ט</span>","9","<span class=\"heb\">צ</span>","90"]
+  ], [0,2])}
+  <p>Pour les centaines : <span class="heb">ק</span>=100, <span class="heb">ר</span>=200, <span class="heb">שׁ</span>=300, <span class="heb">ת</span>=400.</p>
+  <p>Pour obtenir un nombre, on additionne les lettres, de la valeur la plus élevée à la moins élevée :</p>
+  ${tableHTML(null, ["Nombre","Écriture","Décomposition"], [
+    ["11","<span class=\"heb\">יא</span>","10 + 1"],
+    ["32","<span class=\"heb\">לב</span>","30 + 2"],
+    ["119","<span class=\"heb\">קיט</span>","100 + 10 + 9"]
+  ], [1])}
+  <div class="callout warn"><span class="ico">⚠️</span><span>Pour ne pas représenter le tétragramme, 15 et 16 ne s'écrivent pas <span class="heb">י־ה</span> et <span class="heb">י־ו</span>, mais <span class="heb">טו</span> (9+6) et <span class="heb">טז</span> (9+7).</span></div>
+  <p>Pour distinguer la numérotation des mots courants, on utilise des apostrophes : une seule pour une lettre (<span class="heb">ק'</span> = 100), deux avant la dernière lettre pour plusieurs (<span class="heb">כ״ה</span> = 25, <span class="heb">קכ״א</span> = 121).</p>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">אֲדֹנָי</span>La lecture du Nom divin</h3>
+  <p>Dans le texte hébreu, le nom de l'Éternel (le tétragramme <span class="heb">יהוה</span>) n'est pas lu comme il est écrit : il est généralement lu <span class="heb">אֲדֹנָי</span> (les massorètes ont d'ailleurs vocalisé le tétragramme avec les voyelles d'<span class="heb">אֲדֹנָי</span>). Quand <span class="heb">אֲדֹנָי</span> et le tétragramme se suivent, ce dernier est lu <span class="heb">אֱלֹהִים</span> et vocalisé en conséquence.</p>
+  ${ex('וַיֹּאמֶר אַבְרָם אֲדֹנָי יֱהוִה מַה־תִּתֶּן־לִי',"« Et il dit, Avraham : Adonaï Elohim, que me donneras-tu ? »")}
+  <p>D'autres appellations et abréviations sont utilisées par respect pour le Nom divin :</p>
+  ${tableHTML(null, ["Forme","Usage"], [
+    ["<span class=\"heb\">יְיָ</span>","Abréviation du tétragramme"],
+    ["<span class=\"heb\">הַשֵּׁם</span>","Autre appellation du tétragramme ; son abréviation courante est <span class=\"heb\">ה'</span>"],
+    ["<span class=\"heb\">אֱלֹהִים</span> / <span class=\"heb\">אֱלֹקִים</span>","Peut être écrit et/ou lu de ces deux façons"]
+  ], [0])}
+</div>
+<div class="card">
+  <h3><span class="en">Dictionnaire</span>Utilisation du dictionnaire</h3>
+  <p>Pour utiliser le dictionnaire, il est impératif de savoir reconnaître la racine de chaque mot. L'entrée des verbes correspond à leur racine, avec la définition de chaque forme verbale (Piel, Nifal, Hitpaël...). L'entrée des noms, adjectifs et adverbes correspond à leur orthographe (peu importe le nombre de lettres). Pour les mots ayant un genre, celui-ci est indiqué par une abréviation :</p>
+  ${tableHTML(null, ["Catégorie","Hébreu","Abréviation"], [
+    ["Masculin","<span class=\"heb\">זָכָר</span>","<span class=\"heb\">ז'</span>"],
+    ["Féminin","<span class=\"heb\">נְקֵבָה</span>","<span class=\"heb\">נ'</span>"],
+    ["Singulier","<span class=\"heb\">יָחִיד</span>","<span class=\"heb\">י'</span>"],
+    ["Pluriel","<span class=\"heb\">רַבִּים</span>","<span class=\"heb\">ר'</span>"]
+  ], [1])}
+  <div class="callout info"><span class="ico">💡</span><span>Dans le dictionnaire, les mots ne sont pas écrits de manière défective. Chaque dictionnaire contient généralement un lexique et/ou un index pour comprendre comment il fonctionne exactement.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">תֹּאַר הַפֹּעַל</span>Les adverbes</h3>
+  <p>Certains mots sont naturellement des adverbes, comme <span class="heb">טֶרֶם</span> (« avant ») ou <span class="heb">מְאֹד</span> (« très »). D'autres résultent d'une construction — en français, on forme un adverbe en ajoutant « -ment » à un adjectif féminin (« douce » → « doucement »). En hébreu, il existe quatre procédés :</p>
+  ${tableHTML(null, ["Procédé","Exemple"], [
+    ["Suffixe <span class=\"heb\">ָם</span> ou <span class=\"heb\">ַם</span>","<span class=\"heb\">אֱמֶן</span> « fidélité » → <span class=\"heb\">אָמְנָם</span> « fidèlement » ; <span class=\"heb\">חֵן</span> « grâce » → <span class=\"heb\">חִנָּם</span> « gracieusement »"],
+    ["Infinitif absolu du Hifil","<span class=\"heb\">הֵיטֵב</span> « bien » ; <span class=\"heb\">הַרְבֵּה</span> « beaucoup » ; <span class=\"heb\">הַרְחֵק</span> « loin »"],
+    ["Préposition ajoutée à un pronom/nom","<span class=\"heb\">אֱמֶת</span> « vérité » → <span class=\"heb\">בֶּאֱמֶת</span> « en vérité » ; <span class=\"heb\">אֲשֶׁר</span> « que » → <span class=\"heb\">כַּאֲשֶׁר</span> « lorsque »"],
+    ["Redoublement d'un nom","<span class=\"heb\">אִישׁ אִישׁ</span> « chaque homme » ; <span class=\"heb\">שְׁנַיִם שְׁנַיִם</span> « deux par deux »"]
+  ], [1])}
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיֹּאמֶר אַבְרָם אֲדֹנָי יֱהוִה מַה־תִּתֶּן־לִי וְאָנֹכִי הוֹלֵךְ עֲרִירִי וּבֶן־מֶשֶׁק בֵּיתִי הוּא דַּמֶּשֶׂק אֱלִיעֶזֶר׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 15,2 — בראשית טו ב</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיהוה הֹלֵךְ לִפְנֵיהֶם יוֹמָם בְּעַמּוּד עָנָן לַנְחֹתָם הַדֶּרֶךְ וְלַיְלָה בְּעַמּוּד אֵשׁ לְהָאִיר לָהֶם לָלֶכֶת יוֹמָם וָלָיְלָה׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Exode 13,21 — שמות יג כא</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיֹּאמֶר יהוה פִּתְאֹם אֶל־מֹשֶׁה וְאֶל־אַהֲרֹן וְאֶל־מִרְיָם צְאוּ שְׁלָשְׁתְּכֶם אֶל־אֹהֶל מוֹעֵד וַיֵּצְאוּ שְׁלָשְׁתָּם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Nombres 12,4 — במדבר יב ד</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">בְּטַח בַּיהוה וַעֲשֵׂה־טוֹב שְׁכָן־אֶרֶץ וּרְעֵה אֱמוּנָה׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Psaumes 37,3 — תהלים לז ג</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">קוֹל הָמוֹן בֶּהָרִים דְּמוּת עַם־רָב קוֹל שְׁאוֹן מַמְלְכוֹת גּוֹיִם נֶאֱסָפִים יהוה צְבָאוֹת מְפַקֵּד צְבָא מִלְחָמָה׃</span>
+    <div class="ui" style="font-family:'Inter',sans-serif;font-size:12px;color:var(--text-soft);margin-top:6px;"><span class="heb" style="font-size:1em;">דְּמוּת</span> : ressemblance &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">שְׁאוֹן</span> : tumulte</div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Ésaïe 13,4 — ישעיה יג ד</div>
+  </div>
+</div>
+`;
+
+/* ---- COURS 37 : Les verbes avec suffixe pronominal ---- */
+const lesson37 = `
+<div class="card">
+  <h3><span class="en">COD</span>Le complément d'objet suffixé au verbe</h3>
+  <p>Les compléments d'objet direct peuvent être identifiés grâce à la particule <span class="heb">אֵת</span> et aux suffixes qui y sont associés (<span class="heb">וַיַּרְא אֹתָם</span> « et il les vit »). Mais ces compléments peuvent aussi être directement <b>suffixés au verbe</b> :</p>
+  ${ex('יִשְׁמָרְךָ',"« il te gardera », au lieu de יִשְׁמֹר אֹתְךָ")}
+  <div class="callout info"><span class="ico">💡</span><span>Ces suffixes verbaux sont proches de ceux des noms (déjà vus en HB1). Selon la terminaison du verbe (consonne ou voyelle) et son temps, le suffixe peut prendre une forme différente — l'ajout du suffixe entraîne souvent l'abréviation des premières syllabes, à cause du déplacement de l'accent (comme pour les noms suffixés).</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Voyelle finale</span>Verbe se terminant par une voyelle</h3>
+  <p>Quand un verbe se termine par une voyelle, le suffixe (commençant par une consonne) se lie directement à cette voyelle :</p>
+  ${tableHTML(null, ["Sans suffixe","Avec suffixe"], [
+    ["<span class=\"heb\">שָׁמַעְתִּי</span> « j'ai entendu »","<span class=\"heb\">שְׁמַעְתִּיךָ</span> « je t'ai entendu »"],
+    ["<span class=\"heb\">וַיִּקְבְּרוּ</span> « ils ensevelirent »","<span class=\"heb\">וַיִּקְבְּרֻהוּ</span> « ils l'ensevelirent »"]
+  ])}
+</div>
+<div class="card">
+  <h3><span class="en">Consonne finale</span>Verbe se terminant par une consonne</h3>
+  <p>Quand un verbe se termine par une consonne, une voyelle de liaison est ajoutée pour lier au suffixe (qui commence aussi par une consonne) :</p>
+  ${ex('שָׁלַח ← שְׁלָחַנִי',"« il a envoyé » → « il m'a envoyé »")}
+  <div class="callout info"><span class="ico">💡</span><span>Au Qatal, la voyelle de liaison est le plus souvent <span class="heb">ַ</span> ou <span class="heb">ָ</span> ; au Yiqtol et à l'impératif, plutôt <span class="heb">ֶ</span> ou <span class="heb">ֲ</span>. Les suffixes de 2ᵉ/3ᵉ pers. plur. (<span class="heb">כֶם</span>, <span class="heb">כֶן</span>) sont eux précédés d'un <span class="heb">ְ</span> à toutes les formes.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">שֵׁם־הַפּוֹעַל</span>L'infinitif construit suffixé</h3>
+  <p>On rencontre souvent l'infinitif construit accompagné d'un suffixe pronominal ; son ajout entraîne un changement de vocalisation, et avec un suffixe, l'infinitif construit ressemble alors à un nom verbal, avec une vocalisation régulière.</p>
+  ${tableHTML("שָׁמַר à l'infinitif construit suffixé", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">שָׁמְרֵנִי</span> / <span class=\"heb\">שָׁמְרִי</span>","","1ˢ sg."],
+    ["<span class=\"heb\">שָׁמְרֵךְ</span>","<span class=\"heb\">שָׁמְרְךָ</span>","2ᵉ sg."],
+    ["<span class=\"heb\">שָׁמְרָה</span>","<span class=\"heb\">שָׁמְרוֹ</span>","3ᵉ sg."],
+    ["<span class=\"heb\">שָׁמְרֵנוּ</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\">שָׁמְרְכֶן</span>","<span class=\"heb\">שָׁמְרְכֶם</span>","2ᵉ pl."],
+    ["<span class=\"heb\">שָׁמְרָן</span>","<span class=\"heb\">שָׁמְרָם</span>","3ᵉ pl."]
+  ], [0,1])}
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">יהוה אֱלֹהֵי הַשָּׁמַיִם אֲשֶׁר לְקָחַנִי מִבֵּית אָבִי וּמֵאֶרֶץ מוֹלַדְתִּי וַאֲשֶׁר דִּבֶּר־לִי וַאֲשֶׁר נִשְׁבַּע־לִי לֵאמֹר לְזַרְעֲךָ אֶתֵּן אֶת־הָאָרֶץ הַזֹּאת הוּא יִשְׁלַח מַלְאָכוֹ לְפָנֶיךָ וְלָקַחְתָּ אִשָּׁה לִבְנִי מִשָּׁם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 24,7 — בראשית כד ז</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">הִנֵּה אָנֹכִי שֹׁלֵחַ מַלְאָךְ לְפָנֶיךָ לִשְׁמָרְךָ בַּדָּרֶךְ וְלַהֲבִיאֲךָ אֶל־הַמָּקוֹם אֲשֶׁר הֲכִנֹתִי׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Exode 23,20 — שמות כג כ</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיְהִי בְּיוֹם כַּלּוֹת מֹשֶׁה לְהָקִים אֶת־הַמִּשְׁכָּן וַיִּמְשַׁח אֹתוֹ וַיְקַדֵּשׁ אֹתוֹ וְאֶת־כָּל־כֵּלָיו וְאֶת־הַמִּזְבֵּחַ וְאֶת־כָּל־כֵּלָיו וַיִּמְשָׁחֵם וַיְקַדֵּשׁ אֹתָם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Nombres 7,1 — במדבר ז א</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">אֱלֹהִים לִמַּדְתַּנִי מִנְּעוּרָי וְעַד־הֵנָּה אַגִּיד נִפְלְאוֹתֶיךָ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Psaumes 71,17 — תהלים עא יז</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">שְׁמַע יִשְׂרָאֵל יְהוָה אֱלֹהֵינוּ יְהוָה ׀ אֶחָד׃ וְאָהַבְתָּ אֵת יְהוָה אֱלֹהֶיךָ בְּכָל־לְבָבְךָ וּבְכָל־נַפְשְׁךָ וּבְכָל־מְאֹדֶךָ׃ וְהָיוּ הַדְּבָרִים הָאֵלֶּה אֲשֶׁר אָנֹכִי מְצַוְּךָ הַיּוֹם עַל־לְבָבֶךָ׃ וְשִׁנַּנְתָּם לְבָנֶיךָ וְדִבַּרְתָּ בָּם בְּשִׁבְתְּךָ בְּבֵיתֶךָ וּבְלֶכְתְּךָ בַדֶּרֶךְ וּבְשָׁכְבְּךָ וּבְקוּמֶךָ׃ וּקְשַׁרְתָּם לְאוֹת עַל־יָדֶךָ וְהָיוּ לְטֹטָפֹת בֵּין עֵינֶיךָ׃ וּכְתַבְתָּם עַל־מְזֻזוֹת בֵּיתֶךָ וּבִשְׁעָרֶיךָ׃</span>
+    <div class="ui" style="font-family:'Inter',sans-serif;font-size:12px;color:var(--text-soft);margin-top:6px;"><span class="heb" style="font-size:1em;">שִׁנֵּן</span> : inculquer &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">בְּשִׁבְתְּךָ</span> : quand tu siègeras &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">וּבְלֶכְתְּךָ</span> : quand tu marcheras &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">וּבְקוּמֶךָ</span> : quand tu te lèveras &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">טֹטָפֹת</span> : pour fronteaux &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">מְזֻזֹת</span> : poteaux</div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Deutéronome 6,4-9 — דברים ו ד־ט</div>
+  </div>
+</div>
+`;
+
+/* ---- COURS 38 : Analyse verbale — Les verbes פ״ן au קַל, נִפְעַל, הִפְעִיל, הָפְעַל ---- */
+const lesson38 = `
+<div class="card">
+  <h3><span class="en">Méthode</span>L'analyse verbale</h3>
+  <p>Après avoir vu l'ensemble des verbes entiers (racines stables) et des verbes à gutturales, voici les grandes catégories de <b>verbes faibles</b> à venir : <span class="heb">פ״ן</span>, <span class="heb">פ״ו</span>, <span class="heb">פ״י</span>, <span class="heb">ע״ו</span>, <span class="heb">ל״ה</span>, <span class="heb">ע״ע</span>...</p>
+  <p>Pour bien analyser un verbe, il faut relever :</p>
+  ${tableHTML(null, ["Élément","Hébreu"], [
+    ["La racine","<span class=\"heb\">שֹׁרֶשׁ</span>"],
+    ["La catégorie du verbe (entier, ל״ה, פ״ג...)","<span class=\"heb\">גִּזְרָה</span>"],
+    ["La forme verbale (le binyan)","<span class=\"heb\">בִּנְיָן</span>"],
+    ["Le temps","<span class=\"heb\">זְמַן</span>"],
+    ["La personne utilisée","<span class=\"heb\">גּוּף</span>"],
+    ["La forme courante (habituelle)","<span class=\"heb\">רָגִיל</span>"]
+  ])}
+  <div class="callout info"><span class="ico">💡</span><span>Un verbe irrégulier, n'appartenant à aucune de ces catégories, est appelé <span class="heb">זָר</span> (« irrégulier, étrange »). Si le verbe porte un suffixe pronominal, on précise ce pronom sous sa forme détachée.</span></div>
+  ${tableHTML("Les personnes", ["","Féminin","Masculin",""], [
+    ["1ʳᵉ pers.","מְדַבֶּרֶת","מְדַבֵּר","Sg. / יָחִיד"],
+    ["2ᵉ pers.","נוֹכַחַת","נוֹכֵחַ","Sg. / יָחִיד"],
+    ["3ᵉ pers.","נִסְתֶּרֶת","נִסְתָּר","Sg. / יָחִיד"]
+  ], [1,2])}
+  <p>Exemple d'analyse complète : <span class="heb">יִשְׁמָרְךָ</span> = racine <span class="heb">ש.מ.ר</span>, catégorie <span class="heb">שָׁלֵם</span> (entier), forme <span class="heb">קַל</span>, temps <span class="heb">יִקְטֹל</span> (futur), personne <span class="heb">נִסְתָּר</span> (3ᵉ masc. sg.), forme courante <span class="heb">יִשְׁמֹר אוֹתְךָ</span>.</p>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">פ״ן</span>Les verbes פ״ן</h3>
+  <p>Les verbes <span class="heb">פ״ן</span> sont ceux dont le <span class="heb">נ</span> (1ʳᵉ lettre de la racine) est assimilé dans certaines conjugaisons, pour certains verbes seulement (l'assimilation n'est pas automatique pour tous les verbes <span class="heb">פ״ן</span>). Cette assimilation est compensée par un <span class="heb">דָּגֵשׁ חָזָק</span> dans la 2ᵉ lettre de la racine.</p>
+  ${tableHTML("Au Qal — deux exemples", ["Racine","Qatal 3ms","Yiqtol 3ms","Impératif ms"], [
+    ["<span class=\"heb\">נ.פ.ל</span> (tomber)","<span class=\"heb\">נָפַל</span>","<span class=\"heb\">יִפֹּל</span> (assimilé)","<span class=\"heb\">נְפֹל</span> (non assimilé)"],
+    ["<span class=\"heb\">נ.ג.שׁ</span> (approcher)","<span class=\"heb\">נָגַשׁ</span>","<span class=\"heb\">יִגַּשׁ</span> (assimilé)","<span class=\"heb\">גַּשׁ</span> (assimilé)"]
+  ], [1,2,3])}
+  <div class="callout info"><span class="ico">💡</span><span>Au Qatal, il n'y a jamais d'assimilation. Au Yiqtol, l'assimilation est faite à toutes les personnes. À l'impératif, les verbes vocalisés en « a » (comme <span class="heb">נגש</span>) sont assimilés, mais pas ceux vocalisés en « o » (comme <span class="heb">נפל</span>).</span></div>
+  ${tableHTML(null, ["Binyan","Qatal 3ms","Infinitif construit","Participe ms"], [
+    ["Nifal (<span class=\"heb\">נ.צ.ל</span>, être délivré)","<span class=\"heb\">נִצַּל</span>","<span class=\"heb\">לְהִנָּצֵל</span>","<span class=\"heb\">נִצָּל</span>"],
+    ["Hifil (<span class=\"heb\">נ.צ.ל</span>, délivrer)","<span class=\"heb\">הִצִּיל</span>","<span class=\"heb\">לְהַצִּיל</span>","<span class=\"heb\">מַצִּיל</span>"],
+    ["Hofal (<span class=\"heb\">נ.צ.ל</span>, être délivré)","<span class=\"heb\">הֻצַּל</span>","—","<span class=\"heb\">מֻצָּל</span>"]
+  ])}
+  <div class="callout warn"><span class="ico">⚠️</span><span>Au Nifal, l'assimilation du <span class="heb">נ</span> n'a lieu qu'au Qatal et au participe ; aux autres temps, c'est le <span class="heb">נ</span> du préfixe <span class="heb">נִפְעַל</span> lui-même qui est assimilé, et le daguesh se retrouve alors dans la 1ʳᵉ lettre de la racine. Au Hifil et au Hofal, le <span class="heb">נ</span> de la racine est assimilé à tous les temps. Les conjugaisons du Qal, Piel et Hitpaël restent régulières pour ce type de verbe.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">הִנֵּה אָנֹכִי נִצָּב עַל־עֵין הַמָּיִם וּבְנוֹת אַנְשֵׁי הָעִיר יֹצְאֹת לִשְׁאֹב מָיִם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 24,13 — בראשית כד יג</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיִּקְרָא דָוִד לְאַחַד מֵהַנְּעָרִים וַיֹּאמֶר גַּשׁ פְּגַע־בּוֹ וַיַּכֵּהוּ וַיָּמֹת׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">2 Samuel 1,15 — שמואל ב א טו</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיֹּאמֶר יְהוָה אֶל־הַשָּׂטָן יִגְעַר יְהוָה בְּךָ הַשָּׂטָן וְיִגְעַר יְהוָה בְּךָ הַבֹּחֵר בִּירוּשָׁלָ‍ִם הֲלוֹא זֶה אוּד מֻצָּל מֵאֵשׁ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Zacharie 3,2 — זכריה ג ב</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">שְׁמַע בְּנִי מוּסַר אָבִיךָ וְאַל־תִּטֹּשׁ תּוֹרַת אִמֶּךָ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Proverbes 1,8 — משלי א ח</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">וַיְהִי־לִי שׁוֹר וַחֲמוֹר צֹאן וְעֶבֶד וְשִׁפְחָה וָאֶשְׁלְחָה לְהַגִּיד לַאדֹנִי לִמְצָא־חֵן בְּעֵינֶיךָ׃</span>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Genèse 32,6 — בראשית לב ו</div>
+  </div>
+  <div class="callout info"><span class="ico">✎</span><span>Entraîne-toi à l'analyse verbale complète (racine, catégorie, forme, temps, personne, forme courante) sur : <span class="heb">בָּנוּ</span>, <span class="heb">וַיִּסַּע</span>, <span class="heb">אֶגְלֶה</span>.</span></div>
+</div>
+`;
+
+/* ---- COURS 39 : Les verbes irréguliers נָתַן et לָקַח ---- */
+const lesson39 = `
+<div class="card">
+  <h3><span class="en en-heb">נָתַן</span>Le verbe נָתַן (donner)</h3>
+  <p>Le verbe <span class="heb">נָתַן</span> a les caractéristiques propres aux verbes <span class="heb">פ״ן</span>, mais aussi des caractéristiques propres au fait qu'il se termine lui-même par un <span class="heb">ן</span> : ce <span class="heb">ן</span> final, quand il n'est pas vocalisé, est lui aussi assimilé.</p>
+  ${ex('יִתַּן',"« il sera donné »")}
+  <p>Dans le texte biblique, on le retrouve essentiellement au Qal et au Nifal ; au Hofal, on ne le trouve que conjugué au même temps et à la même personne (<span class="heb">אֻתַּן</span>).</p>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">קַל</span>נָתַן au Qal</h3>
+  ${tableHTML(null, ["Forme","Valeur"], [
+    ["Qatal 3ms","<span class=\"heb\">נָתַן</span>"],
+    ["Yiqtol 3ms","<span class=\"heb\">יִתֵּן</span>"],
+    ["Impératif ms","<span class=\"heb\">תֵּן</span>"],
+    ["Infinitif construit","<span class=\"heb\">לָתֵת</span>"],
+    ["Participe actif ms","<span class=\"heb\">נוֹתֵן</span>"],
+    ["Participe passif ms — <span class=\"heb\">פָּעוּל</span>","<span class=\"heb\">נָתוּן</span>"]
+  ], [1])}
+  <div class="callout info"><span class="ico">💡</span><span>Au Yiqtol, la vocalisation se fait avec un <span class="heb">ֵ</span> au lieu d'un <span class="heb">ֹ</span> ; l'infinitif construit ajoute un <span class="heb">ת</span> compensatoire (<span class="heb">לָתֵת</span>). Le dernier <span class="heb">ן</span> se perd au Qatal quand il devrait prendre un <span class="heb">ְ</span>, et à l'infinitif construit.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">נִפְעַל</span>נָתַן au Nifal</h3>
+  ${tableHTML(null, ["Forme","Valeur"], [
+    ["Infinitif construit","<span class=\"heb\">לְהִנָּתֵן</span>"],
+    ["Qatal 3ms","<span class=\"heb\">נִתַּן</span>"],
+    ["Yiqtol 3ms","<span class=\"heb\">יִנָּתֵן</span>"],
+    ["Impératif ms","<span class=\"heb\">הִנָּתֵן</span>"]
+  ], [1])}
+  <div class="callout info"><span class="ico">💡</span><span>Au Nifal, la racine <span class="heb">נ.ת.ן</span> se comporte normalement comme un <span class="heb">פ״ן</span> (le <span class="heb">נ</span> initial est assimilé au préfixe) ; le dernier <span class="heb">ן</span> de la racine est lui aussi assimilé, avec la même vocalisation qu'au Qal, sauf à l'infinitif où il reste.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">לָקַח</span>Le verbe לָקַח (prendre)</h3>
+  <p>Le verbe <span class="heb">לָקַח</span> se comporte comme un verbe <span class="heb">פ״ן</span> et <span class="heb">ל״ג</span> à la fois : il perd son <span class="heb">ל</span> (1ʳᵉ lettre) à l'infinitif construit, à l'impératif et au Yiqtol. On le retrouve dans le texte biblique au Qal, Nifal, Piel, Hofal et — uniquement aux formes <span class="heb">יֻקַּח</span> et <span class="heb">תֻּקַּח</span> — au Hofal ; ainsi qu'au Hitpaël, uniquement à la forme <span class="heb">מִתְלַקַּחַת</span>.</p>
+  ${tableHTML("נָתַן au קַל", ["Forme","Valeur"], [
+    ["Infinitif absolu","<span class=\"heb\">לָקוֹחַ</span>"],
+    ["Infinitif construit","<span class=\"heb\">לָקַחַת</span>"],
+    ["Qatal 3ms","<span class=\"heb\">לָקַח</span>"],
+    ["Yiqtol 3ms","<span class=\"heb\">יִקַּח</span>"],
+    ["Impératif ms","<span class=\"heb\">קַח</span>"],
+    ["Participe actif ms","<span class=\"heb\">לוֹקֵחַ</span>"],
+    ["Participe passif ms — <span class=\"heb\">פָּעוּל</span>","<span class=\"heb\">לָקוּחַ</span>"]
+  ], [1])}
+  <div class="callout warn"><span class="ico">⚠️</span><span>Aux autres formes et personnes, <span class="heb">לָקַח</span> se comporte normalement comme un verbe <span class="heb">ל״ג</span> (gutturale en 3ᵉ lettre de racine).</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיֹּאמֶר אֱלֹהִים הִנֵּה נָתַתִּי לָכֶם אֶת־כָּל־עֵשֶׂב ׀ זֹרֵעַ זֶרַע אֲשֶׁר עַל־פְּנֵי כָל־הָאָרֶץ וְאֶת־כָּל־הָעֵץ אֲשֶׁר־בּוֹ פְרִי־עֵץ זֹרֵעַ זָרַע לָכֶם יִהְיֶה לְאָכְלָה׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 1,29 — בראשית א כט</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיְהִי בָרָד וְאֵשׁ מִתְלַקַּחַת בְּתוֹךְ הַבָּרָד כָּבֵד מְאֹד אֲשֶׁר לֹא־הָיָה כָמֹהוּ בְּכָל־אֶרֶץ מִצְרַיִם מֵאָז הָיְתָה לְגוֹי׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Exode 9,24 — שמות ט כד</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">רְאֵה נָתַתִּי לִפְנֵיכֶם אֶת־הָאָרֶץ בֹּאוּ וּרְשׁוּ אֶת־הָאָרֶץ אֲשֶׁר נִשְׁבַּע יְהוָה לַאֲבֹתֵיכֶם לְאַבְרָהָם לְיִצְחָק וּלְיַעֲקֹב לָתֵת לָהֶם וּלְזַרְעָם אַחֲרֵיהֶם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Deutéronome 1,8 — דברים א ח</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וָאֶקַּח אֶת־רָאשֵׁי שִׁבְטֵיכֶם אֲנָשִׁים חֲכָמִים וִידֻעִים וָאֶתֵּן אֹתָם רָאשִׁים עֲלֵיכֶם שָׂרֵי אֲלָפִים וְשָׂרֵי מֵאוֹת וְשָׂרֵי חֲמִשִּׁים וְשָׂרֵי עֲשָׂרֹת וְשֹׁטְרִים לְשִׁבְטֵיכֶם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Deutéronome 1,15 — דברים א טו</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">כִּי יְהוָה אֱלֹהֵיכֶם הוּא אֱלֹהֵי הָאֱלֹהִים וַאֲדֹנֵי הָאֲדֹנִים הָאֵל הַגָּדֹל הַגִּבֹּר וְהַנּוֹרָא אֲשֶׁר לֹא־יִשָּׂא פָנִים וְלֹא יִקַּח שֹׁחַד׃ עֹשֶׂה מִשְׁפַּט יָתוֹם וְאַלְמָנָה וְאֹהֵב גֵּר לָתֶת לוֹ לֶחֶם וְשִׂמְלָה׃</span>
+    <div class="ui" style="font-family:'Inter',sans-serif;font-size:12px;color:var(--text-soft);margin-top:6px;"><span class="heb" style="font-size:1em;">נוֹרָא</span> : redoutable &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">שֹׁחַד</span> : don corrupteur</div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Deutéronome 10,17-18 — דברים י יז-יח</div>
+  </div>
+</div>
+`;
+
+/* ---- COURS 40 : Les verbes פ״י et פ״ו au קַל, נִפְעַל, הִפְעִיל, הָפְעַל ---- */
+const lesson40 = `
+<div class="card">
+  <h3><span class="en en-heb">פ״י</span>Deux catégories de verbes פ״י</h3>
+  <p>Il existe deux catégories de verbes <span class="heb">פ״י</span> :</p>
+  ${tableHTML(null, ["Catégorie","Description"], [
+    ["1. <span class=\"heb\">פ״י</span> primitif","Verbes qui ont un <span class=\"heb\">י</span> primitif dans leur racine — ils ne subissent <b>aucune</b> modification, et gardent leur <span class=\"heb\">י</span> à toutes les formes et tous les temps. Il en existe 7 : <span class=\"heb\">ילל, ימן, יקץ, יׁשר, ינק, יבׁש, יטב</span> (les deux premières ne se conjuguent pas au Qal)."],
+    ["2. <span class=\"heb\">פ״ו</span> (<span class=\"heb\">י</span> non primitif)","Verbes qui commencent par <span class=\"heb\">י</span> mais avaient à l'origine un <span class=\"heb\">ו</span> primitif — celui-ci disparaît ou réapparaît selon la forme et le temps."]
+  ], [1])}
+</div>
+<div class="card">
+  <h3><span class="en en-heb">קַל</span>Les verbes פ״ו au Qal</h3>
+  <p>Au Qal, le <span class="heb">י</span> (1ʳᵉ lettre de la racine) ne prend pas de <span class="heb">ְ</span> et devient quiescent, uniquement au Yiqtol ; la vocalisation se fait alors en <span class="heb">ֵ</span>. Parfois, le <span class="heb">י</span> de la 3ᵉ personne et le <span class="heb">י</span> de la racine s'assimilent l'un dans l'autre.</p>
+  ${ex('יִיבַשׁ ← יִבַשׁ',"« il sera sec »")}
+  ${tableHTML("יָשַׁב (habiter, ו primitif) au Qal", ["Forme","Valeur"], [
+    ["Infinitif absolu","<span class=\"heb\">יָשׁוֹב</span>"],
+    ["Infinitif construit","<span class=\"heb\">לָשֶׁבֶת</span>"],
+    ["Yiqtol 3ms","<span class=\"heb\">יֵשֵׁב</span>"],
+    ["Impératif ms","<span class=\"heb\">שֵׁב</span>"]
+  ], [1])}
+  <div class="callout info"><span class="ico">💡</span><span>Le <span class="heb">י</span> disparaît au Yiqtol et à l'impératif ; l'absence du <span class="heb">י</span> est compensée par un <span class="heb">ת</span> à l'infinitif construit (<span class="heb">לָשֶׁבֶת</span>).</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">הִפְעִיל נִפְעַל</span>Au Hifil et au Nifal</h3>
+  <p>Pour ces verbes <span class="heb">פ״ו</span>, le <span class="heb">ו</span> primitif <b>réapparaît</b> au Hifil, au Nifal, et pour certaines racines au Hitpaël — il sert alors de voyelle <span class="heb">וֹ</span> aux préfixes.</p>
+  ${tableHTML("יָרַד (descendre) au Hifil — « faire descendre »", ["Forme","Valeur"], [
+    ["Infinitif construit","<span class=\"heb\">לְהוֹרִיד</span>"],
+    ["Qatal 3ms","<span class=\"heb\">הוֹרִיד</span>"],
+    ["Yiqtol 3ms","<span class=\"heb\">יוֹרִיד</span>"],
+    ["Participe ms","<span class=\"heb\">מוֹרִיד</span>"]
+  ], [1])}
+  ${tableHTML("יָלַד (enfanter) au Nifal — « être enfanté, naître »", ["Forme","Valeur"], [
+    ["Infinitif construit","<span class=\"heb\">לְהִוָּלֵד</span>"],
+    ["Qatal 3ms","<span class=\"heb\">נוֹלַד</span>"],
+    ["Yiqtol 3ms","<span class=\"heb\">יִוָּלֵד</span>"]
+  ], [1])}
+  <div class="callout info"><span class="ico">💡</span><span>Au Nifal, le <span class="heb">ו</span> primitif sert de voyelle <span class="heb">וֹ</span> au Qatal et au participe ; il garde sa valeur consonantique à l'infinitif construit, au Yiqtol et à l'impératif.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">הָפְעַל</span>Au Hofal</h3>
+  <p>Comme au Hifil, le <span class="heb">ו</span> primitif réapparaît au Hofal et sert de voyelle <span class="heb">וּ</span> aux préfixes, à tous les temps.</p>
+  ${ex('הוּרַד',"« il a été descendu »")}
+  <div class="callout warn"><span class="ico">⚠️</span><span>Certains verbes peuvent avoir des propriétés des deux catégories selon le temps ou la forme verbale : par exemple <span class="heb">יָבֵשׁ</span> au Hifil se conjugue comme un <span class="heb">פ״ו</span> primitif, alors que <span class="heb">יָרֵשׁ</span> est un <span class="heb">פ״ו</span> primitif mais se conjugue au Yiqtol comme un <span class="heb">פ״י</span> primitif.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">כִּי־תֵצֵא אֵשׁ וּמָצְאָה קֹצִים וְנֶאֱכַל גָּדִישׁ אוֹ הַקָּמָה אוֹ הַשָּׂדֶה שַׁלֵּם יְשַׁלֵּם הַמַּבְעִר אֶת־הַבְּעֵרָה׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Exode 22,5 — שמות כב ה</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיֹּאמְרוּ אַנְשֵׁי דָוִד אֵלָיו הִנֵּה הַיּוֹם אֲשֶׁר־אָמַר יְהוָה אֵלֶיךָ הִנֵּה אָנֹכִי נֹתֵן אֶת־(איביך) אֹיִבְךָ בְּיָדֶךָ וְעָשִׂיתָ לּוֹ כַּאֲשֶׁר יִיטַב בְּעֵינֶיךָ וַיָּקָם דָּוִד וַיִּכְרֹת אֶת־כְּנַף־הַמְּעִיל אֲשֶׁר־לְשָׁאוּל בַּלָּט׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">1 Samuel 24,5 — שמואל א כד ה</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיְנַשַּׂק הַמֶּלֶךְ אֶת־הַזְּקֵנִים אֲשֶׁר־הָיוּ עֹמְדִים אֶת־פְּנֵי שְׁלֹמֹה אָבִיו בְּהִיֹתוֹ חַי לֵאמֹר אֵיךְ אַתֶּם נוֹעָצִים לְהָשִׁיב אֶת־הָעָם־הַזֶּה דָּבָר׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">1 Rois 12,6 — מלכים א יב ו</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַתֹּאמֶר לוֹ נָעֳמִי לְעֵת הָאֹכֶל גֹּשִׁי הֲלֹם וְאָכַלְתְּ מִן־הַלֶּחֶם וְטָבַלְתְּ פִּתֵּךְ בַּחֹמֶץ וַתֵּשֶׁב מִצַּד הַקּוֹצְרִים וַיִּצְבָּט־לָהּ קָלִי וַתֹּאכַל וַתִּשְׂבַּע וַתֹּתַר׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Ruth 2,14 — רות ב יד</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">וַתֹּאמֶר לָהּ בַּת־פַּרְעֹה הֵילִיכִי אֶת־הַיֶּלֶד הַזֶּה וְהֵינִקִהוּ לִי וַאֲנִי אֶתֵּן אֶת־שְׂכָרֵךְ וַתִּקַּח הָאִשָּׁה הַיֶּלֶד וַתְּנִיקֵהוּ׃</span>
+    <div class="ui" style="font-family:'Inter',sans-serif;font-size:12px;color:var(--text-soft);margin-top:6px;"><span class="heb" style="font-size:1em;">הֵילִיכִי</span> : Emmène</div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Exode 2,9 — שמות ב ט</div>
+  </div>
+</div>
+`;
+
+/* ---- COURS 41 : Les verbes יָכֹל, הָלַךְ et יָשֵׁן ---- */
+const lesson41 = `
+<div class="card">
+  <h3><span class="en en-heb">יָשֵׁן</span>Le verbe יָשֵׁן (dormir)</h3>
+  <p>Le verbe <span class="heb">יָשֵׁן</span> se conjugue comme les verbes <span class="heb">פ״י</span> primitif au Qal, et aussi comme le verbe <span class="heb">נָתַן</span> (son dernier <span class="heb">ן</span> s'assimile au <span class="heb">נ</span> de la conjugaison, comme dans <span class="heb">יָשַׁנּוּ</span> « nous avons dormi »).</p>
+  ${tableHTML("Présent de יָשֵׁן", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">יְשֵׁנָה</span>","<span class=\"heb\">יָשֵׁן</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\">יְשֵׁנוֹת</span>","<span class=\"heb\">יְשֵׁנִים</span>","Pl. / רַבִּים"]
+  ], [0,1])}
+</div>
+<div class="card">
+  <h3><span class="en en-heb">יָכֹל</span>Le verbe יָכֹל (pouvoir)</h3>
+  <p>Le verbe <span class="heb">יָכֹל</span> se conjugue comme les verbes <span class="heb">פ״ו</span> primitif.</p>
+  ${tableHTML("Présent de יָכֹל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">יְכוֹלָה</span>","<span class=\"heb\">יָכוֹל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\">יְכוֹלוֹת</span>","<span class=\"heb\">יְכוֹלִים</span>","Pl. / רַבִּים"]
+  ], [0,1])}
+  <div class="callout info"><span class="ico">💡</span><span>Au Qatal, il se vocalise en <span class="heb">ֹ</span>, sauf aux 2ᵉ pers. plur. où il se vocalise en <span class="heb">ְ</span>. Au Yiqtol, le <span class="heb">ו</span> primitif refait son apparition et se vocalise <span class="heb">וּ</span>.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">הָלַךְ</span>Le verbe הָלַךְ (marcher, aller)</h3>
+  <p>Le verbe <span class="heb">הָלַךְ</span> est en réalité un verbe <span class="heb">פ״ה</span>, mais il se comporte comme un verbe <span class="heb">פ״י</span> primitif — exactement comme <span class="heb">יָשַׁב</span> ou <span class="heb">יָרַד</span> déjà vus.</p>
+  ${tableHTML(null, ["Forme","Valeur"], [
+    ["Infinitif absolu","<span class=\"heb\">הָלוֹךְ</span>"],
+    ["Infinitif construit","<span class=\"heb\">לָלֶכֶת</span>"],
+    ["Participe ms","<span class=\"heb\">הוֹלֵךְ</span>"],
+    ["Qatal 3ms","<span class=\"heb\">הָלַךְ</span>"],
+    ["Yiqtol 3ms","<span class=\"heb\">יֵלֵךְ</span>"],
+    ["Impératif ms","<span class=\"heb\">לֵךְ</span>"]
+  ], [1])}
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיֹּאמֶר יְהוָה אֶל־אַבְרָם לֶךְ־לְךָ מֵאַרְצְךָ וּמִמּוֹלַדְתְּךָ וּמִבֵּית אָבִיךָ אֶל־הָאָרֶץ אֲשֶׁר אַרְאֶךָּ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 12,1 — בראשית יב א</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיִּישַׁן וַיַּחֲלֹם שֵׁנִית וְהִנֵּה שֶׁבַע שִׁבֳּלִים עֹלוֹת בְּקָנֶה אֶחָד בְּרִיאוֹת וְטֹבוֹת׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 41,5 — בראשית מא ה</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="callout info"><span class="ico">✎</span><span>Entraîne-toi à conjuguer les racines <span class="heb">י.כ.ל</span>, <span class="heb">ה.ל.ך</span> et <span class="heb">י.ש.ן</span> au Qal (Qatal, Yiqtol, participe présent), en t'appuyant sur les modèles de cette leçon.</span></div>
+</div>
+`;
+
+/* ---- COURS 42 : Les verbes פ״יצ au קַל, נִפְעַל, הִפְעִיל, הָפְעַל ---- */
+const lesson42 = `
+<div class="card">
+  <h3><span class="en en-heb">פ״יצ</span>Les verbes פ״יצ</h3>
+  <p>Les verbes <span class="heb">פ״יצ</span> sont ceux dont la 1ʳᵉ lettre de la racine est un <span class="heb">י</span> et la 2ᵉ un <span class="heb">צ</span>. Certains d'entre eux adoptent un comportement semblable aux verbes <span class="heb">פ״ן</span> — la plupart ont d'ailleurs un équivalent (paronyme) en <span class="heb">נ</span>, ce qui expliquerait ce phénomène. Six racines seraient concernées :</p>
+  ${tableHTML(null, ["Racine פ״יצ","Paronyme en נ"], [
+    ["<span class=\"heb\">י.צ.ת</span>","<span class=\"heb\">נ.צ.ת</span>"],
+    ["<span class=\"heb\">י.צ.ר</span>","<span class=\"heb\">נ.צ.ר</span>"],
+    ["<span class=\"heb\">י.צ.ק</span>","<span class=\"heb\">נ.צ.ק</span>"],
+    ["<span class=\"heb\">י.צ.ע</span>","<span class=\"heb\">נ.צ.ע</span>"],
+    ["<span class=\"heb\">י.צ.ג</span>","<span class=\"heb\">נ.צ.ג</span>"],
+    ["<span class=\"heb\">י.צ.ב</span>","<span class=\"heb\">נ.צ.ב</span>"]
+  ])}
+  ${tableHTML(null, ["Binyan","Exemple","Sens"], [
+    ["Qal","<span class=\"heb\">אֶצֹּק</span>","« je verserai » (assimilation comme un פ״ן)"],
+    ["Nifal","<span class=\"heb\">נִצַּבְתָּ</span>","« tu t'es placé »"],
+    ["Hifil","<span class=\"heb\">הִצִּיב</span>","« il a fait tenir debout »"],
+    ["Hofal","<span class=\"heb\">יֻצַּע</span>","« il a été placé dessous »"]
+  ], [1])}
+  <div class="callout warn"><span class="ico">⚠️</span><span>Puisque tous les verbes <span class="heb">פ״יצ</span> ne se comportent pas comme un <span class="heb">פ״ן</span>, il faut réussir à reconnaître les racines concernées plutôt que d'appliquer la règle automatiquement.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">הִנֵּה אָנֹכִי נִצָּב עַל־עֵין הַמָּיִם וּבְנוֹת אַנְשֵׁי הָעִיר יֹצְאֹת לִשְׁאֹב מָיִם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 24,13 — בראשית כד יג</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיִּקְרָא פַרְעֹה אֶל־מֹשֶׁה וַיֹּאמֶר לְכוּ עִבְדוּ אֶת־יְהוָה רַק צֹאנְכֶם וּבְקַרְכֶם יֻצָּג גַּם־טַפְּכֶם יֵלֵךְ עִמָּכֶם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Exode 10,24 — שמות י כד</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיַּשְׁכֵּם שְׁמוּאֵל לִקְרַאת שָׁאוּל בַּבֹּקֶר וַיֻּגַּד לִשְׁמוּאֵל לֵאמֹר בָּא־שָׁאוּל הַכַּרְמֶלָה וְהִנֵּה מַצִּיב לוֹ יָד וַיִּסֹּב וַיַּעֲבֹר וַיֵּרֶד הַגִּלְגָּל׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">1 Samuel 15,12 — שמואל א טו יב</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַתִּקַּח אֶת־הַמַּשְׂרֵת וַתִּצֹּק לְפָנָיו וַיְמָאֵן לֶאֱכוֹל וַיֹּאמֶר אַמְנוֹן הוֹצִיאוּ כָל־אִישׁ מֵעָלַי וַיֵּצְאוּ כָל־אִישׁ מֵעָלָיו׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">2 Samuel 13,9 — שמואל ב יג ט</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">אַתֶּם עֵדַי נְאֻם־יְהוָה וְעַבְדִּי אֲשֶׁר בָּחָרְתִּי לְמַעַן תֵּדְעוּ וְתַאֲמִינוּ לִי וְתָבִינוּ כִּי־אֲנִי הוּא לְפָנַי לֹא־נוֹצַר אֵל וְאַחֲרַי לֹא יִהְיֶה׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Ésaïe 43,10 — ישעיהו מג י</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">וַיִּיצֶר יְהוָה אֱלֹהִים אֶת־הָאָדָם עָפָר מִן־הָאֲדָמָה וַיִּפַּח בְּאַפָּיו נִשְׁמַת חַיִּים וַיְהִי הָאָדָם לְנֶפֶשׁ חַיָּה׃ וַיִּטַּע יְהוָה אֱלֹהִים גַּן־בְעֵדֶן מִקֶּדֶם וַיָּשֶׂם שָׁם אֶת־הָאָדָם אֲשֶׁר יָצָר׃ וַיַּצְמַח יְהוָה אֱלֹהִים מִן־הָאֲדָמָה כָּל־עֵץ נֶחְמָד לְמַרְאֶה וְטוֹב לְמַאֲכָל וְעֵץ הַחַיִּים בְּתוֹךְ הַגָּן וְעֵץ הַדַּעַת טוֹב וָרָע׃</span>
+    <div class="ui" style="font-family:'Inter',sans-serif;font-size:12px;color:var(--text-soft);margin-top:6px;"><span class="heb" style="font-size:1em;">וַיִּפַּח</span> : Et il souffla &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">וַיָּשֶׂם</span> : Et il mit</div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Genèse 2,7-9 — בראשית ב ,ז-ט</div>
+  </div>
+</div>
+`;
+
+/* ---- COURS 43 : Les verbes עו״י au קַל et נִפְעַל ---- */
+const lesson43 = `
+<div class="card">
+  <h3><span class="en en-heb">עו״י</span>Les verbes creux עו״י</h3>
+  <p>Comme pour les verbes <span class="heb">פ״י</span>, les verbes <span class="heb">עו״י</span> (dits « creux », dont la 2ᵉ lettre de la racine est un <span class="heb">ו</span> ou un <span class="heb">י</span>) ont des conjugaisons similaires : leur 2ᵉ lettre est <b>quiescente</b>.</p>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">קַל</span>Au Qal</h3>
+  <p>Au Qatal et au participe présent, ces verbes perdent leur 2ᵉ lettre et se vocalisent de la même manière. Au Yiqtol, à l'impératif, à l'infinitif construit et au participe passif (<span class="heb">פָּעוּל</span>), ils gardent leur lettre primitive.</p>
+  ${tableHTML("קוּם (se lever) et שִׂים (mettre) au Qal", ["Forme","קוּם","שִׂים"], [
+    ["Infinitif construit","<span class=\"heb\">לָקוּם</span>","<span class=\"heb\">לָשִׂים</span>"],
+    ["Participe ms","<span class=\"heb\">קָם</span>","<span class=\"heb\">שָׂם</span>"],
+    ["Qatal 3ms","<span class=\"heb\">קָם</span>","<span class=\"heb\">שָׂם</span>"],
+    ["Yiqtol 3ms","<span class=\"heb\">יָקוּם</span>","<span class=\"heb\">יָשִׂים</span>"],
+    ["Impératif ms","<span class=\"heb\">קוּם</span>","<span class=\"heb\">שִׂים</span>"],
+    ["Participe passif ms","<span class=\"heb\">קוּם</span>","<span class=\"heb\">שִׁים</span>"]
+  ])}
+  <div class="callout warn"><span class="ico">⚠️</span><span>À la 3ᵉ pers. masc. sing. du Qatal, la forme ne représente pas la racine, mais l'infinitif ; le féminin singulier du participe présent est identique à la 3ᵉ pers. fém. sing. du Qatal. Avec le <span class="heb">ו</span> conversif, le verbe prend une forme brève : <span class="heb">וַיָּקָם</span>, <span class="heb">וַיָּשֶׂם</span>.</span></div>
+  <div class="callout info"><span class="ico">💡</span><span>Certaines racines se vocalisent en <span class="heb">ֵ</span> ou <span class="heb">וֹ</span> : <span class="heb">מוּת</span> (mourir) se conjugue <span class="heb">מֵת</span> ; <span class="heb">בּוֹשׁ</span> (avoir honte) se conjugue <span class="heb">בּוֹשׁ</span>. Le verbe <span class="heb">בּוֹא</span> (entrer, venir) prend un <span class="heb">וֹ</span> et est aussi un <span class="heb">ל״א</span>.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">נִפְעַל</span>Au Nifal</h3>
+  <p>Le verbe garde sa 2ᵉ lettre à tous les temps.</p>
+  ${tableHTML("נָכוֹן (être établi) au Nifal", ["Forme","Valeur"], [
+    ["Infinitif construit","<span class=\"heb\">לְהִכּוֹן</span> / <span class=\"heb\">הִכּוֹן</span>"],
+    ["Qatal 3ms","<span class=\"heb\">נָכוֹן</span>"],
+    ["Yiqtol 3ms","<span class=\"heb\">יִכּוֹן</span>"],
+    ["Impératif ms","<span class=\"heb\">הִכּוֹן</span>"],
+    ["Participe ms","<span class=\"heb\">נָכוֹן</span>"]
+  ], [1])}
+  <div class="callout info"><span class="ico">💡</span><span>Au Qatal, le <span class="heb">ו</span> de la racine devient <span class="heb">וּ</span> quand les suffixes sont légers (<span class="heb">נְכוּנוֹתָ</span>), et un <span class="heb">ו</span> de liaison est ajouté avant les suffixes consonantiques. L'impératif et l'infinitif sont identiques.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיֹּאמֶר אַבְרָהָם אֶל־עַבְדּוֹ זְקַן בֵּיתוֹ הַמֹּשֵׁל בְּכָל־אֲשֶׁר־לוֹ שִׂים־נָא יָדְךָ תַּחַת יְרֵכִי׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 24,2 — בראשית כד ב</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיַּעֲקֹב נָתַן לְעֵשָׂו לֶחֶם וּנְזִיד עֲדָשִׁים וַיֹּאכַל וַיֵּשְׁתְּ וַיָּקָם וַיֵּלַךְ וַיִּבֶז עֵשָׂו אֶת־הַבְּכֹרָה׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 25,34 — בראשית כה לד</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">הוֹי ׀ גּוֹי חֹטֵא עַם כֶּבֶד עָוֺן זֶרַע מְרֵעִים בָּנִים מַשְׁחִיתִים עָזְבוּ אֶת־יְהוָה נִאֲצוּ אֶת־קְדוֹשׁ יִשְׂרָאֵל נָזֹרוּ אָחוֹר׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Ésaïe 1,4 — ישעיהו א ד</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וְהָיָה ׀ בְּאַחֲרִית הַיָּמִים נָכוֹן יִהְיֶה הַר בֵּית־יְהוָה בְּרֹאשׁ הֶהָרִים וְנִשָּׂא מִגְּבָעוֹת וְנָהֲרוּ אֵלָיו כָּל־הַגּוֹיִם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Ésaïe 2,2 — ישעיהו ב ב</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">וַיִּלֹּנוּ הָעָם עַל־מֹשֶׁה לֵּאמֹר מַה־נִּשְׁתֶּה׃ וַיִּצְעַק אֶל־יְהוָה וַיּוֹרֵהוּ יְהוָה עֵץ וַיַּשְׁלֵךְ אֶל־הַמַּיִם וַיִּמְתְּקוּ הַמָּיִם שָׁם שָׂם לוֹ חֹק וּמִשְׁפָּט וְשָׁם נִסָּהוּ׃</span>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Exode 15,24-25 — שמות טו כד-כה</div>
+  </div>
+</div>
+`;
+
+/* ---- COURS 44 : Les verbes creux עו״י aux formes causatives et intensives ---- */
+const lesson44 = `
+<div class="card">
+  <h3><span class="en en-heb">הִפְעִיל הָפְעַל</span>Formes causatives : Hifil et Hofal</h3>
+  <p>Pour les verbes creux (<span class="heb">עו״י</span>), les formes causatives sont semblables à ce qui a déjà été vu pour les verbes <span class="heb">פ״ו</span>/<span class="heb">פ״י</span>.</p>
+  ${tableHTML(null, ["Binyan","Règle"], [
+    ["Hifil","Le verbe perd son <span class=\"heb\">ו</span>, remplacé par un <span class=\"heb\">י</span> (les <span class=\"heb\">ע״י</span> gardent leur <span class=\"heb\">י</span>). Une forme brève existe aussi, sans le <span class=\"heb\">י</span>."],
+    ["Hofal","Le verbe perd son <span class=\"heb\">ו</span> à tous les temps ; le préfixe se vocalise par un <span class=\"heb\">וּ</span> au lieu d'un <span class=\"heb\">ָ</span>."]
+  ], [1])}
+  ${tableHTML("קוּם (se lever) au Hifil (« faire lever ») et au Hofal", ["Forme","Hifil","Hofal"], [
+    ["Infinitif construit","<span class=\"heb\">לְהָקִים</span>","<span class=\"heb\">לְהוּקַם</span>"],
+    ["Qatal 3ms","<span class=\"heb\">הֵקִים</span>","<span class=\"heb\">הוּקַם</span>"],
+    ["Yiqtol 3ms","<span class=\"heb\">יָקִים</span>","<span class=\"heb\">יוּקַם</span>"],
+    ["Impératif ms","<span class=\"heb\">הָקֵם</span>","—"],
+    ["Participe ms","<span class=\"heb\">מֵקִים</span>","<span class=\"heb\">מוּקָם</span>"]
+  ])}
+</div>
+<div class="card">
+  <h3><span class="en en-heb">פּוֹלֵל פּוֹלַל הִתְפּוֹלֵל</span>Formes intensives : un redoublement particulier</h3>
+  <p>Puisque la 2ᵉ lettre de la racine des verbes <span class="heb">עו״י</span> est quiescente, elle ne peut recevoir le <span class="heb">דָּגֵשׁ חָזָק</span> attendu au Piel/Poual/Hitpaël. Ces verbes créent alors un <b>redoublement de la dernière lettre</b> de la racine à la place : on parle donc de <span class="heb">פּוֹלֵל</span>, <span class="heb">פּוֹלַל</span> et <span class="heb">הִתְפּוֹלֵל</span> (au lieu de Piel/Poual/Hitpaël).</p>
+  ${tableHTML(null, ["Forme","Trait distinctif","Vocalisation du ו"], [
+    ["<span class=\"heb\">פּוֹלֵל</span>","Présence du <span class=\"heb\">ו</span> (2ᵉ lettre) + redoublement de la 3ᵉ lettre","<span class=\"heb\">וֹ</span>"],
+    ["<span class=\"heb\">פּוֹלַל</span>","Présence du <span class=\"heb\">ו</span> + redoublement de la 3ᵉ lettre","<span class=\"heb\">וֹ</span>"],
+    ["<span class=\"heb\">הִתְפּוֹלֵל</span>","Présence du <span class=\"heb\">ו</span> + redoublement de la 3ᵉ lettre + préfixe <span class=\"heb\">הִתְ־</span>","<span class=\"heb\">וֹ</span>"]
+  ])}
+  ${tableHTML("קוּם aux formes intensives", ["Forme","Qatal 3ms","Qatal 1ˢ sg."], [
+    ["<span class=\"heb\">פּוֹלֵל</span>","<span class=\"heb\">קוֹמֵם</span>","<span class=\"heb\">קוֹמַמְתִּי</span>"],
+    ["<span class=\"heb\">פּוֹלַל</span>","<span class=\"heb\">קוֹמָם</span>","<span class=\"heb\">קוֹמַמְתִּי</span>"],
+    ["<span class=\"heb\">הִתְפּוֹלֵל</span>","<span class=\"heb\">הִתְקוֹמֵם</span>","<span class=\"heb\">הִתְקוֹמַמְתִּי</span>"]
+  ], [1,2])}
+  <div class="callout info"><span class="ico">💡</span><span>Polel et Polal ne se distinguent qu'à la 3ᵉ pers. masc. sing. du Qatal (<span class="heb">ֵ</span> pour l'actif, <span class="heb">ָ</span> pour le passif) ; ailleurs, les deux formes sont identiques.</span></div>
+  <div class="callout warn"><span class="ico">⚠️</span><span>Ces trois formes ne prennent jamais de <span class="heb">דָּגֵשׁ חָזָק</span> dans la 2ᵉ lettre de leur racine, contrairement au Piel/Poual/Hitpaël habituels.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיֹּאמֶר אֱלֹהִים יִשְׁרְצוּ הַמַּיִם שֶׁרֶץ נֶפֶשׁ חַיָּה וְעוֹף יְעוֹפֵף עַל־הָאָרֶץ עַל־פְּנֵי רְקִיעַ הַשָּׁמָיִם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 1,20 — בראשית א כ</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַתִּקַּח יְהוֹשֶׁבַע בַּת־הַמֶּלֶךְ־יוֹרָם אֲחוֹת אֲחַזְיָהוּ אֶת־יוֹאָשׁ בֶּן־אֲחַזְיָהוּ וַתִּגְנֹב אֹתוֹ מִתּוֹךְ בְּנֵי־הַמֶּלֶךְ הַמּוּמָתִים וְאֶת־מֵינִקְתּוֹ בַּחֲדַר הַמִּטּוֹת וַיַּסְתִּרוּ אֹתוֹ מִפְּנֵי עֲתַלְיָהוּ וְלֹא הוּמָת׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">2 Rois 11,2 — מלכים ב יא ב</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">הִתְעוֹרְרִי הִתְעוֹרְרִי קוּמִי יְרוּשָׁלַ‍ִם אֲשֶׁר שָׁתִית מִיַּד יְהוָה אֶת־כּוֹס חֲמָתוֹ אֶת־קֻבַּעַת כּוֹס הַתַּרְעֵלָה שָׁתִית מָצִית׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Ésaïe 51,17 — ישעיהו נא יז</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיָּכִינוּ הַמִּזְבֵּחַ עַל־מְכוֹנֹתָיו כִּי בְאֵימָה עֲלֵיהֶם מֵעַמֵּי הָאֲרָצוֹת וַיַּעֲלוּ עָלָיו עֹלוֹת לַיהוָה עֹלוֹת לַבֹּקֶר וְלָעָרֶב׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Esdras 3,3 — עזרא ג ג</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">יֹשֵׁב בְּסֵתֶר עֶלְיוֹן בְּצֵל שַׁדַּי יִתְלוֹנָן׃</span>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Psaumes 91,1 — תהלים צא א</div>
+  </div>
+</div>
+`;
+
+/* ---- COURS 45 : Le verbe יָקַץ — Les modes de comparaison ---- */
+const lesson45 = `
+<div class="card">
+  <h3><span class="en en-heb">יָקַץ</span>Le verbe יָקַץ (s'éveiller)</h3>
+  <p>Le verbe <span class="heb">יָקַץ</span> a la particularité d'avoir <b>deux racines</b> pour sa conjugaison :</p>
+  ${tableHTML(null, ["Racine","Emploi"], [
+    ["<span class=\"heb\">י.ק.ץ</span>","Uniquement au Yiqtol (<span class=\"heb\">יִקְטֹל</span>) du Qal, dans le texte biblique."],
+    ["<span class=\"heb\">ק.ו.ץ</span> / <span class=\"heb\">ק.י.ץ</span>","Au participe présent et au Qatal du Hifil (le sens « effrayé » ou « s'éveiller » se retrouve aussi au Hifil de <span class=\"heb\">קוץ</span>)."]
+  ], [1])}
+  <p>Il se conjugue donc tantôt comme un <span class="heb">פ״י</span>, tantôt comme un <span class="heb">עו״י</span> — au Hifil, la racine <span class="heb">ק.י.ץ</span> :</p>
+  ${tableHTML("הֵקִיץ (Hifil de ק.י.ץ)", ["Forme","Valeur"], [
+    ["Participe ms","<span class=\"heb\">מֵקִיץ</span>"],
+    ["Qatal 1ˢ sg.","<span class=\"heb\">הֱקִיצוֹתִי</span>"],
+    ["Qatal 3ms","<span class=\"heb\">הֵקִיץ</span>"]
+  ], [1])}
+</div>
+<div class="card">
+  <h3><span class="en">Comparatifs</span>Les modes de comparaison</h3>
+  <p>Pour exprimer une comparaison (« plus grand que »), l'hébreu utilise trois tournures possibles :</p>
+  ${tableHTML(null, ["Tournure","Structure","Exemple"], [
+    ["1ʳᵉ tournure","Adjectif + <span class=\"heb\">מִן</span> + comparant","<span class=\"heb\">דָּוִד גָּדוֹל מִשָּׁאוּל</span> « David est plus grand que Shaoul »"],
+    ["2ᵉ tournure","Article défini + adjectif + <span class=\"heb\">מִן</span> ou <span class=\"heb\">בְּ</span> + comparant","<span class=\"heb\">דָּוִד הַגָּדוֹל מֵאֶחָיו</span> / <span class=\"heb\">בְּאֶחָיו</span> « David est le plus grand de/parmi ses frères »"],
+    ["3ᵉ tournure","Adjectif à l'état construit + comparant","<span class=\"heb\">דָּוִד גְּדוֹל־אֶחָיו</span> « David est le plus grand de ses frères »"]
+  ])}
+  <div class="callout info"><span class="ico">💡</span><span>La 1ʳᵉ tournure exprime un simple comparatif (« plus... que ») ; les 2ᵉ et 3ᵉ tournures expriment un superlatif relatif (« le plus... de/parmi »).</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיִּיקֶץ נֹחַ מִיֵּינוֹ וַיֵּדַע אֵת אֲשֶׁר־עָשָׂה־לוֹ בְּנוֹ הַקָּטָן׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 9,24 — בראשית ט כד</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיָּרָצוּ וַיִּקְחֵהוּ מִשָּׁם וַיִּתְיַצֵּב בְּתוֹךְ הָעָם וַיִּגְבַּהּ מִכָּל־הָעָם מִשִּׁכְמוֹ וָמָעְלָה׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">1 Samuel 10,23 — שמואל א י כג</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיֹּאמֶר אֶל־דָּוִד צַדִּיק אַתָּה מִמֶּנִּי כִּי אַתָּה גְּמַלְתַּנִי הַטּוֹבָה וַאֲנִי גְּמַלְתִּיךָ הָרָעָה׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">1 Samuel 24,18 — שמואל א כד יח</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">הָעִירָה וְהָקִיצָה לְמִשְׁפָּטִי אֱלֹהַי וַאדֹנָי לְרִיבִי׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Psaumes 35,23 — תהלים לה כג</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">אֲנִי שָׁכַבְתִּי וָאִישָׁנָה הֱקִיצוֹתִי כִּי יְהוָה יִסְמְכֵנִי׃</span>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Psaumes 3,6 — תהלים ג ו</div>
+  </div>
+</div>
+`;
+
+/* ---- COURS 46 : Les verbes ל״ה ---- */
+const lesson46 = `
+<div class="card">
+  <h3><span class="en en-heb">ל״ה</span>Les verbes ל״ה — rappel et réapparition du י/ו primitif</h3>
+  <p>Les cours précédents ont déjà présenté la conjugaison des verbes <span class="heb">ל״ה</span> au Qal. Il faut noter que la plupart d'entre eux étaient à l'origine des <span class="heb">ל״י</span> ou <span class="heb">ל״ו</span> primitifs — c'est pour cela qu'à certaines formes, ces lettres réapparaissent.</p>
+  ${tableHTML(null, ["Cas","Règle"], [
+    ["Sans suffixe","<span class=\"heb\">ה</span> à toutes les formes du Qatal ; <span class=\"heb\">ה</span> à toutes les formes du Yiqtol et au participe actif masc. sing. absolu ; le participe passif masc. sing. se vocalise <span class=\"heb\">וּי</span> (comme <span class=\"heb\">גָּלוּי</span>) ; <span class=\"heb\">ה</span> au participe passif masc. sing. et au participe actif masc. sing. construit ; le <span class=\"heb\">ה</span> devient <span class=\"heb\">ת</span> à l'infinitif construit."],
+    ["Avec un suffixe vocalique (<span class=\"heb\">ה, וֹת, ים</span>...)","Si le suffixe est <span class=\"heb\">ָה</span>, le <span class=\"heb\">ה</span> de la racine devient <span class=\"heb\">ת</span> ; si le suffixe est <span class=\"heb\">וּ</span> ou <span class=\"heb\">ִי</span>, le <span class=\"heb\">ה</span> de la racine disparaît."],
+    ["Avec un suffixe consonantique","Si le suffixe est <span class=\"heb\">תִּי, תָּ, תְּ, נוּ, תֶן, תֶם</span>, le <span class=\"heb\">ה</span> est généralement remplacé par le <span class=\"heb\">י</span> primitif (vocalisé <span class=\"heb\">ִי</span> aux formes actives, <span class=\"heb\">ֵי</span> aux formes passives/réflexives)."]
+  ], [1])}
+  <div class="callout warn"><span class="ico">⚠️</span><span>Au jussif et avec le <span class="heb">ו</span> conversif, ces verbes prennent une forme brève qui fait tomber le <span class="heb">ה</span> de la racine : <span class="heb">יִשְׁתֶּה</span> devient <span class="heb">יֵשְׁתְּ</span> ou <span class="heb">יֵשְׁתְּ</span> ; <span class="heb">יִגְלֶה</span> devient <span class="heb">יִגֶל</span>.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">גָּלָה</span>La racine גלה à travers les 7 binyanim</h3>
+  ${tableHTML(null, ["Binyan","Qatal 3ms","Infinitif construit","Participe ms"], [
+    ["Qal","<span class=\"heb\">גָּלָה</span>","<span class=\"heb\">לִגְלוֹת</span>","<span class=\"heb\">גּוֹלֶה</span>"],
+    ["Nifal","<span class=\"heb\">נִגְלָה</span>","<span class=\"heb\">לְהִגָּלוֹת</span>","<span class=\"heb\">נִגְלֶה</span>"],
+    ["Piel","<span class=\"heb\">גִּלָּה</span>","<span class=\"heb\">לְגַלּוֹת</span>","<span class=\"heb\">מְגַלֶּה</span>"],
+    ["Poual","<span class=\"heb\">גֻּלָּה</span>","—","<span class=\"heb\">מְגֻלֶּה</span>"],
+    ["Hitpaël","<span class=\"heb\">הִתְגַּלָּה</span>","<span class=\"heb\">לְהִתְגַּלּוֹת</span>","<span class=\"heb\">מִתְגַּלֶּה</span>"],
+    ["Hifil","<span class=\"heb\">הִגְלָה</span>","<span class=\"heb\">לְהַגְלוֹת</span>","<span class=\"heb\">מַגְלֶה</span>"],
+    ["Hofal","<span class=\"heb\">הָגְלָה</span>","—","<span class=\"heb\">מָגְלֶה</span>"]
+  ])}
+  <div class="callout info"><span class="ico">💡</span><span>Dans tous les binyanim, le comportement du <span class="heb">ה</span> final suit les mêmes règles générales présentées plus haut.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וְהָאָדָם יָדַע אֶת־חַוָּה אִשְׁתּוֹ וַתַּהַר וַתֵּלֶד אֶת־קַיִן וַתֹּאמֶר קָנִיתִי אִישׁ אֶת־יְהוָה׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 4,1 — בראשית ד א</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">כִּי אִם־יִהְיֶה לְבָעֵר קָיִן עַד־מָה אַשּׁוּר תִּשְׁבֶּךָּ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Nombres 24,22 — במדבר כד כב</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיֵּשֶׁב דָּוִד לְבָרֵךְ אֶת־בֵּיתוֹ וַתֵּצֵא מִיכַל בַּת־שָׁאוּל לִקְרַאת דָּוִד וַתֹּאמֶר מַה־נִּכְבַּד הַיּוֹם מֶלֶךְ יִשְׂרָאֵל אֲשֶׁר נִגְלָה הַיּוֹם לְעֵינֵי אַמְהוֹת עֲבָדָיו כְּהִגָּלוֹת נִגְלוֹת אַחַד הָרֵקִים׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">2 Samuel 6,20 — שמואל ב ו כ</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">וַיֵּפֶן כֹּה וָכֹה וַיַּרְא כִּי אֵין אִישׁ וַיַּךְ אֶת־הַמִּצְרִי וַיִּטְמְנֵהוּ בַּחוֹל׃ וַיֵּצֵא בַּיּוֹם הַשֵּׁנִי וְהִנֵּה שְׁנֵי־אֲנָשִׁים עִבְרִים נִצִּים וַיֹּאמֶר לָרָשָׁע לָמָּה תַכֶּה רֵעֶךָ׃ וַיֹּאמֶר מִי שָׂמְךָ לְאִישׁ שַׂר וְשֹׁפֵט עָלֵינוּ הַלְהָרְגֵנִי אַתָּה אֹמֵר כַּאֲשֶׁר הָרַגְתָּ אֶת־הַמִּצְרִי וַיִּירָא מֹשֶׁה וַיֹּאמַר אָכֵן נוֹדַע הַדָּבָר׃</span>
+    <div class="ui" style="font-family:'Inter',sans-serif;font-size:12px;color:var(--text-soft);margin-top:6px;"><span class="heb" style="font-size:1em;">הַמִּצְרִי</span> : L'Égyptien &nbsp;/&nbsp; <span class="heb" style="font-size:1em;">עִבְרִים</span> : Hébreux</div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Exode 2,12-14 — שמות ב יב-יד</div>
+  </div>
+</div>
+`;
+
+/* ---- COURS 47 : Les verbes géminés ע״ע ---- */
+const lesson47 = `
+<div class="card">
+  <h3><span class="en en-heb">ע״ע</span>Les verbes géminés</h3>
+  <p>Les verbes appelés <span class="heb">ע״ע</span> sont ceux dont la 3ᵉ lettre de la racine est identique à la 2ᵉ.</p>
+  ${ex('ס.ב.ב',"« Tourner, faire le tour (de) »")}
+  <p>Dans la plupart des cas, les 2 dernières lettres de la racine fusionnent, et un <span class="heb">דָּגֵשׁ חָזָק</span> est mis en compensation quand le verbe prend un suffixe.</p>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">קַל</span>Au Qal — deux formes selon le sens</h3>
+  <p>Aux participes et à l'infinitif absolu, les 2 dernières lettres demeurent ; au Qatal, un <span class="heb">ו</span> de liaison est ajouté avant les suffixes consonantiques, et la 1ʳᵉ lettre se vocalise <span class="heb">ָ</span> quand les 2 dernières lettres sont assimilées. Il existe 2 formes qui changent le sens du verbe :</p>
+  ${tableHTML(null, ["Forme","Emploi","Exemple"], [
+    ["Forme longue","transitif","<span class=\"heb\">סָבַב</span> « contourner »"],
+    ["Forme brève","intransitif","<span class=\"heb\">סָב</span> « tourner »"]
+  ], [2])}
+  ${tableHTML("סָבַב au Qal", ["Forme","Valeur"], [
+    ["Infinitif construit","<span class=\"heb\">לָסֹב</span> / <span class=\"heb\">לִסְבֹּב</span>"],
+    ["Qatal 3ms (forme longue / brève)","<span class=\"heb\">סָבַב</span> / <span class=\"heb\">סָב</span>"],
+    ["Yiqtol 3ms (forme longue / brève)","<span class=\"heb\">יָסֹב</span> / <span class=\"heb\">יִסֹּב</span>"],
+    ["Participe ms","<span class=\"heb\">סוֹבֵב</span>"]
+  ], [1])}
+</div>
+<div class="card">
+  <h3><span class="en en-heb">נִפְעַל</span>Au Nifal</h3>
+  <p>La vocalisation est très proche des verbes <span class="heb">עו״י</span>, avec un <span class="heb">ַ</span> à tous les temps.</p>
+  ${tableHTML("נָסָב (être tourné) au Nifal", ["Forme","Valeur"], [
+    ["Infinitif construit","<span class=\"heb\">לְהִסֵּב</span>"],
+    ["Qatal 3ms","<span class=\"heb\">נָסָב</span>"],
+    ["Yiqtol 3ms","<span class=\"heb\">יִסַּב</span>"]
+  ], [1])}
+</div>
+<div class="card">
+  <h3><span class="en en-heb">פִּעֵל פֻּעַל הִתְפַּעֵל</span>Formes intensives : deux comportements possibles</h3>
+  <p>À ces trois formes, les verbes <span class="heb">ע״ע</span> se conjuguent de 2 façons :</p>
+  ${tableHTML(null, ["Comportement","Exemple"], [
+    ["Comme un verbe entier (forme très souvent rencontrée)","<span class=\"heb\">סִבֵּב</span> « retourner »"],
+    ["Comme un verbe <span class=\"heb\">עו״י</span> (formes <span class=\"heb\">פּוֹלֵל</span>, <span class=\"heb\">פּוֹלַל</span>, <span class=\"heb\">הִתְפּוֹלֵל</span>)","<span class=\"heb\">תְּסוֹבֵב</span> « elle entourera »"]
+  ], [1])}
+</div>
+<div class="card">
+  <h3><span class="en en-heb">הִפְעִיל הָפְעַל</span>Aux formes causatives</h3>
+  <p>À ces 2 formes, les verbes <span class="heb">ע״ע</span> ont une vocalisation semblable aux verbes <span class="heb">עו״י</span>.</p>
+  ${tableHTML("הֵסֵב (faire tourner) au Hifil et au Hofal", ["Forme","Hifil","Hofal"], [
+    ["Infinitif construit","<span class=\"heb\">לְהָסֵב</span>","—"],
+    ["Qatal 3ms","<span class=\"heb\">הֵסֵב</span>","<span class=\"heb\">הוּסַב</span>"],
+    ["Yiqtol 3ms","<span class=\"heb\">יָסֵב</span>","<span class=\"heb\">יוּסַב</span>"]
+  ])}
+  <div class="callout info"><span class="ico">💡</span><span>Au Hifil, le préfixe est vocalisé d'un <span class="heb">ָ</span> ou d'un <span class="heb">ַ</span> selon la forme ; la 2ᵉ lettre de la racine porte un <span class="heb">דָּגֵשׁ חָזָק</span> quand le verbe est suffixé.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">טֶרֶם יִשְׁכָּבוּ וְאַנְשֵׁי הָעִיר אַנְשֵׁי סְדֹם נָסַבּוּ עַל־הַבַּיִת מִנַּעַר וְעַד־זָקֵן כָּל־הָעָם מִקָּצֶה׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Genèse 19,4 — בראשית יט ד</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">אִישׁ כִּי־יִדֹּר נֶדֶר לַיהוָה אוֹ־הִשָּׁבַע שְׁבֻעָה לֶאְסֹר אִסָּר עַל־נַפְשׁוֹ לֹא יַחֵל דְּבָרוֹ כְּכָל־הַיֹּצֵא מִפִּיו יַעֲשֶׂה׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Nombres 30,3 — במדבר ל ג</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">אֲשֶׁר לֹא־יִסָּפֵר צְבָא הַשָּׁמַיִם וְלֹא יִמַּד חוֹל הַיָּם כֵּן אַרְבֶּה אֶת־זֶרַע דָּוִד עַבְדִּי וְאֶת־הַלְוִיִּם מְשָׁרְתֵי אֹתִי׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Jérémie 33,22 — ירמיהו לג כב</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">וַיֹּאמֶר יְהוֹשֻׁעַ גִּלּוּ אֲבָנִים אֶל־פִּי הַמְּעָרָה וְהַפְקִידוּ עָלֶיהָ אֲנָשִׁים לְשָׁמְרָם׃ וְאַתֶּם אַל־תַּעַמְדוּ רִדְפוּ אַחֲרֵי אֹיְבֵיכֶם וְזִנַּבְתֶּם אוֹתָם אַל־תִּתְּנוּם לָבוֹא אֶל־עָרֵיהֶם כִּי נְתָנָם יְהוָה אֱלֹהֵיכֶם בְּיֶדְכֶם׃ וַיְהִי כְּכַלּוֹת יְהוֹשֻׁעַ וּבְנֵי יִשְׂרָאֵל לְהַכּוֹתָם מַכָּה גְדוֹלָה־מְאֹד עַד־תֻּמָּם וְהַשְּׂרִידִים שָׂרְדוּ מֵהֶם וַיָּבֹאוּ אֶל־עָרֵי הַמִּבְצָר׃</span>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Josué 10,19-20 — יהושע י יט-כ</div>
+  </div>
+</div>
+`;
+
+/* ---- COURS 48 : Hishtaphel — Nitpael — Les verbes à plusieurs lettres faibles ---- */
+const lesson48 = `
+<div class="card">
+  <h3><span class="en en-heb">הִשְׁתַּפְעֵל</span>Le Hishtaphel</h3>
+  <p>Cette forme, très rare, est une forme réflexive qui ne s'appliquerait dans la Bible qu'à la racine <span class="heb">ה.ו.ה</span> / <span class="heb">ש.ח.ה</span>, avec le sens « se prosterner ».</p>
+  ${tableHTML(null, ["Forme","Valeur"], [
+    ["Qatal","<span class=\"heb\">הִשְׁתַּחֲוָה</span>"],
+    ["Yiqtol","<span class=\"heb\">יִשְׁתַּחֲוֶה</span>"],
+    ["Impératif","<span class=\"heb\">הִשְׁתַּחֲוִי</span>"],
+    ["Infinitif construit","<span class=\"heb\">לְהִשְׁתַּחֲוֹת</span>"],
+    ["Participe","<span class=\"heb\">מִשְׁתַּחֲוֶה</span>"],
+    ["Wayyiqtol (forme courte)","<span class=\"heb\">וַיִּשְׁתַּחוּ</span>"]
+  ], [1])}
+  <div class="callout warn"><span class="ico">⚠️</span><span>Dans 2 Rois 5,18, ce verbe est même vocalisé à l'araméenne : <span class="heb">הִשְׁתַּחֲוָיָתִי</span>.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">נִתְפַּעֵל</span>Le Nitpaël</h3>
+  <p>Cette forme verbale, elle aussi rare, serait la forme <b>passive</b> du Hitpaël. On la trouverait dans la Bible en Ézéchiel 23,48 et en Deutéronome 28,8.</p>
+</div>
+<div class="card">
+  <h3><span class="en">Cumul</span>Les verbes à plusieurs lettres faibles</h3>
+  <p>Il existe des verbes dont <b>plusieurs lettres</b> de la racine sont faibles : dans ce cas, le verbe cumule les particularités de chaque catégorie de lettre.</p>
+  ${tableHTML(null, ["Racine","Catégories cumulées"], [
+    ["<span class=\"heb\">נגע</span> (toucher)","<span class=\"heb\">פ״ן</span> et <span class=\"heb\">ל״ג</span> (gutturale finale)"],
+    ["<span class=\"heb\">נכה</span> (frapper)","<span class=\"heb\">פ״ן</span> et <span class=\"heb\">ל״ה</span>, avec deux lettres qui tombent selon les conjugaisons"]
+  ])}
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">כַּפֵּר לְעַמְּךָ יִשְׂרָאֵל אֲשֶׁר־פָּדִיתָ יְהוָה וְאַל־תִּתֵּן דָּם נָקִי בְּקֶרֶב עַמְּךָ יִשְׂרָאֵל וְנִכַּפֵּר לָהֶם הַדָּם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Deutéronome 21,8 — דברים כא ח</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיְהִי כְּבוֹא אֲרוֹן בְּרִית־יְהוָה אֶל־הַמַּחֲנֶה וַיָּרִעוּ כָל־יִשְׂרָאֵל תְּרוּעָה גְדוֹלָה וַתֵּהֹם הָאָרֶץ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">1 Samuel 4,5 — שמואל א ד ה</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">לַדָּבָר הַזֶּה יִסְלַח יְהוָה לְעַבְדֶּךָ בְּבוֹא אֲדֹנִי בֵית־רִמּוֹן לְהִשְׁתַּחֲוֹת שָׁמָּה וְהוּא נִשְׁעָן עַל־יָדִי וְהִשְׁתַּחֲוֵיתִי בֵּית רִמֹּן בְּהִשְׁתַּחֲוָיָתִי בֵּית רִמֹּן יִסְלַח־(נא) יְהוָה לְעַבְדְּךָ בַּדָּבָר הַזֶּה׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">2 Rois 5,18 — מלכים ב ה יח</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וְהִשְׁבַּתִּי זִמָּה מִן־הָאָרֶץ וְנִוַּסְרוּ כָּל־הַנָּשִׁים וְלֹא תַעֲשֶׂינָה כְּזִמַּתְכֶנָה׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Ézéchiel 23,48 — יחזקאל כג מח</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">לְכוּ וְנָשׁוּבָה אֶל־יְהוָה כִּי הוּא טָרָף וְיִרְפָּאֵנוּ יַךְ וְיַחְבְּשֵׁנוּ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Osée 6,1 — הושע ו א</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">וַיֹּאמֶר יְהוָה אֶל־מֹשֶׁה אֱמֹר אֶל־אַהֲרֹן נְטֵה אֶת־יָדְךָ בְּמַטֶּךָ עַל־הַנְּהָרֹת עַל־הַיְאֹרִים וְעַל־הָאֲגַמִּים וְהַעַל אֶת־הַצְפַרְדְּעִים עַל־אֶרֶץ מִצְרָיִם׃ וַיֵּט אַהֲרֹן אֶת־יָדוֹ עַל מֵימֵי מִצְרָיִם וַתַּעַל הַצְפַרְדֵּעַ וַתְּכַס אֶת־אֶרֶץ מִצְרָיִם׃ וַיַּעֲשׂוּ־כֵן הַחַרְטֻמִּים בְּלָטֵיהֶם וַיַּעֲלוּ אֶת־הַצְפַרְדְּעִים עַל־אֶרֶץ מִצְרָיִם׃</span>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Exode 8,1-3 — שמות ח א-ג</div>
+  </div>
+</div>
+`;
+
+/* ---- COURS 49 : Les verbes quadrilitères — Les accents — La particule שֶׁל — Nationalité ---- */
+const lesson49 = `
+<div class="card">
+  <h3><span class="en">Quadrilitères</span>Les verbes quadrilitères</h3>
+  <p>Les verbes à racine quadrilitère sont peu nombreux en hébreu biblique. Leur formation est due à l'adjonction d'une lettre supplémentaire à une racine trilittère, et serait comme une forme intensive du verbe (comme pour le redoublement de la 3ᵉ lettre de la racine des verbes <span class="heb">עו״י</span> aux formes intensives). Ils se conjuguent donc au Piel, Poual ou Hitpaël ; la vocalisation ne change pas, si ce n'est un <span class="heb">ְ</span> sous la 2ᵉ lettre de la racine.</p>
+  ${ex('כִּרְסֵם',"« ronger » — viendrait de כָּסַם « couper, tondre »")}
+  <p>Ils sont plus présents en hébreu moderne. Au Piel/Poual/Hitpaël, certains verbes géminés pourraient aussi se comporter comme un verbe quadrilitère (<span class="heb">פִּלְפֵּל</span>, <span class="heb">פֻּלְפַּל</span>, <span class="heb">הִתְפַּלְפֵּל</span>) :</p>
+  ${ex('מָהַהּ ← הִתְמַהְמַהּ',"« hésiter » (forme quadrilitère d'un verbe géminé)")}
+</div>
+<div class="card">
+  <h3><span class="en">Accents</span>Les accents (voir annexe 2)</h3>
+  ${tableHTML(null, ["Type d'accent","Indique"], [
+    ["Disjonctifs","Les interruptions ; le type de pause durant la lecture ; la structure du texte (séparation de deux mots ou deux parties du texte)"],
+    ["Conjonctifs","Les liaisons entre les mots ou entre deux parties du texte ; la place de l'accent dans un mot"]
+  ], [1])}
+  <p>Ils peuvent aussi jouer le rôle de ponctuation.</p>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">שֶׁל</span>La particule שֶׁל</h3>
+  <p>La particule <span class="heb">שֶׁל</span> est utilisée comme relateur et possessif ; on peut la voir à la place de l'état construit. Elle est composée de la particule <span class="heb">שֶׁ</span> + la préposition <span class="heb">לְ</span> :</p>
+  ${ex('בֵּית יַעֲקֹב ← הַבַּיִת שֶׁל יַעֲקֹב',"« la maison de Jacob »")}
+  <p>Elle se décline avec les suffixes pronominaux, comme une préposition :</p>
+  ${tableHTML(null, ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
+    ["<span class=\"heb\">שֶׁלִּי</span>","","1ˢ sg."],
+    ["<span class=\"heb\">שֶׁלָּךְ</span>","<span class=\"heb\">שֶׁלְּךָ</span>","2ᵉ sg."],
+    ["<span class=\"heb\">שֶׁלָּהּ</span>","<span class=\"heb\">שֶׁלּוֹ</span>","3ᵉ sg."],
+    ["<span class=\"heb\">שֶׁלָּנוּ</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\">שֶׁלָּכֶן</span>","<span class=\"heb\">שֶׁלָּכֶם</span>","2ᵉ pl."],
+    ["<span class=\"heb\">שֶׁלָּהֶן</span>","<span class=\"heb\">שֶׁלָּהֶם</span>","3ᵉ pl."]
+  ], [0,1])}
+  <div class="callout warn"><span class="ico">⚠️</span><span>En hébreu moderne, <span class="heb">שֶׁל</span> est très utilisée, mais peu en hébreu biblique — elle ne s'y rencontre qu'avec les prépositions <span class="heb">בְּ</span> (<span class="heb">בְּשֶׁל</span>) et <span class="heb">מִן</span> (<span class="heb">מִשֶׁל</span>), par exemple en Ecclésiaste (Qohélet) 8,17.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Nationalité</span>Exprimer la nationalité</h3>
+  <p>Comme pour les nombres ordinaux, les adjectifs de nationalité (gentilés) se forment avec un suffixe :</p>
+  ${tableHTML(null, ["Genre","Suffixe","Exemple"], [
+    ["Masculin","<span class=\"heb\">ִי</span>","<span class=\"heb\">יְהוּדָה</span> → <span class=\"heb\">יְהוּדִי</span> « judéen »"],
+    ["Féminin","<span class=\"heb\">ִית</span>","<span class=\"heb\">יִשְׂרָאֵל</span> → <span class=\"heb\">יִשְׂרְאֵלִית</span> « israélite »"]
+  ], [2])}
+  <div class="callout info"><span class="ico">💡</span><span>D'autres textes hébreux utilisent des suffixes légèrement différents : <span class="heb">ָנִי</span> au masculin, <span class="heb">ָנִית</span> au féminin (ex. <span class="heb">רוּחָנִי</span> « spirituel »).</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וַיֹּאפוּ אֶת־הַבָּצֵק אֲשֶׁר הוֹצִיאוּ מִמִּצְרַיִם עֻגֹת מַצּוֹת כִּי לֹא חָמֵץ כִּי־גֹרְשׁוּ מִמִּצְרַיִם וְלֹא יָכְלוּ לְהִתְמַהְמֵהַּ וְגַם־צֵדָה לֹא־עָשׂוּ לָהֶם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Exode 12,39 — שמות יב לט</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וְרָאִיתָ אֶת־כָּל־מַעֲשֵׂה הָאֱלֹהִים כִּי לֹא יוּכַל הָאָדָם לִמְצֹא אֶת־הַמַּעֲשֶׂה אֲשֶׁר נַעֲשָׂה תַחַת־הַשֶּׁמֶשׁ בְּשֶׁל אֲשֶׁר יַעֲמֹל הָאָדָם לְבַקֵּשׁ וְלֹא יִמְצָא וְגַם אִם־יֹאמַר הֶחָכָם לָדַעַת לֹא יוּכַל לִמְצֹא׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Ecclésiaste 8,17 — קהלת ח יז</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">לְעֵת עֶרֶב בָּא אִישׁ עָשִׁיר תּוֹשַׁב רָמָתַיִם ,יוֹסֵף שְׁמוֹ ,שֶׁגַּם הוּא נַעֲשָׂה לְתַלְמִיד שֶׁל יֵשׁוּעַ׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Matthieu 27,57 — מתי כז נז</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">וַיִּסְעַר לֵב מֶלֶךְ־אֲרָם עַל־הַדָּבָר הַזֶּה וַיִּקְרָא אֶל־עֲבָדָיו וַיֹּאמֶר אֲלֵיהֶם הֲלוֹא תַּגִּידוּ לִי מִי מִשֶּׁלָּנוּ אֶל־מֶלֶךְ יִשְׂרָאֵל׃</span>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">2 Rois 6,11 — מלכים ב ו יא</div>
+  </div>
+</div>
+`;
+
+/* ---- COURS 50 : Forme pausale — Conjugaisons rares — Suffixes rares — ה et ן paragogiques ---- */
+const lesson50 = `
+<div class="card">
+  <h3><span class="en">Pause</span>La forme pausale</h3>
+  <p>Un mot est <b>en pause</b> quand il porte, comme accent, l'un des deux signes d'interruption majeurs : le <b>sillouq</b> ou l'<b>atna'h</b>. Les mots en pause voient leur vocalisation s'allonger.</p>
+  ${tableHTML(null, ["Phénomène pausal","Exemple"], [
+    ["Allongement général de la vocalisation","<span class=\"heb\">שָׁמַר</span> → <span class=\"heb\">שָׁמָר</span>"],
+    ["L'accent sur la dernière syllabe remonte souvent sur l'avant-dernière, allongeant la voyelle brève","<span class=\"heb\">אַתָּה</span> → <span class=\"heb\">אָתָּה</span>"],
+    ["Le <span class=\"heb\">ְ</span> voisé devient <span class=\"heb\">ֶ</span> ; le <span class=\"heb\">ְ</span> composé prend la voyelle pleine correspondante","<span class=\"heb\">יָדְךָ</span> → <span class=\"heb\">יָדֶךָ</span>"],
+    ["Les noms ségolés transforment généralement leur premier <span class=\"heb\">ֶ</span> en <span class=\"heb\">ָ</span>","<span class=\"heb\">קֶשֶׁר</span> → <span class=\"heb\">קָשֶׁר</span>"],
+    ["Certains verbes changent aussi de vocalisation dans la conjugaison","<span class=\"heb\">שְׁמָרוּ</span> → <span class=\"heb\">שָׁמָרוּ</span>"]
+  ], [1])}
+  <div class="callout warn"><span class="ico">⚠️</span><span>Certains mots en pause peuvent ne pas changer de vocalisation.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Formes rares</span>Conjugaisons rares</h3>
+  <p>Outre les exceptions déjà vues, il existe d'autres conjugaisons rares dans le texte biblique, apparaissant pour la plupart à la forme intensive :</p>
+  ${tableHTML(null, ["Forme rare","Description","Exemple"], [
+    ["<span class=\"heb\">פּוֹעַל</span>","Variante du Piel, vocalisée avec un <span class=\"heb\">וֹ</span> ; son passif est <span class=\"heb\">פּוֹעַל</span> (à ne pas confondre avec le participe présent <span class=\"heb\">בֵּינוֹנִי פּוֹעֵל</span>), son réfléchi <span class=\"heb\">הִתְפּוֹעֵל</span>","<span class=\"heb\">שׁ.פ.ט</span> → présent <span class=\"heb\">מְשֹׁפֵט</span>"],
+    ["<span class=\"heb\">פֵּעֵל</span> / <span class=\"heb\">פִּעֵל</span>","Racines trilitères qui, à la forme intensive, doublent leur dernière lettre ; passif <span class=\"heb\">פֻּעַל</span>, réfléchi <span class=\"heb\">הִתְפַּעֲלֵל</span>","<span class=\"heb\">ש.א.ן</span> → <span class=\"heb\">שַׁאֲנַן</span>"],
+    ["<span class=\"heb\">פִּעְלֵל</span>","Racines trilitères qui, à la forme intensive, répètent leur 2ᵉ et 3ᵉ lettres","<span class=\"heb\">ס.ח.ר</span> → <span class=\"heb\">סְחַרְחַר</span>"],
+    ["<span class=\"heb\">תִּפְעָל</span>","Forme rare dite dénominative, avec un <span class=\"heb\">ת</span> préfixé à la racine, apparentée au Hifil","<span class=\"heb\">ר.ג.ל</span> → <span class=\"heb\">תִּרְגֵּל</span>"]
+  ], [2])}
+</div>
+<div class="card">
+  <h3><span class="en">Suffixes rares</span>Les suffixes rares</h3>
+  <p>Il existe aussi des formes rares de suffixes. Le <span class="heb">ן</span> énergique, déjà vu, ne suit pas toujours de règles précises et peut se retrouver associé à un suffixe (notamment sur les mots en pause) : <span class="heb">אֲרֹמְמֶנְהוּ</span>.</p>
+  ${tableHTML(null, ["Suffixe rare","Suffixe équivalent","Exemple"], [
+    ["<span class=\"heb\">כָה</span>","<span class=\"heb\">ךָ</span>","<span class=\"heb\">כַּפֶּכָה</span>"],
+    ["<span class=\"heb\">ָה</span> (souvent pausal)","<span class=\"heb\">ךָ</span>","<span class=\"heb\">פֵּאָרְךָ</span>"],
+    ["<span class=\"heb\">כִי</span> (forme araméisante)","<span class=\"heb\">ךָ</span>","<span class=\"heb\">אֶזְכְּרֵכִי</span>"],
+    ["<span class=\"heb\">הָ</span>","<span class=\"heb\">וֹ</span>","<span class=\"heb\">פִּרְעָה</span>"],
+    ["<span class=\"heb\">הֶ</span>","<span class=\"heb\">הֶ</span>","<span class=\"heb\">וַתַּחְמְרָה</span>"],
+    ["<span class=\"heb\">מוֹ</span> (poétique, livre des Psaumes)","<span class=\"heb\">הֶם</span> / <span class=\"heb\">הֶן</span>","<span class=\"heb\">יְכַסְיֵמוֹ</span>"]
+  ], [2])}
+</div>
+<div class="card">
+  <h3><span class="en en-heb">ה ן</span>Le ה et le ן paragogiques</h3>
+  <p>À ne pas confondre avec un suffixe pronominal, il existe un <span class="heb">ה</span> <b>paragogique</b> : un <span class="heb">ה</span> ajouté à la fin de certains verbes à l'impératif masc. sing., qui renforce le verbe en indiquant que l'action ordonnée est dirigée vers ou au bénéfice du locuteur.</p>
+  ${ex('לֵךְ ← לְכָה',"« va donc, pour moi »")}
+  <p>Il existe aussi un <span class="heb">ן</span> paragogique, qui se trouve généralement à la 2ᵉ et 3ᵉ pers. masc. plur. du Yiqtol. Il ne change pas le sens du verbe.</p>
+  ${ex('תֹּאמְרוּ ← תֹּאמְרוּן',"(même sens : « vous direz »)")}
+  <div class="callout info"><span class="ico">📖</span><span>Pour les cas de grammaire rares et complexes, il est toujours recommandé de consulter les outils de lecture à ta disposition : dictionnaire ou lexique, livre de grammaire, manuel d'hébreu, Bible interlinéaire...</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וְלֹא־יָכְלָה עוֹד הַצְּפִינוֹ וַתִּקַּח־לוֹ תֵּבַת גֹּמֶא וַתַּחְמְרָה בַחֵמָר וּבַזָּפֶת וַתָּשֶׂם בָּהּ אֶת־הַיֶּלֶד וַתָּשֶׂם בַּסּוּף עַל־שְׂפַת הַיְאֹר׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Exode 2,3 — שמות ב ג</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וְעַתָּה לְכָה וְאֶשְׁלָחֲךָ אֶל־פַּרְעֹה וְהוֹצֵא אֶת־עַמִּי בְנֵי־יִשְׂרָאֵל מִמִּצְרָיִם׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Exode 3,10 — שמות ג י</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">וְאָנֹכִי תִרְגַּלְתִּי לְאֶפְרַיִם קָחָם עַל־זְרוֹעֹתָיו וְלֹא יָדְעוּ כִּי רְפָאתִים׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Osée 11,3 — הושע יא ג</div>
+  </div>
+  <div class="example" style="display:block;">
+    <div><span class="heb" style="font-size:1.15em;">אִם־אֶשְׁכָּחֵךְ יְרוּשָׁלָ‍ִם תִּשְׁכַּח יְמִינִי׃ תִּדְבַּק־לְשׁוֹנִי לְחִכִּי אִם־לֹא אֶזְכְּרֵכִי אִם־לֹא אַעֲלֶה אֶת־יְרוּשָׁלַ‍ִם עַל רֹאשׁ שִׂמְחָתִי׃</span></div>
+    <div class="tr" style="font-style:italic;margin-top:6px;">Psaumes 137,5-6 — תהלים קלז ה-ו</div>
+  </div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Lire et traduire</h3>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">כֹּה אָמַר יְהוָה לֹא־תַעֲלוּ וְלֹא־תִלָּחֲמוּן עִם־אֲחֵיכֶם בְּנֵי־יִשְׂרָאֵל שׁוּבוּ אִישׁ לְבֵיתוֹ כִּי מֵאִתִּי נִהְיָה הַדָּבָר הַזֶּה וַיִּשְׁמְעוּ אֶת־דְּבַר יְהוָה וַיָּשֻׁבוּ לָלֶכֶת כִּדְבַר יְהוָה׃</span>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:10px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">1 Rois 12,24 — מלכים א יב כד</div>
+  </div>
+  <div class="callout info"><span class="ico">🎓</span><span>Félicitations : ceci est le dernier cours du programme HB2 ! Tu as maintenant couvert l'ensemble des 7 binyanim, toutes les grandes catégories de verbes faibles, les suffixes pronominaux, l'analyse verbale complète, et les formes les plus rares du texte biblique.</span></div>
+</div>
+`;
+
+const LESSONS = [lesson1,lesson2,lesson3,lesson4,lesson5,lesson6,lesson7,lesson8,lesson9,lesson10,lesson11,lesson12,lesson13,lesson14,lesson15,lesson16,lesson17,lesson18,lesson19,lesson20,lesson21,lesson22,lesson23,lesson24,lesson25,lesson26,lesson27,lesson28,lesson29,lesson30,lesson31,lesson32,lesson33,lesson34,lesson35,lesson36,lesson37,lesson38,lesson39,lesson40,lesson41,lesson42,lesson43,lesson44,lesson45,lesson46,lesson47,lesson48,lesson49,lesson50];
 
 /* =========================================================================
    EXERCICES DE CONJUGAISON — corrigés officiels Yehi-Or (blanc à révéler)
    ========================================================================= */
 const CONJUG = [
+{course:41, root:"י.כ.ל (Qal) / ה.ל.ך (Qal) / י.ש.ן (Qal)", meaning:"pouvoir / marcher / dormir", tables:[
+  {title:"Participe présent", headers:["","יָכֹל","הָלַךְ","יָשֵׁן"], rows:[
+    ["(sg.)","יָכוֹל / יְכוֹלָה","הוֹלֵךְ / הוֹלֶכֶת","יָשֵׁן / יְשֵׁנָה"],
+    ["(pl.)","יְכוֹלִים / יְכוֹלוֹת","הוֹלְכִים / הוֹלְכוֹת","יְשֵׁנִים / יְשֵׁנוֹת"]
+  ]},
+  {title:"Passé (masculin)", headers:["","יָכֹל","הָלַךְ","יָשֵׁן"], rows:[
+    ["1ˢ sg.","יָכֹלְתִּי","הָלַכְתִּי","יָשַׁנְתִּי"],
+    ["2ᵉ sg.","יָכֹלְתָּ","הָלַכְתָּ","יָשַׁנְתָּ"],
+    ["3ᵉ sg.","יָכֹל","הָלַךְ","יָשֵׁן"],
+    ["1ʳᵉ pl.","יָכֹלְנוּ","הָלַכְנוּ","יָשַׁנּוּ"]
+  ]},
+  {title:"Futur (masculin)", headers:["","יָכֹל","הָלַךְ","יָשֵׁן"], rows:[
+    ["1ˢ sg.","אוּכַל","אֵלֵךְ","אִישַׁן"],
+    ["2ᵉ sg.","תּוּכַל","תֵּלֵךְ","תִּישַׁן"],
+    ["3ᵉ sg.","יוּכַל","יֵלֵךְ","יִישַׁן"]
+  ]}
+]},
+{course:43, root:"ב.ו.א", meaning:"venir, entrer (au Qal et au Nifal)", tables:[
+  {title:"Participe présent", headers:["","Féminin","Masculin"], rows:[
+    ["Qal (sg.)","בָּאָה","בָּא"],["Qal (pl.)","בָּאוֹת","בָּאִים"],
+    ["Nifal (sg.)","נְבוֹנָה","נָבוֹן"],["Nifal (pl.)","נְבוֹנוֹת","נְבוֹנִים"]
+  ]},
+  {title:"Passé — Qal בוא", headers:["","Féminin","Masculin"], rows:[
+    ["","בָּאתִי",""],["","בָּאת","בָּאתָ"],["","בָּאָה","בָּא"],
+    ["","בָּאנוּ",""],["","בָּאתֶן","בָּאתֶם"],["","בָּאוּ",""]
+  ]},
+  {title:"Futur — Qal בוא", headers:["","Féminin","Masculin"], rows:[
+    ["","אָבוֹא",""],["","תָּבוֹאִי","תָּבוֹא"],["","תָּבוֹא","יָבוֹא"],
+    ["","נָבוֹא",""],["","תָּבֹאנָה","תָּבוֹאוּ"],["","תָּבֹאנָה","יָבוֹאוּ"]
+  ]}
+]},
+{course:44, root:"ר.ו.ם (Polel) / ב.ו.א (Hifil)", meaning:"s'élever / faire venir, apporter", tables:[
+  {title:"Participe présent — רום Polel", headers:["","Féminin","Masculin"], rows:[
+    ["(sg.)","מְרוֹמֶמֶת","מְרוֹמֵם"],["(pl.)","מְרוֹמְמוֹת","מְרוֹמְמִים"]
+  ]},
+  {title:"Passé — רום Polel", headers:["","Féminin","Masculin"], rows:[
+    ["","רוֹמַמְתִּי",""],["","רוֹמַמְתְּ","רוֹמַמְתָּ"],["","רוֹמְמָה","רוֹמֵם"],
+    ["","רוֹמַמְנוּ",""],["","רוֹמַמְתֶּן","רוֹמַמְתֶּם"],["","רוֹמְמוּ",""]
+  ]},
+  {title:"Passé — בוא Hifil", headers:["","Féminin","Masculin"], rows:[
+    ["","הֵבֵאתִי",""],["","הֵבֵאת","הֵבֵאתָ"],["","הֵבִיאָה","הֵבִיא"],
+    ["","הֵבֵאנוּ",""],["","הֵבֵאתֶן","הֵבֵאתֶם"],["","הֵבִיאוּ",""]
+  ]},
+  {title:"Futur", headers:["","Féminin","Masculin"], rows:[
+    ["Polel","אֲרוֹמֵם",""],["Polel","תְּרוֹמְמִי","תְּרוֹמֵם"],["Polel","תְּרוֹמֵם","יְרוֹמֵם"],
+    ["Hifil","אָבִיא",""],["Hifil","תָּבִיאִי","תָּבִיא"],["Hifil","תָּבִיא","יָבִיא"]
+  ]}
+]},
+{course:35, root:"ב.ק.ע (Nifal) / ש.מ.ע (Hifil) / צ.ל.ח (Hofal)", meaning:"fendre / entendre / réussir", tables:[
+  {title:"Passé — Nifal בקע", headers:["","Féminin","Masculin"], rows:[
+    ["","נִבְקַעְתִּי",""],["","נִבְקַעַתְּ / נִבְקַעְתְּ","נִבְקַעְתָּ"],["","נִבְקְעָה","נִבְקַע"],
+    ["","נִבְקַעְנוּ",""],["","נִבְקַעְתֶּן","נִבְקַעְתֶּם"],["","נִבְקְעוּ",""]
+  ]},
+  {title:"Passé — Hifil השמיע", headers:["","Féminin","Masculin"], rows:[
+    ["","הִשְׁמַעְתִּי",""],["","הִשְׁמַעַתְּ","הִשְׁמַעְתָּ"],["","הִשְׁמִיעָה","הִשְׁמִיעַ"],
+    ["","הִשְׁמַעְנוּ",""],["","הִשְׁמַעְתֶּן","הִשְׁמַעְתֶּם"],["","הִשְׁמִיעוּ",""]
+  ]},
+  {title:"Passé — Hofal הצלח", headers:["","Féminin","Masculin"], rows:[
+    ["","הָצְלַחְתִּי",""],["","הָצְלַחְתְּ","הָצְלַחְתָּ"],["","הָצְלְחָה","הָצְלַח"],
+    ["","הָצְלַחְנוּ",""],["","הָצְלַחְתֶּן","הָצְלַחְתֶּם"],["","הָצְלְחוּ",""]
+  ]},
+  {title:"Futur — les trois formes (Nifal/Hifil/Hofal)", headers:["","Féminin","Masculin"], rows:[
+    ["Nifal","אֶבָּקַע",""],["Nifal","תִּבָּקְעִי","תִּבָּקַע"],["Nifal","תִּבָּקַע","יִבָּקַע"],
+    ["Hifil","אַשְׁמִיעַ",""],["Hifil","תַּשְׁמִיעִי","תַּשְׁמִיעַ"],["Hifil","תַּשְׁמִיעַ","יַשְׁמִיעַ"],
+    ["Hofal","אָצְלַח",""],["Hofal","תָּצְלְחִי","תָּצְלַח"],["Hofal","תָּצְלַח","יָצְלַח"]
+  ]}
+]},
+{course:40, root:"י.ר.ד (Qal) / י.ב.ש (Hifil)", meaning:"descendre / sécher", tables:[
+  {title:"Participe présent", headers:["","Féminin","Masculin"], rows:[
+    ["Qal (sg.)","יוֹרֶדֶת","יוֹרֵד"],
+    ["Qal (pl.)","יוֹרְדוֹת","יוֹרְדִים"],
+    ["Hifil (sg.)","מוֹבִישָׁה","מוֹבִישׁ"],
+    ["Hifil (pl.)","מוֹבִישׁוֹת","מוֹבִישִׁים"]
+  ]},
+  {title:"Passé — Qal ירד", headers:["","Féminin","Masculin"], rows:[
+    ["","יָרַדְתִּי",""],["","יָרַדְתְּ","יָרַדְתָּ"],["","יָרְדָה","יָרַד"],
+    ["","יָרַדְנוּ",""],["","יְרַדְתֶּן","יְרַדְתֶּם"],["","יָרְדוּ",""]
+  ]},
+  {title:"Passé — Hifil הוביש", headers:["","Féminin","Masculin"], rows:[
+    ["","הוֹבַשְׁתִּי",""],["","הוֹבַשְׁתְּ","הוֹבַשְׁתָּ"],["","הוֹבִישָׁה","הוֹבִישׁ"],
+    ["","הוֹבַשְׁנוּ",""],["","הוֹבַשְׁתֶּן","הוֹבַשְׁתֶּם"],["","הוֹבִישׁוּ",""]
+  ]},
+  {title:"Futur", headers:["","Féminin","Masculin"], rows:[
+    ["Qal","אֵרֵד",""],["Qal","תֵּרְדִי","תֵּרֵד"],["Qal","תֵּרֵד","יֵרֵד"],
+    ["Hifil","אוֹבִישׁ",""],["Hifil","תּוֹבִישִׁי","תּוֹבִישׁ"],["Hifil","תּוֹבִישׁ","יוֹבִישׁ"]
+  ]},
+  {title:"Impératif", headers:["","Féminin","Masculin"], rows:[
+    ["Qal","רְדִי","רֵד"],["Hifil","הוֹבִישִׁי","הוֹבֵשׁ"]
+  ]}
+]},
+{course:28, root:"ב.ק.ש", meaning:"chercher, demander", tables:[
+  {title:"Participe présent", headers:["","Féminin","Masculin"], rows:[
+    ["Demandant (sg.)","מְבַקֶּשֶׁת","מְבַקֵּשׁ"],
+    ["Demandant (pl.)","מְבַקְּשׁוֹת","מְבַקְּשִׁים"]
+  ]},
+  {title:"Passé", headers:["","Féminin","Masculin"], rows:[
+    ["J'ai demandé","בִּקַּשְׁתִּי",""],
+    ["Tu as demandé","בִּקַּשְׁתְּ","בִּקַּשְׁתָּ"],
+    ["Il/elle a demandé","בִּקְּשָׁה","בִּקֵּשׁ"],
+    ["Nous avons demandé","בִּקַּשְׁנוּ",""],
+    ["Vous avez demandé","בִּקַּשְׁתֶּן","בִּקַּשְׁתֶּם"],
+    ["Ils/elles ont demandé","בִּקְּשׁוּ",""]
+  ]},
+  {title:"Futur", headers:["","Féminin","Masculin"], rows:[
+    ["Je demanderai","אֲבַקֵּשׁ",""],
+    ["Tu demanderas","תְּבַקְּשִׁי","תְּבַקֵּשׁ"],
+    ["Il/elle demandera","תְּבַקֵּשׁ","יְבַקֵּשׁ"],
+    ["Nous demanderons","נְבַקֵּשׁ",""],
+    ["Vous demanderez","תְּבַקֵּשְׁנָה","תְּבַקְּשׁוּ"],
+    ["Ils/elles demanderont","תְּבַקֵּשְׁנָה","יְבַקְּשׁוּ"]
+  ]},
+  {title:"Impératif", headers:["","Féminin","Masculin"], rows:[
+    ["Demande !","בַּקְּשִׁי","בַּקֵּשׁ"],
+    ["Demandez !","בַּקֵּשְׁנָה","בַּקְּשׁוּ"]
+  ]}
+]},
+{course:29, root:"ק.ש.ר", meaning:"lier (Poual : être lié)", tables:[
+  {title:"Participe présent", headers:["","Féminin","Masculin"], rows:[
+    ["(sg.)","מְקֻשֶּׁרֶת","מְקֻשָּׁר"],
+    ["(pl.)","מְקֻשָּׁרוֹת","מְקֻשָּׁרִים"]
+  ]},
+  {title:"Passé", headers:["","Féminin","Masculin"], rows:[
+    ["","קֻשַּׁרְתִּי",""],
+    ["","קֻשַּׁרְתְּ","קֻשַּׁרְתָּ"],
+    ["","קֻשְּׁרָה","קֻשַּׁר"],
+    ["","קֻשַּׁרְנוּ",""],
+    ["","קֻשַּׁרְתֶּן","קֻשַּׁרְתֶּם"],
+    ["","קֻשְּׁרוּ",""]
+  ]},
+  {title:"Futur", headers:["","Féminin","Masculin"], rows:[
+    ["","אֲקֻשַּׁר",""],
+    ["","תְּקֻשְּׁרִי","תְּקֻשַּׁר"],
+    ["","תְּקֻשַּׁר","יְקֻשַּׁר"],
+    ["","נְקֻשַּׁר",""],
+    ["","תְּקֻשַּׁרְנָה","תְּקֻשְּׁרוּ"],
+    ["","תְּקֻשַּׁרְנָה","יְקֻשְּׁרוּ"]
+  ]}
+]},
+{course:30, root:"ק.ש.ר", meaning:"se lier, conspirer", tables:[
+  {title:"Participe présent", headers:["","Féminin","Masculin"], rows:[
+    ["(sg.)","מִתְקַשֶּׁרֶת","מִתְקַשֵּׁר"],
+    ["(pl.)","מִתְקַשְּׁרוֹת","מִתְקַשְּׁרִים"]
+  ]},
+  {title:"Passé", headers:["","Féminin","Masculin"], rows:[
+    ["","הִתְקַשַּׁרְתִּי",""],
+    ["","הִתְקַשַּׁרְתְּ","הִתְקַשַּׁרְתָּ"],
+    ["","הִתְקַשְּׁרָה","הִתְקַשֵּׁר"],
+    ["","הִתְקַשַּׁרְנוּ",""],
+    ["","הִתְקַשַּׁרְתֶּן","הִתְקַשַּׁרְתֶּם"],
+    ["","הִתְקַשְּׁרוּ",""]
+  ]},
+  {title:"Futur", headers:["","Féminin","Masculin"], rows:[
+    ["","אֶתְקַשֵּׁר",""],
+    ["","תִּתְקַשְּׁרִי","תִּתְקַשֵּׁר"],
+    ["","תִּתְקַשֵּׁר","יִתְקַשֵּׁר"],
+    ["","נִתְקַשֵּׁר",""],
+    ["","תִּתְקַשַּׁרְנָה","תִּתְקַשְּׁרוּ"],
+    ["","תִּתְקַשַּׁרְנָה","יִתְקַשְּׁרוּ"]
+  ]},
+  {title:"Impératif", headers:["","Féminin","Masculin"], rows:[
+    ["","הִתְקַשְּׁרִי","הִתְקַשֵּׁר"],
+    ["","הִתְקַשַּׁרְנָה","הִתְקַשְּׁרוּ"]
+  ]}
+]},
+{course:32, root:"ל.ח.ם", meaning:"combattre", tables:[
+  {title:"Participe présent", headers:["","Féminin","Masculin"], rows:[
+    ["Combattant (sg.)","נִלְחֶמֶת","נִלְחָם"],
+    ["Combattant (pl.)","נִלְחָמוֹת","נִלְחָמִים"]
+  ]},
+  {title:"Passé", headers:["","Féminin","Masculin"], rows:[
+    ["J'ai combattu","נִלְחַמְתִּי",""],
+    ["Tu as combattu","נִלְחַמְתְּ","נִלְחַמְתָּ"],
+    ["Il/elle a combattu","נִלְחֲמָה","נִלְחַם"],
+    ["Nous avons combattu","נִלְחַמְנוּ",""],
+    ["Vous avez combattu","נִלְחַמְתֶּן","נִלְחַמְתֶּם"],
+    ["Ils/elles ont combattu","נִלְחֲמוּ",""]
+  ]},
+  {title:"Futur", headers:["","Féminin","Masculin"], rows:[
+    ["Je combattrai","אֶלָּחֵם",""],
+    ["Tu combattras","תִּלָּחֲמִי","תִּלָּחֵם"],
+    ["Il/elle combattra","תִּלָּחֵם","יִלָּחֵם"],
+    ["Nous combattrons","נִלָּחֵם",""],
+    ["Vous combattrez","תִּלָּחַמְנָה","תִּלָּחֲמוּ"],
+    ["Ils/elles combattront","תִּלָּחַמְנָה","יִלָּחֲמוּ"]
+  ]},
+  {title:"Impératif", headers:["","Féminin","Masculin"], rows:[
+    ["Combats !","הִלָּחֲמִי","הִלָּחֵם"],
+    ["Combattez !","הִלָּחַמְנָה","הִלָּחֲמוּ"]
+  ]}
+]},
+{course:33, root:"ס.ת.ר", meaning:"cacher", tables:[
+  {title:"Participe présent", headers:["","Féminin","Masculin"], rows:[
+    ["(sg.)","מַסְתִּירָה","מַסְתִּיר"],
+    ["(pl.)","מַסְתִּירוֹת","מַסְתִּירִים"]
+  ]},
+  {title:"Passé", headers:["","Féminin","Masculin"], rows:[
+    ["","הִסְתַּרְתִּי",""],
+    ["","הִסְתַּרְתְּ","הִסְתַּרְתָּ"],
+    ["","הִסְתִּירָה","הִסְתִּיר"],
+    ["","הִסְתַּרְנוּ",""],
+    ["","הִסְתַּרְתֶּן","הִסְתַּרְתֶּם"],
+    ["","הִסְתִּירוּ",""]
+  ]},
+  {title:"Futur", headers:["","Féminin","Masculin"], rows:[
+    ["","אַסְתִּיר",""],
+    ["","תַּסְתִּירִי","תַּסְתִּיר"],
+    ["","תַּסְתִּיר","יַסְתִּיר"],
+    ["","נַסְתִּיר",""],
+    ["","תַּסְתֵּרְנָה","תַּסְתִּירוּ"],
+    ["","תַּסְתֵּרְנָה","יַסְתִּירוּ"]
+  ]},
+  {title:"Impératif", headers:["","Féminin","Masculin"], rows:[
+    ["","הַסְתִּירִי","הַסְתֵּר"],
+    ["","הַסְתֵּרְנָה","הַסְתִּירוּ"]
+  ]}
+]},
+{course:34, root:"פ.ק.ד", meaning:"établir", tables:[
+  {title:"Participe présent", headers:["","Féminin","Masculin"], rows:[
+    ["(sg.)","מֻפְקֶדֶת","מֻפְקָד"],
+    ["(pl.)","מֻפְקָדוֹת","מֻפְקָדִים"]
+  ]},
+  {title:"Passé", headers:["","Féminin","Masculin"], rows:[
+    ["","הָפְקַדְתִּי",""],
+    ["","הָפְקַדְתְּ","הָפְקַדְתָּ"],
+    ["","הָפְקְדָה","הָפְקַד"],
+    ["","הָפְקַדְנוּ",""],
+    ["","הָפְקַדְתֶּן","הָפְקַדְתֶּם"],
+    ["","הָפְקְדוּ",""]
+  ]},
+  {title:"Futur", headers:["","Féminin","Masculin"], rows:[
+    ["","אָפְקַד",""],
+    ["","תָּפְקְדִי","תָּפְקַד"],
+    ["","תָּפְקַד","יָפְקַד"],
+    ["","נָפְקַד",""],
+    ["","תָּפְקַדְנָה","תָּפְקְדוּ"],
+    ["","תָּפְקַדְנָה","יָפְקְדוּ"]
+  ]}
+]},
 {course:13, root:"ע.ב.ר", meaning:"traverser", tables:[
   {title:"Qatal", headers:["","Féminin","Masculin"], rows:[
     ["J'ai traversé","עָבַרְתִּי",""],
@@ -2919,7 +4860,350 @@ const VOCAB = [
  {heb:"מוֹעֵד",tr:"Moèd",g:"M",fr:"Temps fixé, rendez-vous / Réunion",c:27},
  {heb:"קֹדֶשׁ",tr:"Qodèsh",g:"M",fr:"Sainteté",c:27},
  {heb:"שָׁחַט",tr:"Sha'hat",g:"v",fr:"Il a égorgé",c:27},
- {heb:"מָכַר",tr:"Makhar",g:"v",fr:"Il a vendu",c:27}
+ {heb:"מָכַר",tr:"Makhar",g:"v",fr:"Il a vendu",c:27},
+ {heb:"עֵת",tr:"'Èth",g:"M/F",fr:"Temps, période",c:28},
+ {heb:"תָּוֶךְ",tr:"Tavèkh",g:"M",fr:"Milieu",c:28},
+ {heb:"אָוֶן",tr:"Avèn",g:"M",fr:"Vanité, iniquité / Affliction, deuil",c:28},
+ {heb:"טֶרֶם",tr:"Térèm",g:"—",fr:"Avant",c:28},
+ {heb:"הֶבֶל",tr:"Hévèl",g:"M",fr:"Souffle / Vain (ce qui est passager)",c:28},
+ {heb:"רֹב",tr:"Rov",g:"M",fr:"Multitude, grandeur",c:28},
+ {heb:"תּוֹעֵבָה",tr:"To'évah",g:"F",fr:"Abomination, horreur, idole",c:28},
+ {heb:"שָׂרַף",tr:"Saraf",g:"v",fr:"Il a brûlé / mit au feu",c:28},
+ {heb:"כָּלָה",tr:"Kalah",g:"v",fr:"Il a achevé",c:28},
+ {heb:"חִלֵּל",tr:"'Hilèl",g:"v",fr:"Il a blessé",c:28},
+ {heb:"כִּפֵר",tr:"Kipèr",g:"v",fr:"Il a couvert / expié",c:28},
+ {heb:"קִדֵּשׁ",tr:"Qidèsh",g:"v",fr:"Il a sanctifié",c:28},
+ {heb:"בִּקֵּשׁ",tr:"Biqèsh",g:"v",fr:"Il a cherché / demandé",c:28},
+ {heb:"סִפֵּר",tr:"Sipèr",g:"v",fr:"Il a raconté",c:28},
+ {heb:"לִמֵּד",tr:"Limèd",g:"v",fr:"Il a enseigné",c:28},
+ {heb:"עֵגֶל",tr:"'Égèl",g:"M",fr:"Veau",c:29},
+ {heb:"פֶּתַח",tr:"Péta'h",g:"M",fr:"Ouverture, entrée",c:29},
+ {heb:"בּוֹר",tr:"Bor",g:"M",fr:"Fosse, citerne",c:29},
+ {heb:"חַטָּאָה",tr:"'Hataah",g:"F",fr:"Péché",c:29},
+ {heb:"בֶּגֶד",tr:"Béguèd",g:"M",fr:"Vêtement / Perfidie, trahison",c:29},
+ {heb:"מִשְׁכָּן",tr:"Mishkan",g:"M",fr:"Habitation, demeure / Tabernacle de Dieu",c:29},
+ {heb:"מַלְכוּת",tr:"Malkhout",g:"F",fr:"Royaume",c:29},
+ {heb:"כְּלִי",tr:"Kéli",g:"M",fr:"Vase, ustensile",c:29},
+ {heb:"חֵלֶב",tr:"'Hélèv",g:"M",fr:"Graisse",c:29},
+ {heb:"שָׁכַן",tr:"Shakhan",g:"v",fr:"Il a demeuré",c:29},
+ {heb:"יָסַף",tr:"Yasaph",g:"v",fr:"Il a ajouté",c:29},
+ {heb:"יָרָה",tr:"Yarah",g:"v",fr:"Il a jeté / posé / érigé (les fondations)",c:29},
+ {heb:"גָּנַב",tr:"Ganav",g:"v",fr:"Il a dérobé",c:29},
+ {heb:"לָבַשׁ",tr:"Lavash",g:"v",fr:"Il porta un vêtement",c:29},
+ {heb:"תְּפִלָּה",tr:"Téfilah",g:"F",fr:"Prière, supplication",c:30},
+ {heb:"שֶׁמֶן",tr:"Shémèn",g:"M",fr:"Graisse, huile",c:30},
+ {heb:"גְּבוּל",tr:"Guévoul",g:"M",fr:"Frontière, limite",c:30},
+ {heb:"אָרוֹן",tr:"Aron",g:"M",fr:"Arche, coffre",c:30},
+ {heb:"מָוֶת",tr:"Mavèt",g:"M",fr:"Mort",c:30},
+ {heb:"עֹז",tr:"'Oz",g:"M",fr:"Force, puissance",c:30},
+ {heb:"צַר",tr:"Tsar",g:"M",fr:"Ennemi / Détresse, affliction / Pierre",c:30},
+ {heb:"בָּרַךְ",tr:"Barakh",g:"v",fr:"Il s'est agenouillé",c:30},
+ {heb:"זָנָה",tr:"Zanah",g:"v",fr:"Il s'est prostitué",c:30},
+ {heb:"כָּסָה",tr:"Kasah",g:"v",fr:"Il a caché/couvert",c:30},
+ {heb:"טָמֵא",tr:"Tamé",g:"v",fr:"Il était impur/souillé",c:30},
+ {heb:"טָהֵר",tr:"Tahèr",g:"v",fr:"Il était pur/purifié",c:30},
+ {heb:"הִסְתַּתֵּר",tr:"Histatère",g:"v",fr:"Il s'est caché",c:30},
+ {heb:"קִדֵּשׁ",tr:"Qidèsh",g:"v",fr:"Il a sanctifié",c:30},
+ {heb:"הִתְפַּלֵּל",tr:"Hitpalèl",g:"v",fr:"Il pria",c:30},
+ {heb:"רֵעֶה",tr:"Ré'éh",g:"M",fr:"Ami",c:31},
+ {heb:"עֵבֶר",tr:"'Éver",g:"M",fr:"Côté, côté opposé",c:31},
+ {heb:"שֵׁבֶט",tr:"Shévèt",g:"M",fr:"Bâton, verge, sceptre, pointe, tribu",c:31},
+ {heb:"מַרְאֶה",tr:"Mar'éh",g:"M",fr:"Aspect, vue / Vision",c:31},
+ {heb:"עַמּוּד",tr:"'Amoud",g:"M",fr:"Colonne",c:31},
+ {heb:"מְלָאכָה",tr:"Mélakha",g:"F",fr:"Mission, ouvrage / Chose, possession",c:31},
+ {heb:"כֶּרֶם",tr:"Kérem",g:"M",fr:"Vigne, champ bien cultivé",c:31},
+ {heb:"קָבַץ",tr:"Qavats",g:"v",fr:"Il a recueilli/amassé/rassemblé",c:31},
+ {heb:"מָלֵא",tr:"Malé",g:"v",fr:"Il a rempli",c:31},
+ {heb:"בָּעַר",tr:"Ba'ar",g:"v",fr:"Il a brûlé/consumé",c:31},
+ {heb:"רָכַב",tr:"Rakhav",g:"v",fr:"Il a chevauché",c:31},
+ {heb:"בֵּרֵךְ",tr:"Bérèkh",g:"v",fr:"Il a béni",c:31},
+ {heb:"בִּקֵּעַ",tr:"Biqé'a",g:"v",fr:"Il a fendu",c:31},
+ {heb:"נִחַם",tr:"Ni'ham",g:"v",fr:"Il a consolé",c:31},
+ {heb:"הִתְנַבֵּא",tr:"Hithnabé",g:"v",fr:"Il a prophétisé",c:31},
+ {heb:"קֵץ",tr:"Qèts",g:"M",fr:"Fin, extrémité",c:32},
+ {heb:"צָפוֹן",tr:"Tsaphon",g:"M/F",fr:"Septentrion, Nord",c:32},
+ {heb:"נֶגֶב",tr:"Néguèv",g:"M",fr:"Midi, Sud",c:32},
+ {heb:"מִזְרָח",tr:"Mizra'h",g:"M",fr:"Levant, Est, Orient",c:32},
+ {heb:"שֶׁמֶשׁ",tr:"Shémèsh",g:"M/F",fr:"Soleil",c:32},
+ {heb:"יֶתֶר",tr:"Yétèr",g:"M",fr:"Reste, restant",c:32},
+ {heb:"יָרֵחַ",tr:"Yaréa'h",g:"M",fr:"Lune",c:32},
+ {heb:"מִשְׁפָּחָה",tr:"Mishpa'ha",g:"F",fr:"Famille",c:32},
+ {heb:"בָּמָה",tr:"Bamah",g:"F",fr:"Hauteur, colline, haut lieu",c:32},
+ {heb:"בְּכוֹר",tr:"Békhor",g:"M",fr:"Premier-né",c:32},
+ {heb:"נָגַשׁ",tr:"Nagash",g:"v",fr:"Il s'est approché, avancé",c:32},
+ {heb:"פָּנָה",tr:"Panah",g:"v",fr:"Il a tourné",c:32},
+ {heb:"נִשְׁבַּע",tr:"Nishba'",g:"v",fr:"Il a juré",c:32},
+ {heb:"נִלְחַם",tr:"Nil'ham",g:"v",fr:"Il a combattu",c:32},
+ {heb:"שִׁחֵת",tr:"Shi'hèt",g:"v",fr:"Il a détruit",c:32},
+ {heb:"מִלְחָמָה",tr:"Mil'hmah",g:"F",fr:"Guerre",c:33},
+ {heb:"שׁוֹפָר",tr:"Shofar",g:"M",fr:"Cor, trompette",c:33},
+ {heb:"תְּרוּמָה",tr:"Téroumah",g:"F",fr:"Don, offrande, oblation",c:33},
+ {heb:"קֶרֶן",tr:"Qéren",g:"F",fr:"Corne, rayon",c:33},
+ {heb:"נְחֹשֶׁת",tr:"Né'hoshèth",g:"M/F",fr:"Cuivre, bronze, airain",c:33},
+ {heb:"זְרוֹעַ",tr:"Zéroa",g:"F",fr:"Bras",c:33},
+ {heb:"רֶכֶב",tr:"Rékhèv",g:"M",fr:"Char / Cavalier",c:33},
+ {heb:"נִפְלָא",tr:"Nifla",g:"v",fr:"Il a été étonnant/merveilleux/extraordinaire",c:33},
+ {heb:"קִטֵּר",tr:"Qitèr",g:"v",fr:"Il a brûlé / fait fumer",c:33},
+ {heb:"הִלֵּל",tr:"Hilèl",g:"v",fr:"Il a célébré / loué",c:33},
+ {heb:"יָטַב",tr:"Yatav",g:"v",fr:"Il est bon",c:33},
+ {heb:"לָכַד",tr:"Lakhad",g:"v",fr:"Il a attrapé / pris",c:33},
+ {heb:"שָׂבַע",tr:"Sava'",g:"v",fr:"Il est rassasié",c:33},
+ {heb:"הִשְׁלִיךְ",tr:"Hishlikh",g:"v",fr:"Il a jeté",c:33},
+ {heb:"הִסְתִּיר",tr:"Histir",g:"v",fr:"Il a caché",c:33},
+ {heb:"מָשִׁיחַ",tr:"Mashia'h",g:"M",fr:"Oint, enduit (aussi : le Messie)",c:34},
+ {heb:"רֶחֶם",tr:"Ré'hèm",g:"M",fr:"Matrice, entrailles",c:34},
+ {heb:"פֶּן",tr:"Pèn",g:"—",fr:"De peur que",c:34},
+ {heb:"שִׁיר",tr:"Shir",g:"M",fr:"Chant",c:34},
+ {heb:"שִׂמְחָה",tr:"Sim'ha",g:"M",fr:"Joie",c:34},
+ {heb:"יַחְדָּו",tr:"Ya'hdav",g:"—",fr:"Ensemble",c:34},
+ {heb:"לָשׁוֹן",tr:"Lashon",g:"M/F",fr:"Langue",c:34},
+ {heb:"שַׂר",tr:"Sar",g:"M",fr:"Chef, prince",c:34},
+ {heb:"צוּר",tr:"Tsour",g:"M",fr:"Pierre, rocher",c:34},
+ {heb:"רֵעַ",tr:"Réa'",g:"M",fr:"Ami, prochain",c:34},
+ {heb:"שֵׁרֵת",tr:"Shirèth",g:"v",fr:"Il a servi",c:34},
+ {heb:"שָׁתָה",tr:"Shatah",g:"v",fr:"Il a bu",c:34},
+ {heb:"מִלֵּט",tr:"Milèt",g:"v",fr:"Il a fait sortir / délivré",c:34},
+ {heb:"בִּין",tr:"Bin",g:"v",fr:"Il a distingué / compris",c:34},
+ {heb:"הָבְקַע",tr:"Hovqa'",g:"v",fr:"Il a été conquis",c:34},
+ {heb:"קָצֶה",tr:"Qatséh",g:"M",fr:"Fin, extrémité, bout",c:35},
+ {heb:"חָצֵר",tr:"'Hatsèr",g:"M/F",fr:"Cour",c:35},
+ {heb:"פֵּאָה",tr:"Péah",g:"F",fr:"Côté, angle, coin",c:35},
+ {heb:"כְּסִיל",tr:"Késsil",g:"M",fr:"Sot, fou, insensé",c:35},
+ {heb:"נֶגַע",tr:"Néga'",g:"M",fr:"Coup, plaie",c:35},
+ {heb:"נַחַל",tr:"Na'hal",g:"M",fr:"Torrent, fleuve",c:35},
+ {heb:"סָבִיב",tr:"Saviv",g:"M",fr:"Autour, alentour",c:35},
+ {heb:"עֵמֶק",tr:"'Émèq",g:"M",fr:"Vallée",c:35},
+ {heb:"שָׁכַח",tr:"Shakha'h",g:"v",fr:"Il a oublié",c:35},
+ {heb:"נִשְׁחַת",tr:"Nish'hath",g:"v",fr:"Il fut dévasté/détruit",c:35},
+ {heb:"הֶאֱמִין",tr:"Héémin",g:"v",fr:"Il a fait confiance / Il a cru",c:35},
+ {heb:"נֶאֱמָן",tr:"Néeman",g:"v",fr:"Il a été élevé/fidèle",c:35},
+ {heb:"עָזַר",tr:"'Azar",g:"v",fr:"Il a aidé",c:35},
+ {heb:"הִצְלִיחַ",tr:"Hitslia'h",g:"v",fr:"Il a fait réussir / Il a réussi",c:35},
+ {heb:"שָׁמֵם",tr:"Shamèm",g:"v",fr:"Il a dévasté",c:35},
+ {heb:"פִּתְאֹם",tr:"Pithom",g:"—",fr:"Soudain, aussitôt, subitement",c:36},
+ {heb:"חִנָּם",tr:"'Hinam",g:"—",fr:"Par grâce, gratuitement, en vain, sans raison",c:36},
+ {heb:"יוֹמָם",tr:"Yomam",g:"—",fr:"Pendant le jour",c:36},
+ {heb:"רֵיקָם",tr:"Réqam",g:"—",fr:"Les mains vides, en vain, sans motif, sans rien",c:36},
+ {heb:"שִׁלְשֹׁם",tr:"Shilshom",g:"—",fr:"Avant-hier",c:36},
+ {heb:"אֱמוּנָה",tr:"Émouna",g:"F",fr:"Foi, fidélité, fermeté, loyauté, vérité",c:36},
+ {heb:"רֵיק",tr:"Rèq",g:"M",fr:"Vide, vain",c:36},
+ {heb:"הָמוֹן",tr:"Hamon",g:"M",fr:"Bruit, tumulte / la foule / richesse, énormément",c:36},
+ {heb:"פֶּשַׁע",tr:"Pésha'",g:"M",fr:"Crime, transgression, péché",c:36},
+ {heb:"בַּעַל",tr:"Ba'al",g:"M",fr:"Maître, Baal",c:36},
+ {heb:"סָבַב",tr:"Savav",g:"v",fr:"Il a tourné / il a entouré",c:36},
+ {heb:"חָרָה",tr:"'Harah",g:"v",fr:"Il a brûlé, enflammé (de colère)",c:36},
+ {heb:"רָץ",tr:"Routs",g:"v",fr:"Il a couru",c:36},
+ {heb:"רָעַע",tr:"Ra'a",g:"v",fr:"Il était mauvais",c:36},
+ {heb:"נִשְׁמַד",tr:"Nishmad",g:"v",fr:"Il a été détruit",c:36},
+ {heb:"אוֹצָר",tr:"Otsar",g:"F",fr:"Trésor",c:37},
+ {heb:"מְזוּזָה",tr:"Mézouzah",g:"F",fr:"Montant/poteau de porte",c:37},
+ {heb:"טוֹטָפוֹת",tr:"Totafot",g:"F",fr:"Fronteaux, phylactères",c:37},
+ {heb:"מִגְרָשׁ",tr:"Migrash",g:"M",fr:"Lieu de pâturage",c:37},
+ {heb:"מִשְׁמֶרֶת",tr:"Mishmérèt",g:"F",fr:"Poste de garde, garde",c:37},
+ {heb:"קֶשֶׁת",tr:"Qéshèt",g:"F",fr:"Arc",c:37},
+ {heb:"שׁוֹר",tr:"Shor",g:"M",fr:"Taureau, bœuf",c:37},
+ {heb:"חָפֵץ",tr:"'Hafèts",g:"v",fr:"Il a désiré",c:37},
+ {heb:"שָׁר",tr:"Shar",g:"v",fr:"Il a chanté",c:37},
+ {heb:"שָׂמַח",tr:"Sama'h",g:"v",fr:"Il s'est réjoui",c:37},
+ {heb:"עָרַךְ",tr:"'Arakh",g:"v",fr:"Il a arrangé / mis en ordre",c:37},
+ {heb:"סָר",tr:"Sour",g:"v",fr:"Il s'est écarté/détourné",c:37},
+ {heb:"עָר",tr:"'Our",g:"v",fr:"Il s'est réveillé",c:37},
+ {heb:"נָח",tr:"Noua'h",g:"v",fr:"Il s'est reposé",c:37},
+ {heb:"שִׁנֵּן",tr:"Shinèn",g:"v",fr:"Il a inculqué",c:37},
+ {heb:"שִׁפְחָה",tr:"Shif'ha",g:"F",fr:"Servante",c:38},
+ {heb:"חֵן",tr:"'Hèn",g:"M",fr:"Grâce",c:38},
+ {heb:"נָשִׂיא",tr:"Nassi",g:"M",fr:"Prince, chef",c:38},
+ {heb:"קִיר",tr:"Qir",g:"M",fr:"Mur",c:38},
+ {heb:"אֶרֶז",tr:"Erèz",g:"M",fr:"Cèdre",c:38},
+ {heb:"עוֹר",tr:"'Or",g:"M",fr:"Peau",c:38},
+ {heb:"עֵצָה",tr:"'Etsah",g:"F",fr:"Conseil",c:38},
+ {heb:"שָׂפָה",tr:"Sapha",g:"F",fr:"Lèvre, langue",c:38},
+ {heb:"שִׁלֵּם",tr:"Shilèm",g:"v",fr:"Il a achevé / rendu paisible / payé",c:38},
+ {heb:"יָדָה",tr:"Yadah",g:"v",fr:"Il a tiré (des flèches)",c:38},
+ {heb:"שָׁאַב",tr:"Shaav",g:"v",fr:"Il a puisé",c:38},
+ {heb:"נָטַשׁ",tr:"Natash",g:"v",fr:"Il a laissé / abandonné",c:38},
+ {heb:"נִצַּב",tr:"Nitsav",g:"v",fr:"Il a été placé / se tient debout",c:38},
+ {heb:"הִצִּיל",tr:"Hitsil",g:"v",fr:"Il a arraché / Il a délivré",c:38},
+ {heb:"הִגִּיד",tr:"Higuid",g:"v",fr:"Il a raconté",c:38},
+ {heb:"יָתוֹם",tr:"Yatoum",g:"M",fr:"Orphelin",c:39},
+ {heb:"אַלְמָנָה",tr:"Almanah",g:"F",fr:"Veuve",c:39},
+ {heb:"שִׂמְלָה",tr:"Simlah",g:"F",fr:"Habit, vêtement",c:39},
+ {heb:"עֵשֶׂב",tr:"'Èsèv",g:"M",fr:"Herbe",c:39},
+ {heb:"אָכְלָה",tr:"'Orkhlah",g:"F",fr:"Nourriture",c:39},
+ {heb:"שֹׁטֵר",tr:"Shoter",g:"M",fr:"Commissaire (police)",c:39},
+ {heb:"צָרָה",tr:"Tsarah",g:"F",fr:"Ennemie / Affliction, peine",c:39},
+ {heb:"חָלָל",tr:"'Halal",g:"M",fr:"Blessé / Profane",c:39},
+ {heb:"יַעַן",tr:"Ya'an",g:"—",fr:"À cause de / parce que, puisque",c:39},
+ {heb:"יְשׁוּעָה",tr:"Yéshouah",g:"F",fr:"Secours, délivrance, salut",c:39},
+ {heb:"גּוֹרָל",tr:"Goral",g:"M",fr:"Sort",c:39},
+ {heb:"שָׁנָה",tr:"Shanah",g:"v",fr:"Il a répété / changé",c:39},
+ {heb:"הוֹשִׁיעַ",tr:"Hoshi'a",g:"v",fr:"Il a sauvé / délivré",c:39},
+ {heb:"יָרֵא",tr:"Yaré",g:"v",fr:"Il a eu peur / craint",c:39},
+ {heb:"זָרַע",tr:"Zara'",g:"v",fr:"Il a semé",c:39},
+ {heb:"אֵיךְ",tr:"Ekh",g:"—",fr:"Comment",c:40},
+ {heb:"שָׂכָר",tr:"Shakhar",g:"M",fr:"Salaire",c:40},
+ {heb:"אֹיֵב",tr:"Oyèv",g:"M",fr:"Ennemie",c:40},
+ {heb:"שֶׁקֶל",tr:"Shéqèl",g:"M",fr:"Poids (valeur monétaire)",c:40},
+ {heb:"הֵילִיל",tr:"Hélil",g:"v",fr:"Il a poussé des hurlements / il a gémi",c:40},
+ {heb:"אָיַב",tr:"Ayav",g:"v",fr:"Il a haï",c:40},
+ {heb:"הֵימִין",tr:"Hémin",g:"v",fr:"Il est allé à droite",c:40},
+ {heb:"יָקַץ",tr:"Yaqats",g:"v",fr:"Il s'éveilla",c:40},
+ {heb:"יָשָׁר",tr:"Yashar",g:"v",fr:"Il était droit",c:40},
+ {heb:"יָנַק",tr:"Yanaq",g:"v",fr:"Il a tété",c:40},
+ {heb:"יָבֵשׁ",tr:"Yavèsh",g:"v",fr:"Il est devenu sec / il avait honte",c:40},
+ {heb:"הוֹדָה",tr:"Hodah",g:"v",fr:"Il a loué",c:40},
+ {heb:"הוֹרָה",tr:"Horah",g:"v",fr:"Il a tiré / indiqué / instruit",c:40},
+ {heb:"נוֹתַר",tr:"Notar",g:"v",fr:"Il est resté",c:40},
+ {heb:"יָעַץ",tr:"Ya'ats",g:"v",fr:"Il a conseillé",c:40},
+ {heb:"מוֹלֶדֶת",tr:"Molédèth",g:"F",fr:"Naissance, patrie",c:41},
+ {heb:"דְּבַשׁ",tr:"Dévash",g:"M",fr:"Miel",c:41},
+ {heb:"עַלְמָה",tr:"Almah",g:"F",fr:"Jeune fille",c:41},
+ {heb:"עָנִי",tr:"'Ani",g:"M",fr:"Pauvre, malheureux, humble",c:41},
+ {heb:"כֶּבֶשׂ",tr:"Kéves",g:"M",fr:"Agneau",c:41},
+ {heb:"חֵמָה",tr:"'Hémah",g:"F",fr:"Colère, fureur",c:41},
+ {heb:"עָנָו",tr:"'Anav",g:"M",fr:"Malheureux, affligé, humble, doux",c:41},
+ {heb:"חָדָשׁ",tr:"'Hadash",g:"M",fr:"Neuf, nouveau",c:41},
+ {heb:"סֶלָה",tr:"Sélah",g:"—",fr:"Pause (signe musical)",c:41},
+ {heb:"רָפָה",tr:"Rapha",g:"v",fr:"Il a décliné / il s'est affaibli / il a perdu courage",c:41},
+ {heb:"כָּעַס",tr:"Ka'as",g:"v",fr:"Il s'est découragé / il s'est fâché",c:41},
+ {heb:"חָלַם",tr:"'Halam",g:"v",fr:"Il a rêvé",c:41},
+ {heb:"יָכֹל",tr:"Yakhol",g:"v",fr:"Il pouvait",c:41},
+ {heb:"יָשַׁן",tr:"Yashan",g:"v",fr:"Il dormait",c:41},
+ {heb:"נוֹשָׁן",tr:"Noshan",g:"v",fr:"Il était vieux",c:41},
+ {heb:"נְשָׁמָה",tr:"Néshama",g:"F",fr:"Souffle, respiration / âme, esprit",c:42},
+ {heb:"קֶדֶם",tr:"Qédèm",g:"M",fr:"Le devant / l'Est / les temps anciens",c:42},
+ {heb:"מַאֲכָל",tr:"Maakhal",g:"M",fr:"Nourriture",c:42},
+ {heb:"עֵד",tr:"Ed",g:"M",fr:"Témoin / témoignage, preuve",c:42},
+ {heb:"הִשְׁכִּים",tr:"Hishkim",g:"v",fr:"Il se leva de bon matin",c:42},
+ {heb:"שָׁאַב",tr:"Shaav",g:"v",fr:"Il a puisé",c:42},
+ {heb:"חָמַד",tr:"'Hamad",g:"v",fr:"Il a désiré, convoité",c:42},
+ {heb:"צָמַח",tr:"Tsama'h",g:"v",fr:"Il a poussé",c:42},
+ {heb:"נָטַע",tr:"Nata'",g:"v",fr:"Il a planté / il a dressé, étendu",c:42},
+ {heb:"מָאֵן",tr:"Maèn",g:"v",fr:"Il a refusé",c:42},
+ {heb:"יָצַת",tr:"Yatsat",g:"v",fr:"Il a mis le feu, embrasé",c:42},
+ {heb:"יָצַק",tr:"Yatsaq",g:"v",fr:"Il a versé, répandu",c:42},
+ {heb:"הִצִּיעַ",tr:"Hitsi'a",g:"v",fr:"Il a étendu sous",c:42},
+ {heb:"הִצִּיג",tr:"Hitsig",g:"v",fr:"Il a placé, mis",c:42},
+ {heb:"הִתְיַצֵּב",tr:"Hityatsev",g:"v",fr:"Il s'est présenté, placé, tenu",c:42},
+ {heb:"יָרֵךְ",tr:"Yarèkh",g:"F",fr:"Cuisse, hanche",c:43},
+ {heb:"בְּכוֹרָה",tr:"Békhora",g:"F",fr:"Ainesse",c:43},
+ {heb:"אַחֲרִית",tr:"A'harit",g:"F",fr:"Fin, suite, reste",c:43},
+ {heb:"גִּבְעָה",tr:"Guiv'ah",g:"F",fr:"Colline",c:43},
+ {heb:"שָׁלָל",tr:"Shalal",g:"M",fr:"Butin, dépouille",c:43},
+ {heb:"שָׁבַת",tr:"Shavat",g:"v",fr:"Il a cessé de faire, s'est reposé",c:43},
+ {heb:"בּוֹשׁ",tr:"Bosh",g:"v",fr:"Il a eu honte",c:43},
+ {heb:"נִסָּה",tr:"Nissah",g:"v",fr:"Il a éprouvé",c:43},
+ {heb:"מָתַק",tr:"Mataq",g:"v",fr:"Il était doux",c:43},
+ {heb:"שָׁת",tr:"Shat",g:"v",fr:"Il a placé",c:43},
+ {heb:"שָׂם",tr:"Sam",g:"v",fr:"Il a mis",c:43},
+ {heb:"רָם",tr:"Ram",g:"v",fr:"Il est élevé",c:43},
+ {heb:"לָן",tr:"Lan",g:"v",fr:"Il passa la nuit",c:43},
+ {heb:"נָכוֹן",tr:"Nakhon",g:"v",fr:"Il s'est fondé",c:43},
+ {heb:"זָר",tr:"Zar",g:"v",fr:"Il a foulé / il s'est détourné, éloigné",c:43},
+ {heb:"חֶדֶר",tr:"'Héder",g:"M",fr:"Chambre",c:44},
+ {heb:"כּוֹס",tr:"Kos",g:"F",fr:"Coupe",c:44},
+ {heb:"שֻׁלְחָן",tr:"Shoul'han",g:"M",fr:"Table",c:44},
+ {heb:"סֵתֶר",tr:"Séter",g:"M",fr:"Ce qui est caché, secret",c:44},
+ {heb:"בִּלְתִּי",tr:"Bilti",g:"—",fr:"Point, sans, sans que, hors",c:44},
+ {heb:"בָּרִיחַ",tr:"Baria'h",g:"M",fr:"Barre, verrou",c:44},
+ {heb:"רָצוֹן",tr:"Ratson",g:"M",fr:"Agrément, faveur / volonté, désir",c:44},
+ {heb:"פַּת",tr:"Pat",g:"F",fr:"Morceau",c:44},
+ {heb:"צַד",tr:"Tsad",g:"M",fr:"Côté",c:44},
+ {heb:"מִטָּה",tr:"Mitah",g:"F",fr:"Lit",c:44},
+ {heb:"שַׁדַּי",tr:"Shaday",g:"M",fr:"Dieu, le tout puissant",c:44},
+ {heb:"הֵבִיא",tr:"Hévi",g:"v",fr:"Il a apporté",c:44},
+ {heb:"עוֹפֵף",tr:"'Ophèf",g:"v",fr:"Il volait",c:44},
+ {heb:"הִתְעוֹרֵר",tr:"Hit'orèr",g:"v",fr:"Il s'est réveillé",c:44},
+ {heb:"הֵכִין",tr:"Hékhin",g:"v",fr:"Il a érigé",c:44},
+ {heb:"רִיב",tr:"Riv",g:"M",fr:"Querelle",c:45},
+ {heb:"שְׁכֶם",tr:"Shékhèm",g:"M",fr:"Épaule",c:45},
+ {heb:"מַכְאוֹב",tr:"Makhov",g:"M",fr:"Douleur, souffrance, chagrin",c:45},
+ {heb:"עֹרֵב",tr:"'Orev",g:"M",fr:"Corbeau",c:45},
+ {heb:"מְעָרָה",tr:"Mé'arah",g:"F",fr:"Caverne",c:45},
+ {heb:"סָרִיס",tr:"Saris",g:"M",fr:"Eunuque",c:45},
+ {heb:"רָקִיעַ",tr:"Raqi'a",g:"M",fr:"Étendue (des cieux, firmament)",c:45},
+ {heb:"הֶאֱזִין",tr:"Héézin",g:"v",fr:"Il a prêté l'oreille",c:45},
+ {heb:"תָּקַע",tr:"Taq'a",g:"v",fr:"Il a frappé / il a sonné (d'un instrument)",c:45},
+ {heb:"נָשַׁק",tr:"Nashaq",g:"v",fr:"Il a embrassé",c:45},
+ {heb:"יָסַד",tr:"Yasad",g:"v",fr:"Il a fondé",c:45},
+ {heb:"סָמַךְ",tr:"Samakh",g:"v",fr:"Il a appuyé / il a soutenu",c:45},
+ {heb:"גָּבַהּ",tr:"Gavah",g:"v",fr:"Il était haut / il était fier, s'est enorgueilli",c:45},
+ {heb:"קוּץ",tr:"Qouts",g:"v",fr:"Il eut du dégout / effrayé / s'éveiller (au Hifil)",c:45},
+ {heb:"יָקַץ",tr:"Yaqats",g:"v",fr:"Il s'éveilla",c:45},
+ {heb:"חוֹל",tr:"'Hol",g:"M",fr:"Sable",c:46},
+ {heb:"אָכֵן",tr:"Akhen",g:"—",fr:"Certes, vraiment, mais, cependant",c:46},
+ {heb:"אָמָה",tr:"Amah",g:"F",fr:"Servante",c:46},
+ {heb:"אָתוֹן",tr:"Aton",g:"F",fr:"Ânesse",c:46},
+ {heb:"נָקָה",tr:"Naqah",g:"v",fr:"Il était pur, innocent",c:46},
+ {heb:"חָכָה",tr:"'Hakha",g:"v",fr:"Il a attendu",c:46},
+ {heb:"קָרָה",tr:"Qarah",g:"v",fr:"Il est arrivé",c:46},
+ {heb:"תָּעָה",tr:"Ta'ah",g:"v",fr:"Il a erré / il s'est égaré",c:46},
+ {heb:"הִדְרִיךְ",tr:"Hidrikh",g:"v",fr:"Il a dirigé, conduit",c:46},
+ {heb:"נִרְצָה",tr:"Nirtsah",g:"v",fr:"Il a agréé",c:46},
+ {heb:"שָׁבָה",tr:"Shava",g:"v",fr:"Il a fait prisonnier",c:46},
+ {heb:"הָרְתָה",tr:"Har'tah",g:"v",fr:"Elle était enceinte / elle a conçu",c:46},
+ {heb:"נִצָּה",tr:"Nitsah",g:"v",fr:"Il s'est querellé",c:46},
+ {heb:"טָמַן",tr:"Taman",g:"v",fr:"Il a enfoui, caché",c:46},
+ {heb:"הִכָּה",tr:"Hikah",g:"v",fr:"Il a frappé",c:46},
+ {heb:"שֶׁפֶט",tr:"Shéfèt",g:"M",fr:"Jugement, châtiment",c:47},
+ {heb:"מַכָּה",tr:"Makah",g:"F",fr:"Coup, plaie / défaite, carnage",c:47},
+ {heb:"שָׂרִיד",tr:"Sarid",g:"M",fr:"Réchappé, survivant",c:47},
+ {heb:"מִבְצָר",tr:"Mivtsar",g:"M",fr:"Fortification, forteresse",c:47},
+ {heb:"שָׁעַע",tr:"Sha'a",g:"v",fr:"Il est aveugle",c:47},
+ {heb:"בָּרַר",tr:"Barar",g:"v",fr:"Il a séparé/trié",c:47},
+ {heb:"זִנֵּב",tr:"Zinèv",g:"v",fr:"Il a attaqué l'arrière-garde",c:47},
+ {heb:"תָּמַם",tr:"Tamam",g:"v",fr:"Il a achevé, fini",c:47},
+ {heb:"חָגַג",tr:"'Hagag",g:"v",fr:"Il a fêté",c:47},
+ {heb:"גָּלַל",tr:"Galal",g:"v",fr:"Il a roulé (des pierres)",c:47},
+ {heb:"מָדַד",tr:"Madad",g:"v",fr:"Il a mesuré",c:47},
+ {heb:"הִשְׁקָה",tr:"Hishqah",g:"v",fr:"Il a donné à boire/abreuvé",c:47},
+ {heb:"קָלַל",tr:"Qalal",g:"v",fr:"Il est petit / méprisé",c:47},
+ {heb:"חָנַן",tr:"'Hanan",g:"v",fr:"Il a gracié",c:47},
+ {heb:"הֵחֵל",tr:"Hé'hèl",g:"v",fr:"Il a profané / il a commencé",c:47},
+ {heb:"נָקִי",tr:"Naqi",g:"M",fr:"Pur, innocent",c:48},
+ {heb:"אֲגַם",tr:"Agam",g:"M",fr:"Marais, étang",c:48},
+ {heb:"צְפַרְדֵּעַ",tr:"Tsefarde'a",g:"M",fr:"Grenouille",c:48},
+ {heb:"חַרְטֹם",tr:"'Hartom",g:"M",fr:"Devin, astrologue",c:48},
+ {heb:"זִמָּה",tr:"Zimah",g:"F",fr:"Pensée / mauvaise pensée, malice",c:48},
+ {heb:"לַט",tr:"Lat",g:"M",fr:"Enchantement, sortilège",c:48},
+ {heb:"הָם",tr:"'Ham",g:"v",fr:"Il a agité, troublé",c:48},
+ {heb:"הֵרִיעַ",tr:"Héri'a",g:"v",fr:"Il a fait du bruit, poussé des cris",c:48},
+ {heb:"טָרַף",tr:"Taraf",g:"v",fr:"Il a déchiré",c:48},
+ {heb:"יָסַר",tr:"Yasar",g:"v",fr:"Il a réprimandé",c:48},
+ {heb:"פָּדָה",tr:"Padah",g:"v",fr:"Il a racheté",c:48},
+ {heb:"סָלַח",tr:"Sala'h",g:"v",fr:"Il a pardonné",c:48},
+ {heb:"נִשְׁעַן",tr:"Nish'an",g:"v",fr:"Il s'appuya / il s'est fié",c:48},
+ {heb:"הִשְׁתַּחֲוָה",tr:"Hishta'havah",g:"v",fr:"Il s'est incliné, prosterné",c:48},
+ {heb:"מְעִיל",tr:"Mé'il",g:"M",fr:"Manteau",c:49},
+ {heb:"מַשָּׂא",tr:"Massa",g:"M",fr:"Porter (nom verbal) / charge / tribu",c:49},
+ {heb:"עוּגָה",tr:"Ougah",g:"F",fr:"Gâteau",c:49},
+ {heb:"חָמֵץ",tr:"'Hamèts",g:"M",fr:"Pain levé",c:49},
+ {heb:"עָשִׁיר",tr:"'Ashir",g:"M",fr:"Riche",c:49},
+ {heb:"מָחָה",tr:"Ma'ha",g:"v",fr:"Il a exterminé",c:49},
+ {heb:"נִבַּט",tr:"Nibat",g:"v",fr:"Il a regardé",c:49},
+ {heb:"גָּלַל",tr:"Galal",g:"v",fr:"Il a roulé (des pierres)",c:49},
+ {heb:"בָּלַע",tr:"Bal'a",g:"v",fr:"Il a avalé",c:49},
+ {heb:"כִּרְבֵּל",tr:"Kourbal",g:"v",fr:"Il a revêtu",c:49},
+ {heb:"הִתְמַהְמֵהַּ",tr:"Hitmahmeh",g:"v",fr:"Il s'attarda",c:49},
+ {heb:"כָּסַם",tr:"Kasam",g:"v",fr:"Il a coupé (les cheveux)",c:49},
+ {heb:"כִּרְסֵם",tr:"Kirsem",g:"v",fr:"Il a dévoré",c:49},
+ {heb:"עָמַל",tr:"'Amal",g:"v",fr:"Il a travaillé, peiné",c:49},
+ {heb:"נִסְעַר",tr:"Nis'ar",g:"v",fr:"Il a été agité",c:49},
+ {heb:"תֵּבָה",tr:"Tévah",g:"F",fr:"Arche, caisse",c:50},
+ {heb:"חֵמָר",tr:"'Hémar",g:"M",fr:"Bitume",c:50},
+ {heb:"סוּף",tr:"Souf",g:"M",fr:"Jonc, roseau",c:50},
+ {heb:"כִּבֵּס",tr:"Kibès",g:"v",fr:"Il a lavé",c:50},
+ {heb:"קָשַׁר",tr:"Qashar",g:"v",fr:"Il a lié, attaché",c:50},
+ {heb:"הֵאִיר",tr:"Héir",g:"v",fr:"Il a éclairé",c:50},
+ {heb:"דָּבַק",tr:"Davaq",g:"v",fr:"Il (s')est attaché",c:50},
+ {heb:"רָפָא",tr:"Rapha",g:"v",fr:"Il a guéri",c:50},
+ {heb:"הִצְפִּין",tr:"Hitspin",g:"v",fr:"Il a caché",c:50},
+ {heb:"חָמַר",tr:"'Hamar",g:"v",fr:"Il a enduit",c:50},
+ {heb:"פָּרַע",tr:"Para",g:"v",fr:"Il a rejeté",c:50},
+ {heb:"פֵּאֵר",tr:"Péèr",g:"v",fr:"Il a orné",c:50},
+ {heb:"תִּרְגֵּל",tr:"Tirguèl",g:"v",fr:"Il a fait marcher / il a guidé",c:50},
+ {heb:"סֵחַרְחַר",tr:"Sé'har'har",g:"v",fr:"Il a circulé vite",c:50},
+ {heb:"שַׁאֲנַן",tr:"Shaanan",g:"v",fr:"Il était tranquille",c:50}
 ];
 
 /* =========================================================================
