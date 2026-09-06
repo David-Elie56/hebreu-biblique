@@ -453,7 +453,16 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
   }
   .tabbar button{
     font-family:'Inter',sans-serif;font-size:13px;color:var(--parchment2);background:transparent;
-    border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:8px 14px;white-space:nowrap;
+    border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:7px 12px;white-space:nowrap;
+    display:flex;flex-direction:column;align-items:center;line-height:1.25;
+  }
+  .tabbar button .tsub{
+    font-size:10.5px;font-weight:400;color:inherit;opacity:.75;white-space:nowrap;
+    max-width:120px;overflow:hidden;text-overflow:ellipsis;
+  }
+  #offlineBadge{
+    position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:60;
+    max-width:88vw;
   }
   .tabbar button.active{background:var(--gold);color:var(--ink);border-color:var(--gold);font-weight:600;}
   main{padding:22px 18px 60px;}
@@ -492,6 +501,17 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
   font-size:14px;cursor:pointer;box-shadow:var(--shadow);border:none;padding:0;
 }
 #quickEditBadge.show{display:flex;}
+#offlineBadge{
+  position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:60;
+  background:#3a2f1f;color:#f0d9a8;font-family:'Inter',sans-serif;font-size:12.5px;line-height:1.4;
+  padding:9px 18px;border-radius:20px;box-shadow:var(--shadow);
+  display:none;align-items:center;gap:8px;text-align:center;
+}
+#offlineBadge.show{display:flex;}
+#offlineBadge button{
+  background:none;border:1px solid #f0d9a8;color:#f0d9a8;border-radius:12px;
+  font-size:11px;padding:3px 10px;cursor:pointer;flex:none;
+}
 .qe-recbtn.recording{background:var(--red);color:#fff;border-color:var(--red);}
 .corr-tip{position:relative; cursor:help; border-bottom:1px dotted var(--gold-dim); display:inline-block;}
 .corr-tip-bubble{
@@ -523,6 +543,7 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
   © Simplika — Tous droits réservés. <a onclick="openLegalModal()">Mentions légales</a>
 </div>
 <button id="quickEditBadge" title="Corriger ce mot" aria-label="Corriger ce mot">✎</button>
+<div id="offlineBadge"></div>
 
 <script>
 /* =========================================================================
@@ -5473,6 +5494,77 @@ function gasUrl(){
   return stored || DEFAULT_GAS_URL;
 }
 function setGasUrl(url){ localStorage.setItem('hb_gas_url', (url||'').trim()); }
+
+/* =========================================================================
+   MODE HORS-LIGNE — permet de continuer à étudier (cours, vocabulaire,
+   exercices) sans connexion, et de sauvegarder la progression localement
+   en attendant de pouvoir la synchroniser avec le Google Sheet.
+   Le mot de passe n'est JAMAIS mis en cache — seule une connexion en ligne
+   réussie peut créer ou renouveler l'accès hors-ligne à un compte.
+   ========================================================================= */
+let ONLINE = navigator.onLine;
+function cacheOfflineSession(username, role, name, teacher){
+  try{ localStorage.setItem('hb_offline_session_'+username, JSON.stringify({role,name,teacher:teacher||null})); }catch(e){}
+}
+function getOfflineSession(username){
+  try{ const raw = localStorage.getItem('hb_offline_session_'+username); return raw ? JSON.parse(raw) : null; }catch(e){ return null; }
+}
+function cacheOfflineProgress(username, progress){
+  try{ localStorage.setItem('hb_offline_progress_'+username, JSON.stringify(progress)); }catch(e){}
+}
+function getOfflineProgress(username){
+  try{ const raw = localStorage.getItem('hb_offline_progress_'+username); return raw ? JSON.parse(raw) : null; }catch(e){ return null; }
+}
+function setPendingSync(username, pending){
+  try{ if(pending) localStorage.setItem('hb_offline_pending_'+username,'1'); else localStorage.removeItem('hb_offline_pending_'+username); }catch(e){}
+}
+function hasPendingSync(username){
+  try{ return localStorage.getItem('hb_offline_pending_'+username)==='1'; }catch(e){ return false; }
+}
+function updateOfflineBadge(){
+  const el = document.getElementById('offlineBadge');
+  if(!el) return;
+  if(!SESSION){ el.classList.remove('show'); return; }
+  if(SESSION.offline){
+    el.classList.add('show');
+    el.innerHTML = '🔌 Mode hors-ligne — vos progrès sont enregistrés sur cet appareil et se synchroniseront à votre prochaine connexion normale.';
+  }else if(!ONLINE || hasPendingSync(SESSION.username)){
+    el.classList.add('show');
+    el.innerHTML = '📡 Connexion instable — vos progrès sont enregistrés localement en attendant la synchronisation.<button type="button" onclick="flushPendingProgress()">Réessayer</button>';
+  }else{
+    el.classList.remove('show');
+  }
+}
+async function flushPendingProgress(){
+  if(!SESSION || SESSION.offline) return;
+  const cached = getOfflineProgress(SESSION.username);
+  if(!cached) return;
+  const r = await gasCall('saveProgress', {targetUsername:SESSION.username, data:cached});
+  if(r && r.ok) setPendingSync(SESSION.username, false);
+  updateOfflineBadge();
+}
+function continueOffline(username){
+  const cached = getOfflineSession(username);
+  if(!cached) return;
+  SESSION = {username, password:null, role:cached.role, name:cached.name, teacher:cached.teacher||null, offline:true};
+  PROGRESS = getOfflineProgress(username) || {visited:{}, vocabKnown:{}, scores:{}, exams:{}};
+  ALLPROGRESS[username] = PROGRESS;
+  USERS = {}; USERS[username] = {role:cached.role, name:cached.name, teacher:cached.teacher||null};
+  STATE = {view:'home', lesson:1, ex:null, vocabFilter:null, vocabSearch:''};
+  render();
+  updateOfflineBadge();
+}
+window.addEventListener('online', ()=>{ ONLINE = true; if(SESSION && !SESSION.offline) flushPendingProgress(); updateOfflineBadge(); });
+window.addEventListener('offline', ()=>{ ONLINE = false; updateOfflineBadge(); });
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    // Permet à l'application de se recharger même sans réseau, une fois
+    // qu'elle a été ouverte au moins une fois. Sans effet si sw.js n'a
+    // pas été déployé à côté de ce fichier — l'appli fonctionne alors
+    // normalement, simplement sans ce confort supplémentaire.
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  });
+}
 async function gasCall(action, payload){
   const url = gasUrl();
   if(!url) return null;
@@ -5885,10 +5977,7 @@ async function loadUsers(){
     USERS = g.users || {};
   }else{
     USERS_LOAD_FAILED = true;
-    try{
-      const r = await window.storage.get('users', true);
-      USERS = (r && r.value) ? JSON.parse(r.value) : {};
-    }catch(e){ USERS = {}; }
+    USERS = USERS || {};
   }
 }
 // IMPORTANT — sécurité anti-écrasement concurrent : chacune des fonctions
@@ -5920,44 +6009,68 @@ async function loadProgressFor(username){
   if(g && g.ok && g.data){
     p = g.data;
   }else{
-    try{
-      const r = await window.storage.get('progress:'+username, true);
-      if(r && r.value) p = JSON.parse(r.value);
-    }catch(e){ /* pas encore de données */ }
+    const cached = getOfflineProgress(username);
+    if(cached) p = cached;
   }
   ALLPROGRESS[username] = p;
   return p;
 }
 async function saveProgress(){
   if(!SESSION) return;
-  await gasCall('saveProgress', {targetUsername:SESSION.username, data:PROGRESS});
-  try{ await window.storage.set('progress:'+SESSION.username, JSON.stringify(PROGRESS), true); }catch(e){}
+  cacheOfflineProgress(SESSION.username, PROGRESS);
+  if(SESSION.offline){
+    setPendingSync(SESSION.username, true);
+    updateOfflineBadge();
+    return;
+  }
+  const r = await gasCall('saveProgress', {targetUsername:SESSION.username, data:PROGRESS});
+  setPendingSync(SESSION.username, !(r && r.ok));
+  updateOfflineBadge();
 }
 async function doLogin(){
   const u = document.getElementById('loginUser').value.trim();
   const p = document.getElementById('loginPass').value;
   const err = document.getElementById('loginErr');
   err.textContent = '';
+  if(!u){ err.textContent = 'Merci de saisir un identifiant.'; return; }
   const pingR = await gasCall('ping', {});
   if(!pingR || !pingR.ok){
-    err.textContent = "Connexion au Google Sheet impossible pour l'instant — réessayez dans un instant, ou utilisez « Tester la connexion » ci-dessous pour vérifier.";
+    const cached = getOfflineSession(u);
+    if(cached){
+      err.innerHTML = '';
+      const msg = document.createElement('span');
+      msg.textContent = "Connexion au serveur impossible pour l'instant. ";
+      const btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'btn-ghost';
+      btn.style.cssText = 'margin-left:6px;padding:4px 10px;font-size:12px;';
+      btn.textContent = 'Continuer hors-ligne avec ce compte';
+      btn.onclick = ()=>continueOffline(u);
+      err.appendChild(msg); err.appendChild(btn);
+    } else {
+      err.textContent = "Connexion au Google Sheet impossible pour l'instant — réessayez dans un instant, ou utilisez « Tester la connexion » ci-dessous pour vérifier.";
+    }
     return;
   }
   const loginR = await gasCall('login', {username:u, password:p});
   if(!loginR || !loginR.ok){ err.textContent = (loginR && loginR.error) || 'Identifiant ou mot de passe incorrect.'; return; }
   // Le mot de passe n'est gardé qu'en mémoire, pour authentifier les appels
   // serveur suivants pendant cette session — jamais écrit sur le disque.
-  SESSION = {username:u, password:p, role:loginR.user.role, name:loginR.user.name, teacher:loginR.user.teacher||null};
+  SESSION = {username:u, password:p, role:loginR.user.role, name:loginR.user.name, teacher:loginR.user.teacher||null, offline:false};
+  cacheOfflineSession(u, loginR.user.role, loginR.user.name, loginR.user.teacher||null);
   const progressPromise = loadProgressFor(u);
   await Promise.all([loadUsers(), loadApprovedEdits(), loadCustomLessons()]);
   PROGRESS = await progressPromise;
+  cacheOfflineProgress(u, PROGRESS);
+  setPendingSync(u, false);
   STATE = {view:'home', lesson:1, ex:null, vocabFilter:null, vocabSearch:''};
   render();
+  updateOfflineBadge();
 }
 function doLogout(){
   SESSION = null; PROGRESS = null; QUIZ=null; EXAM=null;
   STATE = {view:'home', lesson:1, ex:null, vocabFilter:null, vocabSearch:''};
   render();
+  updateOfflineBadge();
 }
 async function changeMyPassword(){
   const p1 = document.getElementById('newPass1').value;
@@ -6248,7 +6361,7 @@ function renderSidebar(){
 
   const tb = document.getElementById('tabbar');
   let th = `<button class="${STATE.view==='home'?'active':''}" onclick="go('home')">Accueil</button>`;
-  LESSON_TITLES.forEach((t,i)=>{ const n=i+1; const locked=!isLessonUnlocked(n); th += `<button class="${STATE.view==='cours'&&STATE.lesson===n?'active':''}" onclick="go('cours',{lesson:${n}})">${locked?'🔒 ':''}Cours ${n}</button>`; });
+  LESSON_TITLES.forEach((t,i)=>{ const n=i+1; const locked=!isLessonUnlocked(n); const short=esc(t.split(' — ')[0].split(' – ')[0]); th += `<button class="${STATE.view==='cours'&&STATE.lesson===n?'active':''}" onclick="go('cours',{lesson:${n}})">${locked?'🔒 ':''}Cours ${n}<span class="tsub">${short}</span></button>`; });
   th += `<button class="${STATE.view==='vocab'?'active':''}" onclick="go('vocab')">Vocabulaire</button>`;
   th += `<button class="${STATE.view==='exercices'?'active':''}" onclick="go('exercices')">Exercices</button>`;
   if(SESSION.role==='student') th += `<button class="${STATE.view==='exammenu'?'active':''}" onclick="go('exammenu')">Examens</button>`;
@@ -7435,6 +7548,7 @@ function render(){
   if(!SESSION){
     shell.style.display = 'block';
     shell.innerHTML = viewLogin();
+    updateOfflineBadge();
     return;
   }
   shell.style.display = 'grid';
@@ -7443,6 +7557,7 @@ function render(){
   }
   renderSidebar();
   renderContentOnly();
+  updateOfflineBadge();
 }
 
 /* =========================================================================
