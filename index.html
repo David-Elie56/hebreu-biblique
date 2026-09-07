@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>אלף־בית · Hébreu Biblique</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@400;500;600;700&family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@400;500;600;700&family=Noto+Sans+Hebrew:wght@400;500;600;700&family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#0d2b28;
@@ -370,7 +370,7 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
 .hwcanvaswrap{position:relative;width:300px;height:300px;margin:10px auto;border:2px dashed var(--parchment2);border-radius:12px;background:var(--paper);touch-action:none;}
 .hwguide{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  font-family:'Noto Serif Hebrew','Frank Ruhl Libre',serif;font-size:220px;color:rgba(28,43,40,.12);
+  font-family:'Noto Sans Hebrew',sans-serif;font-size:220px;color:rgba(28,43,40,.14);
   pointer-events:none;user-select:none;line-height:1;
 }
 #hwCanvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair;}
@@ -7128,6 +7128,7 @@ function viewHandwriting(){
       <button class="btn-ghost" onclick="hwPrev()">← Précédent</button>
       <button class="navbtn" onclick="hwNext()">Suivant →</button>
     </div>
+    <p style="margin-top:14px;"><a href="https://lilmod-aleph-beth.fr/alphabet-hebreu/apprendre-a-ecrire-l-hebreu-en-lettres-carrees/" target="_blank" rel="noopener">✍️ Voir le sens du tracé de chaque lettre (lilmod-aleph-beth.fr) →</a></p>
   </div>`;
 }
 function hwPrev(){ HW_STATE.idx = (HW_STATE.idx - 1 + HANDWRITING_LETTERS.length) % HANDWRITING_LETTERS.length; render(); }
