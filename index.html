@@ -1396,6 +1396,12 @@ const lesson5 = `
     ["<span class=\"heb\">זֹאת</span>","Zot","Cette, celle-ci (f. sg.)","<span class=\"heb\">הָאֶבֶן הַזֹּאת</span> cette pierre-ci"],
     ["<span class=\"heb\">אֵלֶּה</span>","Élé","Ces, ceux/celles-ci (pl.)","<span class=\"heb\">הֶעָרִים הָאֵלֶּה</span> ces villes-là"]
   ])}
+  <p>Le démonstratif <b>lointain</b> (« celui-là, celle-là… ») reprend simplement les pronoms personnels de 3ᵉ personne :</p>
+  ${tableHTML(null, ["","Masculin","Féminin"], [
+    ["Singulier","<span class=\"heb\">הוּא</span> celui-là","<span class=\"heb\">הִיא</span> celle-là"],
+    ["Pluriel","<span class=\"heb\">הֵם / הֵמָּה</span> ceux-là","<span class=\"heb\">הֵן / הֵנָּה</span> celles-là"]
+  ])}
+  <div class="callout info"><span class="ico">💡</span><span>Employé comme pronom (et non comme adjectif accompagnant un nom), le démonstratif ne prend jamais l'article : <span class="heb">אֵלֶּה הַדְּבָרִים</span> « ceux-ci sont les paroles » = « voici les paroles ».</span></div>
   <p>L'article défini peut lui-même jouer un rôle démonstratif : <span class="heb">הַיּוֹם</span> « ce jour, aujourd'hui ».</p>
 </div>
 `;
@@ -1433,6 +1439,12 @@ const lesson6 = `
 </div>
 <div class="card">
   <h3><span class="en">Accord</span>L'adjectif</h3>
+  <p>Au plan de sa forme, l'adjectif n'est pas différent du nom — à une exception près : il <b>n'a pas de duel</b>, remplacé par un pluriel (<span class="heb">סוּסַיִם טוֹבִים</span> « deux bons chevaux »).</p>
+  <div class="callout warn"><span class="ico">⚠️</span><span>Selon qu'il porte l'article ou non, l'adjectif change de fonction — c'est une nuance essentielle à repérer en lecture :</span></div>
+  ${tableHTML(null, ["Fonction","Règle","Exemple"], [
+    ["Épithète","S'accorde en genre, en nombre <b>et en détermination</b> (si le nom est défini, l'adjectif prend aussi l'article) ; se place <b>après</b> le nom, sauf s'il qualifie le 1ᵉʳ terme d'une construction génitive.","<span class=\"heb\">הַמֶּלֶךְ הַטּוֹב</span> « le bon roi » ; <span class=\"heb\">מֶלֶךְ יִשְׂרָאֵל הַטּוֹב</span> « le bon roi d'Israël »"],
+    ["Attribut","S'accorde en genre et en nombre, mais <b>ne prend jamais l'article</b> ; le verbe « être » n'est le plus souvent pas exprimé.","<span class=\"heb\">הַמֶּלֶךְ טוֹב</span> « le roi est bon »"]
+  ], [2])}
   <p>Placé après le nom, l'adjectif s'accorde en genre et en nombre. Comme en français, le masculin l'emporte sur le féminin.</p>
   ${ex('הַמֶּלֶךְ טוֹב','Le roi est bon')}${ex('הַמַּלְכָּה טוֹבָה','La reine est bonne')}${ex('סוּסִים גְּדוֹלִים','Des grands chevaux')}${ex('סוּסוֹת גְּדוֹלוֹת','Des grandes juments')}
   <div class="callout info"><span class="ico">💡</span><span>Un nom peut faire office d'adjectif : « montagne sainte » = <span class="heb">הַר־קֹדֶשׁ</span> (littéralement « montagne de sainteté »).</span></div>
@@ -1477,7 +1489,8 @@ const lesson7 = `
     ["Devant un mot commençant par un shéwa → 'hiriq", "<span class=\"heb\">לִשְׁמוּאֵל</span> (pour Samuel, au lieu de <span class=\"heb\">לְשְׁמוּאֵל</span>)"],
     ["Devant un mot commençant par <span class=\"heb\">י ְ</span> → 'hiriq maleh", "<span class=\"heb\">בִּירוּשָׁלַיִם</span> (à Jérusalem)"],
     ["Devant un shéwa composé → même voyelle que la 1ʳᵉ lettre", "<span class=\"heb\">בֶּאֱמֶת</span> (en vérité)"],
-    ["Devant un mot défini → prend la place et la vocalisation de l'article", "<span class=\"heb\">לַמֶּלֶךְ</span> (pour le roi, au lieu de <span class=\"heb\">לְהַמֶּלֶךְ</span>)"]
+    ["Devant un mot défini → prend la place et la vocalisation de l'article", "<span class=\"heb\">לַמֶּלֶךְ</span> (pour le roi, au lieu de <span class=\"heb\">לְהַמֶּלֶךְ</span>)"],
+    ["Devant un mot accentué sur la 1ʳᵉ syllabe, il arrive que la préposition soit vocalisée qamats", "<span class=\"heb\">בָּעֲבוֹדָה</span> (par un service)"]
   ])}
   <div class="callout warn"><span class="ico">⚠️</span><span>Le mot <span class="heb">אֱלֹהִים</span> perd sa voyelle initiale devant ces prépositions : <span class="heb">לֵאלֹהִים</span>. Devant le nom divin (Adonaï), on écrit <span class="heb">לַיהוָה</span> « pour l'Éternel ».</span></div>
 </div>
@@ -1508,16 +1521,19 @@ const lesson8 = `
   <h3><span class="en">Vocalisation</span>Cas particuliers</h3>
   ${tableHTML(null, ["Vocalisation","Cas","Exemple"], [
     ["<span class=\"heb\">וּ</span>","Devant les labiales <span class=\"heb\">ב מ פ</span>, ou devant un mot commençant par un shéwa","<span class=\"heb\">בֵּין הָאוֹר וּבֵין הַחֹשֶׁךְ</span> Entre la lumière et les ténèbres"],
-    ["<span class=\"heb\">וִי</span>","Devant un mot commençant par <span class=\"heb\">י ְ</span>","<span class=\"heb\">מֹשֶׁה וִיהוֹשֻׁעַ</span> Moïse et Josué"],
-    ["Même voyelle que la 1ʳᵉ lettre","Devant un shéwa composé","<span class=\"heb\">וֶאֱדוֹם</span> Et Edom"],
-    ["<span class=\"heb\">וָ</span>","Quand deux mots forment un groupe figé","<span class=\"heb\">טוֹב וָרָע</span> Bien et mal"]
+    ["<span class=\"heb\">וִי</span>","Devant un mot commençant par <span class=\"heb\">י ְ</span> (le <span class=\"heb\">י</span> perd alors son caractère consonantique)","<span class=\"heb\">מֹשֶׁה וִיהוֹשֻׁעַ</span> Moïse et Josué"],
+    ["Même voyelle que la 1ʳᵉ lettre","Devant un shéwa composé (shéwa coloré)","<span class=\"heb\">וֶאֱדוֹם</span> Et Edom"],
+    ["<span class=\"heb\">וָ</span>","Devant une syllabe tonique (mot accentué sur la 1ʳᵉ syllabe, ou d'une seule syllabe) — fréquent en pause ; on la retrouve aussi dans certains groupes de mots figés","<span class=\"heb\">וָלַיְלָה</span> Et une nuit ; <span class=\"heb\">טוֹב וָרָע</span> Bien et mal"],
+    ["<span class=\"heb\">וֵ</span>","Exception : devant <span class=\"heb\">אֱלֹהִים</span>, où le <span class=\"heb\">א</span> perd son caractère consonantique et devient quiescent","<span class=\"heb\">וֵאלֹהִים</span> Et Dieu"]
   ])}
+  <div class="callout info"><span class="ico">💡</span><span>Le texte biblique offre parfois plusieurs vocalisations possibles pour un même cas (par ex. un mot tonique commençant par une labiale) — l'objectif étant de <b>comprendre</b> et non d'écrire, la lecture régulière familiarise naturellement avec ce qui domine.</span></div>
 </div>
 <div class="card">
   <h3><span class="en">« qui, que »</span>Le pronom relatif אֲשֶׁר</h3>
-  <p>Ce pronom relatif signifie « que », « qui », « auquel »… Comme la conjonction ו, il relie deux mots ou groupes de mots. <b>Invariable</b>, il ne prend ni marque de genre ni de nombre.</p>
-  ${ex('דָּוִד אֲשֶׁר שָׁמַר מִצְוֹתַי','David qui a gardé mes commandements')}
-  ${ex('הַמַּיִם אֲשֶׁר מִתַּחַת לָרָקִיעַ',"Les eaux qui sont en dessous de l'étendue")}
+  <p>Ce pronom relatif signifie « que », « qui », « auquel »… Comme la conjonction ו, il relie deux mots ou groupes de mots. <b>Invariable</b>, il ne prend ni marque de genre ni de nombre. Il reprend le plus souvent le mot qui le précède, et peut jouer le rôle de <b>sujet</b> (avec ou sans verbe) ou de <b>complément</b> :</p>
+  ${ex('דָּוִד אֲשֶׁר שָׁמַר מִצְוֹתַי','« David qui a gardé mes commandements » (sujet, avec verbe)')}
+  ${ex('הַנָּבִיא אֲשֶׁר בְּיִשְׂרָאֵל',"« le prophète qui (est) en Israël » (sujet, sans verbe)")}
+  ${ex('הָאָרֶץ אֲשֶׁר נָתַן יהוה',"« la terre qu'a donnée l'Éternel » (complément)")}
 </div>
 <div class="card">
   <h3><span class="en">Immersion</span>🎥 Vidéos complémentaires</h3>
@@ -1543,7 +1559,12 @@ const lesson9 = `
 <div class="card">
   <h3><span class="en en-heb">אֲנִי · אַתָּה…</span>Les pronoms personnels</h3>
   ${T_PRONOMS}
-  <p>Ils s'utilisent de deux manières : <b>détachés</b> (comme ci-dessus) ou <b>inclus dans la forme verbale</b> (voir cours suivants). Employés avec un nom et un pronom démonstratif, tous deux doivent être définis : <span class="heb">הָאִישׁ הַהוּא</span> « cet homme ».</p>
+  <p>La forme verbale inclut déjà l'indication de la personne (<span class="heb">אָמַרְתִּי</span> « j'ai parlé ») et le pronom complément est normalement suffixé au verbe : le pronom personnel séparé n'est donc pas indispensable. On l'utilise néanmoins dans deux cas principaux :</p>
+  ${tableHTML(null, ["Usage","Exemple"], [
+    ["Pour <b>insister</b> sur la personne","<span class=\"heb\">אָנֹכִי אָמַרְתִּי</span> « <u>moi</u>, j'ai parlé »"],
+    ["Quand la phrase <b>ne comporte pas de verbe exprimé</b> — fréquent pour les propositions d'équivalence, ou avec un adjectif attribut","<span class=\"heb\">אָנֹכִי יְהוָה אֱלֹהֶיךָ</span> « moi, je suis l'Éternel ton Dieu » ; <span class=\"heb\">חֲכָמִים אַתֶּם</span> « (vous,) vous êtes sages »"]
+  ])}
+  <p>Employés avec un nom et un pronom démonstratif, tous deux doivent être définis : <span class="heb">הָאִישׁ הַהוּא</span> « cet homme ».</p>
 </div>
 <div class="card">
   <h3><span class="en">Implicite</span>Le verbe « être » sous-entendu</h3>
@@ -1630,6 +1651,7 @@ const lesson10 = `
 <div class="card">
   <h3><span class="en">Changements</span>Genre et nombre à l'état construit</h3>
   <p>Seules changent : la marque du <b>féminin singulier</b> (<span class="heb">ה ָ</span> → <span class="heb">ת ַ</span>) et la marque du <b>masculin pluriel</b> (<span class="heb">ים ִ</span> → <span class="heb">ֵי</span>). Le masculin singulier et le féminin pluriel ne changent pas.</p>
+  <div class="callout info"><span class="ico">💡</span><span>À l'état construit, l'accent se déplaçant sur le mot suivant, l'articulation du 1ᵉʳ mot est précipitée : les <b>voyelles moyennes</b> (comme le qamats) s'abrègent souvent (<span class="heb">דָּבָר</span> → <span class="heb">דְּבַר</span>) ; de même, la désinence du pluriel/duel masculin est raccourcie de la même façon (<span class="heb">בָּנִים</span> → <span class="heb">בְּנֵי</span>, <span class="heb">מְלָכִים</span> → <span class="heb">מַלְכֵי</span>).</span></div>
   ${ex('תּוֹרַת יהוה',"La Torah de l'Éternel (état construit féminin singulier)")}${ex('בְּנֵי יִשְׂרָאֵל',"Les fils d'Israël (état construit masculin pluriel)")}
   ${tableHTML("Tableau récapitulatif", ["","État construit (F)","État absolu (F)","État construit (M)","État absolu (M)"], [
     ["Singulier","<span class=\"heb\">סוּסַת</span>","<span class=\"heb\">סוּסָה</span>","<span class=\"heb\">סוּס</span>","<span class=\"heb\">סוּס</span>"],
@@ -1670,6 +1692,7 @@ const lesson11 = `
   <h3><span class="en en-heb">סוּסִי</span>Suffixes sur un nom masculin singulier</h3>
   ${ex('סוּסִי','Mon cheval')}${ex('סוּסְךָ / סוּסֵךְ','Ton cheval (f./m.)')}${ex('סוּסוֹ / סוּסָהּ','Son cheval (f./m.)')}${ex('סוּסֵנוּ','Notre cheval')}${ex('סוּסְכֶם / סוּסְכֶן','Votre cheval (f./m.)')}${ex('סוּסָם / סוּסָן','Leur cheval (f./m.)')}
   <div class="callout warn"><span class="ico">⚠️</span><span>À la 3ᵉ pers. fém. sing., le <span class="heb">הּ</span> prend un <b>mappiq</b> (point) qui montre qu'il doit être lu comme une consonne, et non comme une mater lectionis.</span></div>
+  <div class="callout info"><span class="ico">💡</span><span>Pour un nom masculin de plusieurs syllabes, si une <b>voyelle moyenne</b> précède la dernière syllabe, elle s'abrège en général au contact du suffixe — comme au pluriel ou à l'état construit.</span></div>
 </div>
 <div class="card">
   <h3><span class="en en-heb">סוּסָתִי</span>Suffixes sur un nom féminin singulier</h3>
@@ -1750,7 +1773,13 @@ const lesson13 = `
     ["2ᵉ pl.","<span class=\"heb\">שְׁמַרְתֶּן</span>","<span class=\"heb\">שְׁמַרְתֶּם</span>"],
     ["3ᵉ pl.","<span class=\"heb\">שָׁמְרוּ</span>",""]
   ])}
+  <p style="text-align:center;"><a href="#" onclick="go('conjug',{conjugIndex:11}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a></p>
+
   <div class="callout warn"><span class="ico">⚠️</span><span>Le suffixe ne déplace pas l'accent (« suffixe léger »), sauf à la 2ᵉ pers. plur. où il se déplace sur le suffixe (« suffixe lourd »), entraînant un changement de vocalisation de la 1ʳᵉ syllabe. À la 3ᵉ fém. sing./plur., malgré l'apparence, le qamats se prononce bien « a » (il n'est pas qatan).</span></div>
+  <p>Le Qatal dit ce qui est <b>concrètement advenu</b> dans l'histoire, par opposition à ce qui ne relève que de la possibilité (vérité générale, futur...). En pratique :</p>
+  ${tableHTML(null, ["Verbe d'action","Verbe d'état"], [
+    ["Se traduit d'ordinaire par un <b>passé</b>","Le <b>présent</b> est souvent mieux adapté (l'état advenu demeure) : <span class=\"heb\">גָּדַלְתָּ</span> « tu es grand », littéralement « tu es devenu grand (et tu le restes) »"]
+  ])}
 </div>
 <div class="card">
   <h3><span class="en">Gutturales</span>Les verbes פ״ג et ע״ג</h3>
@@ -1773,7 +1802,11 @@ const lesson14 = `
     "<span class=\"heb\">שׁוֹמֵר יִשְׂרָאֵל</span> « le gardien d'Israël », litt. « gardant Israël »",
     "<span class=\"heb\">אַתָּה אוֹמֵר</span> « tu dis », litt. « toi disant »"
   ]])}
+  <p style="text-align:center;"><a href="#" onclick="go('conjug',{conjugIndex:12}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a></p>
+
   <div class="callout info"><span class="ico">💡</span><span>C'est cette forme qui sert de <b>présent</b> en hébreu moderne. Elle peut aussi se trouver à l'état construit (<span class="heb">יֹדְעֵי טוֹב וָרָע</span> « connaisseurs du bien et du mal ») ou recevoir un suffixe pronominal et une préposition (<span class="heb">יהוה שֹׁמְרֶךָ</span> « l'Éternel ton gardien »).</span></div>
+  <p>Comme <b>verbe</b>, le participe s'accorde en genre et en nombre avec son sujet, et peut avoir un complément à l'accusatif (<span class="heb">אַתָּה עֹבֵר אֶת־מִצְוַת הַמֶּלֶךְ</span> « tu transgresses le commandement du roi »). Il traduit le <b>présent</b> dans un contexte présent, l'<b>imparfait</b> dans un contexte passé. Précédé de l'<b>article</b>, il équivaut souvent à une <b>proposition relative</b> :</p>
+  ${ex('הָעָם הַיֹּשֵׁב בָּאָרֶץ',"« le peuple qui habite/habitait le pays »")}
   ${tableHTML("Conjugaison — שׁוֹמֵר « gardant »", ["","Féminin","Masculin"], [
     ["Singulier","<span class=\"heb\">שׁוֹמֶרֶת / שׁוֹמְרָה</span>","<span class=\"heb\">שׁוֹמֵר</span>"],
     ["Pluriel","<span class=\"heb\">שׁוֹמְרוֹת</span>","<span class=\"heb\">שׁוֹמְרִים</span>"]
@@ -1808,6 +1841,8 @@ const lesson15 = `
     ["2ᵉ pl.","<span class=\"heb\">מְצָאתֶן</span>","<span class=\"heb\">מְצָאתֶם</span>"],
     ["3ᵉ pl.","<span class=\"heb\">מָצְאוּ</span>",""]
   ])}
+  <p style="text-align:center;"><a href="#" onclick="go('conjug',{conjugIndex:13}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a></p>
+
   <div class="callout warn"><span class="ico">⚠️</span><span>Le <span class="heb">א</span> garde sa valeur consonantique à la 3ᵉ fém. sing. et à la 3ᵉ pers. plur. Le <span class="heb">ת</span> du suffixe ne prend jamais de daguesh (précédé d'une voyelle).</span></div>
   <p>Au participe présent féminin singulier, le <span class="heb">א</span> devient aussi quiescent : ${ex('מוֹצֵאת','Trouvant (féminin)')}</p>
 </div>
@@ -1845,6 +1880,8 @@ const lesson16 = `
     ["2ᵉ pl.","<span class=\"heb\">תִּשְׁמֹרְנָה</span>","<span class=\"heb\">תִּשְׁמְרוּ</span>"],
     ["3ᵉ pl.","<span class=\"heb\">תִּשְׁמֹרְנָה</span>","<span class=\"heb\">יִשְׁמְרוּ</span>"]
   ])}
+  <p style="text-align:center;"><a href="#" onclick="go('conjug',{conjugIndex:14}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a></p>
+
   <div class="callout warn"><span class="ico">⚠️</span><span>La 2ᵉ masc. sing. et la 3ᵉ fém. sing. sont identiques (<span class="heb">תִּשְׁמֹר</span>) — seul le contexte tranche. Même chose pour la 2ᵉ et 3ᵉ fém. plur.</span></div>
 </div>
 <div class="card">
@@ -1874,6 +1911,8 @@ const lesson17 = `
     ["2ᵉ pl.","<span class=\"heb\">תִּמְצֶאנָה</span>","<span class=\"heb\">תִּמְצְאוּ</span>"],
     ["3ᵉ pl.","<span class=\"heb\">תִּמְצֶאנָה</span>","<span class=\"heb\">יִמְצְאוּ</span>"]
   ])}
+  <p style="text-align:center;"><a href="#" onclick="go('conjug',{conjugIndex:15}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a></p>
+
   <div class="callout warn"><span class="ico">⚠️</span><span>Le <span class="heb">א</span> garde sa valeur consonantique uniquement à la 2ᵉ fém. sing. et aux 2ᵉ/3ᵉ masc. plur., car il y est suivi d'une voyelle.</span></div>
 </div>
 <div class="card">
@@ -1891,7 +1930,8 @@ const lesson17 = `
 <div class="card">
   <h3><span class="en en-heb">כִּי</span>La particule כִּי</h3>
   <p>La particule <span class="heb">כִּי</span> est une conjonction de subordination très fréquente dans le texte biblique.</p>
-  <p>Elle est souvent traduite par « <b>car</b> », exprimant la cause : ${ex('וְדוֹר רְבִיעִי יָשׁוּבוּ הֵנָּה כִּי לֹא־שָׁלֵם עֲוֹן הָאֱמֹרִי','« Et à la quatrième génération ils retourneront ici, car la faute des Amoréens n\'est pas complète » (Genèse 15,16)')}</p>
+  <p>Elle est souvent traduite par « <b>car</b> », exprimant la <b>cause</b> — c'est le cas le plus fréquent : ${ex('וְדוֹר רְבִיעִי יָשׁוּבוּ הֵנָּה כִּי לֹא־שָׁלֵם עֲוֹן הָאֱמֹרִי','« Et à la quatrième génération ils retourneront ici, car la faute des Amoréens n\'est pas complète » (Genèse 15,16)')}</p>
+  <p>Après un <b>verbe de perception</b> (savoir, voir, entendre...) qui appelle un complément d'objet, elle introduit une <b>proposition complétive</b>, traduite par « que » : ${ex('יָדַעְתִּי כִּי־גָדוֹל יהוה',"« Je sais que l'Éternel est grand »")}</p>
   <p>Elle peut aussi s'utiliser comme un <b>pronom relatif</b>, traduit par « que, pour que, alors, si, parce que… » : ${ex('שָׁמַע כִּי נָסַע מִלָּכִישׁ','« Il avait appris qu\'il était parti de Lakhish » (2 Rois 19,8)')}</p>
 </div>
 `;
@@ -2007,6 +2047,15 @@ const lesson20 = `
   ]])}
 </div>
 <div class="card">
+  <h3><span class="en">Récit / Discours</span>L'articulation du texte biblique</h3>
+  <p>Le texte biblique s'organise autour de deux grands types de textes, qui n'agencent pas les formes verbales de la même façon : le <b>récit</b> (qui raconte une histoire advenue) et le <b>discours</b> (qui exprime une relation entre Dieu et son peuple — parole, loi, exhortation).</p>
+  ${tableHTML(null, ["Récit","Discours"], [
+    ["<b>Commence</b> par une affirmation, souvent au Qatal, au participe, ou sans verbe explicite","<b>Commence</b> par une proposition au Yiqtol ou à un mode volitif (impératif, cohortatif, jussif)"],
+    ["<b>Puis enchaîne</b> les propositions au <span class=\"heb\">וַיִּקְטֹל</span> — c'est « la » forme de la narration, traduite par un passé simple","<b>Puis se poursuit</b> par une suite de <span class=\"heb\">וְקָטַל</span> — qui déploie l'implication logique de ce qui précède, orienté vers l'avenir"]
+  ], [])}
+  <div class="callout info"><span class="ico">💡</span><span>Reconnaître ces deux structures aide à anticiper la forme verbale suivante en lecture : dans un récit, un Qatal isolé annonce presque toujours une suite de <span class="heb">וַיִּקְטֹל</span> ; dans un discours, un impératif ou un Yiqtol annonce une suite de <span class="heb">וְקָטַל</span>.</span></div>
+</div>
+<div class="card">
   <h3><span class="en en-heb">וַיִּקְטֹל</span>Le WaYiqtol</h3>
   ${tableHTML(null, ["","Féminin","Masculin"], [
     ["1ʳᵉ sg.","<span class=\"heb\">וָאֶקְטֹל</span>",""],
@@ -2047,11 +2096,16 @@ const lesson20 = `
 const lesson21 = `
 <div class="card">
   <h3><span class="en en-heb">צִוּוּי</span>L'impératif</h3>
-  <p>L'impératif se forme en supprimant le préfixe de la 2ᵉ pers. du singulier et du pluriel du Yiqtol.</p>
+  <p>L'impératif se forme en supprimant le préfixe de la 2ᵉ pers. du singulier et du pluriel du Yiqtol. Selon la voyelle du Yiqtol, on distingue deux vocalisations, qui se conservent à l'impératif :</p>
+  ${tableHTML(null, ["Vocalisation O","Vocalisation A"], [
+    ["<span class=\"heb\">שְׁמֹר</span> « garde ! » (de <span class=\"heb\">שָׁמַר</span>, garder)","<span class=\"heb\">שְׁמַע</span> « écoute ! » (de <span class=\"heb\">שָׁמַע</span>, écouter)"]
+  ])}
   ${tableHTML("Impératif — שָׁמַר « garder »", ["","Féminin","Masculin"], [
     ["Singulier","<span class=\"heb\">שִׁמְרִי</span>","<span class=\"heb\">שְׁמֹר</span>"],
     ["Pluriel","<span class=\"heb\">שְׁמֹרְנָה</span>","<span class=\"heb\">שִׁמְרוּ</span>"]
   ])}
+  <p style="text-align:center;"><a href="#" onclick="go('conjug',{conjugIndex:16}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a></p>
+
   <div class="callout info"><span class="ico">💡</span><span>À la 2ᵉ masc. plur. et 2ᵉ fém. sing., supprimer le préfixe laisserait 2 shewas en début de mot (ce qui ne se fait pas) : le premier shéwa est remplacé par un <span class="heb">ִ</span>. Les règles vues pour les verbes <span class="heb">פ״ג, ע״ג, ל״ג, ל״א, ל״ה</span> restent valables à l'impératif.</span></div>
 </div>
 <div class="card">
@@ -2088,6 +2142,8 @@ const lesson22 = `
     "<span class=\"heb\">הֵמָּה הֹלְכִים הָלוֹךְ</span> — litt. « Eux marchant marcher » = « Eux marchant sans cesse »",
     "<span class=\"heb\">זָכוֹר אֶת־יוֹם הַשַּׁבָּת</span> — « Souviens-toi du jour du Shabbat »"
   ]])}
+  <p style="text-align:center;"><a href="#" onclick="go('conjug',{conjugIndex:17}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a></p>
+
 </div>
 <div class="card">
   <h3><span class="en en-heb">שֵׁם־הַפּוֹעַל</span>L'infinitif construit</h3>
@@ -2104,6 +2160,8 @@ const lesson22 = `
     ["<span class=\"heb\">מְ</span>","Comme לְ, en infinitif prépositionnel : « de régner »","<span class=\"heb\">מִמְּלֹךְ</span>"]
   ])}
   <div class="callout warn"><span class="ico">⚠️</span><span>Pour les verbes commençant par <span class="heb">ע</span> ou <span class="heb">ח</span>, le préfixe <span class="heb">לְ</span> prendra un <span class="heb">ַ</span>, comme <span class="heb">לַעֲבֹד</span>.</span></div>
+  <p>Comme la plupart des infinitifs sont introduits par <span class="heb">לְ</span>, celle-ci mérite une attention particulière : selon le contexte, elle peut se traduire par <b>« en » + participe</b>, servir de <b>simple introduction</b> à l'infinitif (comme en français), ou exprimer une <b>valeur finale</b> atténuée (« pour, afin de ») : ${ex('בָּאתֶם לִרְאוֹת',"« vous êtes venus (pour) voir »")}</p>
+  <p>En tant que <b>nom verbal</b>, l'infinitif construit se construit tantôt comme un nom, avec un complément au génitif (<span class="heb">בְּצֵאת נַפְשָׁהּ</span> « lors de sa sortie de la vie », = sa mort), tantôt comme un verbe, avec un complément à l'accusatif (<span class="heb">לִשְׁמֹר הַבַּיִת</span> « pour garder la maison »).</p>
   <p>C'est le <span class="heb">לְ</span> qu'on utilise pour parler de l'infinitif d'un mot (appelé <span class="heb">שֵׁם־הַפּוֹעַל</span>) — comme en anglais « to be », en hébreu on dit <span class="heb">לִהְיוֹת</span>.</p>
   <p>Il peut aussi recevoir un suffixe : ${ex('לִשְׁמָרְךָ',"Pour te garder")}</p>
 </div>
@@ -2136,6 +2194,8 @@ const lesson23 = `
   ]])}
   <p>Une interrogation simple (« est-ce que… ? ») est indiquée par le préfixe <span class="heb">ה</span> : ${ex('הֲשֹׁמֵר אָחִי אָנֹכִי',"« Est-ce que je suis le gardien de mon frère ? »")}</p>
   <div class="callout info"><span class="ico">💡</span><span>Il est généralement vocalisé <span class="heb">ֲ</span>. Devant un shéwa ou une gutturale, il est vocalisé simplement <span class="heb">ַ</span>. Si le mot commence par une gutturale vocalisée <span class="heb">ָ</span>, la particule interrogative prend un <span class="heb">ֶ</span>.</span></div>
+  <p>Quand la question est elle-même <b>négative</b> (« n'est-ce pas... ? »), on utilise <span class="heb">הֲלוֹא</span> (<span class="heb">הֲ</span> + <span class="heb">לֹא</span>) :</p>
+  ${ex('הֲלוֹא אָנֹכִי יְהוָה',"« Ne suis-je pas l'Éternel ? »")}
 </div>
 `;
 
@@ -2151,6 +2211,8 @@ const lesson24 = `
     ["Yiqtol 3ᵉ sg.","<span class=\"heb\">תֶּאֱסֹף</span>","<span class=\"heb\">יֶאֱסֹף</span>"],
     ["Impératif sg.","<span class=\"heb\">אִסְפִי</span>","<span class=\"heb\">אֱסֹף</span>"]
   ])}
+  <p style="text-align:center;"><a href="#" onclick="go('conjug',{conjugIndex:18}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a></p>
+
   <div class="callout warn"><span class="ico">⚠️</span><span>Au Yiqtol, pour la 2ᵉ masc. sing., 3ᵉ masc./fém. sing., 1ʳᵉ plur., 2ᵉ/3ᵉ fém. plur., la vocalisation diffère des verbes <span class="heb">פ״ג</span> (elle se colore en <span class="heb">ֱ</span>).</span></div>
 </div>
 <div class="card">
@@ -2179,6 +2241,8 @@ const lesson24 = `
     "<span class=\"heb\">יֶשׁ־לִי רָב</span> « J'ai beaucoup »",
     "<span class=\"heb\">אֵין לוֹ אַחִים</span> « Il n'a pas de frère »"
   ]])}
+  <div class="callout warn"><span class="ico">⚠️</span><span><span class="heb">יֵשׁ</span>/<span class="heb">אֵין</span> ne s'emploient qu'au présent. Au <b>passé</b> ou au <b>futur</b>, la possession se rend avec le verbe <span class="heb">הָיָה</span> (« être ») + <span class="heb">לְ</span> :</span></div>
+  ${ex('הָיָה לִי בֵּן',"« j'avais un fils »")}${ex('לֹא הָיָה לְךָ בֵּן',"« tu n'avais pas de fils »")}
 </div>
 <div class="card">
   <h3><span class="en">Immersion</span>🎥 Vidéo complémentaire</h3>
@@ -2196,6 +2260,8 @@ const lesson25 = `
     ["Gardé(e)","<span class=\"heb\">שְׁמוּרָה</span>","<span class=\"heb\">שָׁמוּר</span>"],
     ["Gardé(e)s","<span class=\"heb\">שְׁמוּרוֹת</span>","<span class=\"heb\">שְׁמוּרִים</span>"]
   ])}
+  <p style="text-align:center;"><a href="#" onclick="go('conjug',{conjugIndex:20}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a></p>
+
   <p>Les verbes se terminant par une gutturale prennent, comme au participe présent, un pata'h furtif. Le participe passif peut avoir un <b>sens réflexif</b> : ${ex('כַּכָּתוּב בְּסֵפֶר תּוֹרַת מֹשֶׁה',"Comme « ce qui est écrit » dans la torah de Moïse (2 Rois 14,6)")}</p>
 </div>
 <div class="card">
@@ -2362,6 +2428,9 @@ const lesson28 = `
   <h3><span class="en">Immersion</span>🎥 Vidéos complémentaires</h3>
   <p class="ui" style="font-size:12.5px;color:var(--text-soft);">Ce point (Le Piel) dépasse le niveau de la chaîne <b>Aleph with Beth</b> (utilisée pour les cours précédents) — voici une recherche vers des vidéos francophones sur ce sujet de grammaire :</p>
   <p><a href="https://www.youtube.com/results?search_query=h%C3%A9breu+biblique+K%C3%A9r%C3%A9+K%C3%A9tiv+nombres+ordinaux" target="_blank" rel="noopener">▶ Le Piel</a></p>
+</div>
+<div class="card" style="text-align:center;">
+  <a href="#" onclick="go('conjug',{conjugIndex:5}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a>
 </div>
 <div class="card">
   <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
@@ -2540,6 +2609,9 @@ const lesson29 = `
   <p class="ui" style="font-size:12.5px;color:var(--text-soft);">Ce point (Le Poual) dépasse le niveau de la chaîne <b>Aleph with Beth</b> (utilisée pour les cours précédents) — voici une recherche vers des vidéos francophones sur ce sujet de grammaire :</p>
   <p><a href="https://www.youtube.com/results?search_query=h%C3%A9breu+biblique+Poual+binyan+passif" target="_blank" rel="noopener">▶ Le Poual</a></p>
 </div>
+<div class="card" style="text-align:center;">
+  <a href="#" onclick="go('conjug',{conjugIndex:6}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a>
+</div>
 <div class="card">
   <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
   <div class="example" style="display:block;">
@@ -2637,6 +2709,9 @@ const lesson30 = `
   <h3><span class="en">Immersion</span>🎥 Vidéos complémentaires</h3>
   <p class="ui" style="font-size:12.5px;color:var(--text-soft);">Ce point (Le Hitpaël) dépasse le niveau de la chaîne <b>Aleph with Beth</b> (utilisée pour les cours précédents) — voici une recherche vers des vidéos francophones sur ce sujet de grammaire :</p>
   <p><a href="https://www.youtube.com/results?search_query=h%C3%A9breu+biblique+Hitpael+binyan+r%C3%A9fl%C3%A9chi" target="_blank" rel="noopener">▶ Le Hitpaël</a></p>
+</div>
+<div class="card" style="text-align:center;">
+  <a href="#" onclick="go('conjug',{conjugIndex:7}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a>
 </div>
 <div class="card">
   <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
@@ -2811,6 +2886,9 @@ const lesson32 = `
   <p class="ui" style="font-size:12.5px;color:var(--text-soft);">Ce point (Le Nifal) dépasse le niveau de la chaîne <b>Aleph with Beth</b> (utilisée pour les cours précédents) — voici une recherche vers des vidéos francophones sur ce sujet de grammaire :</p>
   <p><a href="https://www.youtube.com/results?search_query=h%C3%A9breu+biblique+Nifal+binyan+passif" target="_blank" rel="noopener">▶ Le Nifal</a></p>
 </div>
+<div class="card" style="text-align:center;">
+  <a href="#" onclick="go('conjug',{conjugIndex:8}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a>
+</div>
 <div class="card">
   <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
   <div class="example" style="display:block;">
@@ -2895,6 +2973,9 @@ const lesson33 = `
   <p class="ui" style="font-size:12.5px;color:var(--text-soft);">Ce point (Le Hifil) dépasse le niveau de la chaîne <b>Aleph with Beth</b> (utilisée pour les cours précédents) — voici une recherche vers des vidéos francophones sur ce sujet de grammaire :</p>
   <p><a href="https://www.youtube.com/results?search_query=h%C3%A9breu+biblique+Hifil+binyan+causatif" target="_blank" rel="noopener">▶ Le Hifil</a></p>
 </div>
+<div class="card" style="text-align:center;">
+  <a href="#" onclick="go('conjug',{conjugIndex:9}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a>
+</div>
 <div class="card">
   <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
   <div class="example" style="display:block;">
@@ -2974,6 +3055,9 @@ const lesson34 = `
   <p class="ui" style="font-size:12.5px;color:var(--text-soft);">Ce point (Le Hofal) dépasse le niveau de la chaîne <b>Aleph with Beth</b> (utilisée pour les cours précédents) — voici une recherche vers des vidéos francophones sur ce sujet de grammaire :</p>
   <p><a href="https://www.youtube.com/results?search_query=h%C3%A9breu+biblique+Hofal+binyan" target="_blank" rel="noopener">▶ Le Hofal</a></p>
 </div>
+<div class="card" style="text-align:center;">
+  <a href="#" onclick="go('conjug',{conjugIndex:10}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a>
+</div>
 <div class="card">
   <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
   <div class="example" style="display:block;">
@@ -3049,6 +3133,9 @@ const lesson35 = `
   <p class="ui" style="font-size:12.5px;color:var(--text-soft);">Ce point (Verbes faibles au Nifal/Hifil/Hofal) dépasse le niveau de la chaîne <b>Aleph with Beth</b> (utilisée pour les cours précédents) — voici une recherche vers des vidéos francophones sur ce sujet de grammaire :</p>
   <p><a href="https://www.youtube.com/results?search_query=h%C3%A9breu+biblique+verbes+faibles+Nifal+Hifil+gutturaux" target="_blank" rel="noopener">▶ Verbes faibles au Nifal/Hifil/Hofal</a></p>
 </div>
+<div class="card" style="text-align:center;">
+  <a href="#" onclick="go('conjug',{conjugIndex:3}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a>
+</div>
 <div class="card">
   <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
   <div class="example" style="display:block;">
@@ -3076,6 +3163,11 @@ const lesson35 = `
     <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
     <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Genèse 47,21 — בראשית מז כא</div>
   </div>
+</div>
+<div class="card" style="border-color:var(--gold);background:linear-gradient(135deg,rgba(184,147,90,.08),transparent);">
+  <h3><span class="en">🎉</span>Bravo !</h3>
+  <p>Vous venez de terminer l'étude des <b>7 binyanim</b> — Qal, Nifal, Piel, Poual, Hifil, Hofal, Hitpaël — ainsi que leurs principales variantes pour les racines faibles (gutturales, ל״ה, ל״א, פ״ג...). C'est la plus grosse marche de toute la grammaire verbale hébraïque, et elle est franchie.</p>
+  <p>La suite (cours 36 à 50) aborde des sujets plus ciblés — lecture du texte biblique, suffixes, verbes irréguliers, familles de racines particulières (פ״י, פ״ו, עו״י...), et les formes les plus rares du texte biblique. Rien d'aussi lourd que ce que vous venez de terminer : c'est le moment de consolider, relire, et repasser sur les exercices de conjugaison si besoin avant de continuer.</p>
 </div>
 `;
 
@@ -3460,6 +3552,9 @@ const lesson40 = `
   <p class="ui" style="font-size:12.5px;color:var(--text-soft);">Ce point (Les verbes פ״י et פ״ו) dépasse le niveau de la chaîne <b>Aleph with Beth</b> (utilisée pour les cours précédents) — voici une recherche vers des vidéos francophones sur ce sujet de grammaire :</p>
   <p><a href="https://www.youtube.com/results?search_query=h%C3%A9breu+biblique+verbes+faibles+%D7%A4%D7%B4%D7%99+%D7%A4%D7%B4%D7%95" target="_blank" rel="noopener">▶ Les verbes פ״י et פ״ו</a></p>
 </div>
+<div class="card" style="text-align:center;">
+  <a href="#" onclick="go('conjug',{conjugIndex:4}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a>
+</div>
 <div class="card">
   <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
   <div class="example" style="display:block;">
@@ -3527,6 +3622,9 @@ const lesson41 = `
   <h3><span class="en">Immersion</span>🎥 Vidéos complémentaires</h3>
   <p class="ui" style="font-size:12.5px;color:var(--text-soft);">Ce point (Les verbes הלך, יכל, ישן) dépasse le niveau de la chaîne <b>Aleph with Beth</b> (utilisée pour les cours précédents) — voici une recherche vers des vidéos francophones sur ce sujet de grammaire :</p>
   <p><a href="https://www.youtube.com/results?search_query=h%C3%A9breu+biblique+verbe+%D7%94%D7%9C%D7%9A+%D7%99%D7%9B%D7%9C+conjugaison" target="_blank" rel="noopener">▶ Les verbes הלך, יכל, ישן</a></p>
+</div>
+<div class="card" style="text-align:center;">
+  <a href="#" onclick="go('conjug',{conjugIndex:0}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a>
 </div>
 <div class="card">
   <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
@@ -3648,6 +3746,9 @@ const lesson43 = `
   <p class="ui" style="font-size:12.5px;color:var(--text-soft);">Ce point (Les verbes creux עו״י) dépasse le niveau de la chaîne <b>Aleph with Beth</b> (utilisée pour les cours précédents) — voici une recherche vers des vidéos francophones sur ce sujet de grammaire :</p>
   <p><a href="https://www.youtube.com/results?search_query=h%C3%A9breu+biblique+verbes+creux+%D7%A2%D7%95%D7%B4%D7%99+%D7%A7%D7%95%D7%9D" target="_blank" rel="noopener">▶ Les verbes creux עו״י</a></p>
 </div>
+<div class="card" style="text-align:center;">
+  <a href="#" onclick="go('conjug',{conjugIndex:1}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a>
+</div>
 <div class="card">
   <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
   <div class="example" style="display:block;">
@@ -3718,6 +3819,9 @@ const lesson44 = `
   <h3><span class="en">Immersion</span>🎥 Vidéos complémentaires</h3>
   <p class="ui" style="font-size:12.5px;color:var(--text-soft);">Ce point (Le Hifil et le Polel des verbes creux) dépasse le niveau de la chaîne <b>Aleph with Beth</b> (utilisée pour les cours précédents) — voici une recherche vers des vidéos francophones sur ce sujet de grammaire :</p>
   <p><a href="https://www.youtube.com/results?search_query=h%C3%A9breu+biblique+Hifil+verbes+creux+Polel" target="_blank" rel="noopener">▶ Le Hifil et le Polel des verbes creux</a></p>
+</div>
+<div class="card" style="text-align:center;">
+  <a href="#" onclick="go('conjug',{conjugIndex:2}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a>
 </div>
 <div class="card">
   <h3><span class="en">Lecture</span>קריאה — Lecture</h3>
@@ -4175,6 +4279,10 @@ const lesson50 = `
     <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">1 Rois 12,24 — מלכים א יב כד</div>
   </div>
   <div class="callout info"><span class="ico">🎓</span><span>Félicitations : ceci est le dernier cours du programme HB2 ! Tu as maintenant couvert l'ensemble des 7 binyanim, toutes les grandes catégories de verbes faibles, les suffixes pronominaux, l'analyse verbale complète, et les formes les plus rares du texte biblique.</span></div>
+</div>
+<div class="card" style="border-color:var(--gold);background:linear-gradient(135deg,rgba(184,147,90,.08),transparent);">
+  <h3><span class="en">🎉</span>Et maintenant ?</h3>
+  <p>Il ne reste plus rien de nouveau à apprendre dans ce programme — la suite, c'est la <b>consolidation</b> : relire les cours qui restent flous, repasser les tableaux de conjugaison (menu Exercices), refaire les mini-examens de cours où le score était juste, et surtout <b>lire</b>, régulièrement, du texte biblique — c'est la pratique qui fixe durablement la grammaire.</p>
 </div>
 `;
 
@@ -4957,6 +5065,7 @@ const VOCAB = [
  {heb:"כְּנַעַן",tr:"Kéna'an",g:"F",fr:"Canaan",c:6},
  {heb:"אָכַל",tr:"Akhal",g:"v",fr:"Il a mangé",c:6},
  {heb:"נָגַע",tr:"Naga",g:"v",fr:"Il a touché, frappé",c:6},
+ {heb:"צַדִּיק",tr:"Tsadiq",g:"adj",fr:"Juste",c:6},
  {heb:"עֲבוֹדָה",tr:"'Avodah",g:"F",fr:"Travail, ouvrage",c:7},
  {heb:"מִזְבֵּחַ",tr:"Mizbéa'h",g:"M",fr:"Autel",c:7},
  {heb:"נָהָר",tr:"Nahar",g:"M",fr:"Fleuve",c:7},
@@ -4972,6 +5081,11 @@ const VOCAB = [
  {heb:"שָׁמַר",tr:"Shamar",g:"v",fr:"Il a gardé",c:7},
  {heb:"בָּנָה",tr:"Banah",g:"v",fr:"Il a construit",c:7},
  {heb:"עָבַד",tr:"'Avad",g:"v",fr:"Il a travaillé",c:7},
+ {heb:"עֵץ",tr:"'Ets",g:"M",fr:"Arbre",c:7},
+ {heb:"גַּן",tr:"Gan",g:"M",fr:"Jardin",c:7},
+ {heb:"עֶבֶד",tr:"'Èvèd",g:"M",fr:"Serviteur, esclave",c:7},
+ {heb:"תּוֹרָה",tr:"Torah",g:"F",fr:"Instruction, loi",c:7},
+ {heb:"עָבַר",tr:"'Avar",g:"v",fr:"Il a passé, traversé, transgressé",c:7},
  {heb:"אֲדָמָה",tr:"Adamah",g:"F",fr:"Terre",c:8},
  {heb:"אָדָם",tr:"Adam",g:"M",fr:"Homme",c:8},
  {heb:"כֹּהֵן",tr:"Cohen",g:"M",fr:"Prêtre",c:8},
@@ -4986,6 +5100,11 @@ const VOCAB = [
  {heb:"קָרָא",tr:"Qara",g:"v",fr:"Il a appelé",c:8},
  {heb:"עָשָׂה",tr:"'Asa",g:"v",fr:"Il a fait",c:8},
  {heb:"יָדַע",tr:"Yada",g:"v",fr:"Il a connu",c:8},
+ {heb:"עַיִן",tr:"'Ayin",g:"F",fr:"Œil",c:8},
+ {heb:"יְהוּדָה",tr:"Yéhoudah",g:"M",fr:"Juda",c:8},
+ {heb:"יְהוֹשֻׁעַ",tr:"Yéhoshoua",g:"M",fr:"Josué",c:8},
+ {heb:"דִּבֶּר",tr:"Dibèr",g:"v",fr:"Il a parlé, dit",c:8},
+ {heb:"יָלַד",tr:"Yalad",g:"v",fr:"Il a enfanté",c:8},
  {heb:"אֱלֹהִים",tr:"Élohim",g:"M",fr:"Dieu(x)",c:9},
  {heb:"בְּהֵמָה",tr:"Béhéma",g:"M",fr:"Bête, animal",c:9},
  {heb:"זָקֵן",tr:"Zaqen",g:"M",fr:"Vieux, ancien",c:9},
@@ -5032,6 +5151,7 @@ const VOCAB = [
  {heb:"אָהַב",tr:"Ahav",g:"v",fr:"Il a aimé",c:13},
  {heb:"נָתַן",tr:"Natan",g:"v",fr:"Il a donné",c:13},
  {heb:"סָפַר",tr:"Safar",g:"v",fr:"Il a inscrit, compté",c:13},
+ {heb:"יַרְדֵּן",tr:"Yardèn",g:"M",fr:"Jourdain",c:13},
  {heb:"עִם",tr:"'Im",g:"—",fr:"Avec",c:14},
  {heb:"קָדוֹשׁ",tr:"Qadosh",g:"M",fr:"Saint",c:14},
  {heb:"קוֹל",tr:"Qol",g:"M",fr:"Voix",c:14},
@@ -5079,6 +5199,10 @@ const VOCAB = [
  {heb:"גָּמַל",tr:"Gamal",g:"v",fr:"Il a sevré",c:16},
  {heb:"שָׁבַר",tr:"Shavar",g:"v",fr:"Il a brisé",c:16},
  {heb:"קָבַר",tr:"Qavar",g:"v",fr:"Il a enterré",c:16},
+ {heb:"שֵׁם",tr:"Shem",g:"M",fr:"Nom",c:16},
+ {heb:"רוּחַ",tr:"Roua'h",g:"F",fr:"Souffle, vent, esprit",c:16},
+ {heb:"אַחַר",tr:"A'har",g:"—",fr:"Après, derrière",c:16},
+ {heb:"לִפְנֵי",tr:"Lifné",g:"—",fr:"Devant",c:16},
  {heb:"כִּי",tr:"Ki",g:"—",fr:"Car, que, lorsque",c:17},
  {heb:"חֲצִי",tr:"'Hatsi",g:"M",fr:"Milieu, demi, moitié",c:17},
  {heb:"מַטֶּה",tr:"Matéh",g:"M/F",fr:"Branche, bâton, tribu",c:17},
@@ -5148,6 +5272,7 @@ const VOCAB = [
  {heb:"גָּדַל",tr:"Gadal",g:"v",fr:"Il a grandi",c:21},
  {heb:"חָנָה",tr:"'Hanah",g:"v",fr:"Il a campé",c:21},
  {heb:"רָצַח",tr:"Ratsa'h",g:"v",fr:"Il a assassiné",c:21},
+ {heb:"יָצָא",tr:"Yatsa",g:"v",fr:"Il est sorti",c:21},
  {heb:"מָרָה",tr:"Mara",g:"F",fr:"Amertume",c:22},
  {heb:"מַלְאָךְ",tr:"Mal'akh",g:"M",fr:"Messager, ange",c:22},
  {heb:"בְּרָכָה",tr:"Bérakha",g:"F",fr:"Bénédiction",c:22},
@@ -5176,6 +5301,9 @@ const VOCAB = [
  {heb:"הָפַךְ",tr:"Haphar",g:"v",fr:"Il a tourné, changé",c:23},
  {heb:"שָׁפַךְ",tr:"Shaphar",g:"v",fr:"Il a versé, répandu",c:23},
  {heb:"חָפַר",tr:"'Haphar",g:"v",fr:"Il a creusé, exploré",c:23},
+ {heb:"שָׂדֶה",tr:"Sadèh",g:"M",fr:"Champ",c:23},
+ {heb:"כַּאֲשֶׁר",tr:"Kaasher",g:"—",fr:"Comme, ainsi que, lorsque",c:23},
+ {heb:"אָרַר",tr:"Arar",g:"v",fr:"Il a maudit",c:23},
  {heb:"אָדוֹן",tr:"Adon",g:"M",fr:"Maître, Seigneur",c:24},
  {heb:"אוּלַי",tr:"Oulay",g:"—",fr:"Peut-être",c:24},
  {heb:"פֶּסֶל",tr:"Péssèl",g:"M",fr:"Image taillée",c:24},
@@ -5206,6 +5334,8 @@ const VOCAB = [
  {heb:"כָּבֵד",tr:"Kavèd",g:"v",fr:"Il était lourd, honoré",c:25},
  {heb:"קָטֹן",tr:"Qaton",g:"v",fr:"Il était petit, diminué",c:25},
  {heb:"שָׁלַם",tr:"Shalam",g:"v",fr:"Il a achevé, fini",c:25},
+ {heb:"אָלָה",tr:"Alah",g:"F",fr:"Malédiction",c:25},
+ {heb:"אֲרוֹן",tr:"Aron",g:"M/F",fr:"Arche",c:25},
  {heb:"אֳנִיָּה",tr:"Oniyah",g:"F",fr:"Vaisseau",c:26},
  {heb:"יוֹבֵל",tr:"Yovèl",g:"M",fr:"Jubilé",c:26},
  {heb:"נַחֲלָה",tr:"Na'halah",g:"F",fr:"Propriété, héritage",c:26},
