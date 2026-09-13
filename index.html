@@ -7269,6 +7269,8 @@ function viewWriteQuiz(){
   <div class="progressbar"><div style="width:${(TQUIZ.index/total*100)}%"></div></div>
   <div class="qbox">
     <div class="qprompt">${promptLines}</div>
+    <button type="button" class="btn-ghost" id="tqHintBtn" onclick="revealTqHint('${item.answer}')" style="font-size:12px;padding:5px 10px;margin-bottom:8px;">💡 Indice (voir les lettres de la racine)</button>
+    <div id="tqHint" class="heb" style="display:none;font-size:20px;color:var(--gold-dim);margin-bottom:8px;"></div>
     <input id="typedAnswer" type="text" placeholder="Tapez votre réponse en hébreu…" style="width:100%;font-size:26px;text-align:right;direction:rtl;font-family:'Noto Serif Hebrew','Frank Ruhl Libre',serif;padding:10px;margin:12px 0;border-radius:8px;border:1px solid var(--parchment2);box-sizing:border-box;">
     ${hebKeyboardHTML('typedAnswer')}
     <div id="answerCorrectDisplay" style="display:none;font-size:1.2em;margin:8px 0;"></div>
@@ -7278,6 +7280,14 @@ function viewWriteQuiz(){
     </div>
     <div id="typedmsg" class="ui" style="font-size:13px;margin-top:10px;"></div>
   </div>`;
+}
+function revealTqHint(correctHeb){
+  const box = document.getElementById('tqHint');
+  const btn = document.getElementById('tqHintBtn');
+  if(!box) return;
+  box.textContent = consonantSkeleton(correctHeb).split('').join(' · ');
+  box.style.display = 'block';
+  if(btn) btn.style.display = 'none';
 }
 function checkTypedAnswer(){
   if(TQUIZ.answered) return;
@@ -7417,6 +7427,8 @@ function viewWriteExercise(){
     <button class="navbtn" onclick="go('exercices')">Quitter</button></div>
   <div class="card">
     <p style="font-family:'Inter',sans-serif;font-size:13px;color:var(--text-soft);">Écrivez ce mot en hébreu (les voyelles ne sont pas obligatoires pour valider, seules les lettres comptent).</p>
+    <button type="button" class="btn-ghost" id="writeExHintBtn" onclick="revealWriteExHint('${w.heb}')" style="font-size:12px;padding:5px 10px;margin-bottom:8px;">💡 Indice (voir les lettres de la racine)</button>
+    <div id="writeExHint" class="heb" style="display:none;font-size:20px;color:var(--gold-dim);margin-bottom:8px;"></div>
     <input id="writeExInput" type="text" style="width:100%;font-size:26px;text-align:right;direction:rtl;margin:10px 0;" ${WRITEEX.checked?'disabled':''}>
     ${hebKeyboardHTML('writeExInput')}
     <div id="writeExFeedback" style="margin:10px 0;font-family:'Inter',sans-serif;font-size:14px;"></div>
@@ -7424,6 +7436,14 @@ function viewWriteExercise(){
       ${WRITEEX.checked ? `<button class="navbtn" onclick="nextWriteQuestion()">Suivant →</button>` : `<button class="navbtn" onclick="checkWriteAnswer('${w.heb}')">Vérifier</button>`}
     </div>
   </div>`;
+}
+function revealWriteExHint(correctHeb){
+  const box = document.getElementById('writeExHint');
+  const btn = document.getElementById('writeExHintBtn');
+  if(!box) return;
+  box.textContent = consonantSkeleton(correctHeb).split('').join(' · ');
+  box.style.display = 'block';
+  if(btn) btn.style.display = 'none';
 }
 function checkWriteAnswer(correctHeb){
   const input = document.getElementById('writeExInput');
