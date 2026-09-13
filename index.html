@@ -1059,8 +1059,22 @@ function diffMaskMultiForm(refText, raw){
   return mask;
 }
 function applyColorOverride(el, raw){
-  const color = COLOR_OVERRIDES[raw];
-  if(color) el.style.color = color;
+  const override = COLOR_OVERRIDES[raw];
+  if(!override) return;
+  if(typeof override === 'string' && override.charAt(0) === '{'){
+    // Coloration lettre par lettre : {perChar:{"0":"#rrggbb", ...}} — on
+    // reconstruit le contenu de l'élément en enveloppant chaque caractère
+    // ciblé dans son propre span coloré, sans toucher aux autres.
+    let perChar = {};
+    try{ perChar = (JSON.parse(override).perChar) || {}; }catch(e){ return; }
+    const chars = Array.from(el.textContent);
+    el.innerHTML = chars.map((ch,i)=>{
+      const col = perChar[i];
+      return col ? `<span style="color:${esc(col)};">${esc(ch)}</span>` : esc(ch);
+    }).join('');
+  }else{
+    el.style.color = override;
+  }
 }
 function escapeNoteHTML(text){
   const esc = String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -1710,8 +1724,19 @@ const lesson11 = `
     ["Vous (f./m.)","<span class=\"heb\">בָּכֶם · בָּכֶן</span>","<span class=\"heb\">לָכֶם · לָכֶן</span>"],
     ["Elles/Eux","<span class=\"heb\">בָּהֶם · בָּהֶן</span>","<span class=\"heb\">לָהֶם · לָהֶן</span>"]
   ])}
+  <p style="text-align:center;"><a href="#" onclick="go('conjug',{conjugIndex:22}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a></p>
+
   <p>La préposition <span class="heb">כְּ</span> se décline souvent en poésie biblique sur la forme <span class="heb">כָּמוֹ</span> (ex. <span class="heb">כָּמוֹנִי</span> « comme moi »). Pour <span class="heb">מִן</span>, un second <span class="heb">מ</span> apparaît avant le suffixe (ex. <span class="heb">מִמֶּנִּי</span> « de moi »).</p>
   <div class="callout warn"><span class="ico">⚠️</span><span>Attention : les formes de la 3ᵉ pers. sing. et de la 1ʳᵉ pers. plur. de <span class="heb">מִן</span> sont identiques (<span class="heb">מִמֶּנּוּ</span>) — seul le contexte permet de trancher.</span></div>
+  ${tableHTML("Pour אֶל (vers) et עַל (sur, contre) — suffixes de type pluriel", ["Personne","אֶל","עַל"], [
+    ["Moi","<span class=\"heb\">אֵלַי</span>","<span class=\"heb\">עָלַי</span>"],
+    ["Toi (f./m.)","<span class=\"heb\">אֵלַיִךְ · אֵלֶיךָ</span>","<span class=\"heb\">עָלַיִךְ · עָלֶיךָ</span>"],
+    ["Elle/Lui","<span class=\"heb\">אֵלֶיהָ · אֵלָיו</span>","<span class=\"heb\">עָלֶיהָ · עָלָיו</span>"],
+    ["Nous","<span class=\"heb\">אֵלֵינוּ</span>","<span class=\"heb\">עָלֵינוּ</span>"],
+    ["Vous (f./m.)","<span class=\"heb\">אֲלֵיכֶן · אֲלֵיכֶם</span>","<span class=\"heb\">עֲלֵיכֶן · עֲלֵיכֶם</span>"],
+    ["Elles/Eux","<span class=\"heb\">אֲלֵיהֶן · אֲלֵיהֶם</span>","<span class=\"heb\">עֲלֵיהֶן · עֲלֵיהֶם</span>"]
+  ])}
+  <div class="callout info"><span class="ico">💡</span><span>Contrairement à <span class="heb">בְּ</span>/<span class="heb">לְ</span>, ces deux prépositions prennent les suffixes des noms <b>pluriels</b> (d'où le <span class="heb">י</span> intercalé). D'autres prépositions se déclinent sur ce même modèle : <span class="heb">בֵּינִי</span> (entre moi), <span class="heb">תַּחְתַּי</span> (sous moi), <span class="heb">אַחֲרַי</span> (après moi), <span class="heb">עָדַי</span> (jusqu'à moi).</span></div>
 </div>
 <div class="card">
   <h3><span class="en">Immersion</span>🎥 Vidéos complémentaires</h3>
@@ -1730,6 +1755,7 @@ const lesson12 = `
   <h3><span class="en en-heb">סוּסַי</span>Suffixes sur un nom pluriel masculin</h3>
   <p>La déclinaison des suffixes des noms <b>pluriels</b> se reconnaît par la présence d'un <span class="heb">י</span> avant le suffixe.</p>
   ${ex('סוּסַי','Mes chevaux')}${ex('סוּסֶיךָ / סוּסַיִךְ','Tes chevaux (f./m.)')}${ex('סוּסָיו / סוּסֶיהָ','Ses chevaux (f./m.)')}${ex('סוּסֵינוּ','Nos chevaux')}${ex('סוּסֵיכֶם / סוּסֵיכֶן','Vos chevaux (f./m.)')}${ex('סוּסֵיהֶם / סוּסֵיהֶן','Leurs chevaux (f./m.)')}
+  <p style="text-align:center;"><a href="#" onclick="go('conjug',{conjugIndex:23}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a></p>
   <div class="callout info"><span class="ico">💡</span><span>À la 3ᵉ pers. fém. sing., le mappiq n'est plus nécessaire ici car la consonne <span class="heb">ה</span> est déjà vocalisée (<span class="heb">סוּסֶיהָ</span>).</span></div>
 </div>
 <div class="card">
@@ -2078,6 +2104,8 @@ const lesson20 = `
     ["2ᵉ pl.","<span class=\"heb\">וּקְטַלְתֶּן</span>","<span class=\"heb\">וּקְטַלְתֶּם</span>"],
     ["3ᵉ pl.","<span class=\"heb\">וְקָטְלוּ</span>",""]
   ])}
+  <p style="text-align:center;"><a href="#" onclick="go('conjug',{conjugIndex:24}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a></p>
+
   <div class="callout info"><span class="ico">💡</span><span>Peu de changement par rapport au Qatal. Le <span class="heb">ו</span> suit la règle de vocalisation de la conjonction (<span class="heb">וּ</span> devant un shéwa ou les labiales <span class="heb">בּ מּ פּ</span>, comme à la 2ᵉ pers. plur.). Le <span class="heb">ו</span> déplace l'accent sur la dernière syllabe — si l'accent n'est pas déplacé, c'est une simple conjonction.</span></div>
   <div class="callout warn"><span class="ico">⚠️</span><span>Le « ו conversif » est indissociable de la forme verbale : il n'existe pas de Weqatal ni de Wayiqtol à la forme négative. ${ex('לֹא־תִהְיֶה קְדֵשָׁה … וְלֹא־יִהְיֶה קָדֵשׁ',"« Il n'y aura pas de prostituée … et il n'y aura pas de prostitué » (Deutéronome 23,18)")}</span></div>
 </div>
@@ -5011,6 +5039,44 @@ const CONJUG = [
     ["Est petit(e)","קְטוּנָה","קָטוֹן"],
     ["Sont petits(es)","קְטוּנוֹת","קְטוּנִים"]
   ]}
+]},
+{course:11, root:"בְּ / לְ + suffixes", meaning:"prépositions suffixées (en/avec, à/pour)", tables:[
+  {title:"Suffixes sur בְּ et לְ", headers:["","בְּ","לְ"], rows:[
+    ["Moi","בִּי","לִי"],
+    ["Toi (m.)","בְּךָ","לְךָ"],
+    ["Toi (f.)","בָּךְ","לָךְ"],
+    ["Lui","בּוֹ","לוֹ"],
+    ["Elle","בָּהּ","לָהּ"],
+    ["Nous","בָּנוּ","לָנוּ"],
+    ["Vous (m.)","בָּכֶם","לָכֶם"],
+    ["Vous (f.)","בָּכֶן","לָכֶן"],
+    ["Eux","בָּהֶם","לָהֶם"],
+    ["Elles","בָּהֶן","לָהֶן"]
+  ]}
+]},
+{course:12, root:"סוּס (pluriel) + suffixes", meaning:"chevaux (suffixes sur un nom pluriel)", tables:[
+  {title:"סוּסִים + suffixes personnels", headers:["","Forme"], rows:[
+    ["Mes chevaux","סוּסַי"],
+    ["Tes chevaux (m.)","סוּסֶיךָ"],
+    ["Tes chevaux (f.)","סוּסַיִךְ"],
+    ["Ses chevaux (à lui)","סוּסָיו"],
+    ["Ses chevaux (à elle)","סוּסֶיהָ"],
+    ["Nos chevaux","סוּסֵינוּ"],
+    ["Vos chevaux (m.)","סוּסֵיכֶם"],
+    ["Vos chevaux (f.)","סוּסֵיכֶן"],
+    ["Leurs chevaux (m.)","סוּסֵיהֶם"],
+    ["Leurs chevaux (f.)","סוּסֵיהֶן"]
+  ]}
+]},
+{course:20, root:"קָטַל (Weqatal)", meaning:"tuer (forme weqatal — ו conversif)", tables:[
+  {title:"וְקָטַל — Weqatal", headers:["","Féminin","Masculin"], rows:[
+    ["1ˢ sg.","וְקָטַלְתִּי",""],
+    ["2ᵉ sg.","וְקָטַלְתְּ","וְקָטַלְתָּ"],
+    ["3ᵉ sg.","וְקָטְלָה","וְקָטַל"],
+    ["1ʳᵉ pl.","וְקָטַלְנוּ",""],
+    ["2ᵉ pl.","וּקְטַלְתֶּן","וּקְטַלְתֶּם"],
+    ["3ᵉ pl.","וְקָטְלוּ",""]
+  ]}
 ]}
 ];
 
@@ -5257,6 +5323,10 @@ const VOCAB = [
  {heb:"פַּרְעֹה",tr:"Par'oh",g:"M",fr:"Pharaon",c:20},
  {heb:"הָרַג",tr:"Harag",g:"v",fr:"Il a tué",c:20},
  {heb:"יָרַד",tr:"Yarad",g:"v",fr:"Il est descendu",c:20},
+ {heb:"גַּם",tr:"Gam",g:"—",fr:"Aussi",c:20},
+ {heb:"לֵבָב",tr:"Lévav",g:"M",fr:"Cœur",c:20},
+ {heb:"אֶפְרַיִם",tr:"Éfrayim",g:"M",fr:"Éphraïm",c:20},
+ {heb:"מְנַשֶּׁה",tr:"Ménashèh",g:"M",fr:"Manassé",c:20},
  {heb:"נֶגֶד",tr:"Négèd",g:"—",fr:"Devant, en face, vis-à-vis",c:21},
  {heb:"עוֹף",tr:"'Of",g:"M",fr:"Oiseau",c:21},
  {heb:"זֶרַע",tr:"Zéra",g:"M",fr:"Semence, descendance",c:21},
@@ -5920,7 +5990,7 @@ if('serviceWorker' in navigator){
     navigator.serviceWorker.register('./sw.js').catch(()=>{});
   });
 }
-async function gasCall(action, payload){
+async function gasCall(action, payload, _attempt){
   const url = gasUrl();
   if(!url) return null;
   // Injecte automatiquement les identifiants du compte connecté sur CHAQUE
@@ -5932,14 +6002,37 @@ async function gasCall(action, payload){
     body.username = SESSION.username;
     body.password = SESSION.password;
   }
+  // Stabilité de connexion : une requête qui échoue (coupure passagère,
+  // Google Apps Script qui met du temps à démarrer, etc.) est retentée
+  // automatiquement 2 fois avant d'abandonner, avec un délai croissant.
+  // Un délai maximum de 12s par tentative évite qu'une requête bloquée
+  // ne fasse attendre indéfiniment.
+  const attempt = _attempt || 1;
+  const maxAttempts = 3;
+  const controller = new AbortController();
+  const timeoutId = setTimeout(()=>controller.abort(), 12000);
   try{
     const res = await fetch(url, {
       method:'POST',
       headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body: JSON.stringify(Object.assign({action}, body))
+      body: JSON.stringify(Object.assign({action}, body)),
+      signal: controller.signal
     });
+    clearTimeout(timeoutId);
+    if(!res.ok && attempt < maxAttempts){
+      await new Promise(r=>setTimeout(r, attempt*800));
+      return gasCall(action, payload, attempt+1);
+    }
     return await res.json();
-  }catch(e){ console.error('Synchronisation Google Sheets impossible :', e); return {ok:false, error:String(e)}; }
+  }catch(e){
+    clearTimeout(timeoutId);
+    if(attempt < maxAttempts){
+      await new Promise(r=>setTimeout(r, attempt*800));
+      return gasCall(action, payload, attempt+1);
+    }
+    console.error('Synchronisation Google Sheets impossible :', e);
+    return {ok:false, error:String(e)};
+  }
 }
 async function testGasConnectionLogin(){
   const msg = document.getElementById('loginGasMsg');
@@ -8528,10 +8621,13 @@ function openQuickEditModal(orig, lessonNum){
   RECORDING_RESULT_DATA_URL = null;
   ACTIVE_REC_CHUNKS = [];
   const isAdmin = SESSION.role==='admin';
-  const currentColor = COLOR_OVERRIDES[orig] || '#b5401e';
+  const rawColorOverride = COLOR_OVERRIDES[orig];
+  const isPerCharOverride = typeof rawColorOverride === 'string' && rawColorOverride.charAt(0) === '{';
+  const currentColor = (!isPerCharOverride && rawColorOverride) || '#b5401e';
   const currentTextCorr = TEXT_OVERRIDES[orig] || orig;
   const hasRec = !!AUDIO_OVERRIDES[orig];
-  QUICK_EDIT_MODAL_CTX = { orig, lessonNum, currentColor: COLOR_OVERRIDES[orig] || '' };
+  QUICK_EDIT_MODAL_CTX = { orig, lessonNum, currentColor: (!isPerCharOverride && rawColorOverride) || '' };
+  QE_PERCHAR = parseQePerCharOverride(COLOR_OVERRIDES[orig]);
   const lessonBadge = lessonNum
     ? `<div class="tag" style="margin-bottom:12px;display:inline-block;">${lessonLabelFor(lessonNum)}</div>`
     : `<div class="tag" style="margin-bottom:12px;display:inline-block;">Hors cours (vocabulaire / exercices)</div>`;
@@ -8551,6 +8647,14 @@ function openQuickEditModal(orig, lessonNum){
     <div style="margin-top:14px;">
       <label class="ui" style="font-size:12.5px;color:var(--text-soft);">Couleur : </label>
       <input id="qeColorInput" type="color" value="${currentColor}">
+      <span class="ui" style="font-size:11px;color:var(--text-soft);margin-left:6px;">(s'applique à tout le mot)</span>
+    </div>
+    <div style="margin-top:14px;">
+      <label class="ui" style="font-size:12.5px;color:var(--text-soft);display:block;margin-bottom:6px;">Ou colorer lettre par lettre / signe par signe — cliquez une lettre ci-dessous, choisissez sa couleur, répétez pour chaque lettre à colorer :</label>
+      <div id="qeCharPicker" style="display:flex;gap:3px;flex-wrap:wrap;direction:rtl;margin-bottom:8px;"></div>
+      <input id="qeCharColorInput" type="color" value="#b5401e">
+      <button type="button" class="btn-ghost" onclick="applyQeCharColor()">Appliquer à la lettre sélectionnée</button>
+      <button type="button" class="btn-ghost" onclick="resetQeCharColors()">Tout réinitialiser</button>
     </div>
     <div style="margin-top:14px;">
       <label class="ui" style="font-size:12.5px;color:var(--text-soft);display:block;margin-bottom:6px;">Prononciation (voix du formateur) — quelques secondes suffisent :</label>
@@ -8569,6 +8673,7 @@ function openQuickEditModal(orig, lessonNum){
     <div id="qeMsg" class="ui" style="font-size:13px;margin-top:8px;"></div>
   </div>`;
   document.body.appendChild(overlay);
+  buildQeCharPicker();
 }
 function closeQuickEditModal(){
   if(ACTIVE_RECORDER && ACTIVE_RECORDER.state!=='inactive'){ try{ ACTIVE_RECORDER.stop(); }catch(e){} }
@@ -8576,6 +8681,43 @@ function closeQuickEditModal(){
   if(overlay) overlay.remove();
   RECORDING_RESULT_DATA_URL = null;
   ACTIVE_REC_CHUNKS = [];
+  QE_PERCHAR = {};
+  QE_SELECTED_CHAR = null;
+}
+/* ---- Coloration lettre par lettre (au sein d'un mot ciblé par la correction rapide) ---- */
+let QE_PERCHAR = {};      // {charIndex: '#rrggbb', ...} pour le mot en cours d'édition
+let QE_SELECTED_CHAR = null;
+function parseQePerCharOverride(raw){
+  if(typeof raw === 'string' && raw.charAt(0) === '{'){
+    try{ const parsed = JSON.parse(raw); return (parsed && parsed.perChar) || {}; }catch(e){ return {}; }
+  }
+  return {};
+}
+function buildQeCharPicker(){
+  const box = document.getElementById('qeCharPicker');
+  const ctx = QUICK_EDIT_MODAL_CTX;
+  if(!box || !ctx) return;
+  const chars = Array.from(ctx.orig); // Array.from gère correctement les paires surrogates éventuelles
+  box.innerHTML = chars.map((ch,i)=>{
+    const col = QE_PERCHAR[i];
+    const selected = QE_SELECTED_CHAR===i;
+    return `<button type="button" class="heb" onclick="selectQeChar(${i})" style="font-size:20px;padding:4px 7px;border-radius:6px;border:2px solid ${selected?'var(--gold)':'var(--parchment2)'};background:var(--parchment);${col?`color:${col};`:''}cursor:pointer;">${esc(ch)}</button>`;
+  }).join('');
+}
+function selectQeChar(i){
+  QE_SELECTED_CHAR = i;
+  buildQeCharPicker();
+}
+function applyQeCharColor(){
+  if(QE_SELECTED_CHAR===null){ alert("Cliquez d'abord une lettre à colorer."); return; }
+  const col = document.getElementById('qeCharColorInput').value;
+  QE_PERCHAR[QE_SELECTED_CHAR] = col;
+  buildQeCharPicker();
+}
+function resetQeCharColors(){
+  QE_PERCHAR = {};
+  QE_SELECTED_CHAR = null;
+  buildQeCharPicker();
 }
 async function submitQuickEdit(status){
   const msg = document.getElementById('qeMsg');
@@ -8587,8 +8729,11 @@ async function submitQuickEdit(status){
     jobs.push({targetText: ctx.orig, kind:'text', payload:newText});
   }
   const newColor = document.getElementById('qeColorInput').value;
-  if(newColor && newColor !== ctx.currentColor){
+  if(newColor && newColor !== ctx.currentColor && Object.keys(QE_PERCHAR).length===0){
     jobs.push({targetText: ctx.orig, kind:'color', payload:newColor});
+  }
+  if(Object.keys(QE_PERCHAR).length>0){
+    jobs.push({targetText: ctx.orig, kind:'color', payload: JSON.stringify({perChar:QE_PERCHAR})});
   }
   if(RECORDING_RESULT_DATA_URL){
     jobs.push({targetText: ctx.orig, kind:'audio', payload: RECORDING_RESULT_DATA_URL});
