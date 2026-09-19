@@ -600,7 +600,8 @@ const LESSON_TITLES = [
   "Les verbes géminés ע״ע (Geminate (Ayin-Ayin) Verbs)",
   "Hishtaphel — Nitpael — Les verbes à plusieurs lettres faibles (Hishtaphel — Nitpael — Verbs with Multiple Weak Letters)",
   "Les verbes quadrilitères — Les accents — La particule שֶׁל — Nationalité (Quadriliteral Verbs — Accents/Cantillation — Particle Shel — Nationality)",
-  "Forme pausale — Conjugaisons rares — Suffixes rares — ה et ן paragogiques (Pausal Form — Rare Conjugations — Rare Suffixes — Paragogic He and Nun)"
+  "Forme pausale — Conjugaisons rares — Suffixes rares — ה et ן paragogiques (Pausal Form — Rare Conjugations — Rare Suffixes — Paragogic He and Nun)",
+  "Les signes de cantillation — טַעֲמֵי הַמִּקְרָא (Cantillation Marks — Te'amim)"
 ];
 const BASE_LESSON_COUNT = LESSON_TITLES.length; // nombre de cours "d'origine", avant les cours ajoutés par l'admin
 
@@ -1416,7 +1417,51 @@ const lesson5 = `
     ["Pluriel","<span class=\"heb\">הֵם / הֵמָּה</span> ceux-là","<span class=\"heb\">הֵן / הֵנָּה</span> celles-là"]
   ])}
   <div class="callout info"><span class="ico">💡</span><span>Employé comme pronom (et non comme adjectif accompagnant un nom), le démonstratif ne prend jamais l'article : <span class="heb">אֵלֶּה הַדְּבָרִים</span> « ceux-ci sont les paroles » = « voici les paroles ».</span></div>
+  <p>Le démonstratif a donc deux emplois bien distincts — comparez :</p>
+  ${tableHTML(null, ["Sujet de la phrase (sans article)","Adjectif épithète (avec article)"], [[
+    "<span class=\"heb\">זֶה הַר׃</span> « <u>Ceci</u> est une montagne »",
+    "<span class=\"heb\">הָהָר הַזֶּה גָּדוֹל׃</span> « <u>Cette</u> montagne est grande »"
+  ]])}
   <p>L'article défini peut lui-même jouer un rôle démonstratif : <span class="heb">הַיּוֹם</span> « ce jour, aujourd'hui ».</p>
+</div>
+<div class="card">
+  <h3><span class="en">Vocabulaire</span>Exercice — מִי זֶה ? מִי זֹאת ?</h3>
+  <p class="ui" style="font-size:12.5px;color:var(--text-soft);">Répondez à la question, puis complétez la phrase sur le modèle de l'exemple (démonstratif épithète + adjectif attribut + copule) :</p>
+  <div class="rule" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+    <svg width="60" height="90" viewBox="0 0 60 90"><circle cx="30" cy="16" r="14" fill="var(--ink)"/><path d="M12 88 L12 50 Q12 34 30 34 Q48 34 48 50 L48 88 Z" fill="var(--ink)"/></svg>
+    <div>
+      <span class="heb">מִי זֶה ? ← זֶה אִישׁ׃</span><br>
+      <span class="heb"><b>הָ</b>אִישׁ <b>הַ</b>זֶּה חָכָם הוּא׃</span> <span class="tr" style="font-style:italic;">« Cet homme est sage »</span>
+    </div>
+  </div>
+  <div class="rule" style="text-align:center;">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/King_Solomon.jpg" alt="Roi biblique" style="max-width:160px;max-height:200px;border-radius:8px;box-shadow:var(--shadow);">
+    <p class="ui" style="font-size:11px;color:var(--text-soft);">Domaine public — d'après Gustave Doré, 1866</p>
+    <p class="ui" style="font-size:12.5px;">À vous : <span class="heb">מִי זֶה ?</span> — complétez avec <span class="heb">מֶלֶךְ</span> (roi) et un adjectif de votre choix.</p>
+  </div>
+  <div class="rule" style="text-align:center;">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Queen_of_Sheba_(1907),_by_Edward_Slocombe_(cropped).jpg" alt="Reine biblique" style="max-width:160px;max-height:200px;border-radius:8px;box-shadow:var(--shadow);">
+    <p class="ui" style="font-size:11px;color:var(--text-soft);">Domaine public — Edward Slocombe, 1907</p>
+    <p class="ui" style="font-size:12.5px;">À vous : <span class="heb">מִי זֹאת ?</span> — complétez avec <span class="heb">מַלְכָּה</span> (reine).</p>
+  </div>
+  <div class="rule" style="text-align:center;">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/120.The_Prophet_Isaiah.jpg" alt="Prophète biblique" style="max-width:160px;max-height:200px;border-radius:8px;box-shadow:var(--shadow);">
+    <p class="ui" style="font-size:11px;color:var(--text-soft);">Domaine public — d'après Gustave Doré, 1866</p>
+    <p class="ui" style="font-size:12.5px;">À vous : <span class="heb">מִי זֶה ?</span> — complétez avec <span class="heb">נָבִיא</span> (prophète).</p>
+  </div>
+  <div class="rule" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+    <svg width="60" height="90" viewBox="0 0 60 90"><circle cx="30" cy="16" r="14" fill="var(--ink)"/><path d="M18 88 L14 50 Q10 32 30 32 Q50 32 46 50 L42 88 Z" fill="var(--ink)"/></svg>
+    <p class="ui" style="font-size:12.5px;">À vous : <span class="heb">מִי זֹאת ?</span> — complétez avec <span class="heb">אִשָּׁה</span> (femme) et un adjectif.</p>
+  </div>
+  <details style="margin-top:10px;">
+    <summary class="ui" style="cursor:pointer;font-size:12.5px;color:var(--gold-dim);">Voir un corrigé possible</summary>
+    ${tableHTML(null, ["Personnage","Corrigé possible"], [
+      ["Roi","<span class=\"heb\">זֶה מֶלֶךְ׃ הַמֶּלֶךְ הַזֶּה גָּדוֹל הוּא׃</span>"],
+      ["Reine","<span class=\"heb\">זֹאת מַלְכָּה׃ הַמַּלְכָּה הַזֹּאת טוֹבָה הִיא׃</span>"],
+      ["Prophète","<span class=\"heb\">זֶה נָבִיא׃ הַנָּבִיא הַזֶּה קָדוֹשׁ הוּא׃</span>"],
+      ["Femme","<span class=\"heb\">זֹאת אִשָּׁה׃ הָאִשָּׁה הַזֹּאת חֲכָמָה הִיא׃</span>"]
+    ])}
+  </details>
 </div>
 `;
 
@@ -1468,6 +1513,25 @@ const lesson6 = `
     ["Singulier","<span class=\"heb\">יָחִיד</span>","י׳"],
     ["Pluriel","<span class=\"heb\">רַבִּים</span>","ר׳"]
   ])}
+</div>
+<div class="card">
+  <h3><span class="en">Exercice</span>תרגיל — Épithète ou attribut ?</h3>
+  <p>Complétez chaque adjectif avec l'article défini <span class="heb">הַ</span> s'il est <b>épithète</b>, ou laissez-le sans article s'il est <b>attribut</b> (« Ø »). Le premier est fait à titre d'exemple :</p>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">1. הַנָּבִיא <b>הֶ</b>עָנִי <b>Ø</b> חָכָם הוּא:</span>
+    <div class="tr" style="font-style:italic;">« Le prophète, le pauvre, est sage » — <span class="heb">עָנִי</span> qualifie <span class="heb">נָבִיא</span> (épithète, article) ; <span class="heb">חָכָם</span> est l'information nouvelle (attribut, sans article)</div>
+  </div>
+  <p class="ui" style="font-size:12.5px;color:var(--text-soft);margin-top:14px;">À vous (cliquez pour révéler le corrigé) :</p>
+  ${tableHTML(null, ["Phrase à compléter","Corrigé"], [
+    ["<span class=\"heb\">2. הַכֹּהֵן __עָשִׁיר __רַע:</span>","<span class=\"heb\">הַכֹּהֵן <b>הֶ</b>עָשִׁיר <b>Ø</b>רַע:</span> « Le prêtre, le riche, est mauvais »"],
+    ["<span class=\"heb\">3. הַנְּבִיאָה __קְדוֹשָׁה __חֲכָמָה הִיא:</span>","<span class=\"heb\">הַנְּבִיאָה <b>הַ</b>קְּדוֹשָׁה <b>Ø</b>חֲכָמָה הִיא:</span>"],
+    ["<span class=\"heb\">4. הָעִיר __רָעָה __גְדוֹלָה:</span>","<span class=\"heb\">הָעִיר <b>הָ</b>רָעָה <b>Ø</b>גְדוֹלָה:</span>"],
+    ["<span class=\"heb\">5. הָהָר __גָּדוֹל __קָדוֹשׁ הוּא:</span>","<span class=\"heb\">הָהָר <b>הַ</b>גָּדוֹל <b>Ø</b>קָדוֹשׁ הוּא:</span>"],
+    ["<span class=\"heb\">6. הַמַּלְכָּה __רָעָה __עֲשִׁירָה הִיא:</span>","<span class=\"heb\">הַמַּלְכָּה <b>הָ</b>רָעָה <b>Ø</b>עֲשִׁירָה הִיא:</span>"],
+    ["<span class=\"heb\">7. הַבַּיִת __זֶּה __קָדוֹשׁ וְהַדֶּלֶת __זֹּאת __קְדוֹשָׁה:</span>","<span class=\"heb\">הַבַּיִת <b>הַ</b>זֶּה <b>Ø</b>קָדוֹשׁ וְהַדֶּלֶת <b>הַ</b>זֹּאת <b>Ø</b>קְדוֹשָׁה:</span> — le démonstratif <span class=\"heb\">זֶה/זֹאת</span> employé comme épithète prend, lui aussi, l'article"],
+    ["<span class=\"heb\">8. הַבֵּן __קָּטֹן וְ__רָע עָנִי הוּא:</span>","<span class=\"heb\">הַבֵּן <b>הַ</b>קָּטֹן וְ<b>הָ</b>רָע <b>Ø</b>עָנִי הוּא:</span> — deux épithètes coordonnées, puis l'attribut"],
+    ["<span class=\"heb\">9. שְׁמִי __קָדוֹשׁ הוּא:</span>","<span class=\"heb\">שְׁמִי <b>Ø</b>קָדוֹשׁ הוּא:</span> « Mon nom est saint » — attribut seul, pas d'épithète ici"]
+  ], [0,1])}
 </div>
 <div class="card">
   <h3><span class="en">Immersion</span>🎥 Vidéo complémentaire</h3>
@@ -1581,11 +1645,13 @@ const lesson9 = `
   <p>Employés avec un nom et un pronom démonstratif, tous deux doivent être définis : <span class="heb">הָאִישׁ הַהוּא</span> « cet homme ».</p>
 </div>
 <div class="card">
-  <h3><span class="en">Implicite</span>Le verbe « être » sous-entendu</h3>
-  ${tableHTML(null, ["Dans une phrase nominale (uniquement des noms)","Par l'utilisation des pronoms personnels"], [[
-    "<span class=\"heb\">אֵל גָּדוֹל יהוה</span> — Un grand Dieu est l'Éternel",
-    "<span class=\"heb\">מִי־אָתְּ ?</span> — Qui es-tu ?"
-  ]])}
+  <h3><span class="en">Copule</span>Le verbe « être » sous-entendu — la copule</h3>
+  <p>Une <b>phrase nominale</b> (sans verbe, seulement des noms) équivaut au français avec le verbe « être » : <span class="heb">אֵל גָּדוֹל יהוה</span> « un grand Dieu est l'Éternel ». On y trouve souvent, en plus, un pronom personnel de 3ᵉ personne jouant le rôle de <b>copule</b> — l'élément qui relie le sujet et l'attribut :</p>
+  ${tableHTML(null, ["Construction","Exemple","Effet"], [
+    ["Sujet + Attribut + <b>Copule</b>","<span class=\"heb\">דָּוִד מֶ֫לֶךְ הוּא׃</span> « David est roi »","Neutre — la copule s'accorde en genre et en nombre avec le sujet, et se place après l'attribut"],
+    ["Sujet + <b>Copule</b> + Attribut (défini)","<span class=\"heb\">דָּוִד הוּא הַמֶּ֫לֶךְ׃</span> « David, <u>c'est lui</u> le roi »","Emphatique — met le sujet en relief ; l'attribut, séparé, est alors défini"]
+  ])}
+  <p>Le pronom personnel joue aussi ce rôle dans une question : <span class="heb">מִי־אָתְּ?</span> « Qui es-tu ? »</p>
 </div>
 <div class="card">
   <h3><span class="en">Racine + schème</span>Le système verbal</h3>
@@ -4192,6 +4258,7 @@ const lesson49 = `
     ["Conjonctifs","Les liaisons entre les mots ou entre deux parties du texte ; la place de l'accent dans un mot"]
   ], [1])}
   <p>Ils peuvent aussi jouer le rôle de ponctuation.</p>
+  <p style="text-align:center;"><a href="#" onclick="go('cours',{lesson:51}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">📖 Voir le cours détaillé sur la cantillation (cours 51) →</a></p>
 </div>
 <div class="card">
   <h3><span class="en en-heb">שֶׁל</span>La particule שֶׁל</h3>
@@ -4335,7 +4402,53 @@ const lesson50 = `
 </div>
 `;
 
-const LESSONS = [lesson1,lesson2,lesson3,lesson4,lesson5,lesson6,lesson7,lesson8,lesson9,lesson10,lesson11,lesson12,lesson13,lesson14,lesson15,lesson16,lesson17,lesson18,lesson19,lesson20,lesson21,lesson22,lesson23,lesson24,lesson25,lesson26,lesson27,lesson28,lesson29,lesson30,lesson31,lesson32,lesson33,lesson34,lesson35,lesson36,lesson37,lesson38,lesson39,lesson40,lesson41,lesson42,lesson43,lesson44,lesson45,lesson46,lesson47,lesson48,lesson49,lesson50];
+/* ---- COURS 51 : Les signes de cantillation — טַעֲמֵי הַמִּקְרָא ---- */
+const lesson51 = `
+<div class="card">
+  <h3><span class="en en-heb">טַעֲמֵי־הַמִּקְרָא</span>Les signes de cantillation</h3>
+  <p>Les signes de cantillation font partie de l'œuvre des massorètes (7ᵉ-10ᵉ siècle), au même titre que les points-voyelles. Ils remplissent trois fonctions à la fois :</p>
+  ${tableHTML(null, ["Fonction","Rôle"], [
+    ["Accentuation","Ils marquent la syllabe qui porte l'accent tonique du mot"],
+    ["Cantillation","Ils rappellent la mélodie selon laquelle chanter le texte biblique (à la synagogue)"],
+    ["Ponctuation","Ils jouent le rôle de « signes de ponctuation » du verset — mais d'une façon très différente de la nôtre"]
+  ])}
+  <p>On distingue les signes <b>disjonctifs</b> (qui marquent une <b>pause</b> dans la lecture) des signes <b>conjonctifs</b> (qui marquent au contraire la <b>continuité</b>). Les disjonctifs se répartissent en plusieurs niveaux, du plus fort au plus faible.</p>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">קֵיסָרִים</span>Premier niveau : les Césars</h3>
+  <p>Les <span class="heb">קֵיסָרִים</span> (« les Césars ») marquent les pauses les <b>plus importantes</b> du verset. Il n'y en a que deux :</p>
+  ${tableHTML(null, ["Signe","Nom","Rôle"], [
+    ["<span class=\"heb\">◌ֽ</span>","<span class=\"heb\">סִלּוּק</span> (Silloq)","Marque la fin de chaque verset (sous le dernier mot)"],
+    ["<span class=\"heb\">◌֑</span>","<span class=\"heb\">אַתְנָח</span> (Atna'h)","Marque la pause la plus importante à l'intérieur du verset"]
+  ])}
+  ${ex('לֹא יָפֶה הוּא הַיּוֹם הַזֶּ֑ה │ וְלֹא יָפִים הֵ֫מָּה כָּל־הַיָּמִֽים',"« Ce jour n'est pas beau │ et ces jours-là ne sont pas beaux » — l'Atna'h marque la pause médiane, le Silloq la fin du verset")}
+  <div class="callout info"><span class="ico">💡</span><span>Le signe se place le plus souvent sur la 1ʳᵉ lettre de la <b>syllabe accentuée</b> du mot — ce qui peut déplacer l'accent attendu : <span class="heb">תְּאֵנָה</span> → <span class="heb">תְּאֵנָ֑ה</span> ; <span class="heb">וְאִישׁ</span> → <span class="heb">וְאִֽישׁ</span> ; <span class="heb">הֵנָּה</span> → <span class="heb">הֵ֑נָּה</span>.</span></div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">מְלָכִים</span>Deuxième niveau : les Melakhim</h3>
+  <p>Les <span class="heb">מְלָכִים</span> marquent les pauses de <b>second ordre</b> à l'intérieur du verset — une pause plus légère que celle des Césars :</p>
+  ${tableHTML(null, ["Signe","Nom"], [
+    ["<span class=\"heb\">◌֔</span>","<span class=\"heb\">זָקֵף קָטֹן</span> (Zaqef qatan)"],
+    ["<span class=\"heb\">◌֕</span>","<span class=\"heb\">זָקֵף גָּדוֹל</span> (Zaqef gadol)"],
+    ["<span class=\"heb\">◌֖</span>","<span class=\"heb\">טִפְּחָא</span> (Tifh'a)"],
+    ["<span class=\"heb\">◌֒</span>","<span class=\"heb\">סְגוֹל</span> (Segol)"],
+    ["<span class=\"heb\">◌֓</span>","<span class=\"heb\">שַׁלְשֶׁלֶת</span> (Shalshèlèt)"]
+  ])}
+  <div class="callout warn"><span class="ico">⚠️</span><span>Tous ces signes se placent sur la 1ʳᵉ lettre de la syllabe accentuée — <b>sauf</b> le <span class="heb">סְגוֹל</span>, toujours marqué sur la <b>dernière</b> lettre du mot (<span class="heb">לֵךְ֒</span>, <span class="heb">אַבְרָהָם֒</span>) : il ne permet donc pas, à lui seul, de savoir quelle syllabe est accentuée.</span></div>
+  <p>Ces signes découpent la phrase en segments de plus en plus courts, du <span class="heb">זָקֵף</span> (pause moyenne) jusqu'à l'<span class="heb">אַתְנָח</span> puis au <span class="heb">סִלּוּק</span> :</p>
+  ${ex('שָׂרָ֕ה │ בּ֫וֹאִי לְכִ֔י │ עִם אַבְרָהָ֖ם │ אִישֵׁ֑ךְ ║ וּב֫וֹאִי הָגָר גַּם־אַ֔תְּ │ וָלֵ֖כְנָה │ אַחֲרֵי־אַבְרָהָֽם׃',"« Sarah, viens, va avec Avraham ton mari ; et toi aussi Hagar, viens, va après Avraham »")}
+</div>
+<div class="card">
+  <h3><span class="en">Exercices</span>תרגילים — Repérer les pauses</h3>
+  <p>Dans le verset suivant, repérez l'<span class="heb">אַתְנָח</span> (pause médiane) et le <span class="heb">סִלּוּק</span> (fin de verset) :</p>
+  <div class="rule">
+    <span class="heb" style="font-size:1.15em;">הִנֵּה מַה־טּ֖וֹב וּמַה־נָּעִ֑ים שֶׁ֖בֶת אַחִים גַּם־יָֽחַד׃</span>
+    <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Psaumes 133,1 — תהלים קלג א</div>
+  </div>
+</div>
+`;
+
+const LESSONS = [lesson1,lesson2,lesson3,lesson4,lesson5,lesson6,lesson7,lesson8,lesson9,lesson10,lesson11,lesson12,lesson13,lesson14,lesson15,lesson16,lesson17,lesson18,lesson19,lesson20,lesson21,lesson22,lesson23,lesson24,lesson25,lesson26,lesson27,lesson28,lesson29,lesson30,lesson31,lesson32,lesson33,lesson34,lesson35,lesson36,lesson37,lesson38,lesson39,lesson40,lesson41,lesson42,lesson43,lesson44,lesson45,lesson46,lesson47,lesson48,lesson49,lesson50,lesson51];
 
 /* =========================================================================
    EXERCICES DE CONJUGAISON — corrigés officiels Yehi-Or (blanc à révéler)
@@ -5153,6 +5266,11 @@ const VOCAB = [
  {heb:"אָכַל",tr:"Akhal",g:"v",fr:"Il a mangé",c:6},
  {heb:"נָגַע",tr:"Naga",g:"v",fr:"Il a touché, frappé",c:6},
  {heb:"צַדִּיק",tr:"Tsadiq",g:"adj",fr:"Juste",c:6},
+ {heb:"תַּלְמִיד",tr:"Talmid",g:"M",fr:"Élève, disciple",c:6},
+ {heb:"מוֹרֶה",tr:"Moréh",g:"M",fr:"Maître, enseignant",c:6},
+ {heb:"מְנוֹרָה",tr:"Ménorah",g:"F",fr:"Lampadaire, chandelier",c:6},
+ {heb:"תְּאֵנָה",tr:"Téénah",g:"F",fr:"Figuier",c:6},
+ {heb:"יָפֶה",tr:"Yafèh",g:"adj",fr:"Beau",c:6},
  {heb:"עֲבוֹדָה",tr:"'Avodah",g:"F",fr:"Travail, ouvrage",c:7},
  {heb:"מִזְבֵּחַ",tr:"Mizbéa'h",g:"M",fr:"Autel",c:7},
  {heb:"נָהָר",tr:"Nahar",g:"M",fr:"Fleuve",c:7},
