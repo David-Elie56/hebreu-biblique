@@ -368,6 +368,18 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
 
 /* ---------- traçage des lettres (canvas + pointer events) ---------- */
 .hwcanvaswrap{position:relative;width:300px;height:300px;margin:10px auto;border:2px dashed var(--parchment2);border-radius:12px;background:var(--paper);touch-action:none;}
+.memgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:520px;margin:16px auto;}
+@media (max-width:480px){.memgrid{grid-template-columns:repeat(3,1fr);}}
+.memcard{aspect-ratio:1/1;perspective:800px;cursor:pointer;}
+.memcard-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;}
+.memcard.flipped .memcard-inner{transform:rotateY(180deg);}
+.memcard.matched .memcard-inner{transform:rotateY(180deg);opacity:.55;}
+.memcard-face{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:10px;backface-visibility:hidden;padding:4px;text-align:center;box-shadow:var(--shadow);}
+.memcard-back{background:linear-gradient(135deg,var(--ink),#3a2f28);color:var(--gold);font-size:22px;}
+.memcard-front{background:var(--parchment);transform:rotateY(180deg);font-size:14px;line-height:1.25;color:var(--ink);border:2px solid var(--parchment2);}
+.memcard.matched .memcard-front{border-color:var(--gold);}
+@keyframes memPop{0%{transform:rotateY(180deg) scale(1);}50%{transform:rotateY(180deg) scale(1.08);}100%{transform:rotateY(180deg) scale(1);}}
+.memcard.matched .memcard-inner{animation:memPop .4s;}
 .hwguide{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-family:'Noto Sans Hebrew',sans-serif;font-size:220px;color:rgba(28,43,40,.14);
@@ -1630,6 +1642,30 @@ const lesson8 = `
   ${ex('דָּוִד אֲשֶׁר שָׁמַר מִצְוֹתַי','« David qui a gardé mes commandements » (sujet, avec verbe)')}
   ${ex('הַנָּבִיא אֲשֶׁר בְּיִשְׂרָאֵל',"« le prophète qui (est) en Israël » (sujet, sans verbe)")}
   ${ex('הָאָרֶץ אֲשֶׁר נָתַן יהוה',"« la terre qu'a donnée l'Éternel » (complément)")}
+  <div class="callout warn"><span class="ico">⚠️</span><span><span class="heb">אֲשֶׁר</span> lui-même n'indique <b>jamais</b> la fonction exacte (sujet, possessif, lieu…) de l'antécédent dans la relative : c'est un <b>pronom rétrospectif</b>, à l'intérieur même de la proposition relative, qui s'en charge — un pronom indépendant, un suffixe, ou un adverbe, qui reprend l'antécédent et s'accorde avec lui.</span></div>
+  ${tableHTML(null, ["Fonction du pronom rétrospectif","Exemple"], [
+    ["Sujet (pronom indépendant)","<span class=\"heb\">וְהָאִישׁ אֲשֶׁר־הוּא טָהוֹר</span> « et l'homme qui est pur » — litt. « (relatif) lui est pur » (Nombres 9,13)"],
+    ["Complément d'objet (suffixe)","<span class=\"heb\">אֲחִיכֶם אֲשֶׁר־מְכַרְתֶּם אֹתִי מִצְרָיְמָה</span> « votre frère que vous avez vendu en Égypte » — litt. « (relatif) vous m'avez vendu » (Genèse 45,4)"],
+    ["Complément de lieu (suffixe + préposition)","<span class=\"heb\">הָאָרֶץ אֲשֶׁר־הוּא יֹשֵׁב בָּהּ</span> « la terre où il habite » — litt. « (relatif) il habite en elle » (Nombres 13,19)"],
+    ["Possessif (suffixe)","<span class=\"heb\">גּוֹי אֲשֶׁר לֹא־תִשְׁמַע לְשֹׁנוֹ</span> « une nation dont tu ne comprendras pas la langue » — litt. « (relatif) sa langue » (Deutéronome 28,49)"]
+  ])}
+  <div class="callout info"><span class="ico">💡</span><span>Ce pronom rétrospectif est souvent <b>omis</b> quand l'antécédent est complément d'objet direct : <span class="heb">אִשָּׁה אֲשֶׁר־אָהַבְתָּ</span> « une femme que tu aimes » (Ecclésiaste 9,9), sans <span class="heb">אֹתָהּ</span>. Un second pronom relatif, <span class="heb">שֶׁ־</span>, apparaît dans des textes plus tardifs (Qohélet, Cantique des Cantiques) — et déjà, ponctuellement, dans le très ancien Cantique de Débora (Juges 5,7).</span></div>
+</div>
+<div class="card">
+  <h3><span class="en">Exercice</span>תרגיל — Joindre deux phrases avec אֲשֶׁר</h3>
+  <p>Joignez les deux phrases au moyen d'<span class="heb">אֲשֶׁר</span>, sur le modèle :</p>
+  <div class="rule"><span class="heb" style="font-size:1.05em;">אֱלֹהִים בָּרָא אֶת־הַשָּׁמַיִם׃ הַשָּׁמַיִם גְּדוֹלִים׃ ← הַשָּׁמַיִם אֲשֶׁר אֱלֹהִים בָּרָא אֹתָם גְּדוֹלִים׃</span></div>
+  <details style="margin-top:10px;">
+    <summary class="ui" style="cursor:pointer;font-size:12.5px;color:var(--gold-dim);">À vous (cliquez pour révéler le corrigé)</summary>
+    ${tableHTML(null, ["Corrigé"], [
+      ["<span class=\"heb\">הַמִּצְוֹת אֲשֶׁר אֲדֹנָי נָתַן לְךָ תִּשְׁמֹר׃</span>"],
+      ["<span class=\"heb\">הַמֶּלֶךְ אֲשֶׁר הָעָם בָּחַר בּוֹ רַע הוּא׃</span>"],
+      ["<span class=\"heb\">עַם־יִשְׂרָאֵל אָהַב אֶת־הַנְּבִיאִים אֲשֶׁר אֲדֹנָי שָׁלַח לְעַם־יִשְׂרָאֵל׃</span>"],
+      ["<span class=\"heb\">שְׁמוּאֵל שָׁמַע אֶת־אֲדֹנָי אֲשֶׁר קָרָא אֶל־שְׁמוּאֵל׃</span>"],
+      ["<span class=\"heb\">אַתָּה שֹׁכֵב עַל־הָאָרֶץ אֲשֶׁר קְדוֹשָׁה הִיא׃</span>"]
+    ])}
+    <div class="callout info"><span class="ico">💡</span><span>Plusieurs jonctions étaient possibles dans le document source ; ceci n'est qu'une solution parmi d'autres.</span></div>
+  </details>
 </div>
 <div class="card">
   <h3><span class="en">Immersion</span>🎥 Vidéos complémentaires</h3>
@@ -1826,6 +1862,12 @@ const lesson11 = `
   ${ex('סוּסִי','Mon cheval')}${ex('סוּסְךָ / סוּסֵךְ','Ton cheval (f./m.)')}${ex('סוּסוֹ / סוּסָהּ','Son cheval (f./m.)')}${ex('סוּסֵנוּ','Notre cheval')}${ex('סוּסְכֶם / סוּסְכֶן','Votre cheval (f./m.)')}${ex('סוּסָם / סוּסָן','Leur cheval (f./m.)')}
   <div class="callout warn"><span class="ico">⚠️</span><span>À la 3ᵉ pers. fém. sing., le <span class="heb">הּ</span> prend un <b>mappiq</b> (point) qui montre qu'il doit être lu comme une consonne, et non comme une mater lectionis.</span></div>
   <div class="callout info"><span class="ico">💡</span><span>Pour un nom masculin de plusieurs syllabes, si une <b>voyelle moyenne</b> précède la dernière syllabe, elle s'abrège en général au contact du suffixe — comme au pluriel ou à l'état construit.</span></div>
+  <p>Le <span class="heb">ֵ</span> (tséré) a lui aussi tendance à tomber quand l'accent ne frappe pas sa syllabe :</p>
+  ${tableHTML("שֵׁם « nom »", ["","Féminin","Masculin"], [
+    ["Singulier","<span class=\"heb\">שְׁמִי</span> / <span class=\"heb\">שְׁמֵךְ</span>","<span class=\"heb\">שִׁמְךָ</span>"],
+    ["Pluriel","<span class=\"heb\">שִׁמְכֶן</span>","<span class=\"heb\">שְׁמֵנוּ</span> / <span class=\"heb\">שִׁמְכֶם</span>"]
+  ])}
+  <div class="callout warn"><span class="ico">⚠️</span><span><span class="heb">שִׁמְךָ</span> (et non <span class="heb">שְׁמְךָ</span>) : deux shéva ne peuvent jamais se suivre en <b>tête de mot</b> — le premier devient un <b>hiriq</b>.</span></div>
 </div>
 <div class="card">
   <h3><span class="en en-heb">סוּסָתִי</span>Suffixes sur un nom féminin singulier</h3>
@@ -1865,6 +1907,21 @@ const lesson11 = `
     <a href="https://www.youtube.com/results?search_query=Aleph%2Bwith%2BBeth%2BLesson%2B23%2BPossessive%2BSuffixes" target="_blank" rel="noopener">▶ Leçon 23 — Possessive Suffixes 1 & Body Parts</a><br>
     <a href="https://www.youtube.com/results?search_query=Aleph%2Bwith%2BBeth%2BLesson%2B35%2BPrepositions%2Bwith%2BSuffixes" target="_blank" rel="noopener">▶ Leçon 35 — Prepositions with Suffixes</a>
   </p>
+</div>
+<div class="card">
+  <h3><span class="en">Exercice</span>תרגיל — Décliner le nom en contexte</h3>
+  <p>Complétez avec la forme suffixée du nom entre parenthèses, sur le modèle :</p>
+  <div class="rule"><span class="heb" style="font-size:1.1em;">וַיֹּאמְרוּ עִירֵנוּ (עִיר) הִיא׃</span> « Ils dirent : c'est notre ville »</div>
+  <details style="margin-top:10px;">
+    <summary class="ui" style="cursor:pointer;font-size:12.5px;color:var(--gold-dim);">À vous (cliquez pour révéler le corrigé)</summary>
+    ${tableHTML(null, ["Corrigé"], [
+      ["<span class=\"heb\">וַיֹּאמֶר אֱלֹהִים אֶל־עַם־יִשְׂרָאֵל אַתֶּם עַמִּי (עַם)׃</span>"],
+      ["<span class=\"heb\">וַתֹּאמֶר הָאִשָּׁה לְאִישָׁהּ (אִישׁ) שְׁמַע בְּקוֹלוֹ (קוֹל)׃</span>"],
+      ["<span class=\"heb\">...יֵשְׁבוּ בְנֵי־יִשְׂרָאֵל תַּחַת תְּאֵנָתוֹ (תְּאֵנָה) וְעַל שֻׁלְחָנוֹ (שֻׁלְחָן)׃</span> <span class=\"tr\">(« chacun sous son figuier », idiome biblique)</span>"],
+      ["<span class=\"heb\">...וַיִּשְׁמַע אֶת־קוֹלָהּ (קוֹל) הַיָּפֶה...קִרְאוּ לְבַת־שֶׁבַע מַלְכָּתֵנוּ (מַלְכָּה)׃</span>"]
+    ])}
+    <div class="callout info"><span class="ico">💡</span><span>Corrigés dérivés des règles du cours à partir d'un extrait plus long du document source.</span></div>
+  </details>
 </div>
 `;
 
@@ -2409,6 +2466,13 @@ const lesson22 = `
   <p>Il peut aussi recevoir un suffixe : ${ex('לִשְׁמָרְךָ',"Pour te garder")}</p>
 </div>
 <div class="card">
+  <h3><span class="en">Proposition de temps</span>« Quand… » avec l'infinitif construit</h3>
+  <p>Introduit par <span class="heb">בְּ</span> (« lors de ») ou <span class="heb">כְּ</span> (« comme, dès que »), suivi du sujet de l'action, l'infinitif construit sert à exprimer une proposition de temps :</p>
+  <div class="rule"><span class="heb" style="font-size:1.1em;">בִּשְׁפֹט הַמֶּלֶךְ…</span> litt. « lors du fait de juger du roi » = « quand le roi jugeait… »</div>
+  ${ex('כִּשְׁמֹעַ עֵשָׂו אֶת־דִּבְרֵי אָבִיו וַיִּצְעַק צְעָקָה גְּדֹלָה',"« Quand Ésaü entendit les paroles de son père, il poussa un grand cri »","Genèse 27,34 — בראשית כז לד")}
+  ${ex('וְשִׁנַּנְתָּם לְבָנֶיךָ וְדִבַּרְתָּ בָּם בְּשִׁבְתְּךָ בְּבֵיתֶךָ וּבְלֶכְתְּךָ בַדֶּרֶךְ וּבְשָׁכְבְּךָ וּבְקוּמֶךָ',"« Tu les répéteras à tes fils et tu en parleras, quand tu seras assis dans ta maison, quand tu marcheras sur le chemin, quand tu te coucheras et quand tu te lèveras »","Deutéronome 6,7 — דברים ו ז")}
+</div>
+<div class="card">
   <h3><span class="en">Exercice</span>תרגיל — הֲטוֹב… ? Est-il bon de… ?</h3>
   <p>Cette tournure emploie l'infinitif absolu pour poser une question générale, sur le modèle :</p>
   <div class="rule"><span class="heb" style="font-size:1.15em;">אָכוֹל הַרְבֵּה לֹא טוֹב׃</span> <span class="tr" style="font-style:italic;">« Manger beaucoup n'est pas bon »</span></div>
@@ -2444,6 +2508,12 @@ const lesson23 = `
     "<span class=\"heb\">יִקְטֹל</span>","<span class=\"heb\">יִקְטֹל</span>","<span class=\"heb\">יְהִי</span>","<span class=\"heb\">יִהְיֶה</span>"
   ]])}
   <div class="callout warn"><span class="ico">⚠️</span><span>Pour les verbes forts, aucune différence visible : seul le contexte indique s'il s'agit d'un Yiqtol ou d'un jussif. Les jussifs sont souvent accompagnés de la particule <span class="heb">נָא</span>, comme les autres volitifs. Le jussif se traduit comme un impératif à la 3ᵉ personne, ou comme le désir qu'une personne fasse une chose.</span></div>
+  <p>La forme courte du jussif est également visible pour d'autres catégories de verbes :</p>
+  ${tableHTML(null, ["Catégorie","Yiqtol","Jussif"], [
+    ["<span class=\"heb\">הִפְעִיל</span>","<span class=\"heb\">יַשְׁלִיךְ</span> « il jettera »","<span class=\"heb\">יַשְׁלֵךְ</span> « qu'il jette »"],
+    ["<span class=\"heb\">ע״ו / ע״י</span> (creux)","<span class=\"heb\">יָשׁוּב</span> « il reviendra »","<span class=\"heb\">יָשָׁב</span> « qu'il revienne »"]
+  ])}
+  <div class="callout info"><span class="ico">💡</span><span>Quand jussif et Yiqtol sont identiques, la <b>syntaxe</b> aide à trancher : un verbe au Yiqtol ne se met normalement pas en tête de proposition, alors qu'un verbe au mode volitif (jussif compris) s'y trouve le plus souvent. Exemple bien connu : <span class="heb">יְחִי הַמֶּלֶךְ</span> « Vive le roi ! » (2 Samuel 16,16) — jussif de <span class="heb">חָיָה</span>, en tête de phrase.</span></div>
 </div>
 <div class="card">
   <h3><span class="en">Interrogatif</span>L'interrogation</h3>
@@ -2508,6 +2578,8 @@ const lesson24 = `
   ]])}
   <div class="callout warn"><span class="ico">⚠️</span><span><span class="heb">יֵשׁ</span>/<span class="heb">אֵין</span> ne s'emploient qu'au présent. Au <b>passé</b> ou au <b>futur</b>, la possession se rend avec le verbe <span class="heb">הָיָה</span> (« être ») + <span class="heb">לְ</span> :</span></div>
   ${ex('הָיָה לִי בֵּן',"« j'avais un fils »")}${ex('לֹא הָיָה לְךָ בֵּן',"« tu n'avais pas de fils »")}
+  ${ex('וְיֵדַע כִּי יֵשׁ נָבִיא בְּיִשְׂרָאֵל',"« Et qu'il sache qu'il y a un prophète en Israël »","2 Rois 5,8 — מלכים ב ה ח")}
+  ${ex('יְהוָה הוּא הָאֱלֹהִים אֵין עוֹד',"« L'Éternel, c'est lui qui est Dieu ; il n'y en a pas d'autre »","1 Rois 8,60 — מלכים א ח ס")}
 </div>
 <div class="card">
   <h3><span class="en">Immersion</span>🎥 Vidéo complémentaire</h3>
@@ -2924,7 +2996,12 @@ const lesson29 = `
 const lesson30 = `
 <div class="card">
   <h3><span class="en en-heb">הִתְפַּעֵל</span>Le Hitpaël — forme réfléchie de l'intensif</h3>
-  <p>Le <span class="heb">הִתְפַּעֵל</span> est une forme <b>réfléchie</b> de l'intensif : il aura donc des ressemblances avec le <span class="heb">פִּעֵל</span> et le <span class="heb">פֻּעַל</span>.</p>
+  <p>Le <span class="heb">הִתְפַּעֵל</span> est le plus souvent <b>réfléchi</b> — mais peut aussi avoir un sens passif, ou celui de « se faire passer pour…, se montrer… » :</p>
+  ${tableHTML(null, ["Qal","Hitpaël"], [[
+    "<span class=\"heb\">חָלָה</span> « tomber malade, être malade »",
+    "<span class=\"heb\">הִתְחַלָּה</span> « faire semblant d'être malade » (1 Samuel 13,5-6)"
+  ]])}
+  <p>Il aura donc des ressemblances avec le <span class="heb">פִּעֵל</span> et le <span class="heb">פֻּעַל</span> : notamment, la 2ᵉ lettre de la racine y est redoublée, comme au Piel.</p>
   <p>Le Hitpaël se reconnaît par la présence de trois éléments, selon le temps et la personne :</p>
   ${tableHTML(null, ["Élément","Description"], [
     ["Préfixe <span class=\"heb\">הִתְ־</span>", "présent selon le temps et la personne"],
@@ -3100,10 +3177,16 @@ const lesson31 = `
 /* ---- COURS 32 : Nifal — נִפְעַל ---- */
 const lesson32 = `
 <div class="card">
-  <h3><span class="en en-heb">נִפְעַל</span>Le Nifal — forme passive/réfléchie du Qal</h3>
-  <p>Le <span class="heb">נִפְעַל</span> est la forme <b>passive et réfléchie</b> du <span class="heb">קַל / פָּעַל</span>.</p>
+  <h3><span class="en en-heb">נִפְעַל</span>Le Nifal — quel sens ?</h3>
+  <p>Le <span class="heb">נִפְעַל</span> est la forme <b>passive</b> du <span class="heb">קַל / פָּעַל</span> — mais son sens peut aussi être <b>réfléchi</b>, <b>réciproque</b>, ou exprimer l'idée de « se laisser faire » :</p>
+  ${tableHTML(null, ["Sens","Exemple"], [
+    ["<b>Réfléchi</b> (le sujet agit sur lui-même)","<span class=\"heb\">שָׁמַר</span> « garder » → <span class=\"heb\">נִשְׁמַר</span> « se garder »"],
+    ["<b>Passif</b>","<span class=\"heb\">אָמַר</span> « dire » → <span class=\"heb\">נֶאֱמַר</span> « être dit »"],
+    ["<b>Réciproque</b> (plusieurs sujets agissent l'un sur l'autre)","<span class=\"heb\">לָחַם</span> → <span class=\"heb\">נִלְחַם</span> « combattre (l'un contre l'autre) »"],
+    ["« Se laisser faire »","<span class=\"heb\">רָאָה</span> « voir » → <span class=\"heb\">נִרְאָה</span> « se laisser voir, apparaître »"]
+  ])}
+  <p>${ex('דָּוִד נִלְחָם בְּשָׁאוּל',"« David combattit contre Saül »")}${ex('וַיִּלָּחֲמוּ פְלִשְׁתִּים עִם־יִשְׂרָאֵל',"« Et les Philistins combattirent contre Israël »")}</p>
   <p>Il se caractérise par la présence d'un <span class="heb">נ</span> en préfixe. Ce <span class="heb">נ</span> peut être <b>assimilé</b> (disparaître) : dans ce cas, la 1ʳᵉ lettre de la racine prend un <span class="heb">דָּגֵשׁ</span> qui témoigne de cette assimilation et permet de reconnaître le Nifal.</p>
-  ${ex('נִשְׁמַר',"« il s'est gardé » ou « il a été gardé » (sens passif et réfléchi)")}
 </div>
 <div class="card">
   <h3><span class="en en-heb">נִקְטַל</span>Le Nifal à l'accompli (Qatal)</h3>
@@ -3368,6 +3451,17 @@ const lesson34 = `
     <div style="border-bottom:1px dotted var(--parchment2);height:26px;margin-top:6px;"></div>
     <div class="tr" style="font-style:italic;margin-top:8px;text-align:right;">Lévitique 6,15 — ויקרא ו טו</div>
   </div>
+</div>
+<div class="card">
+  <h3><span class="en en-heb">קַל פָּעוּל</span>Le Qal passif — une conjugaison disparue</h3>
+  <p>Les linguistes pensent qu'il existait, en hébreu ancien, une <b>troisième conjugaison passive</b> — le <b>Qal passif</b> — correspondant au Qal, de même que le Poual correspond au Piel et le Hofal à l'Hifil. Cette conjugaison est tombée en désuétude assez tôt (dès l'exil à Babylone, 6ᵉ siècle av. J.-C.), et ses formes ont fini par se confondre, dans le texte biblique, avec celles du Poual ou du Hofal :</p>
+  ${tableHTML(null, ["Verbe (Qal actif)","Forme dans le texte","Analyse la plus probable"], [
+    ["<span class=\"heb\">לָקַח</span> « prendre »","<span class=\"heb\">לֻקַּח</span> (ressemble à un Poual)","Qatal du Qal passif — « il fut pris »"],
+    ["<span class=\"heb\">לָקַח</span> « prendre »","<span class=\"heb\">יֻקַּח</span> (ressemble à un Hofal)","Yiqtol du Qal passif — « il sera pris »"],
+    ["<span class=\"heb\">יָלַד</span> « mettre au monde »","<span class=\"heb\">יֻלַּד</span>","Qal passif — « naître »"]
+  ])}
+  <div class="callout info"><span class="ico">💡</span><span>Ces formes sont repérables au fait qu'elles n'ont <b>pas de Piel ni de Hifil correspondant</b> pour ce verbe — seul un Qal actif. C'est ce qui trahit un Qal passif « caché » sous une apparence de Poual ou de Hofal.</span></div>
+  <div class="callout warn"><span class="ico">⚠️</span><span>Le passif est globalement <b>peu fréquent</b> en hébreu biblique, et le <b>complément d'agent</b> (« par qui » l'action est faite) n'est presque jamais exprimé — contrairement au français (« la souris est mangée <u>par le chat</u> »). Pour préciser l'agent, l'hébreu préfère tourner la phrase à l'actif.</span></div>
 </div>
 `;
 
@@ -4777,6 +4871,40 @@ function viewStepStudy(){
    précis). Chaque entrée : {id, title, icon, summary, html}.
    ========================================================================= */
 const LIBRARY_DOCS = [
+  {
+    id: 'prophete-sous-arbre',
+    icon: '🌳',
+    title: "Lecture — הַנָּבִיא תַּחַת הָעֵץ (Le prophète sous l'arbre)",
+    summary: "Un petit dialogue de lecture suivie entre un prophète pessimiste et un homme optimiste — révise le vocabulaire des adjectifs, du pluriel et des nombres des cours 1 à 10.",
+    html: `
+<div class="callout info"><span class="ico">💡</span><span>Un homme croise un prophète assis sous un figuier, d'humeur bien sombre. Ce court dialogue reprend volontairement beaucoup de vocabulaire déjà connu (adjectifs, pluriels, בֵּן/בַּיִת/עֵץ/מֶלֶךְ...) — lisez-le sans dictionnaire avant de consulter la traduction.</span></div>
+<div class="card">
+  <div class="rule"><span class="heb" style="font-size:1.2em;line-height:1.9;">נָבִיא עַל־הָאָרֶץ תַּחַת־תְּאֵנָה וְאִישׁ׃</span></div>
+  <div class="rule">
+    <span class="heb" style="font-size:1.1em;">הָאִישׁ — הֲשָׁלוֹם־לָךְ נָבִיא קָדוֹשׁ׃</span><br>
+    <span class="heb" style="font-size:1.1em;">הַנָּבִיא — לֹא׃</span><br>
+    <span class="heb" style="font-size:1.1em;">הָאִישׁ — יוֹם יָפֶה הַיּוֹם נְבִיאִי׃</span><br>
+    <span class="heb" style="font-size:1.1em;">הַנָּבִיא — לֹא יָפֶה הוּא הַיּוֹם הַזֶּה וְלֹא יָפִים הֵמָּה כָּל־הַיָּמִים׃</span>
+  </div>
+  <div class="tr" style="margin:10px 0;">L'homme — « Paix à toi, saint prophète. » Le prophète — « Non. » L'homme — « C'est un beau jour aujourd'hui, mon prophète. » Le prophète — « Ce jour n'est pas beau, et tous les jours ne sont pas beaux. »</div>
+  <div class="rule">
+    <span class="heb" style="font-size:1.1em;">הָאִישׁ — יָפוֹת הַתְּאֵנִים עַל־הָעֵץ הַקָּטֹן הַזֶּה׃ הֲטוֹבוֹת הֵנָּה נָבִיא צַדִּיק׃</span><br>
+    <span class="heb" style="font-size:1.1em;">הַנָּבִיא — לֹא טוֹבוֹת הֵנָּה, רָעוֹת מְאֹד׃ גַּם הֵנָּה וְגַם כָּל־הָאָרֶץ הַגְּדוֹלָה׃</span>
+  </div>
+  <div class="tr" style="margin:10px 0;">L'homme — « Belles sont les figues sur ce petit arbre — sont-elles bonnes, juste prophète ? » Le prophète — « Elles ne sont pas bonnes, elles sont très mauvaises — elles, et toute la grande terre aussi. »</div>
+  <div class="rule">
+    <span class="heb" style="font-size:1.1em;">הָאִישׁ — מַה־לָּךְ נָבִיא טוֹב׃</span><br>
+    <span class="heb" style="font-size:1.1em;">הַנָּבִיא — רַע הוּא הָאָדָם, רַע מְאֹד׃ הָאָרֶץ גְּדוֹלָה וּבְכָל־הֶעָרִים הָרַבּוֹת רָעִים הָאֲנָשִׁים וְרָעוֹת הַנָּשִׁים מְאֹד׃ רָעִים הַמְּלָכִים וְרָעוֹת הַמְּלָכוֹת וְרָעִים הַכֹּהֲנִים וְרַע עַם־יִשְׂרָאֵל וְרָעִים הֵמָּה כָּל־הַגּוֹיִם׃</span>
+  </div>
+  <div class="tr" style="margin:10px 0;">L'homme — « Qu'as-tu, bon prophète ? » Le prophète — « L'homme est mauvais, très mauvais. La terre est grande, et dans toutes les nombreuses villes les hommes sont mauvais et les femmes très mauvaises. Mauvais sont les rois, mauvaises les reines, mauvais les prêtres, mauvais le peuple d'Israël, et mauvaises sont toutes les nations. »</div>
+  <div class="rule">
+    <span class="heb" style="font-size:1.1em;">הָאִישׁ — אֱלֹהִים הוּא טוֹב וְאַתֶּם הַנְּבִיאִים טוֹבִים׃</span><br>
+    <span class="heb" style="font-size:1.1em;">הַנָּבִיא — הֲטוֹב הוּא אֱלֹהִים׃ בְּכָל־הֶעָרִים בָּתִּים גְּדוֹלִים, וּבַבָּתִּים הַגְּדוֹלִים אֲנָשִׁים עֲשִׁירִים וְשֻׁלְחָנוֹת גְּדוֹלִים, וְעַל־הַשֻּׁלְחָנוֹת הַגְּדוֹלִים תְּאֵנִים טוֹבוֹת וְרַבּוֹת, וְהַתְּאֵנִים הַטּוֹבוֹת טוֹבוֹת מְאֹד מְאֹד הֵנָּה׃ וְאָנֹכִי נָבִיא וּבֶן־נָבִיא, וְעַל־הָאָרֶץ אֲנִי תַּחַת־עֵץ קָטֹן, וְעַל־הָעֵץ הַקָּטֹן תְּאֵנִים לֹא רַבּוֹת וְרָעוֹת מְאֹד׃</span>
+  </div>
+  <div class="tr" style="margin:10px 0;">L'homme — « Dieu est bon, et vous, les prophètes, êtes bons. » Le prophète — « Dieu est-il bon ? Dans toutes les villes il y a de grandes maisons, et dans les grandes maisons des hommes riches et de grandes tables, et sur les grandes tables des figues bonnes et nombreuses, et ces bonnes figues sont très très bonnes. Et moi je suis prophète et fils de prophète, et moi je suis sur la terre sous un petit arbre, et sur le petit arbre des figues peu nombreuses et très mauvaises. »</div>
+</div>
+`
+  },
   {
     id: 'guide-en-fr',
     icon: '🔤',
@@ -7630,6 +7758,7 @@ function viewExercices(){
   return `
   <div class="topline"><div><div class="eyebrow">תַּרְגִּילִים</div><h1>Exercices</h1></div></div>
   <div class="exlist">
+    <div class="extile" onclick="go('memblocks')"><h4>🎴 Jeu de mémoire</h4><p>Retrouvez les paires hébreu ⇄ français, par blocs de 5 cours.</p><div class="go">Ouvrir →</div></div>
     <div class="extile" onclick="go('vocabquiz')"><h4>מ Quiz de vocabulaire</h4><p>QCM auto-corrigé, hébreu ⇄ français (tous cours).</p><div class="go">Ouvrir →</div><div class="score">${scoreLabel('vocabQuizall')}</div></div>
     <div class="extile" onclick="startWriteExercise(null)"><h4>⌨️ Écrire au clavier</h4><p>Voir/entendre un mot et le taper en hébreu avec le clavier virtuel.</p><div class="go">Ouvrir →</div><div class="score">${scoreLabel('writeVocaball')}</div></div>
     <div class="extile" onclick="go('handwriting')"><h4>✍️ Tracer les lettres</h4><p>S'entraîner à écrire les lettres à la main (doigt ou stylet).</p><div class="go">Ouvrir →</div></div>
@@ -7648,7 +7777,96 @@ function viewExercices(){
   </div>`;
 }
 
-/* ---- Exercice "Tracer les lettres" (finger/stylet via Pointer Events) ---- */
+/* ---- Jeu de mémoire (paires hébreu/français), par blocs de 5 cours ---- */
+function viewMemoryBlocks(){
+  const blocks = [];
+  for(let start=1; start<=50; start+=5){
+    const end = Math.min(start+4, 50);
+    blocks.push({start, end, label: `Cours ${start}-${end}`});
+  }
+  const scores = PROGRESS.scores || {};
+  return `
+  <div class="topline"><div><div class="eyebrow">תַּרְגִּילִים</div><h1>🎴 Jeu de mémoire</h1></div>
+    <button class="navbtn" onclick="go('exercices')">← Retour</button></div>
+  <p class="ui" style="font-size:13px;color:var(--text-soft);margin-bottom:12px;">Choisissez un bloc de 5 cours pour retrouver les paires hébreu ⇄ français.</p>
+  <div class="exlist">
+    ${blocks.map(b=>{
+      const key = 'memgame'+b.start;
+      const best = scores[key];
+      return `<div class="extile" onclick="startMemoryGame(${b.start},${b.end})"><h4>${b.label}</h4><p>${LESSON_TITLES[b.start-1].split('(')[0].trim()}${b.end>b.start?' … '+LESSON_TITLES[b.end-1].split('(')[0].trim():''}</p><div class="go">Jouer →</div>${best?`<div class="score">Meilleur : ${best.best} coups</div>`:''}</div>`;
+    }).join('')}
+  </div>`;
+}
+let MEMGAME = null;
+function startMemoryGame(start, end){
+  const pool = shuffle(VOCAB.filter(v=>v.c>=start && v.c<=end)).slice(0,6);
+  if(pool.length < 4){ alert("Pas assez de vocabulaire propre à ce bloc pour ce jeu."); return; }
+  let cards = [];
+  pool.forEach((v,i)=>{
+    cards.push({pairId:i, kind:'heb', text:v.heb, isHeb:true});
+    cards.push({pairId:i, kind:'fr', text:v.fr, isHeb:false});
+  });
+  cards = shuffle(cards).map((c,i)=>({...c, idx:i, flipped:false, matched:false}));
+  MEMGAME = {start, end, cards, flippedIdx:[], moves:0, matches:0, total:pool.length, locked:false};
+  go('memorygame');
+}
+function viewMemoryGame(){
+  if(!MEMGAME) return viewMemoryBlocks();
+  const g = MEMGAME;
+  const done = g.matches===g.total;
+  return `
+  <div class="topline"><div><div class="eyebrow">Cours ${g.start}-${g.end}</div><h1>🎴 Jeu de mémoire</h1></div>
+    <button class="navbtn" onclick="MEMGAME=null; go('memblocks')">Quitter</button></div>
+  <p class="ui" style="font-size:13px;color:var(--text-soft);">Coups : ${g.moves} — Paires trouvées : ${g.matches}/${g.total}</p>
+  <div class="memgrid">
+    ${g.cards.map(c=>`
+      <div class="memcard ${c.flipped||c.matched?'flipped':''} ${c.matched?'matched':''}" onclick="flipMemCard(${c.idx})">
+        <div class="memcard-inner">
+          <div class="memcard-face memcard-back">🕎</div>
+          <div class="memcard-face memcard-front ${c.isHeb?'heb':''}" style="${c.isHeb?'font-size:22px;':''}">${esc(c.text)}</div>
+        </div>
+      </div>`).join('')}
+  </div>
+  ${done?`<div class="callout info" style="margin-top:16px;"><span class="ico">🎉</span><span>Bravo, toutes les paires sont trouvées en ${g.moves} coups ! <a href="#" onclick="go('memblocks'); return false;">Choisir un autre bloc →</a></span></div>`:''}
+  `;
+}
+function flipMemCard(i){
+  const g = MEMGAME;
+  if(!g || g.locked) return;
+  const c = g.cards[i];
+  if(c.flipped || c.matched) return;
+  c.flipped = true;
+  g.flippedIdx.push(i);
+  if(g.flippedIdx.length===2){
+    g.moves++;
+    const [a,b] = g.flippedIdx.map(idx=>g.cards[idx]);
+    if(a.pairId===b.pairId){
+      a.matched = true; b.matched = true;
+      g.matches++;
+      g.flippedIdx = [];
+      render();
+      if(g.matches===g.total){
+        const key = 'memgame'+g.start;
+        PROGRESS.scores = PROGRESS.scores || {};
+        const prevBest = PROGRESS.scores[key] && PROGRESS.scores[key].best;
+        if(!prevBest || g.moves < prevBest){ PROGRESS.scores[key] = {best:g.moves}; saveProgress(); }
+      }
+    }else{
+      g.locked = true;
+      render();
+      setTimeout(()=>{
+        a.flipped = false; b.flipped = false;
+        g.flippedIdx = [];
+        g.locked = false;
+        render();
+      }, 900);
+    }
+  }else{
+    render();
+  }
+}
+
+
 const HANDWRITING_LETTERS = alphabetRows.filter(r=>!NO_DAGUESH_NAMES.includes(r[0]));
 let HW_STATE = {idx:0};
 function viewHandwriting(){
@@ -8705,6 +8923,8 @@ function renderContentOnly(){
   else if(STATE.view==='writequiz') html = viewWriteQuiz();
   else if(STATE.view==='writeex') html = viewWriteExercise();
   else if(STATE.view==='handwriting') html = viewHandwriting();
+  else if(STATE.view==='memblocks') html = viewMemoryBlocks();
+  else if(STATE.view==='memorygame') html = viewMemoryGame();
   main.innerHTML = html;
   enhanceHebrewText(main);
   if(STATE.view==='cours' && isLessonUnlocked(STATE.lesson)) attachBlockComments(main, STATE.lesson);
