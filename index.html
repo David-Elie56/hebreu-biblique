@@ -382,6 +382,32 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
 .memcard.matched .memcard-inner{animation:memPop .4s;}
 .matchgrid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:14px;}
 .matchcol{display:flex;flex-direction:column;gap:8px;}
+.methodchoice-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;background:radial-gradient(ellipse at top,#2a3a36,var(--ink) 70%);}
+.methodchoice-intro{text-align:center;max-width:560px;margin-bottom:36px;animation:fadeSlideUp .7s ease both;}
+.methodchoice-intro h1{font-family:'Frank Ruhl Libre',serif;color:var(--gold);font-size:2.2em;margin-bottom:14px;}
+.methodchoice-intro p{color:rgba(245,240,230,.85);font-family:'Inter',sans-serif;font-size:15px;line-height:1.6;}
+.methodchoice-cards{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;max-width:800px;}
+.methodcard{background:var(--parchment);border-radius:16px;padding:30px 26px;width:280px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.35);border:2px solid transparent;transition:transform .25s,border-color .25s,box-shadow .25s;animation:fadeSlideUp .7s ease both;}
+.methodchoice-cards .methodcard:nth-child(2){animation-delay:.15s;}
+.methodcard:hover{transform:translateY(-6px);border-color:var(--gold);box-shadow:0 14px 32px rgba(0,0,0,.4);}
+.methodcard-glyph{font-size:2.4em;margin-bottom:10px;}
+.methodcard h3{font-family:'Frank Ruhl Libre',serif;color:var(--ink);font-size:1.3em;margin-bottom:10px;}
+.methodcard p{font-family:'Inter',sans-serif;font-size:13.5px;color:var(--text-soft);line-height:1.55;min-height:70px;}
+.methodcard-go{margin-top:14px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--gold-dim);}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.grouplabel{font-family:'Inter',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--gold-dim);padding:10px 14px 4px;}
+.navitem.disabled{opacity:.4;cursor:default;}
+.shuali-wordgrid{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:8px;}
+.shuali-word{font-size:1.4em;padding:4px 2px;}
+.shuali-stage{background:linear-gradient(180deg,var(--paper),var(--parchment));}
+.shuali-bubbles{display:flex;flex-direction:column;gap:14px;max-width:640px;margin:0 auto;}
+.shuali-bubble{max-width:80%;padding:12px 16px;border-radius:16px;box-shadow:var(--shadow);position:relative;animation:bubbleIn .45s ease both;}
+.shuali-bubble.left{align-self:flex-start;background:var(--parchment);border-bottom-left-radius:4px;}
+.shuali-bubble.right{align-self:flex-end;background:#e8ddc8;border-bottom-right-radius:4px;}
+.shuali-bubble-name{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;color:var(--gold-dim);margin-bottom:4px;}
+.shuali-bubble-heb{font-size:1.3em;direction:rtl;}
+.shuali-bubble-fr{font-family:'Inter',sans-serif;font-size:12.5px;color:var(--text-soft);font-style:italic;margin-top:4px;}
+@keyframes bubbleIn{from{opacity:0;transform:translateY(10px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
 .matchbtn{padding:10px 14px;border-radius:8px;border:2px solid var(--parchment2);background:var(--parchment);cursor:pointer;font-family:'Inter',sans-serif;font-size:14px;text-align:center;transition:border-color .2s,background .2s;}
 .matchbtn.heb{font-family:'Noto Serif Hebrew','Frank Ruhl Libre',serif;font-size:18px;direction:rtl;}
 .matchbtn.selected{border-color:var(--gold);background:rgba(184,147,90,.12);}
@@ -1519,15 +1545,16 @@ const lesson6 = `
   <p>Mettez chaque phrase au pluriel (nom, adjectif, pronom/copule) sur le modèle de l'exemple :</p>
   <div class="rule">
     <span class="heb" style="font-size:1.1em;">1. הַתַּלְמִיד הַטּוֹב חָכָם הוּא׃ ← הַתַּלְמִידִים הַטּוֹבִים חֲכָמִים הֵ֫מָּה׃</span>
+    <div class="tr" style="font-style:italic;">« Le bon élève est sage » → « Les bons élèves sont sages »</div>
   </div>
-  ${tableHTML(null, ["Phrase à mettre au pluriel"], [
-    ["<span class=\"heb\">2. הַנָּבִיא הַקָּדוֹשׁ צַדִּיק הוּא׃</span>"],
-    ["<span class=\"heb\">3. מֶלֶךְ אַתָּה עַל־יִשְׂרָאֵל׃</span>"],
-    ["<span class=\"heb\">4. הַמַּלְכָּה הָעֲשִׁירָה רָעָה הִיא׃</span>"],
-    ["<span class=\"heb\">5. הַכִּסֵּא הַגָּדוֹל עַל־הַשֻּׁלְחָן הוּא׃</span>"],
-    ["<span class=\"heb\">7. נְבִיאָה וּמוֹרָה גְדוֹלָה אַתְּ׃</span>"],
-    ["<span class=\"heb\">9. כֹּהֵן אָנֹכִי וְלֹא מֶלֶךְ וְלֹא נָבִיא׃</span>"],
-    ["<span class=\"heb\">10. בֵּן טוֹב שֵׁם טוֹב הוּא׃</span>"]
+  ${tableHTML(null, ["Phrase à mettre au pluriel","Traduction"], [
+    ["<span class=\"heb\">2. הַנָּבִיא הַקָּדוֹשׁ צַדִּיק הוּא׃</span>","« Le saint prophète est juste »"],
+    ["<span class=\"heb\">3. מֶלֶךְ אַתָּה עַל־יִשְׂרָאֵל׃</span>","« Tu es roi sur Israël »"],
+    ["<span class=\"heb\">4. הַמַּלְכָּה הָעֲשִׁירָה רָעָה הִיא׃</span>","« La riche reine est mauvaise »"],
+    ["<span class=\"heb\">5. הַכִּסֵּא הַגָּדוֹל עַל־הַשֻּׁלְחָן הוּא׃</span>","« Le grand trône est sur la table »"],
+    ["<span class=\"heb\">7. נְבִיאָה וּמוֹרָה גְדוֹלָה אַתְּ׃</span>","« Tu es une prophétesse et une grande maîtresse »"],
+    ["<span class=\"heb\">9. כֹּהֵן אָנֹכִי וְלֹא מֶלֶךְ וְלֹא נָבִיא׃</span>","« Je suis prêtre, et non roi, et non prophète »"],
+    ["<span class=\"heb\">10. בֵּן טוֹב שֵׁם טוֹב הוּא׃</span>","« Un bon fils est un bon nom »"]
   ])}
   <details style="margin-top:10px;">
     <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
@@ -1569,15 +1596,15 @@ const lesson6 = `
     <div class="tr" style="font-style:italic;">« Le prophète, le pauvre, est sage » — <span class="heb">עָנִי</span> qualifie <span class="heb">נָבִיא</span> (épithète, article) ; <span class="heb">חָכָם</span> est l'information nouvelle (attribut, sans article)</div>
   </div>
   <p class="ui" style="font-size:13px;color:var(--text-soft);margin-top:14px;">Complétez chaque phrase (cliquez pour révéler le corrigé) :</p>
-  ${tableHTML(null, ["Phrase à compléter"], [
-    ["<span class=\"heb\">2. הַכֹּהֵן __עָשִׁיר __רַע:</span>"],
-    ["<span class=\"heb\">3. הַנְּבִיאָה __קְדוֹשָׁה __חֲכָמָה הִיא:</span>"],
-    ["<span class=\"heb\">4. הָעִיר __רָעָה __גְדוֹלָה:</span>"],
-    ["<span class=\"heb\">5. הָהָר __גָּדוֹל __קָדוֹשׁ הוּא:</span>"],
-    ["<span class=\"heb\">6. הַמַּלְכָּה __רָעָה __עֲשִׁירָה הִיא:</span>"],
-    ["<span class=\"heb\">7. הַבַּיִת __זֶּה __קָדוֹשׁ וְהַדֶּלֶת __זֹּאת __קְדוֹשָׁה:</span>"],
-    ["<span class=\"heb\">8. הַבֵּן __קָּטֹן וְ__רָע עָנִי הוּא:</span>"],
-    ["<span class=\"heb\">9. שְׁמִי __קָדוֹשׁ הוּא:</span>"]
+  ${tableHTML(null, ["Phrase à compléter","Traduction"], [
+    ["<span class=\"heb\">2. הַכֹּהֵן __עָשִׁיר __רַע:</span>","« Le prêtre, le riche, est mauvais »"],
+    ["<span class=\"heb\">3. הַנְּבִיאָה __קְדוֹשָׁה __חֲכָמָה הִיא:</span>","« La prophétesse, la sainte, est sage »"],
+    ["<span class=\"heb\">4. הָעִיר __רָעָה __גְדוֹלָה:</span>","« La ville, la mauvaise, est grande »"],
+    ["<span class=\"heb\">5. הָהָר __גָּדוֹל __קָדוֹשׁ הוּא:</span>","« La montagne, la grande, est sainte »"],
+    ["<span class=\"heb\">6. הַמַּלְכָּה __רָעָה __עֲשִׁירָה הִיא:</span>","« La reine, la mauvaise, est riche »"],
+    ["<span class=\"heb\">7. הַבַּיִת __זֶּה __קָדוֹשׁ וְהַדֶּלֶת __זֹּאת __קְדוֹשָׁה:</span>","« Cette maison est sainte et cette porte est sainte »"],
+    ["<span class=\"heb\">8. הַבֵּן __קָּטֹן וְ__רָע עָנִי הוּא:</span>","« Le fils, le petit et le mauvais, est pauvre »"],
+    ["<span class=\"heb\">9. שְׁמִי __קָדוֹשׁ הוּא:</span>","« Mon nom est saint »"]
   ])}
   <details style="margin-top:10px;">
     <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
@@ -1684,13 +1711,13 @@ const lesson8 = `
 <div class="card">
   <h3><span class="en">Exercice</span>תרגיל — Joindre deux phrases avec אֲשֶׁר</h3>
   <p>Joignez les deux phrases au moyen d'<span class="heb">אֲשֶׁר</span>, sur le modèle :</p>
-  <div class="rule"><span class="heb">אֱלֹהִים בָּרָא אֶת־הַשָּׁמַיִם׃ הַשָּׁמַיִם גְּדוֹלִים׃ ← הַשָּׁמַיִם אֲשֶׁר אֱלֹהִים בָּרָא אֹתָם גְּדוֹלִים׃</span></div>
-  ${tableHTML(null, ["Deux phrases à joindre"], [
-    ["<span class=\"heb\">הַמִּצְוֹת תִּשְׁמֹר׃ אֲדֹנָי נָתַן אֶת־הַמִּצְוֹת לְךָ׃</span>"],
-    ["<span class=\"heb\">הַמֶּלֶךְ רַע הוּא׃ הָעָם בָּחַר בַּמֶּלֶךְ׃</span>"],
-    ["<span class=\"heb\">עַם־יִשְׂרָאֵל אָהַב אֶת־הַנְּבִיאִים׃ אֲדֹנָי שָׁלַח אֶת־הַנְּבִיאִים לְעַם־יִשְׂרָאֵל׃</span>"],
-    ["<span class=\"heb\">שְׁמוּאֵל שָׁמַע אֶת־אֲדֹנָי׃ אֲדֹנָי קָרָא אֶל־שְׁמוּאֵל׃</span>"],
-    ["<span class=\"heb\">אַתָּה שֹׁכֵב עַל־הָאָרֶץ׃ הָאָרֶץ קְדוֹשָׁה הִיא׃</span>"]
+  <div class="rule"><span class="heb">אֱלֹהִים בָּרָא אֶת־הַשָּׁמַיִם׃ הַשָּׁמַיִם גְּדוֹלִים׃ ← הַשָּׁמַיִם אֲשֶׁר אֱלֹהִים בָּרָא אֹתָם גְּדוֹלִים׃</span><div class="tr" style="font-style:italic;">« Dieu a créé les cieux. Les cieux sont grands. » → « Les cieux que Dieu a créés sont grands »</div></div>
+  ${tableHTML(null, ["Deux phrases à joindre","Traduction"], [
+    ["<span class=\"heb\">הַמִּצְוֹת תִּשְׁמֹר׃ אֲדֹנָי נָתַן אֶת־הַמִּצְוֹת לְךָ׃</span>","« Tu garderas les commandements. Le Seigneur t'a donné les commandements. »"],
+    ["<span class=\"heb\">הַמֶּלֶךְ רַע הוּא׃ הָעָם בָּחַר בַּמֶּלֶךְ׃</span>","« Le roi est mauvais. Le peuple a choisi le roi. »"],
+    ["<span class=\"heb\">עַם־יִשְׂרָאֵל אָהַב אֶת־הַנְּבִיאִים׃ אֲדֹנָי שָׁלַח אֶת־הַנְּבִיאִים לְעַם־יִשְׂרָאֵל׃</span>","« Le peuple d'Israël a aimé les prophètes. Le Seigneur a envoyé les prophètes au peuple d'Israël. »"],
+    ["<span class=\"heb\">שְׁמוּאֵל שָׁמַע אֶת־אֲדֹנָי׃ אֲדֹנָי קָרָא אֶל־שְׁמוּאֵל׃</span>","« Samuel a entendu le Seigneur. Le Seigneur a appelé Samuel. »"],
+    ["<span class=\"heb\">אַתָּה שֹׁכֵב עַל־הָאָרֶץ׃ הָאָרֶץ קְדוֹשָׁה הִיא׃</span>","« Tu es couché sur la terre. La terre est sainte. »"]
   ])}
   <details style="margin-top:10px;">
     <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
@@ -1847,17 +1874,17 @@ const lesson10 = `
 <div class="card">
   <h3><span class="en">Exercice</span>תרגיל — Placer אֶת quand il le faut</h3>
   <p class="ui" style="font-size:13px;color:var(--text-soft);">Rappel : <span class="heb">אֶת</span> n'apparaît que si le mot est <b>à la fois</b> complément d'objet direct <b>et</b> défini (article, nom propre, ou déjà déterminé). Complétez chaque blanc par <span class="heb">אֶת</span> ou par rien (« Ø ») :</p>
-  ${tableHTML(null, ["Phrase à compléter"], [
-    ["<span class=\"heb\">1. וַתִּגְזֹרְנָה הַנָּשִׁים ___ לֶחֶם לְיוֹם הַשַּׁבָּת׃</span>"],
-    ["<span class=\"heb\">2. וַתֵּלֶד לֵאָה ___ בָּנִים רַבִּים מְאֹד׃</span>"],
-    ["<span class=\"heb\">3. וַתֹּאמֶר הָאִשָּׁה לָאִישׁ לֵאמֹר הַשְׁכֵּב אַתָּה ___ הַיְלָדִים וַאֲנִי אֵלֵךְ לַמַּעְיָן׃</span>"],
-    ["<span class=\"heb\">4. וַיִּתֵּן אֱלֹהִים לִשְׁלֹמֹה ___ חָכְמָה רַבָּה מְאֹד׃</span>"],
-    ["<span class=\"heb\">5. וַיִּתֵּן הַנַּעַר ___ הַחֶרֶב לְשָׁאוּל וַיִּפֹּל שָׁאוּל עַל־הַחָרֶב׃</span>"],
-    ["<span class=\"heb\">6. לְכִי אֶל הָעֵץ וּקְחִי מִן הָעֵץ ___ תְּאֵנִים טוֹבוֹת וְאִכְלִי ___ הַתְּאֵנִים׃</span>"],
-    ["<span class=\"heb\">7. וָאֵרֶא ___ חֶבְרוֹן וָאֵלֵךְ אֶל הָעִיר וָאֶשְׁאַל ___ הָאֲנָשִׁים אַיֵּה יִשַׁי׃</span>"],
-    ["<span class=\"heb\">8. וַיֹּאמֶר אַבְרָהָם אֶל הַנַּעַר לֵאמֹר קַח ___ הַחֲמוֹר וְלֵךְ חָרָנָה וּשְׁאַל שָׁם ___ אִשָּׁה לִבְנִי יִצְחָק׃</span>"],
-    ["<span class=\"heb\">9. וַיִּגְזֹר הַצַּדִּיק ___ הַלֶּחֶם וַיִּתֵּן ___ הַחֲצִי לֶעָנִי׃</span>"],
-    ["<span class=\"heb\">10. וַיִּקַּח הַנָּבִיא אֱלִישָׁע ___ הַיֶּלֶד הַמֵּת וַיַּשְׁכֵּב ___ הַיֶּלֶד וַיִּשְׁכַּב הוּא עַל הַיֶּלֶד וַיֹּאמַר אֲדֹנָי אַל־___ הָרוּחַ מִן־הַיֶּלֶד הַזֶּה׃</span>"]
+  ${tableHTML(null, ["Phrase à compléter","Traduction"], [
+    ["<span class=\"heb\">1. וַתִּגְזֹרְנָה הַנָּשִׁים ___ לֶחֶם לְיוֹם הַשַּׁבָּת׃</span>","« Les femmes coupèrent du pain pour le jour du sabbat »"],
+    ["<span class=\"heb\">2. וַתֵּלֶד לֵאָה ___ בָּנִים רַבִּים מְאֹד׃</span>","« Léa enfanta de très nombreux fils »"],
+    ["<span class=\"heb\">3. וַתֹּאמֶר הָאִשָּׁה לָאִישׁ לֵאמֹר הַשְׁכֵּב אַתָּה ___ הַיְלָדִים וַאֲנִי אֵלֵךְ לַמַּעְיָן׃</span>","« La femme dit à l'homme : couche les enfants, et moi j'irai à la source »"],
+    ["<span class=\"heb\">4. וַיִּתֵּן אֱלֹהִים לִשְׁלֹמֹה ___ חָכְמָה רַבָּה מְאֹד׃</span>","« Dieu donna à Salomon une très grande sagesse »"],
+    ["<span class=\"heb\">5. וַיִּתֵּן הַנַּעַר ___ הַחֶרֶב לְשָׁאוּל וַיִּפֹּל שָׁאוּל עַל־הַחָרֶב׃</span>","« Le jeune homme donna l'épée à Saül, et Saül tomba sur l'épée »"],
+    ["<span class=\"heb\">6. לְכִי אֶל הָעֵץ וּקְחִי מִן הָעֵץ ___ תְּאֵנִים טוֹבוֹת וְאִכְלִי ___ הַתְּאֵנִים׃</span>","« Va vers l'arbre, prends de l'arbre de bonnes figues, et mange les figues »"],
+    ["<span class=\"heb\">7. וָאֵרֶא ___ חֶבְרוֹן וָאֵלֵךְ אֶל הָעִיר וָאֶשְׁאַל ___ הָאֲנָשִׁים אַיֵּה יִשַׁי׃</span>","« Je vis Hébron, j'allai à la ville et je demandai aux hommes : où est Jessé ? »"],
+    ["<span class=\"heb\">8. וַיֹּאמֶר אַבְרָהָם אֶל הַנַּעַר לֵאמֹר קַח ___ הַחֲמוֹר וְלֵךְ חָרָנָה וּשְׁאַל שָׁם ___ אִשָּׁה לִבְנִי יִצְחָק׃</span>","« Abraham dit au jeune homme : prends l'âne, va à Harân et demande là une femme pour mon fils Isaac »"],
+    ["<span class=\"heb\">9. וַיִּגְזֹר הַצַּדִּיק ___ הַלֶּחֶם וַיִּתֵּן ___ הַחֲצִי לֶעָנִי׃</span>","« Le juste coupa le pain et donna la moitié au pauvre »"],
+    ["<span class=\"heb\">10. וַיִּקַּח הַנָּבִיא אֱלִישָׁע ___ הַיֶּלֶד הַמֵּת וַיַּשְׁכֵּב ___ הַיֶּלֶד וַיִּשְׁכַּב הוּא עַל הַיֶּלֶד וַיֹּאמַר אֲדֹנָי אַל־___ הָרוּחַ מִן־הַיֶּלֶד הַזֶּה׃</span>","« Le prophète Élisée prit l'enfant mort, le coucha, se coucha lui-même sur l'enfant et dit : Seigneur, ne prends pas l'esprit hors de cet enfant »"]
   ])}
   <details style="margin-top:10px;">
     <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
@@ -1887,12 +1914,12 @@ const lesson10 = `
   <h3><span class="en">Exercice</span>תרגיל — Construire la chaîne</h3>
   <p>Joignez les deux noms en état construit, sur le modèle :</p>
   <div class="rule"><span class="heb" style="font-size:1.1em;">תַּלְמִידִים + יְהוּדִית ← תַּלְמִידֵי יְהוּדִית</span></div>
-  ${tableHTML(null, ["À joindre"], [
-    ["<span class=\"heb\">הָאֲדוֹנִים + הָעָם</span>"],
-    ["<span class=\"heb\">הַנְּבִיאָה + אֲדֹנָי</span>"],
-    ["<span class=\"heb\">הַמֶּלֶךְ + הָעָם</span>"],
-    ["<span class=\"heb\">הַשֻּׁלְחָן + הַתַּלְמִיד</span>"],
-    ["<span class=\"heb\">הַחֶרֶב + הַמֶּלֶךְ</span>"]
+  ${tableHTML(null, ["À joindre","Mots"], [
+    ["<span class=\"heb\">הָאֲדוֹנִים + הָעָם</span>","« les seigneurs » + « le peuple »"],
+    ["<span class=\"heb\">הַנְּבִיאָה + אֲדֹנָי</span>","« la prophétesse » + « le Seigneur »"],
+    ["<span class=\"heb\">הַמֶּלֶךְ + הָעָם</span>","« le roi » + « le peuple »"],
+    ["<span class=\"heb\">הַשֻּׁלְחָן + הַתַּלְמִיד</span>","« la table » + « l'élève »"],
+    ["<span class=\"heb\">הַחֶרֶב + הַמֶּלֶךְ</span>","« l'épée » + « le roi »"]
   ])}
   <details style="margin-top:10px;">
     <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
@@ -1968,11 +1995,11 @@ const lesson11 = `
   <h3><span class="en">Exercice</span>תרגיל — Décliner le nom en contexte</h3>
   <p>Complétez avec la forme suffixée du nom entre parenthèses, sur le modèle :</p>
   <div class="rule"><span class="heb" style="font-size:1.1em;">וַיֹּאמְרוּ עִירֵנוּ (עִיר) הִיא׃</span> « Ils dirent : c'est notre ville »</div>
-  ${tableHTML(null, ["Phrase à compléter"], [
-    ["<span class=\"heb\">1. וַיֹּאמֶר אֱלֹהִים אֶל־עַם־יִשְׂרָאֵל אַתֶּם ___ (עַם)׃</span>"],
-    ["<span class=\"heb\">2. וַתֹּאמֶר הָאִשָּׁה לְ___ (אִישׁ) שְׁמַע בְּ___ (קוֹל)׃</span>"],
-    ["<span class=\"heb\">3. ...יֵשְׁבוּ בְנֵי־יִשְׂרָאֵל תַּחַת ___ (תְּאֵנָה) וְעַל ___ (שֻׁלְחָן)׃</span> <span class=\"tr\">(« chacun sous son figuier », idiome biblique)</span>"],
-    ["<span class=\"heb\">4. ...וַיִּשְׁמַע אֶת־___ (קוֹל) הַיָּפֶה...קִרְאוּ לְבַת־שֶׁבַע ___ (מַלְכָּה)׃</span>"]
+  ${tableHTML(null, ["Phrase à compléter","Traduction"], [
+    ["<span class=\"heb\">1. וַיֹּאמֶר אֱלֹהִים אֶל־עַם־יִשְׂרָאֵל אַתֶּם ___ (עַם)׃</span>","« Dieu dit au peuple d'Israël : vous êtes mon peuple »"],
+    ["<span class=\"heb\">2. וַתֹּאמֶר הָאִשָּׁה לְ___ (אִישׁ) שְׁמַע בְּ___ (קוֹל)׃</span>","« La femme dit à son mari : écoute sa voix »"],
+    ["<span class=\"heb\">3. ...יֵשְׁבוּ בְנֵי־יִשְׂרָאֵל תַּחַת ___ (תְּאֵנָה) וְעַל ___ (שֻׁלְחָן)׃</span> <span class=\"tr\">(« chacun sous son figuier », idiome biblique)</span>","« ...les fils d'Israël s'assiéront chacun sous son figuier et à sa table »"],
+    ["<span class=\"heb\">4. ...וַיִּשְׁמַע אֶת־___ (קוֹל) הַיָּפֶה...קִרְאוּ לְבַת־שֶׁבַע ___ (מַלְכָּה)׃</span>","« ...il entendit sa belle voix...appelez Bethsabée notre reine »"]
   ])}
   <details style="margin-top:10px;">
     <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
@@ -2126,17 +2153,17 @@ const lesson14 = `
   ], [1,2])}
   <p>Le verbe <span class="heb">שָׁתָה</span> (boire) se conjugue comme un verbe ל״ה : <span class="heb">שֹׁתֶה / שֹׁתָה / שֹׁתִים / שֹׁתוֹת</span>.</p>
   <p class="ui" style="font-size:13px;color:var(--text-soft);margin-top:14px;">Complétez chaque phrase avec le participe du verbe entre parenthèses (cliquez pour révéler le corrigé) :</p>
-  ${tableHTML(null, ["Phrase à compléter"], [
-    ["<span class=\"heb\">1. אַבְרָם ___ (הָלַךְ) אֶל־הָאָרֶץ הַהִיא׃</span>"],
-    ["<span class=\"heb\">2. אֶסְתֵּר לֹא ___ (שָׁתָה) וְלֹא ___ (אָכַל) לֶחֶם׃</span>"],
-    ["<span class=\"heb\">3. הָאָדָם ___ (שָׁכַב) לְבַד בַּלַּיְלָה וְהוּא ___ (קָם) לְבַד בַּבֹּקֶר׃</span>"],
-    ["<span class=\"heb\">4. הַכֹּהֲנִים ___ (עָמַד) לִפְנֵי סֵפֶר הַתּוֹרָה׃</span>"],
-    ["<span class=\"heb\">5. הַמּוֹרֶה ___ (קָם) מִן־הַכִּסֵּא וְגַם הַתַּלְמִידִים ___ (קָם) מִן־הַכִּסֵּא׃</span>"],
-    ["<span class=\"heb\">6. אַתְּ ___ (אָכַל) תְּאֵנִים רַבּוֹת׃</span>"],
-    ["<span class=\"heb\">7. הַמַּלְכָּה הָרָעָה ___ (שָׁפַט) גּוֹיִם אֲחֵרִים׃</span>"],
-    ["<span class=\"heb\">8. רוּת ___ (בָּא) לְבֵית לֶחֶם עִם־נָעֳמִי׃ הֵנָּה לֹא ___ (יָשַׁב) בְּמוֹאָב׃</span>"],
-    ["<span class=\"heb\">9. עַם־יִשְׂרָאֵל ___ (שָׁב) אֶל־הַמִּדְבָּר שָׁם הֵם ___ (שָׁתָה) מְעַט מַיִם׃</span>"],
-    ["<span class=\"heb\">10. בַּלַּיְלָה אֲנַחְנוּ ___ (שָׁכַב) בָּאֹהָלִים וּבַיּוֹם הַנָּשִׁים ___ (הָלַךְ) אֶל־הַנַּחַל׃</span>"]
+  ${tableHTML(null, ["Phrase à compléter","Traduction"], [
+    ["<span class=\"heb\">1. אַבְרָם ___ (הָלַךְ) אֶל־הָאָרֶץ הַהִיא׃</span>","« Abram allait vers cette terre-là »"],
+    ["<span class=\"heb\">2. אֶסְתֵּר לֹא ___ (שָׁתָה) וְלֹא ___ (אָכַל) לֶחֶם׃</span>","« Esther ne buvait pas et ne mangeait pas de pain »"],
+    ["<span class=\"heb\">3. הָאָדָם ___ (שָׁכַב) לְבַד בַּלַּיְלָה וְהוּא ___ (קָם) לְבַד בַּבֹּקֶר׃</span>","« L'homme se couchait seul la nuit et se levait seul le matin »"],
+    ["<span class=\"heb\">4. הַכֹּהֲנִים ___ (עָמַד) לִפְנֵי סֵפֶר הַתּוֹרָה׃</span>","« Les prêtres se tiennent devant le livre de la Loi »"],
+    ["<span class=\"heb\">5. הַמּוֹרֶה ___ (קָם) מִן־הַכִּסֵּא וְגַם הַתַּלְמִידִים ___ (קָם) מִן־הַכִּסֵּא׃</span>","« Le maître se lève de la chaise et les élèves aussi se lèvent de la chaise »"],
+    ["<span class=\"heb\">6. אַתְּ ___ (אָכַל) תְּאֵנִים רַבּוֹת׃</span>","« Tu manges beaucoup de figues »"],
+    ["<span class=\"heb\">7. הַמַּלְכָּה הָרָעָה ___ (שָׁפַט) גּוֹיִם אֲחֵרִים׃</span>","« La mauvaise reine juge d'autres nations »"],
+    ["<span class=\"heb\">8. רוּת ___ (בָּא) לְבֵית לֶחֶם עִם־נָעֳמִי׃ הֵנָּה לֹא ___ (יָשַׁב) בְּמוֹאָב׃</span>","« Ruth vient à Bethléem avec Noémi ; elles n'habitent plus à Moab »"],
+    ["<span class=\"heb\">9. עַם־יִשְׂרָאֵל ___ (שָׁב) אֶל־הַמִּדְבָּר שָׁם הֵם ___ (שָׁתָה) מְעַט מַיִם׃</span>","« Le peuple d'Israël retourne au désert, là ils boivent un peu d'eau »"],
+    ["<span class=\"heb\">10. בַּלַּיְלָה אֲנַחְנוּ ___ (שָׁכַב) בָּאֹהָלִים וּבַיּוֹם הַנָּשִׁים ___ (הָלַךְ) אֶל־הַנַּחַל׃</span>","« La nuit nous nous couchons dans les tentes, et le jour les femmes vont au torrent »"]
   ])}
   <details style="margin-top:10px;">
     <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
@@ -2500,18 +2527,18 @@ const lesson21 = `
 <div class="card">
   <h3><span class="en">Exercice</span>תרגיל — Changer de genre/nombre</h3>
   <p>Transformez l'impératif selon le nouveau destinataire, sur le modèle :</p>
-  <div class="rule"><span class="heb" style="font-size:1.1em;">עֲמֹד שְׁמוּאֵל׃ ← עִמְדִי חַנָּה׃</span></div>
-  ${tableHTML(null, ["Phrase à transformer"], [
-    ["<span class=\"heb\">2. עֲמֹד מֹשֶׁה עַל הַר־סִינַי׃</span>"],
-    ["<span class=\"heb\">3. שֵׁב מָרְדֳּכַי עַל־הָאָרֶץ׃</span>"],
-    ["<span class=\"heb\">4. קוּם לֵךְ אַבְרָהָם׃</span>"],
-    ["<span class=\"heb\">5. שִׁכְבִי תַחַת־הַתְּאֵנָה רִבְקָה׃</span>"],
-    ["<span class=\"heb\">6. לְכוּ לְשָׁלוֹם אֲנָשִׁים׃</span>"],
-    ["<span class=\"heb\">7. קוּמִי אִכְלִי לֶחֶם מַלְכָּה׃</span>"],
-    ["<span class=\"heb\">8. בֹּ֫אנָה שֵׁ֫בְנָה נְבִיאוֹת עַל־הַכִּסְאוֹת הָאֵלֶּה׃</span>"],
-    ["<span class=\"heb\">9. אַתֶּם בֹּ֫אוּ אִכְלוּ תְאֵנִים תַּחַת־הָעֵץ הַיָּפֶה הַזֶּה׃</span>"],
-    ["<span class=\"heb\">10. קוּם שְׁפֹט גּוֹיִם רַבִּים שְׁלֹמֹה׃</span>"],
-    ["<span class=\"heb\">11. שֵׁ֫בְנָה תַלְמִידוֹת אַחֲרֵי־הַשֻּׁלְחָן׃</span>"]
+  <div class="rule"><span class="heb" style="font-size:1.1em;">עֲמֹד שְׁמוּאֵל׃ ← עִמְדִי חַנָּה׃</span><div class="tr" style="font-style:italic;">« Lève-toi, Samuel ! » → « Lève-toi, Hanna ! »</div></div>
+  ${tableHTML(null, ["Phrase à transformer","Traduction"], [
+    ["<span class=\"heb\">2. עֲמֹד מֹשֶׁה עַל הַר־סִינַי׃</span>","« Tiens-toi, Moïse, sur le mont Sinaï ! »"],
+    ["<span class=\"heb\">3. שֵׁב מָרְדֳּכַי עַל־הָאָרֶץ׃</span>","« Assieds-toi, Mardochée, sur la terre ! »"],
+    ["<span class=\"heb\">4. קוּם לֵךְ אַבְרָהָם׃</span>","« Lève-toi, va, Abraham ! »"],
+    ["<span class=\"heb\">5. שִׁכְבִי תַחַת־הַתְּאֵנָה רִבְקָה׃</span>","« Couche-toi sous le figuier, Rébecca ! »"],
+    ["<span class=\"heb\">6. לְכוּ לְשָׁלוֹם אֲנָשִׁים׃</span>","« Allez en paix, hommes ! »"],
+    ["<span class=\"heb\">7. קוּמִי אִכְלִי לֶחֶם מַלְכָּה׃</span>","« Lève-toi, mange du pain, reine ! »"],
+    ["<span class=\"heb\">8. בֹּ֫אנָה שֵׁ֫בְנָה נְבִיאוֹת עַל־הַכִּסְאוֹת הָאֵלֶּה׃</span>","« Venez, asseyez-vous, prophétesses, sur ces sièges-là ! »"],
+    ["<span class=\"heb\">9. אַתֶּם בֹּ֫אוּ אִכְלוּ תְאֵנִים תַּחַת־הָעֵץ הַיָּפֶה הַזֶּה׃</span>","« Vous, venez, mangez des figues sous ce bel arbre ! »"],
+    ["<span class=\"heb\">10. קוּם שְׁפֹט גּוֹיִם רַבִּים שְׁלֹמֹה׃</span>","« Lève-toi, juge de nombreuses nations, Salomon ! »"],
+    ["<span class=\"heb\">11. שֵׁ֫בְנָה תַלְמִידוֹת אַחֲרֵי־הַשֻּׁלְחָן׃</span>","« Asseyez-vous, élèves, derrière la table ! »"]
   ])}
   <details style="margin-top:10px;">
     <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
@@ -2536,10 +2563,11 @@ const lesson22 = `
 <div class="card">
   <h3><span class="en en-heb">שֵׁם־הַפֹּעַל</span>L'infinitif absolu</h3>
   <p>L'infinitif absolu est une forme verbale qui n'existe pas vraiment en français. Il se vocalise <span class="heb">שָׁמוֹר</span> (ou en écriture défective <span class="heb">שָׁמֹר</span>) et sert à <b>appuyer</b> ou <b>renforcer</b> l'idée du verbe conjugué qu'il accompagne, en se plaçant avant ou après lui :</p>
+  <div class="callout info"><span class="ico">🎨</span><span><span style="color:#c0392b;font-weight:700;">Rouge</span> = l'infinitif absolu, l'élément qui vient renforcer le verbe conjugué de même racine.</span></div>
   ${tableHTML(null, ["1. Devant le verbe : insistance","2. Après le verbe : action continue","3. Employé seul : impératif"], [[
-    "<span class=\"heb\">זָכֹר תִּזְכֹּר אֵת אֲשֶׁר־עָשָׂה יהוה</span> — litt. « Souvenir tu te souviendras » = « Tu te souviendras bien de ce que l'Éternel a fait »",
-    "<span class=\"heb\">הֵמָּה הֹלְכִים הָלוֹךְ</span> — litt. « Eux marchant marcher » = « Eux marchant sans cesse »",
-    "<span class=\"heb\">זָכוֹר אֶת־יוֹם הַשַּׁבָּת</span> — « Souviens-toi du jour du Shabbat »"
+    "<span class=\"heb\"><span style=\"color:#c0392b;\">זָכֹר</span> תִּזְכֹּר אֵת אֲשֶׁר־עָשָׂה יהוה</span> — litt. « Souvenir tu te souviendras » = « Tu te souviendras bien de ce que l'Éternel a fait »",
+    "<span class=\"heb\">הֵמָּה הֹלְכִים <span style=\"color:#c0392b;\">הָלוֹךְ</span></span> — litt. « Eux marchant marcher » = « Eux marchant sans cesse »",
+    "<span class=\"heb\"><span style=\"color:#c0392b;\">זָכוֹר</span> אֶת־יוֹם הַשַּׁבָּת</span> — « Souviens-toi du jour du Shabbat »"
   ]])}
   <p style="text-align:center;"><a href="#" onclick="go('conjug',{conjugIndex:17}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a></p>
 
@@ -6532,7 +6560,7 @@ function continueOffline(username){
   PROGRESS = getOfflineProgress(username) || {visited:{}, vocabKnown:{}, scores:{}, exams:{}};
   ALLPROGRESS[username] = PROGRESS;
   USERS = {}; USERS[username] = {role:cached.role, name:cached.name, teacher:cached.teacher||null};
-  STATE = {view:'home', lesson:1, ex:null, vocabFilter:null, vocabSearch:''};
+  STATE = {view: PROGRESS.methode ? (PROGRESS.methode==='shuali'?'shualihome':'home') : 'methodchoice', lesson:1, ex:null, vocabFilter:null, vocabSearch:''};
   render();
   updateOfflineBadge();
 }
@@ -7067,7 +7095,7 @@ async function doLogin(){
   PROGRESS = await progressPromise;
   cacheOfflineProgress(u, PROGRESS);
   setPendingSync(u, false);
-  STATE = {view:'home', lesson:1, ex:null, vocabFilter:null, vocabSearch:''};
+  STATE = {view: PROGRESS.methode ? (PROGRESS.methode==='shuali'?'shualihome':'home') : 'methodchoice', lesson:1, ex:null, vocabFilter:null, vocabSearch:''};
   render();
   updateOfflineBadge();
 }
@@ -7422,12 +7450,14 @@ async function go(view, extra){
 
 function renderSidebar(){
   const sb = document.getElementById('sidebar');
+  if(PROGRESS && PROGRESS.methode==='shuali'){ renderShualiSidebar(sb); return; }
   let h = `<div class="brand">
     <div class="mark">א</div>
     <div><div class="name">Hébreu Biblique</div><div class="sub">אלף בית · יהי אור</div></div>
   </div>`;
 
   h += `<div class="userbox"><div class="uname">${esc(SESSION.name)}</div><div class="urole">${roleLabel(SESSION.role)}</div></div>`;
+  h += `<div class="navgroup"><div class="navitem" onclick="switchMethode()" style="font-size:12px;color:var(--gold-dim);">🔀 Passer à la Méthode Shuali</div></div>`;
 
   h += `<div class="navgroup"><div class="navitem ${STATE.view==='home'?'active':''}" onclick="go('home')"><span class="num">⌂</span>Accueil</div></div>`;
 
@@ -7496,6 +7526,181 @@ function renderSidebar(){
 /* =========================================================================
    VUES
    ========================================================================= */
+function renderShualiSidebar(sb){
+  let h = `<div class="brand">
+    <div class="mark">🕊️</div>
+    <div><div class="name">Méthode Shuali</div><div class="sub">אֵלִיָּהוּ וֶאֱלִישָׁע</div></div>
+  </div>`;
+  h += `<div class="userbox"><div class="uname">${esc(SESSION.name)}</div><div class="urole">${roleLabel(SESSION.role)}</div></div>`;
+  h += `<div class="navgroup"><div class="navitem" onclick="switchMethode()" style="font-size:12px;color:var(--gold-dim);">🔀 Passer à la Méthode Yehi-Or</div></div>`;
+  h += `<div class="navgroup"><div class="navitem ${STATE.view==='shualihome'?'active':''}" onclick="go('shualihome')"><span class="num">⌂</span>Accueil</div></div>`;
+  h += `<div class="navgroup"><div class="grouplabel">Chapitres</div>`;
+  SHUALI_CHAPTERS.forEach((c,i)=>{
+    const n = i+1;
+    const has = !!c.content;
+    h += `<div class="navitem ${STATE.view==='shualichapter'&&STATE.shchapter===n?'active':''} ${has?'':'disabled'}" onclick="${has?`go('shualichapter',{shchapter:${n}})`:''}"><span class="num">${n}</span>${c.title}${has?'':' <span style=\"font-size:10px;opacity:.6;\">(à venir)</span>'}</div>`;
+  });
+  h += `</div>`;
+  h += `<div class="navgroup"><div class="navitem" onclick="doLogout()">🚪 Se déconnecter</div></div>`;
+  sb.innerHTML = h;
+}
+const SHUALI_CHAPTERS = [
+  {title:"Lire", content:true},
+  {title:"La phrase nominale"},
+  {title:"L'article défini"},
+  {title:"Démonstratifs et adjectifs"},
+  {title:"Pronoms et pluriel"},
+  {title:"Adverbes, ו, impératif"},
+  {title:"Le participe"},
+  {title:"Le système verbal"},
+  {title:"L'état construit"},
+  {title:"Les prépositions"},
+  {title:"L'infinitif"},
+  {title:"Le Nifal, Hitpaël"},
+  {title:"Les conjugaisons passives"},
+  {title:"La proposition relative"}
+];
+function viewShualiHome(){
+  const done = SHUALI_CHAPTERS.filter(c=>c.content).length;
+  return `
+  <div class="topline"><div><div class="eyebrow">מֶתוֹדָה שׁוּאָלִי</div><h1>🕊️ Méthode Shuali</h1></div></div>
+  <div class="card">
+    <p>D'après <i>Lire l'hébreu biblique</i>, d'Eran Shuali (Faculté de Théologie protestante, Université de Strasbourg). Cette méthode suit sa propre progression, distincte de la Méthode Yehi-Or.</p>
+    <p class="ui" style="font-size:13px;color:var(--text-soft);margin-top:8px;">${done}/${SHUALI_CHAPTERS.length} chapitres disponibles pour l'instant — les autres seront ajoutés progressivement.</p>
+  </div>
+  <div class="exlist">
+    ${SHUALI_CHAPTERS.map((c,i)=>{
+      const n = i+1;
+      if(!c.content) return `<div class="extile" style="opacity:.5;cursor:default;"><h4>Chapitre ${n} — ${c.title}</h4><p>À venir</p></div>`;
+      return `<div class="extile" onclick="go('shualichapter',{shchapter:${n}})"><h4>Chapitre ${n} — ${c.title}</h4><p>Lecture, vocabulaire, dialogue animé</p><div class="go">Ouvrir →</div></div>`;
+    }).join('')}
+  </div>`;
+}
+function viewShualiChapter(){
+  const n = STATE.shchapter || 1;
+  if(n===1) return shualiChapter1();
+  return viewShualiHome();
+}
+function shualiChapter1(){
+  return `
+  <div class="topline"><div><div class="eyebrow">Méthode Shuali — Chapitre 1</div><h1>קְרָא — Lire</h1></div>
+    <button class="navbtn" onclick="go('shualihome')">← Chapitres</button></div>
+
+  <div class="card">
+    <h3><span class="en">Accent</span>L'accent tonique</h3>
+    <p>En hébreu, l'accent tonique frappe le plus souvent la <b>dernière syllabe</b> du mot (comme en français). Il peut aussi frapper l'<b>avant-dernière</b> : dans ce cas, ce manuel place sur la 1ʳᵉ lettre de cette syllabe le signe <span class="heb">◌֫</span> — un outil pédagogique, absent du texte biblique lui-même (qui indique l'accent autrement, avec les <a href="#" onclick="go('cours',{lesson:51}); return false;">signes de cantillation</a>).</p>
+    ${ex('בֶּ֫גֶד',"Se prononce BÈ-guèd (accent sur l'avant-dernière syllabe)")}
+  </div>
+
+  <div class="card">
+    <h3><span class="en">Lecture</span>Exercices de lecture à voix haute</h3>
+    <p class="ui" style="font-size:13px;color:var(--text-soft);">1. Avec les 4 premières lettres (א–ד) et les points-voyelles :</p>
+    <div class="shuali-wordgrid">
+      ${['אָב','דָּג','בַּד','בָּדָד','בֶּ֫גֶד','גָּד','אַגַּב','אֶ֫גֶד','גַּב','דִּגְדֵּג','בָּא','בְּגֹד'].map(w=>`<span class="heb shuali-word">${w}</span>`).join('')}
+    </div>
+    <p class="ui" style="font-size:13px;color:var(--text-soft);margin-top:14px;">2. Avec les lettres jusqu'à נ (Noun) :</p>
+    <div class="shuali-wordgrid">
+      ${['הֶם','הִיא','דָּוִד','אָדָם','חַוָּה','אַהֲבָה','אֱלֹהִים','בָּבֶל','גָּמָל','הַלְלוּיָהּ','זָהָב','אָנֹכִי','טוֹב','יָדַ֫יִם','כּוֹכָב','לֵב','לֶ֫חֶם','נְבִיאָה','מַזְלֵג','הֵ֫מָּה','מַלְאָךְ','נֶ֫גֶב'].map(w=>`<span class="heb shuali-word">${w}</span>`).join('')}
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="en">דְּבָרִים</span>Vocabulaire — des paroles</h3>
+    ${tableHTML(null, ["Hébreu","Français"], [
+      ["<span class=\"heb\">אָנֹכִי / אֲנִי</span>","je, moi"],
+      ["<span class=\"heb\">אַתָּה</span>","tu, toi (masculin)"],
+      ["<span class=\"heb\">אַתְּ</span>","tu, toi (féminin)"],
+      ["<span class=\"heb\">מַה</span>","quoi, quel"],
+      ["<span class=\"heb\">הֲ־</span>","est-ce que… ?"],
+      ["<span class=\"heb\">שֵׁם</span> (m.)","nom"],
+      ["<span class=\"heb\">שְׁמִי</span>","mon nom"],
+      ["<span class=\"heb\">שִׁמְךָ</span>","ton nom (à un homme)"],
+      ["<span class=\"heb\">שְׁמֵךְ</span>","ton nom (à une femme)"],
+      ["<span class=\"heb\">הֲשָׁלוֹם לְךָ׃</span>","Vas-tu bien ? (à un homme)"],
+      ["<span class=\"heb\">הֲשָׁלוֹם לָךְ׃</span>","Vas-tu bien ? (à une femme)"],
+      ["<span class=\"heb\">מוֹרֶה</span> / <span class=\"heb\">מוֹרָה</span>","maître, enseignant (m./f.)"],
+      ["<span class=\"heb\">תַּלְמִיד</span> / <span class=\"heb\">תַּלְמִידָה</span>","disciple, élève (m./f.)"],
+      ["<span class=\"heb\">נָבִיא</span> (m.)","prophète"]
+    ])}
+  </div>
+
+  <div class="card">
+    <h3><span class="en">קְרָא</span>Lisez le dialogue</h3>
+    <p>Un dialogue entre le prophète Élie et son futur disciple Élisée, d'après 1 Rois 19,15-21. Lisez d'une manière fluide, en comprenant le sens.</p>
+    <button class="navbtn" onclick="go('shualidialogue')" style="margin-top:8px;">▶ Ouvrir le dialogue animé</button>
+  </div>`;
+}
+/* ---- Lecteur de dialogue animé (Méthode Shuali) ---- */
+const SHUALI_DIALOGUE = [
+  {who:"אֵלִיָּהוּ", heb:"אַתָּה מַה שִּׁמְךָ׃", fr:"Toi, quel est ton nom ?"},
+  {who:"אֱלִישָׁע", heb:"אֱלִישָׁע שְׁמִי וּמַה שִּׁמְךָ׃", fr:"Mon nom est Élisée, et quel est ton nom ?"},
+  {who:"אֵלִיָּהוּ", heb:"אֵלִיָּ֫הוּ שְׁמִי׃ הֲשָׁלוֹם לְךָ׃", fr:"Mon nom est Élie. Vas-tu bien ?"},
+  {who:"אֱלִישָׁע", heb:"שָׁלוֹם׃", fr:"Bien."},
+  {who:"אֵלִיָּהוּ", heb:"אָנֹכִי נָבִיא וּמוֹרֶה וְאַתָּה תַלְמִיד׃", fr:"Je suis prophète et maître, et toi tu es disciple."},
+  {who:"אֱלִישָׁע", heb:"לֹא תַלְמִיד אָנֹכִי׃", fr:"Je ne suis pas disciple !"},
+  {who:"אֵלִיָּהוּ", heb:"אֱלִישָׁע תַּלְמִיד אַתָּה וְנָבִיא׃", fr:"Élisée, tu es disciple, et [tu seras] prophète."}
+];
+let SHUALI_DLG_IDX = 0;
+function viewShualiDialogue(){
+  const total = SHUALI_DIALOGUE.length;
+  const idx = Math.min(SHUALI_DLG_IDX, total-1);
+  const shown = SHUALI_DIALOGUE.slice(0, idx+1);
+  const done = idx >= total-1;
+  return `
+  <div class="topline"><div><div class="eyebrow">Chapitre 1 — Lire</div><h1>אֵלִיָּ֫הוּ וֶאֱלִישָׁע</h1></div>
+    <button class="navbtn" onclick="go('shualichapter',{shchapter:1})">← Retour au chapitre</button></div>
+  <div class="card shuali-stage">
+    <div class="shuali-bubbles">
+      ${shown.map((l,i)=>`
+        <div class="shuali-bubble ${l.who==='אֵלִיָּהוּ'?'left':'right'} ${i===idx?'just-in':''}">
+          <div class="shuali-bubble-name">${l.who}</div>
+          <div class="shuali-bubble-heb heb">${l.heb}</div>
+          <div class="shuali-bubble-fr">${l.fr}</div>
+        </div>`).join('')}
+    </div>
+    ${done
+      ? `<div class="callout info" style="margin-top:16px;"><span class="ico">🎉</span><span>Fin du dialogue. Élie a le dernier mot : Élisée sera disciple, et prophète.</span></div>
+         <button class="navbtn" style="margin-top:10px;" onclick="SHUALI_DLG_IDX=0; render();">↻ Recommencer</button>`
+      : `<button class="navbtn" style="margin-top:16px;" onclick="SHUALI_DLG_IDX++; render(); setTimeout(()=>{const b=document.querySelector('.shuali-bubble.just-in'); if(b) b.scrollIntoView({behavior:'smooth',block:'center'});},50);">Suivant → (${idx+2}/${total})</button>`
+    }
+  </div>`;
+}
+
+function viewMethodChoice(){
+  return `
+  <div class="methodchoice-wrap">
+    <div class="methodchoice-intro">
+      <h1>בְּרֵאשִׁית — Commençons</h1>
+      <p>Deux façons d'apprendre l'hébreu biblique, dans la même application. Choisissez votre parcours — vous pourrez toujours en changer plus tard.</p>
+    </div>
+    <div class="methodchoice-cards">
+      <div class="methodcard" onclick="chooseMethode('yehior')">
+        <div class="methodcard-glyph">📖</div>
+        <h3>Méthode Yehi-Or</h3>
+        <p>Le parcours complet, 50 cours + annexes — alphabet, grammaire progressive, les 7 binyanim, exercices, jeux et dialogues.</p>
+        <div class="methodcard-go">Choisir cette méthode →</div>
+      </div>
+      <div class="methodcard" onclick="chooseMethode('shuali')">
+        <div class="methodcard-glyph">🕊️</div>
+        <h3>Méthode Shuali</h3>
+        <p>D'après le manuel d'Eran Shuali (Université de Strasbourg) — une progression différente, avec ses propres dialogues et exercices.</p>
+        <div class="methodcard-go">Choisir cette méthode →</div>
+      </div>
+    </div>
+  </div>`;
+}
+function chooseMethode(m){
+  PROGRESS.methode = m;
+  saveProgress();
+  go(m==='shuali' ? 'shualihome' : 'home');
+}
+function switchMethode(){
+  const other = PROGRESS.methode==='shuali' ? 'yehior' : 'shuali';
+  const label = other==='shuali' ? 'la Méthode Shuali' : 'la Méthode Yehi-Or';
+  if(confirm('Passer à '+label+' ? Votre progression sur la méthode actuelle est conservée.')){
+    chooseMethode(other);
+  }
+}
 function viewHome(){
   const visitedCount = PROGRESS.visited ? Object.keys(PROGRESS.visited).length : 0;
   const knownCount = PROGRESS.vocabKnown ? Object.values(PROGRESS.vocabKnown).filter(v=>v).length : 0;
@@ -9698,6 +9903,9 @@ function renderContentOnly(){
   const main = document.getElementById('main');
   let html = '';
   if(STATE.view==='home') html = viewHome();
+  else if(STATE.view==='shualihome') html = viewShualiHome();
+  else if(STATE.view==='shualichapter') html = viewShualiChapter();
+  else if(STATE.view==='shualidialogue') html = viewShualiDialogue();
   else if(STATE.view==='cours') html = viewCours();
   else if(STATE.view==='revisionsheet') html = viewRevisionSheet();
   else if(STATE.view==='vocab') html = viewVocab();
@@ -9745,6 +9953,12 @@ function render(){
   if(!SESSION){
     shell.style.display = 'block';
     shell.innerHTML = viewLogin();
+    updateOfflineBadge();
+    return;
+  }
+  if(STATE.view==='methodchoice'){
+    shell.style.display = 'block';
+    shell.innerHTML = viewMethodChoice();
     updateOfflineBadge();
     return;
   }
