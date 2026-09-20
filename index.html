@@ -380,6 +380,14 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
 .memcard.matched .memcard-front{border-color:var(--gold);}
 @keyframes memPop{0%{transform:rotateY(180deg) scale(1);}50%{transform:rotateY(180deg) scale(1.08);}100%{transform:rotateY(180deg) scale(1);}}
 .memcard.matched .memcard-inner{animation:memPop .4s;}
+.matchgrid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:14px;}
+.matchcol{display:flex;flex-direction:column;gap:8px;}
+.matchbtn{padding:10px 14px;border-radius:8px;border:2px solid var(--parchment2);background:var(--parchment);cursor:pointer;font-family:'Inter',sans-serif;font-size:14px;text-align:center;transition:border-color .2s,background .2s;}
+.matchbtn.heb{font-family:'Noto Serif Hebrew','Frank Ruhl Libre',serif;font-size:18px;direction:rtl;}
+.matchbtn.selected{border-color:var(--gold);background:rgba(184,147,90,.12);}
+.matchbtn.matched{border-color:#2e7d32;background:rgba(46,125,50,.12);color:#2e7d32;cursor:default;}
+.matchbtn.wrong{border-color:#c0392b;background:rgba(192,57,43,.12);animation:matchShake .4s;}
+@keyframes matchShake{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
 .hwguide{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-family:'Noto Sans Hebrew',sans-serif;font-size:220px;color:rgba(28,43,40,.14);
@@ -1274,7 +1282,7 @@ const lesson2 = `
   <h3><span class="en">Nikoud</span>Les points voyelles</h3>
   <p>Les voyelles s'articulent autour des sons : <b>i, é, è, a, o, ou</b>. Elles se lisent toujours <b>après</b> la consonne qu'elles accompagnent.</p>
   ${T_VOYELLES}
-  ${ex('בַ','Ba')}${ex('בֵ','Bé')}${ex('בֹ','Bo')}${ex('בֻ','Bou')}${ex('בִ','Bi')}
+  ${ex('בַּ','Ba')}${ex('בֵּ','Bé')}${ex('בֹּ','Bo')}${ex('בֻּ','Bou')}${ex('בִּ','Bi')}
 </div>
 <div class="card">
   <h3><span class="en">Mère de lecture</span>Mater lectionis</h3>
@@ -1512,16 +1520,25 @@ const lesson6 = `
   <div class="rule">
     <span class="heb" style="font-size:1.1em;">1. הַתַּלְמִיד הַטּוֹב חָכָם הוּא׃ ← הַתַּלְמִידִים הַטּוֹבִים חֲכָמִים הֵ֫מָּה׃</span>
   </div>
+  ${tableHTML(null, ["Phrase à mettre au pluriel"], [
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">2. הַנָּבִיא הַקָּדוֹשׁ צַדִּיק הוּא׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">3. מֶלֶךְ אַתָּה עַל־יִשְׂרָאֵל׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">4. הַמַּלְכָּה הָעֲשִׁירָה רָעָה הִיא׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">5. הַכִּסֵּא הַגָּדוֹל עַל־הַשֻּׁלְחָן הוּא׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">7. נְבִיאָה וּמוֹרָה גְדוֹלָה אַתְּ׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">9. כֹּהֵן אָנֹכִי וְלֹא מֶלֶךְ וְלֹא נָבִיא׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">10. בֵּן טוֹב שֵׁם טוֹב הוּא׃</span>"]
+  ])}
   <details style="margin-top:10px;">
-    <summary class="ui" style="cursor:pointer;font-size:12.5px;color:var(--gold-dim);">À vous (cliquez pour révéler le corrigé)</summary>
-    ${tableHTML(null, ["Phrase (singulier)","Corrigé (pluriel)"], [
-      ["<span class=\"heb\">2. הַנָּבִיא הַקָּדוֹשׁ צַדִּיק הוּא׃</span>","<span class=\"heb\">הַנְּבִיאִים הַקְּדוֹשִׁים צַדִּיקִים הֵ֫מָּה׃</span>"],
-      ["<span class=\"heb\">3. מֶלֶךְ אַתָּה עַל־יִשְׂרָאֵל׃</span>","<span class=\"heb\">מְלָכִים אַתֶּם עַל־יִשְׂרָאֵל׃</span>"],
-      ["<span class=\"heb\">4. הַמַּלְכָּה הָעֲשִׁירָה רָעָה הִיא׃</span>","<span class=\"heb\">הַמְּלָכוֹת הָעֲשִׁירוֹת רָעוֹת הֵ֫נָּה׃</span>"],
-      ["<span class=\"heb\">5. הַכִּסֵּא הַגָּדוֹל עַל־הַשֻּׁלְחָן הוּא׃</span>","<span class=\"heb\">הַכִּסְאוֹת הַגְּדוֹלִים עַל־הַשֻּׁלְחָנוֹת הֵם׃</span>"],
-      ["<span class=\"heb\">7. נְבִיאָה וּמוֹרָה גְדוֹלָה אַתְּ׃</span>","<span class=\"heb\">נְבִיאוֹת וּמוֹרוֹת גְּדוֹלוֹת אַתֶּן׃</span>"],
-      ["<span class=\"heb\">9. כֹּהֵן אָנֹכִי וְלֹא מֶלֶךְ וְלֹא נָבִיא׃</span>","<span class=\"heb\">כֹּהֲנִים אֲנַחְנוּ וְלֹא מְלָכִים וְלֹא נְבִיאִים׃</span>"],
-      ["<span class=\"heb\">10. בֵּן טוֹב שֵׁם טוֹב הוּא׃</span>","<span class=\"heb\">בָּנִים טוֹבִים שֵׁמוֹת טוֹבִים הֵם׃</span>"]
+    <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
+    ${tableHTML(null, ["N°","Corrigé (pluriel)"], [
+      ["2","<span class=\"heb\" style=\"font-size:1.05em;\">הַנְּבִיאִים הַקְּדוֹשִׁים צַדִּיקִים הֵ֫מָּה׃</span>"],
+      ["3","<span class=\"heb\" style=\"font-size:1.05em;\">מְלָכִים אַתֶּם עַל־יִשְׂרָאֵל׃</span>"],
+      ["4","<span class=\"heb\" style=\"font-size:1.05em;\">הַמְּלָכוֹת הָעֲשִׁירוֹת רָעוֹת הֵ֫נָּה׃</span>"],
+      ["5","<span class=\"heb\" style=\"font-size:1.05em;\">הַכִּסְאוֹת הַגְּדוֹלִים עַל־הַשֻּׁלְחָנוֹת הֵם׃</span>"],
+      ["7","<span class=\"heb\" style=\"font-size:1.05em;\">נְבִיאוֹת וּמוֹרוֹת גְּדוֹלוֹת אַתֶּן׃</span>"],
+      ["9","<span class=\"heb\" style=\"font-size:1.05em;\">כֹּהֲנִים אֲנַחְנוּ וְלֹא מְלָכִים וְלֹא נְבִיאִים׃</span>"],
+      ["10","<span class=\"heb\" style=\"font-size:1.05em;\">בָּנִים טוֹבִים שֵׁמוֹת טוֹבִים הֵם׃</span>"]
     ])}
     <div class="callout info"><span class="ico">💡</span><span>Corrigés dérivés des règles du cours (le document source ne fournissait la réponse que pour la phrase 1) — à vérifier si vous avez le corrigé officiel.</span></div>
   </details>
@@ -1551,17 +1568,30 @@ const lesson6 = `
     <span class="heb" style="font-size:1.15em;">1. הַנָּבִיא <b>הֶ</b>עָנִי <b>Ø</b> חָכָם הוּא:</span>
     <div class="tr" style="font-style:italic;">« Le prophète, le pauvre, est sage » — <span class="heb">עָנִי</span> qualifie <span class="heb">נָבִיא</span> (épithète, article) ; <span class="heb">חָכָם</span> est l'information nouvelle (attribut, sans article)</div>
   </div>
-  <p class="ui" style="font-size:12.5px;color:var(--text-soft);margin-top:14px;">À vous (cliquez pour révéler le corrigé) :</p>
-  ${tableHTML(null, ["Phrase à compléter","Corrigé"], [
-    ["<span class=\"heb\">2. הַכֹּהֵן __עָשִׁיר __רַע:</span>","<span class=\"heb\">הַכֹּהֵן <b>הֶ</b>עָשִׁיר <b>Ø</b>רַע:</span> « Le prêtre, le riche, est mauvais »"],
-    ["<span class=\"heb\">3. הַנְּבִיאָה __קְדוֹשָׁה __חֲכָמָה הִיא:</span>","<span class=\"heb\">הַנְּבִיאָה <b>הַ</b>קְּדוֹשָׁה <b>Ø</b>חֲכָמָה הִיא:</span>"],
-    ["<span class=\"heb\">4. הָעִיר __רָעָה __גְדוֹלָה:</span>","<span class=\"heb\">הָעִיר <b>הָ</b>רָעָה <b>Ø</b>גְדוֹלָה:</span>"],
-    ["<span class=\"heb\">5. הָהָר __גָּדוֹל __קָדוֹשׁ הוּא:</span>","<span class=\"heb\">הָהָר <b>הַ</b>גָּדוֹל <b>Ø</b>קָדוֹשׁ הוּא:</span>"],
-    ["<span class=\"heb\">6. הַמַּלְכָּה __רָעָה __עֲשִׁירָה הִיא:</span>","<span class=\"heb\">הַמַּלְכָּה <b>הָ</b>רָעָה <b>Ø</b>עֲשִׁירָה הִיא:</span>"],
-    ["<span class=\"heb\">7. הַבַּיִת __זֶּה __קָדוֹשׁ וְהַדֶּלֶת __זֹּאת __קְדוֹשָׁה:</span>","<span class=\"heb\">הַבַּיִת <b>הַ</b>זֶּה <b>Ø</b>קָדוֹשׁ וְהַדֶּלֶת <b>הַ</b>זֹּאת <b>Ø</b>קְדוֹשָׁה:</span> — le démonstratif <span class=\"heb\">זֶה/זֹאת</span> employé comme épithète prend, lui aussi, l'article"],
-    ["<span class=\"heb\">8. הַבֵּן __קָּטֹן וְ__רָע עָנִי הוּא:</span>","<span class=\"heb\">הַבֵּן <b>הַ</b>קָּטֹן וְ<b>הָ</b>רָע <b>Ø</b>עָנִי הוּא:</span> — deux épithètes coordonnées, puis l'attribut"],
-    ["<span class=\"heb\">9. שְׁמִי __קָדוֹשׁ הוּא:</span>","<span class=\"heb\">שְׁמִי <b>Ø</b>קָדוֹשׁ הוּא:</span> « Mon nom est saint » — attribut seul, pas d'épithète ici"]
-  ], [0,1])}
+  <p class="ui" style="font-size:13px;color:var(--text-soft);margin-top:14px;">Complétez chaque phrase (cliquez pour révéler le corrigé) :</p>
+  ${tableHTML(null, ["Phrase à compléter"], [
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">2. הַכֹּהֵן __עָשִׁיר __רַע:</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">3. הַנְּבִיאָה __קְדוֹשָׁה __חֲכָמָה הִיא:</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">4. הָעִיר __רָעָה __גְדוֹלָה:</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">5. הָהָר __גָּדוֹל __קָדוֹשׁ הוּא:</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">6. הַמַּלְכָּה __רָעָה __עֲשִׁירָה הִיא:</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">7. הַבַּיִת __זֶּה __קָדוֹשׁ וְהַדֶּלֶת __זֹּאת __קְדוֹשָׁה:</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">8. הַבֵּן __קָּטֹן וְ__רָע עָנִי הוּא:</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">9. שְׁמִי __קָדוֹשׁ הוּא:</span>"]
+  ])}
+  <details style="margin-top:10px;">
+    <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
+    ${tableHTML(null, ["N°","Corrigé"], [
+      ["2","<span class=\"heb\" style=\"font-size:1.05em;\">הַכֹּהֵן <b>הֶ</b>עָשִׁיר <b>Ø</b>רַע:</span> « Le prêtre, le riche, est mauvais »"],
+      ["3","<span class=\"heb\" style=\"font-size:1.05em;\">הַנְּבִיאָה <b>הַ</b>קְּדוֹשָׁה <b>Ø</b>חֲכָמָה הִיא:</span>"],
+      ["4","<span class=\"heb\" style=\"font-size:1.05em;\">הָעִיר <b>הָ</b>רָעָה <b>Ø</b>גְדוֹלָה:</span>"],
+      ["5","<span class=\"heb\" style=\"font-size:1.05em;\">הָהָר <b>הַ</b>גָּדוֹל <b>Ø</b>קָדוֹשׁ הוּא:</span>"],
+      ["6","<span class=\"heb\" style=\"font-size:1.05em;\">הַמַּלְכָּה <b>הָ</b>רָעָה <b>Ø</b>עֲשִׁירָה הִיא:</span>"],
+      ["7","<span class=\"heb\" style=\"font-size:1.05em;\">הַבַּיִת <b>הַ</b>זֶּה <b>Ø</b>קָדוֹשׁ וְהַדֶּלֶת <b>הַ</b>זֹּאת <b>Ø</b>קְדוֹשָׁה:</span> — le démonstratif <span class=\"heb\">זֶה/זֹאת</span> employé comme épithète prend, lui aussi, l'article"],
+      ["8","<span class=\"heb\" style=\"font-size:1.05em;\">הַבֵּן <b>הַ</b>קָּטֹן וְ<b>הָ</b>רָע <b>Ø</b>עָנִי הוּא:</span> — deux épithètes coordonnées, puis l'attribut"],
+      ["9","<span class=\"heb\" style=\"font-size:1.05em;\">שְׁמִי <b>Ø</b>קָדוֹשׁ הוּא:</span> « Mon nom est saint » — attribut seul, pas d'épithète ici"]
+    ], [0,1])}
+  </details>
 </div>
 <div class="card">
   <h3><span class="en">Immersion</span>🎥 Vidéo complémentaire</h3>
@@ -1655,8 +1685,15 @@ const lesson8 = `
   <h3><span class="en">Exercice</span>תרגיל — Joindre deux phrases avec אֲשֶׁר</h3>
   <p>Joignez les deux phrases au moyen d'<span class="heb">אֲשֶׁר</span>, sur le modèle :</p>
   <div class="rule"><span class="heb" style="font-size:1.05em;">אֱלֹהִים בָּרָא אֶת־הַשָּׁמַיִם׃ הַשָּׁמַיִם גְּדוֹלִים׃ ← הַשָּׁמַיִם אֲשֶׁר אֱלֹהִים בָּרָא אֹתָם גְּדוֹלִים׃</span></div>
+  ${tableHTML(null, ["Deux phrases à joindre"], [
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">הַמִּצְוֹת תִּשְׁמֹר׃ אֲדֹנָי נָתַן אֶת־הַמִּצְוֹת לְךָ׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">הַמֶּלֶךְ רַע הוּא׃ הָעָם בָּחַר בַּמֶּלֶךְ׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">עַם־יִשְׂרָאֵל אָהַב אֶת־הַנְּבִיאִים׃ אֲדֹנָי שָׁלַח אֶת־הַנְּבִיאִים לְעַם־יִשְׂרָאֵל׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">שְׁמוּאֵל שָׁמַע אֶת־אֲדֹנָי׃ אֲדֹנָי קָרָא אֶל־שְׁמוּאֵל׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">אַתָּה שֹׁכֵב עַל־הָאָרֶץ׃ הָאָרֶץ קְדוֹשָׁה הִיא׃</span>"]
+  ])}
   <details style="margin-top:10px;">
-    <summary class="ui" style="cursor:pointer;font-size:12.5px;color:var(--gold-dim);">À vous (cliquez pour révéler le corrigé)</summary>
+    <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
     ${tableHTML(null, ["Corrigé"], [
       ["<span class=\"heb\">הַמִּצְוֹת אֲשֶׁר אֲדֹנָי נָתַן לְךָ תִּשְׁמֹר׃</span>"],
       ["<span class=\"heb\">הַמֶּלֶךְ אֲשֶׁר הָעָם בָּחַר בּוֹ רַע הוּא׃</span>"],
@@ -1664,7 +1701,7 @@ const lesson8 = `
       ["<span class=\"heb\">שְׁמוּאֵל שָׁמַע אֶת־אֲדֹנָי אֲשֶׁר קָרָא אֶל־שְׁמוּאֵל׃</span>"],
       ["<span class=\"heb\">אַתָּה שֹׁכֵב עַל־הָאָרֶץ אֲשֶׁר קְדוֹשָׁה הִיא׃</span>"]
     ])}
-    <div class="callout info"><span class="ico">💡</span><span>Plusieurs jonctions étaient possibles dans le document source ; ceci n'est qu'une solution parmi d'autres.</span></div>
+    <div class="callout info"><span class="ico">💡</span><span>Plusieurs jonctions étaient possibles ; ceci n'est qu'une solution parmi d'autres.</span></div>
   </details>
 </div>
 <div class="card">
@@ -1809,20 +1846,32 @@ const lesson10 = `
 </div>
 <div class="card">
   <h3><span class="en">Exercice</span>תרגיל — Placer אֶת quand il le faut</h3>
-  <p class="ui" style="font-size:12.5px;color:var(--text-soft);">Rappel : <span class="heb">אֶת</span> n'apparaît que si le mot est <b>à la fois</b> complément d'objet direct <b>et</b> défini (article, nom propre, ou déjà déterminé). Complétez chaque blanc par <span class="heb">אֶת</span> ou par rien (« Ø ») :</p>
+  <p class="ui" style="font-size:13px;color:var(--text-soft);">Rappel : <span class="heb">אֶת</span> n'apparaît que si le mot est <b>à la fois</b> complément d'objet direct <b>et</b> défini (article, nom propre, ou déjà déterminé). Complétez chaque blanc par <span class="heb">אֶת</span> ou par rien (« Ø ») :</p>
+  ${tableHTML(null, ["Phrase à compléter"], [
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">1. וַתִּגְזֹרְנָה הַנָּשִׁים ___ לֶחֶם לְיוֹם הַשַּׁבָּת׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">2. וַתֵּלֶד לֵאָה ___ בָּנִים רַבִּים מְאֹד׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">3. וַתֹּאמֶר הָאִשָּׁה לָאִישׁ לֵאמֹר הַשְׁכֵּב אַתָּה ___ הַיְלָדִים וַאֲנִי אֵלֵךְ לַמַּעְיָן׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">4. וַיִּתֵּן אֱלֹהִים לִשְׁלֹמֹה ___ חָכְמָה רַבָּה מְאֹד׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">5. וַיִּתֵּן הַנַּעַר ___ הַחֶרֶב לְשָׁאוּל וַיִּפֹּל שָׁאוּל עַל־הַחָרֶב׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">6. לְכִי אֶל הָעֵץ וּקְחִי מִן הָעֵץ ___ תְּאֵנִים טוֹבוֹת וְאִכְלִי ___ הַתְּאֵנִים׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">7. וָאֵרֶא ___ חֶבְרוֹן וָאֵלֵךְ אֶל הָעִיר וָאֶשְׁאַל ___ הָאֲנָשִׁים אַיֵּה יִשַׁי׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">8. וַיֹּאמֶר אַבְרָהָם אֶל הַנַּעַר לֵאמֹר קַח ___ הַחֲמוֹר וְלֵךְ חָרָנָה וּשְׁאַל שָׁם ___ אִשָּׁה לִבְנִי יִצְחָק׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">9. וַיִּגְזֹר הַצַּדִּיק ___ הַלֶּחֶם וַיִּתֵּן ___ הַחֲצִי לֶעָנִי׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">10. וַיִּקַּח הַנָּבִיא אֱלִישָׁע ___ הַיֶּלֶד הַמֵּת וַיַּשְׁכֵּב ___ הַיֶּלֶד וַיִּשְׁכַּב הוּא עַל הַיֶּלֶד וַיֹּאמַר אֲדֹנָי אַל־___ הָרוּחַ מִן־הַיֶּלֶד הַזֶּה׃</span>"]
+  ])}
   <details style="margin-top:10px;">
-    <summary class="ui" style="cursor:pointer;font-size:12.5px;color:var(--gold-dim);">À vous (cliquez pour révéler le corrigé)</summary>
-    ${tableHTML(null, ["Corrigé"], [
-      ["<span class=\"heb\">וַתִּגְזֹרְנָה הַנָּשִׁים Ø לֶחֶם לְיוֹם הַשַּׁבָּת׃</span> <span class=\"tr\">(לֶחֶם indéfini)</span>"],
-      ["<span class=\"heb\">וַתֵּלֶד לֵאָה Ø בָּנִים רַבִּים מְאֹד׃</span> <span class=\"tr\">(בָּנִים indéfini)</span>"],
-      ["<span class=\"heb\">וַתֹּאמֶר הָאִשָּׁה לָאִישׁ לֵאמֹר הַשְׁכֵּב אַתָּה אֶת־הַיְלָדִים וַאֲנִי אֵלֵךְ לַמַּעְיָן׃</span> <span class=\"tr\">(הַיְלָדִים défini → אֶת)</span>"],
-      ["<span class=\"heb\">וַיִּתֵּן אֱלֹהִים לִשְׁלֹמֹה Ø חָכְמָה רַבָּה מְאֹד׃</span> <span class=\"tr\">(חָכְמָה indéfinie ; לִשְׁלֹמֹה n'est pas un COD)</span>"],
-      ["<span class=\"heb\">וַיִּתֵּן הַנַּעַר אֶת־הַחֶרֶב לְשָׁאוּל וַיִּפֹּל שָׁאוּל עַל־הַחָרֶב׃</span> <span class=\"tr\">(הַחֶרֶב défini → אֶת)</span>"],
-      ["<span class=\"heb\">לְכִי אֶל הָעֵץ וּקְחִי מִן הָעֵץ Ø תְּאֵנִים טוֹבוֹת וְאִכְלִי אֶת־הַתְּאֵנִים׃</span>"],
-      ["<span class=\"heb\">וָאֵרֶא אֶת־חֶבְרוֹן וָאֵלֵךְ אֶל הָעִיר וָאֶשְׁאַל אֶת־הָאֲנָשִׁים אַיֵּה יִשַׁי׃</span> <span class=\"tr\">(nom propre → toujours défini)</span>"],
-      ["<span class=\"heb\">וַיֹּאמֶר אַבְרָהָם אֶל הַנַּעַר לֵאמֹר קַח אֶת־הַחֲמוֹר וְלֵךְ חָרָנָה וּשְׁאַל שָׁם Ø אִשָּׁה לִבְנִי יִצְחָק׃</span> <span class=\"tr\">(אִשָּׁה indéfinie)</span>"],
-      ["<span class=\"heb\">וַיִּגְזֹר הַצַּדִּיק אֶת־הַלֶּחֶם וַיִּתֵּן אֶת־הַחֲצִי לֶעָנִי׃</span>"],
-      ["<span class=\"heb\">וַיִּקַּח הַנָּבִיא אֱלִישָׁע אֶת־הַיֶּלֶד הַמֵּת וַיַּשְׁכֵּב אֶת־הַיֶּלֶד וַיִּשְׁכַּב הוּא עַל הַיֶּלֶד וַיֹּאמַר אֲדֹנָי אַל־תִּקַּח אֶת־הָרוּחַ מִן־הַיֶּלֶד הַזֶּה׃</span>"]
+    <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
+    ${tableHTML(null, ["N°","Corrigé"], [
+      ["1","<span class=\"heb\">וַתִּגְזֹרְנָה הַנָּשִׁים Ø לֶחֶם לְיוֹם הַשַּׁבָּת׃</span> <span class=\"tr\">(לֶחֶם indéfini)</span>"],
+      ["2","<span class=\"heb\">וַתֵּלֶד לֵאָה Ø בָּנִים רַבִּים מְאֹד׃</span> <span class=\"tr\">(בָּנִים indéfini)</span>"],
+      ["3","<span class=\"heb\">וַתֹּאמֶר הָאִשָּׁה לָאִישׁ לֵאמֹר הַשְׁכֵּב אַתָּה אֶת־הַיְלָדִים וַאֲנִי אֵלֵךְ לַמַּעְיָן׃</span> <span class=\"tr\">(הַיְלָדִים défini → אֶת)</span>"],
+      ["4","<span class=\"heb\">וַיִּתֵּן אֱלֹהִים לִשְׁלֹמֹה Ø חָכְמָה רַבָּה מְאֹד׃</span> <span class=\"tr\">(חָכְמָה indéfinie ; לִשְׁלֹמֹה n'est pas un COD)</span>"],
+      ["5","<span class=\"heb\">וַיִּתֵּן הַנַּעַר אֶת־הַחֶרֶב לְשָׁאוּל וַיִּפֹּל שָׁאוּל עַל־הַחָרֶב׃</span> <span class=\"tr\">(הַחֶרֶב défini → אֶת)</span>"],
+      ["6","<span class=\"heb\">לְכִי אֶל הָעֵץ וּקְחִי מִן הָעֵץ Ø תְּאֵנִים טוֹבוֹת וְאִכְלִי אֶת־הַתְּאֵנִים׃</span>"],
+      ["7","<span class=\"heb\">וָאֵרֶא אֶת־חֶבְרוֹן וָאֵלֵךְ אֶל הָעִיר וָאֶשְׁאַל אֶת־הָאֲנָשִׁים אַיֵּה יִשַׁי׃</span> <span class=\"tr\">(nom propre → toujours défini)</span>"],
+      ["8","<span class=\"heb\">וַיֹּאמֶר אַבְרָהָם אֶל הַנַּעַר לֵאמֹר קַח אֶת־הַחֲמוֹר וְלֵךְ חָרָנָה וּשְׁאַל שָׁם Ø אִשָּׁה לִבְנִי יִצְחָק׃</span> <span class=\"tr\">(אִשָּׁה indéfinie)</span>"],
+      ["9","<span class=\"heb\">וַיִּגְזֹר הַצַּדִּיק אֶת־הַלֶּחֶם וַיִּתֵּן אֶת־הַחֲצִי לֶעָנִי׃</span>"],
+      ["10","<span class=\"heb\">וַיִּקַּח הַנָּבִיא אֱלִישָׁע אֶת־הַיֶּלֶד הַמֵּת וַיַּשְׁכֵּב אֶת־הַיֶּלֶד וַיִּשְׁכַּב הוּא עַל הַיֶּלֶד וַיֹּאמַר אֲדֹנָי אַל־תִּקַּח אֶת־הָרוּחַ מִן־הַיֶּלֶד הַזֶּה׃</span>"]
     ])}
   </details>
 </div>
@@ -1838,14 +1887,21 @@ const lesson10 = `
   <h3><span class="en">Exercice</span>תרגיל — Construire la chaîne</h3>
   <p>Joignez les deux noms en état construit, sur le modèle :</p>
   <div class="rule"><span class="heb" style="font-size:1.1em;">תַּלְמִידִים + יְהוּדִית ← תַּלְמִידֵי יְהוּדִית</span></div>
+  ${tableHTML(null, ["À joindre"], [
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">הָאֲדוֹנִים + הָעָם</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">הַנְּבִיאָה + אֲדֹנָי</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">הַמֶּלֶךְ + הָעָם</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">הַשֻּׁלְחָן + הַתַּלְמִיד</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">הַחֶרֶב + הַמֶּלֶךְ</span>"]
+  ])}
   <details style="margin-top:10px;">
-    <summary class="ui" style="cursor:pointer;font-size:12.5px;color:var(--gold-dim);">À vous (cliquez pour révéler le corrigé)</summary>
-    ${tableHTML(null, ["À joindre","Corrigé"], [
-      ["<span class=\"heb\">הָאֲדוֹנִים + הָעָם</span>","<span class=\"heb\">אֲדוֹנֵי הָעָם</span>"],
-      ["<span class=\"heb\">הַנְּבִיאָה + אֲדֹנָי</span>","<span class=\"heb\">נְבִיאַת אֲדֹנָי</span> <span class=\"tr\">(ה ָ → ת ַ)</span>"],
-      ["<span class=\"heb\">הַמֶּלֶךְ + הָעָם</span>","<span class=\"heb\">מֶלֶךְ הָעָם</span>"],
-      ["<span class=\"heb\">הַשֻּׁלְחָן + הַתַּלְמִיד</span>","<span class=\"heb\">שֻׁלְחַן הַתַּלְמִיד</span> <span class=\"tr\">(voyelle abrégée)</span>"],
-      ["<span class=\"heb\">הַחֶרֶב + הַמֶּלֶךְ</span>","<span class=\"heb\">חֶרֶב הַמֶּלֶךְ</span>"]
+    <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
+    ${tableHTML(null, ["Corrigé"], [
+      ["<span class=\"heb\">אֲדוֹנֵי הָעָם</span>"],
+      ["<span class=\"heb\">נְבִיאַת אֲדֹנָי</span> <span class=\"tr\">(ה ָ → ת ַ)</span>"],
+      ["<span class=\"heb\">מֶלֶךְ הָעָם</span>"],
+      ["<span class=\"heb\">שֻׁלְחַן הַתַּלְמִיד</span> <span class=\"tr\">(voyelle abrégée)</span>"],
+      ["<span class=\"heb\">חֶרֶב הַמֶּלֶךְ</span>"]
     ])}
   </details>
 </div>
@@ -1912,13 +1968,19 @@ const lesson11 = `
   <h3><span class="en">Exercice</span>תרגיל — Décliner le nom en contexte</h3>
   <p>Complétez avec la forme suffixée du nom entre parenthèses, sur le modèle :</p>
   <div class="rule"><span class="heb" style="font-size:1.1em;">וַיֹּאמְרוּ עִירֵנוּ (עִיר) הִיא׃</span> « Ils dirent : c'est notre ville »</div>
+  ${tableHTML(null, ["Phrase à compléter"], [
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">1. וַיֹּאמֶר אֱלֹהִים אֶל־עַם־יִשְׂרָאֵל אַתֶּם ___ (עַם)׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">2. וַתֹּאמֶר הָאִשָּׁה לְ___ (אִישׁ) שְׁמַע בְּ___ (קוֹל)׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">3. ...יֵשְׁבוּ בְנֵי־יִשְׂרָאֵל תַּחַת ___ (תְּאֵנָה) וְעַל ___ (שֻׁלְחָן)׃</span> <span class=\"tr\">(« chacun sous son figuier », idiome biblique)</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">4. ...וַיִּשְׁמַע אֶת־___ (קוֹל) הַיָּפֶה...קִרְאוּ לְבַת־שֶׁבַע ___ (מַלְכָּה)׃</span>"]
+  ])}
   <details style="margin-top:10px;">
-    <summary class="ui" style="cursor:pointer;font-size:12.5px;color:var(--gold-dim);">À vous (cliquez pour révéler le corrigé)</summary>
-    ${tableHTML(null, ["Corrigé"], [
-      ["<span class=\"heb\">וַיֹּאמֶר אֱלֹהִים אֶל־עַם־יִשְׂרָאֵל אַתֶּם עַמִּי (עַם)׃</span>"],
-      ["<span class=\"heb\">וַתֹּאמֶר הָאִשָּׁה לְאִישָׁהּ (אִישׁ) שְׁמַע בְּקוֹלוֹ (קוֹל)׃</span>"],
-      ["<span class=\"heb\">...יֵשְׁבוּ בְנֵי־יִשְׂרָאֵל תַּחַת תְּאֵנָתוֹ (תְּאֵנָה) וְעַל שֻׁלְחָנוֹ (שֻׁלְחָן)׃</span> <span class=\"tr\">(« chacun sous son figuier », idiome biblique)</span>"],
-      ["<span class=\"heb\">...וַיִּשְׁמַע אֶת־קוֹלָהּ (קוֹל) הַיָּפֶה...קִרְאוּ לְבַת־שֶׁבַע מַלְכָּתֵנוּ (מַלְכָּה)׃</span>"]
+    <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
+    ${tableHTML(null, ["N°","Corrigé"], [
+      ["1","<span class=\"heb\">וַיֹּאמֶר אֱלֹהִים אֶל־עַם־יִשְׂרָאֵל אַתֶּם עַמִּי (עַם)׃</span>"],
+      ["2","<span class=\"heb\">וַתֹּאמֶר הָאִשָּׁה לְאִישָׁהּ (אִישׁ) שְׁמַע בְּקוֹלוֹ (קוֹל)׃</span>"],
+      ["3","<span class=\"heb\">...יֵשְׁבוּ בְנֵי־יִשְׂרָאֵל תַּחַת תְּאֵנָתוֹ (תְּאֵנָה) וְעַל שֻׁלְחָנוֹ (שֻׁלְחָן)׃</span>"],
+      ["4","<span class=\"heb\">...וַיִּשְׁמַע אֶת־קוֹלָהּ (קוֹל) הַיָּפֶה...קִרְאוּ לְבַת־שֶׁבַע מַלְכָּתֵנוּ (מַלְכָּה)׃</span>"]
     ])}
     <div class="callout info"><span class="ico">💡</span><span>Corrigés dérivés des règles du cours à partir d'un extrait plus long du document source.</span></div>
   </details>
@@ -1967,13 +2029,14 @@ const lesson13 = `
   <h3><span class="en en-heb">עָבַר</span>L'accompli (Qatal)</h3>
   <p>L'hébreu ne distingue pas vraiment passé et futur, mais action <b>accomplie</b> ou <b>inaccomplie</b>. Pour le passé, on parle du <span class="heb">קָטַל</span> (littéralement « tuer », mot-modèle des conjugaisons) — c'est la forme à la 3ᵉ pers. masc. sing., celle qui sert d'entrée de dictionnaire.</p>
   <div class="callout info"><span class="ico">💡</span><span>Les pronoms personnels ne se placent pas devant le verbe conjugué : c'est le <b>suffixe</b> ajouté à la racine qui indique la personne.</span></div>
+  <div class="callout info"><span class="ico">🎨</span><span>Code couleur : le Qal n'a <b>pas de marque de binyan</b> (c'est la forme de référence) — seul <span style="color:#c0392b;font-weight:700;">rouge</span> = la terminaison personnelle est signalé ; noir = la racine.</span></div>
   ${tableHTML("Qatal des verbes forts — exemple שָׁמַר « garder »", ["Personne","Féminin","Masculin"], [
-    ["1ʳᵉ sg.","<span class=\"heb\">שָׁמַרְתִּי</span>",""],
-    ["2ᵉ sg.","<span class=\"heb\">שָׁמַרְתְּ</span>","<span class=\"heb\">שָׁמַרְתָּ</span>"],
-    ["3ᵉ sg.","<span class=\"heb\">שָׁמְרָה</span>","<span class=\"heb\">שָׁמַר</span>"],
-    ["1ʳᵉ pl.","<span class=\"heb\">שָׁמַרְנוּ</span>",""],
-    ["2ᵉ pl.","<span class=\"heb\">שְׁמַרְתֶּן</span>","<span class=\"heb\">שְׁמַרְתֶּם</span>"],
-    ["3ᵉ pl.","<span class=\"heb\">שָׁמְרוּ</span>",""]
+    ["1ʳᵉ sg.","<span class=\"heb\">שָׁמַרְ<span style=\"color:#c0392b;\">תִּי</span></span>",""],
+    ["2ᵉ sg.","<span class=\"heb\">שָׁמַרְ<span style=\"color:#c0392b;\">תְּ</span></span>","<span class=\"heb\">שָׁמַרְ<span style=\"color:#c0392b;\">תָּ</span></span>"],
+    ["3ᵉ sg.","<span class=\"heb\">שָׁמְר<span style=\"color:#c0392b;\">ָה</span></span>","<span class=\"heb\">שָׁמַר</span>"],
+    ["1ʳᵉ pl.","<span class=\"heb\">שָׁמַרְ<span style=\"color:#c0392b;\">נוּ</span></span>",""],
+    ["2ᵉ pl.","<span class=\"heb\">שְׁמַרְ<span style=\"color:#c0392b;\">תֶּן</span></span>","<span class=\"heb\">שְׁמַרְ<span style=\"color:#c0392b;\">תֶּם</span></span>"],
+    ["3ᵉ pl.","<span class=\"heb\">שָׁמְר<span style=\"color:#c0392b;\">וּ</span></span>",""]
   ])}
   <p style="text-align:center;"><a href="#" onclick="go('conjug',{conjugIndex:11}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a></p>
 
@@ -2062,20 +2125,32 @@ const lesson14 = `
     ["<span class=\"heb\">יָשַׁב</span> (habiter)","<span class=\"heb\">יֹשֵׁב</span>","<span class=\"heb\">יֹשֶׁבֶת</span>"]
   ], [1,2])}
   <p>Le verbe <span class="heb">שָׁתָה</span> (boire) se conjugue comme un verbe ל״ה : <span class="heb">שֹׁתֶה / שֹׁתָה / שֹׁתִים / שֹׁתוֹת</span>.</p>
-  <p class="ui" style="font-size:12.5px;color:var(--text-soft);margin-top:14px;">Complétez chaque phrase avec le participe du verbe entre parenthèses :</p>
+  <p class="ui" style="font-size:13px;color:var(--text-soft);margin-top:14px;">Complétez chaque phrase avec le participe du verbe entre parenthèses (cliquez pour révéler le corrigé) :</p>
+  ${tableHTML(null, ["Phrase à compléter"], [
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">1. אַבְרָם ___ (הָלַךְ) אֶל־הָאָרֶץ הַהִיא׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">2. אֶסְתֵּר לֹא ___ (שָׁתָה) וְלֹא ___ (אָכַל) לֶחֶם׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">3. הָאָדָם ___ (שָׁכַב) לְבַד בַּלַּיְלָה וְהוּא ___ (קָם) לְבַד בַּבֹּקֶר׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">4. הַכֹּהֲנִים ___ (עָמַד) לִפְנֵי סֵפֶר הַתּוֹרָה׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">5. הַמּוֹרֶה ___ (קָם) מִן־הַכִּסֵּא וְגַם הַתַּלְמִידִים ___ (קָם) מִן־הַכִּסֵּא׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">6. אַתְּ ___ (אָכַל) תְּאֵנִים רַבּוֹת׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">7. הַמַּלְכָּה הָרָעָה ___ (שָׁפַט) גּוֹיִם אֲחֵרִים׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">8. רוּת ___ (בָּא) לְבֵית לֶחֶם עִם־נָעֳמִי׃ הֵנָּה לֹא ___ (יָשַׁב) בְּמוֹאָב׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">9. עַם־יִשְׂרָאֵל ___ (שָׁב) אֶל־הַמִּדְבָּר שָׁם הֵם ___ (שָׁתָה) מְעַט מַיִם׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">10. בַּלַּיְלָה אֲנַחְנוּ ___ (שָׁכַב) בָּאֹהָלִים וּבַיּוֹם הַנָּשִׁים ___ (הָלַךְ) אֶל־הַנַּחַל׃</span>"]
+  ])}
   <details style="margin-top:10px;">
-    <summary class="ui" style="cursor:pointer;font-size:12.5px;color:var(--gold-dim);">À vous (cliquez pour révéler le corrigé)</summary>
-    ${tableHTML(null, ["Phrase à compléter","Corrigé"], [
-      ["<span class=\"heb\">1. אַבְרָם ___ (הָלַךְ) אֶל־הָאָרֶץ הַהִיא׃</span>","<span class=\"heb\">הֹלֵךְ</span>"],
-      ["<span class=\"heb\">2. אֶסְתֵּר לֹא ___ (שָׁתָה) וְלֹא ___ (אָכַל) לֶחֶם׃</span>","<span class=\"heb\">שֹׁתָה</span> / <span class=\"heb\">אֹכֶלֶת</span>"],
-      ["<span class=\"heb\">3. הָאָדָם ___ (שָׁכַב) לְבַד בַּלַּיְלָה וְהוּא ___ (קָם) לְבַד בַּבֹּקֶר׃</span>","<span class=\"heb\">שֹׁכֵב</span> / <span class=\"heb\">קָם</span>"],
-      ["<span class=\"heb\">4. הַכֹּהֲנִים ___ (עָמַד) לִפְנֵי סֵפֶר הַתּוֹרָה׃</span>","<span class=\"heb\">עֹמְדִים</span>"],
-      ["<span class=\"heb\">5. הַמּוֹרֶה ___ (קָם) מִן־הַכִּסֵּא וְגַם הַתַּלְמִידִים ___ (קָם) מִן־הַכִּסֵּא׃</span>","<span class=\"heb\">קָם</span> / <span class=\"heb\">קָמִים</span>"],
-      ["<span class=\"heb\">6. אַתְּ ___ (אָכַל) תְּאֵנִים רַבּוֹת׃</span>","<span class=\"heb\">אֹכֶלֶת</span>"],
-      ["<span class=\"heb\">7. הַמַּלְכָּה הָרָעָה ___ (שָׁפַט) גּוֹיִם אֲחֵרִים׃</span>","<span class=\"heb\">שֹׁפֶטֶת</span>"],
-      ["<span class=\"heb\">8. רוּת ___ (בָּא) לְבֵית לֶחֶם עִם־נָעֳמִי׃ הֵנָּה לֹא ___ (יָשַׁב) בְּמוֹאָב׃</span>","<span class=\"heb\">בָּאָה</span> / <span class=\"heb\">יֹשְׁבוֹת</span>"],
-      ["<span class=\"heb\">9. עַם־יִשְׂרָאֵל ___ (שָׁב) אֶל־הַמִּדְבָּר שָׁם הֵם ___ (שָׁתָה) מְעַט מַיִם׃</span>","<span class=\"heb\">שָׁב</span> / <span class=\"heb\">שֹׁתִים</span>"],
-      ["<span class=\"heb\">10. בַּלַּיְלָה אֲנַחְנוּ ___ (שָׁכַב) בָּאֹהָלִים וּבַיּוֹם הַנָּשִׁים ___ (הָלַךְ) אֶל־הַנַּחַל׃</span>","<span class=\"heb\">שֹׁכְבִים</span> / <span class=\"heb\">הֹלְכוֹת</span>"]
+    <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
+    ${tableHTML(null, ["N°","Corrigé"], [
+      ["1","<span class=\"heb\">הֹלֵךְ</span>"],
+      ["2","<span class=\"heb\">שֹׁתָה</span> / <span class=\"heb\">אֹכֶלֶת</span>"],
+      ["3","<span class=\"heb\">שֹׁכֵב</span> / <span class=\"heb\">קָם</span>"],
+      ["4","<span class=\"heb\">עֹמְדִים</span>"],
+      ["5","<span class=\"heb\">קָם</span> / <span class=\"heb\">קָמִים</span>"],
+      ["6","<span class=\"heb\">אֹכֶלֶת</span>"],
+      ["7","<span class=\"heb\">שֹׁפֶטֶת</span>"],
+      ["8","<span class=\"heb\">בָּאָה</span> / <span class=\"heb\">יֹשְׁבוֹת</span>"],
+      ["9","<span class=\"heb\">שָׁב</span> / <span class=\"heb\">שֹׁתִים</span>"],
+      ["10","<span class=\"heb\">שֹׁכְבִים</span> / <span class=\"heb\">הֹלְכוֹת</span>"]
     ])}
     <div class="callout info"><span class="ico">💡</span><span>Corrigés dérivés des règles du cours (le document source ne fournissait pas ses propres réponses ici).</span></div>
   </details>
@@ -2324,13 +2399,14 @@ const lesson20 = `
 </div>
 <div class="card">
   <h3><span class="en en-heb">וַיִּקְטֹל</span>Le WaYiqtol</h3>
+  <div class="callout info"><span class="ico">🎨</span><span>Code couleur : <span style="color:#1a8a3d;font-weight:700;">vert</span> = le ו conversif et le daguesh qu'il entraîne (assimilé dans la lettre qui suit) ; <span style="color:#c0392b;font-weight:700;">rouge</span> = la préformante qui marque la personne ; noir = le reste de la racine.</span></div>
   ${tableHTML(null, ["","Féminin","Masculin"], [
-    ["1ʳᵉ sg.","<span class=\"heb\">וָאֶקְטֹל</span>",""],
-    ["2ᵉ sg.","<span class=\"heb\">וַתִּקְטְלִי</span>","<span class=\"heb\">וַתִּקְטֹל</span>"],
-    ["3ᵉ sg.","<span class=\"heb\">וַתִּקְטֹל</span>","<span class=\"heb\">וַיִּקְטֹל</span>"],
-    ["1ʳᵉ pl.","<span class=\"heb\">וַנִּקְטֹל</span>",""],
-    ["2ᵉ pl.","<span class=\"heb\">וַתִּקְטֹלְנָה</span>","<span class=\"heb\">וַתִּקְטְלוּ</span>"],
-    ["3ᵉ pl.","<span class=\"heb\">וַתִּקְטֹלְנָה</span>","<span class=\"heb\">וַיִּקְטְלוּ</span>"]
+    ["1ʳᵉ sg.","<span class=\"heb\"><span style=\"color:#1a8a3d;\">וָ</span><span style=\"color:#c0392b;\">אֶ</span>קְטֹל</span>",""],
+    ["2ᵉ sg.","<span class=\"heb\"><span style=\"color:#1a8a3d;\">וַ</span><span style=\"color:#c0392b;\">תִּ</span>קְטְלִי</span>","<span class=\"heb\"><span style=\"color:#1a8a3d;\">וַ</span><span style=\"color:#c0392b;\">תִּ</span>קְטֹל</span>"],
+    ["3ᵉ sg.","<span class=\"heb\"><span style=\"color:#1a8a3d;\">וַ</span><span style=\"color:#c0392b;\">תִּ</span>קְטֹל</span>","<span class=\"heb\"><span style=\"color:#1a8a3d;\">וַ</span><span style=\"color:#c0392b;\">יִּ</span>קְטֹל</span>"],
+    ["1ʳᵉ pl.","<span class=\"heb\"><span style=\"color:#1a8a3d;\">וַ</span><span style=\"color:#c0392b;\">נִּ</span>קְטֹל</span>",""],
+    ["2ᵉ pl.","<span class=\"heb\"><span style=\"color:#1a8a3d;\">וַ</span><span style=\"color:#c0392b;\">תִּ</span>קְטֹלְנָה</span>","<span class=\"heb\"><span style=\"color:#1a8a3d;\">וַ</span><span style=\"color:#c0392b;\">תִּ</span>קְטְלוּ</span>"],
+    ["3ᵉ pl.","<span class=\"heb\"><span style=\"color:#1a8a3d;\">וַ</span><span style=\"color:#c0392b;\">תִּ</span>קְטֹלְנָה</span>","<span class=\"heb\"><span style=\"color:#1a8a3d;\">וַ</span><span style=\"color:#c0392b;\">יִּ</span>קְטְלוּ</span>"]
   ])}
   <div class="callout warn"><span class="ico">⚠️</span><span>La lettre suivant le « ו conversif » prend un daguesh (sauf si c'est un <span class="heb">י</span> avec shéwa muet). Le préfixe <span class="heb">ו</span> se vocalise <span class="heb">ַ</span> (sauf devant le <span class="heb">א</span> de la 1ʳᵉ pers., qui ne peut prendre de daguesh — la voyelle s'allonge alors en <span class="heb">ָ</span>). Le <span class="heb">ו</span> déplace l'accent tonique d'une syllabe dès que possible — ce qui allège la dernière syllabe des verbes faibles (forme courte) : <span class="heb">יִהְיֶה</span> devient <span class="heb">וַיְהִי</span>.</span></div>
   <div class="callout info"><span class="ico">💡</span><span>Si le <span class="heb">ו</span> devant un Yiqtol est vocalisé comme la conjonction de coordination (pas de daguesh, pas de déplacement d'accent), c'est qu'il ne s'agit pas d'un ו conversif : <span class="heb">וְיִשַׁלְּחוּ</span> (Nombres 5,2) est une simple coordination.</span></div>
@@ -2385,15 +2461,21 @@ const lesson21 = `
     "<span class=\"heb\">לֹא תִרְצָח</span> « Tu n'assassineras pas »",
     "<span class=\"heb\">אַל־תִּירָא כִּי־אִתְּךָ אָנֹכִי</span> « Ne crains pas car je suis avec toi »"
   ]])}
-  <p class="ui" style="font-size:12.5px;color:var(--text-soft);margin-top:14px;">Transformez l'ordre affirmatif en défense (négation), sur le modèle :</p>
-  <div class="rule"><span class="heb" style="font-size:1.1em;">בּוֹא לְבֵיתִי׃ ← <b>אַל־תָּבוֹא</b> לְבֵיתִי מָחָר׃</span></div>
+  <p class="ui" style="font-size:13px;color:var(--text-soft);margin-top:14px;">Transformez chaque ordre affirmatif en défense (négation), sur le modèle :</p>
+  <div class="rule"><span class="heb" style="font-size:1.1em;">בּוֹא לְבֵיתִי׃ ← <b>אַל־תָּבוֹא</b> לְבֵיתִי מָחָר׃</span> <span class="tr" style="font-style:italic;">« Viens chez moi » → « Ne viens pas chez moi demain »</span></div>
+  ${tableHTML(null, ["Ordre affirmatif à transformer","Traduction"], [
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">1. קְרָא אֶל־אֱלֹהִים בְּקוֹל גָּדוֹל׃</span>","« Invoque Dieu à voix haute ! »"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">2. אֱמֹרְנָה אֱמֶת׃</span>","« Dites (f. pl.) la vérité ! »"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">3. בְּכוּ בְּקוֹל גָּדוֹל כִּי בְבָבֶל אַתֶּם׃</span>","« Pleurez à voix haute, car vous êtes à Babylone ! »"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">4. דְּעוּ כִּי אֲדֹנָי הוּא הַמֶּלֶךְ׃</span>","« Sachez que le Seigneur est le roi ! »"]
+  ])}
   <details style="margin-top:10px;">
-    <summary class="ui" style="cursor:pointer;font-size:12.5px;color:var(--gold-dim);">À vous (cliquez pour révéler le corrigé)</summary>
-    ${tableHTML(null, ["Ordre affirmatif","Corrigé (défense)"], [
-      ["<span class=\"heb\">1. קְרָא אֶל־אֱלֹהִים בְּקוֹל גָּדוֹל׃</span>","<span class=\"heb\">אַל־תִּקְרָא אֶל־אֱלֹהִים אֲחֵרִים׃</span>"],
-      ["<span class=\"heb\">2. אֱמֹרְנָה אֱמֶת׃</span>","<span class=\"heb\">אַל־תֹּאמַרְנָה שָׁקֶר׃</span>"],
-      ["<span class=\"heb\">3. בְּכוּ בְּקוֹל גָּדוֹל כִּי בְבָבֶל אַתֶּם׃</span>","<span class=\"heb\">אַל־תִּבְכּוּ כִּי תָשׁוּבוּ לִירוּשָׁלָיִם׃</span>"],
-      ["<span class=\"heb\">4. דְּעוּ כִּי אֲדֹנָי הוּא הַמֶּלֶךְ׃</span>","<span class=\"heb\">אַל־תֵּדְעוּ אֱלֹהִים אֲחֵרִים׃</span>"]
+    <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
+    ${tableHTML(null, ["N°","Corrigé (défense)"], [
+      ["1","<span class=\"heb\" style=\"font-size:1.05em;\">אַל־תִּקְרָא אֶל־אֱלֹהִים אֲחֵרִים׃</span>"],
+      ["2","<span class=\"heb\" style=\"font-size:1.05em;\">אַל־תֹּאמַרְנָה שָׁקֶר׃</span>"],
+      ["3","<span class=\"heb\" style=\"font-size:1.05em;\">אַל־תִּבְכּוּ כִּי תָשׁוּבוּ לִירוּשָׁלָיִם׃</span>"],
+      ["4","<span class=\"heb\" style=\"font-size:1.05em;\">אַל־תֵּדְעוּ אֱלֹהִים אֲחֵרִים׃</span>"]
     ])}
   </details>
 </div>
@@ -2414,20 +2496,32 @@ const lesson21 = `
   <h3><span class="en">Exercice</span>תרגיל — Changer de genre/nombre</h3>
   <p>Transformez l'impératif selon le nouveau destinataire, sur le modèle :</p>
   <div class="rule"><span class="heb" style="font-size:1.1em;">עֲמֹד שְׁמוּאֵל׃ ← עִמְדִי חַנָּה׃</span></div>
+  ${tableHTML(null, ["Phrase à transformer"], [
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">2. עֲמֹד מֹשֶׁה עַל הַר־סִינַי׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">3. שֵׁב מָרְדֳּכַי עַל־הָאָרֶץ׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">4. קוּם לֵךְ אַבְרָהָם׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">5. שִׁכְבִי תַחַת־הַתְּאֵנָה רִבְקָה׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">6. לְכוּ לְשָׁלוֹם אֲנָשִׁים׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">7. קוּמִי אִכְלִי לֶחֶם מַלְכָּה׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">8. בֹּ֫אנָה שֵׁ֫בְנָה נְבִיאוֹת עַל־הַכִּסְאוֹת הָאֵלֶּה׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">9. אַתֶּם בֹּ֫אוּ אִכְלוּ תְאֵנִים תַּחַת־הָעֵץ הַיָּפֶה הַזֶּה׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">10. קוּם שְׁפֹט גּוֹיִם רַבִּים שְׁלֹמֹה׃</span>"],
+    ["<span class=\"heb\" style=\"font-size:1.05em;\">11. שֵׁ֫בְנָה תַלְמִידוֹת אַחֲרֵי־הַשֻּׁלְחָן׃</span>"]
+  ])}
   <details style="margin-top:10px;">
-    <summary class="ui" style="cursor:pointer;font-size:12.5px;color:var(--gold-dim);">À vous (cliquez pour révéler le corrigé)</summary>
-    ${tableHTML(null, ["Phrase donnée","Corrigé"], [
-      ["<span class=\"heb\">2. עֲמֹד מֹשֶׁה עַל הַר־סִינַי׃</span>","<span class=\"heb\">עִמְדוּ מֹשֶׁה וְאַהֲרֹן עַל הַר־סִינַי׃</span>"],
-      ["<span class=\"heb\">3. שֵׁב מָרְדֳּכַי עַל־הָאָרֶץ׃</span>","<span class=\"heb\">שְׁבוּ כָל־הַיְּהוּדִים עַל־הָאָרֶץ׃</span>"],
-      ["<span class=\"heb\">4. קוּם לֵךְ אַבְרָהָם׃</span>","<span class=\"heb\">קֹ֫מְנָה לֵ֫כְנָה שָׂרָה וְהָגָר׃</span>"],
-      ["<span class=\"heb\">5. שִׁכְבִי תַחַת־הַתְּאֵנָה רִבְקָה׃</span>","<span class=\"heb\">שְׁכַב תַּחַת־הַתְּאֵנָה יִצְחָק׃</span>"],
-      ["<span class=\"heb\">6. לְכוּ לְשָׁלוֹם אֲנָשִׁים׃</span>","<span class=\"heb\">לֵ֫כְנָה לְשָׁלוֹם נָשִׁים׃</span>"],
-      ["<span class=\"heb\">7. קוּמִי אִכְלִי לֶחֶם מַלְכָּה׃</span>","<span class=\"heb\">קוּם אֱכֹל לֶחֶם מֶלֶךְ׃</span>"],
-      ["<span class=\"heb\">8. בֹּ֫אנָה שֵׁ֫בְנָה נְבִיאוֹת עַל־הַכִּסְאוֹת הָאֵלֶּה׃</span>","<span class=\"heb\">בֹּ֫אוּ שְׁבוּ נְבִיאִים עַל־הַכִּסְאוֹת הָאֵלֶּה׃</span>"],
-      ["<span class=\"heb\">9. אַתֶּם בֹּ֫אוּ אִכְלוּ תְאֵנִים תַּחַת־הָעֵץ הַיָּפֶה הַזֶּה׃</span>","<span class=\"heb\">אַתְּ בֹּ֫אִי אִכְלִי תְאֵנִים תַּחַת־הָעֵץ הַיָּפֶה הַזֶּה׃</span>"],
-      ["<span class=\"heb\">10. קוּם שְׁפֹט גּוֹיִם רַבִּים שְׁלֹמֹה׃</span>","<span class=\"heb\">קוּמִי שִׁפְטִי גּוֹיִם רַבִּים דְּבוֹרָה׃</span>"],
-      ["<span class=\"heb\">11. שֵׁ֫בְנָה תַלְמִידוֹת אַחֲרֵי־הַשֻּׁלְחָן׃</span>","<span class=\"heb\">שֵׁב תַּלְמִיד אַחֲרֵי־הַשֻּׁלְחָן׃</span>"]
-    ], [0,1])}
+    <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
+    ${tableHTML(null, ["N°","Corrigé"], [
+      ["2","<span class=\"heb\">עִמְדוּ מֹשֶׁה וְאַהֲרֹן עַל הַר־סִינַי׃</span>"],
+      ["3","<span class=\"heb\">שְׁבוּ כָל־הַיְּהוּדִים עַל־הָאָרֶץ׃</span>"],
+      ["4","<span class=\"heb\">קֹ֫מְנָה לֵ֫כְנָה שָׂרָה וְהָגָר׃</span>"],
+      ["5","<span class=\"heb\">שְׁכַב תַּחַת־הַתְּאֵנָה יִצְחָק׃</span>"],
+      ["6","<span class=\"heb\">לֵ֫כְנָה לְשָׁלוֹם נָשִׁים׃</span>"],
+      ["7","<span class=\"heb\">קוּם אֱכֹל לֶחֶם מֶלֶךְ׃</span>"],
+      ["8","<span class=\"heb\">בֹּ֫אוּ שְׁבוּ נְבִיאִים עַל־הַכִּסְאוֹת הָאֵלֶּה׃</span>"],
+      ["9","<span class=\"heb\">אַתְּ בֹּ֫אִי אִכְלִי תְאֵנִים תַּחַת־הָעֵץ הַיָּפֶה הַזֶּה׃</span>"],
+      ["10","<span class=\"heb\">קוּמִי שִׁפְטִי גּוֹיִם רַבִּים דְּבוֹרָה׃</span>"],
+      ["11","<span class=\"heb\">שֵׁב תַּלְמִיד אַחֲרֵי־הַשֻּׁלְחָן׃</span>"]
+    ])}
   </details>
 </div>
 `;
@@ -2744,27 +2838,29 @@ const lesson28 = `
   <div class="callout info"><span class="ico">💡</span><span>Le <span class="heb">דָּגֵשׁ</span> et le <span class="heb">ִ</span> sont présents à toutes les personnes ; le <span class="heb">ֵ</span> n'apparaît qu'à la 3ᵉ pers. masc. sing. ; ailleurs, la vocalisation se fait avec un <span class="heb">ַ</span>. (Certains verbes se vocalisent d'un <span class="heb">ָ</span> au lieu d'un <span class="heb">ֵ</span>, comme <span class="heb">דִּבָּר</span> — on reconnaît toujours le Piel par le daguesh.)</span></div>
 </div>
 <div class="card">
-  <h3><span class="en en-heb">יִקְטֹל</span>Le Piel à l'inaccompli (Yiqtol)</h3>
+  <h3><span class="en en-heb">יְקַטֵּל</span>Le Piel à l'inaccompli (Yiqtol)</h3>
+  <div class="callout info"><span class="ico">🎨</span><span><span style="color:#c0392b;font-weight:700;">Rouge</span> = la préformante de personne ; <span style="color:#1a56db;font-weight:700;">bleu</span> = le daguesh du Piel sur la 2ᵉ radicale ; noir = le reste.</span></div>
   ${tableHTML("יִקְטֹל au פִּעֵל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">אֲקַטֵּל</span>","","1ˢ sg."],
-    ["<span class=\"heb\">תְּקַטְּלִי</span>","<span class=\"heb\">תְּקַטֵּל</span>","2ᵉ sg."],
-    ["<span class=\"heb\">תְּקַטֵּל</span>","<span class=\"heb\">יְקַטֵּל</span>","3ᵉ sg."],
-    ["<span class=\"heb\">נְקַטֵּל</span>","","1ʳᵉ pl."],
-    ["<span class=\"heb\">תְּקַטֵּלְנָה</span>","<span class=\"heb\">תְּקַטְּלוּ</span>","2ᵉ pl."],
-    ["<span class=\"heb\">תְּקַטֵּלְנָה</span>","<span class=\"heb\">יְקַטְּלוּ</span>","3ᵉ pl."]
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">אֲ</span>קַ<span style=\"color:#1a56db;\">טֵּ</span>ל</span>","","1ˢ sg."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תְּ</span>קַ<span style=\"color:#1a56db;\">טְּ</span>לִי</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">תְּ</span>קַ<span style=\"color:#1a56db;\">טֵּ</span>ל</span>","2ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תְּ</span>קַ<span style=\"color:#1a56db;\">טֵּ</span>ל</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">יְ</span>קַ<span style=\"color:#1a56db;\">טֵּ</span>ל</span>","3ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">נְ</span>קַ<span style=\"color:#1a56db;\">טֵּ</span>ל</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תְּ</span>קַ<span style=\"color:#1a56db;\">טֵּ</span>לְנָה</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">תְּ</span>קַ<span style=\"color:#1a56db;\">טְּ</span>לוּ</span>","2ᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תְּ</span>קַ<span style=\"color:#1a56db;\">טֵּ</span>לְנָה</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">יְ</span>קַ<span style=\"color:#1a56db;\">טְּ</span>לוּ</span>","3ᵉ pl."]
   ], [0,1])}
   <div class="callout info"><span class="ico">💡</span><span>Les préfixes sont tous vocalisés d'un <span class="heb">ְ</span>, sauf le <span class="heb">א</span> de la 1ʳᵉ pers. sing. qui prend un <span class="heb">ֲ</span>.</span></div>
 </div>
 <div class="card">
   <h3><span class="en en-heb">בֵּינוֹנִי</span>Participe, impératif, infinitif</h3>
+  <div class="callout info"><span class="ico">🎨</span><span><span style="color:#1a56db;font-weight:700;">Bleu</span> = préfixe <span class="heb">מְ</span> du participe + daguesh du Piel ; <span style="color:#c0392b;font-weight:700;">rouge</span> = la marque de genre/nombre ; noir = le reste.</span></div>
   ${tableHTML("Participe présent — בֵּינוֹנִי פוֹעֵל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">מְקַטֶּלֶת</span> ou <span class=\"heb\">מְקַטְּלָה</span>","<span class=\"heb\">מְקַטֵּל</span>","Sg. / יָחִיד"],
-    ["<span class=\"heb\">מְקַטְּלוֹת</span>","<span class=\"heb\">מְקַטְּלִים</span>","Pl. / רַבִּים"]
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">מְקַטֶּ</span><span style=\"color:#c0392b;\">לֶת</span></span> ou <span class=\"heb\"><span style=\"color:#1a56db;\">מְקַטְּ</span><span style=\"color:#c0392b;\">לָה</span></span>","<span class=\"heb\" style=\"color:#1a56db;\">מְקַטֵּל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">מְקַטְּ</span><span style=\"color:#c0392b;\">לוֹת</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">מְקַטְּ</span><span style=\"color:#c0392b;\">לִים</span></span>","Pl. / רַבִּים"]
   ], [0,1])}
   <div class="callout info"><span class="ico">💡</span><span>Le participe présent se reconnaît à la présence d'un <span class="heb">מְ</span>. Le féminin singulier a deux formes possibles.</span></div>
   ${tableHTML("Impératif — צִיווּי", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">קַטְּלִי</span>","<span class=\"heb\">קַטֵּל</span>","Sg. / יָחִיד"],
-    ["<span class=\"heb\">קַטֵּלְנָה</span>","<span class=\"heb\">קַטְּלוּ</span>","Pl. / רַבִּים"]
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">קַטְּ</span><span style=\"color:#c0392b;\">לִי</span></span>","<span class=\"heb\" style=\"color:#1a56db;\">קַטֵּל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">קַטֵּ</span><span style=\"color:#c0392b;\">לְנָה</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">קַטְּ</span><span style=\"color:#c0392b;\">לוּ</span></span>","Pl. / רַבִּים"]
   ], [0,1])}
   ${tableHTML("Infinitif — שֵׁם־הַפּוֹעַל", ["Forme","Type"], [
     ["<span class=\"heb\">קַטֵּל</span> (rare : <span class=\"heb\">קֹטֵל</span>)","Infinitif absolu — הַמָּקוֹר"],
@@ -2918,32 +3014,35 @@ const lesson29 = `
 </div>
 <div class="card">
   <h3><span class="en en-heb">קֻטַּל</span>Le Poual à l'accompli (Qatal)</h3>
+  <div class="callout info"><span class="ico">🎨</span><span>Code couleur : <span style="color:#1a56db;font-weight:700;">bleu</span> = la marque du binyan (le daguesh fort sur la 2ᵉ radicale, propre au Poual) ; <span style="color:#c0392b;font-weight:700;">rouge</span> = la terminaison personnelle ; noir = le reste de la racine.</span></div>
   ${tableHTML("קֻטַּל au פֻּעַל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">קֻטַּלְתִּי</span>","","1ˢ sg."],
-    ["<span class=\"heb\">קֻטַּלְתְּ</span>","<span class=\"heb\">קֻטַּלְתָּ</span>","2ᵉ sg."],
-    ["<span class=\"heb\">קֻטְּלָה</span>","<span class=\"heb\">קֻטַּל</span>","3ᵉ sg."],
-    ["<span class=\"heb\">קֻטַּלְנוּ</span>","","1ʳᵉ pl."],
-    ["<span class=\"heb\">קֻטַּלְתֶּן</span>","<span class=\"heb\">קֻטַּלְתֶּם</span>","2ᵉ pl."],
-    ["<span class=\"heb\">קֻטְּלוּ</span>","","3ᵉ pl."]
+    ["<span class=\"heb\">קֻ<span style=\"color:#1a56db;\">טַּ</span>לְ<span style=\"color:#c0392b;\">תִּי</span></span>","","1ˢ sg."],
+    ["<span class=\"heb\">קֻ<span style=\"color:#1a56db;\">טַּ</span>לְ<span style=\"color:#c0392b;\">תְּ</span></span>","<span class=\"heb\">קֻ<span style=\"color:#1a56db;\">טַּ</span>לְ<span style=\"color:#c0392b;\">תָּ</span></span>","2ᵉ sg."],
+    ["<span class=\"heb\">קֻ<span style=\"color:#1a56db;\">טְּ</span>ל<span style=\"color:#c0392b;\">ָה</span></span>","<span class=\"heb\" style=\"color:#1a56db;\">קֻטַּל</span>","3ᵉ sg."],
+    ["<span class=\"heb\">קֻ<span style=\"color:#1a56db;\">טַּ</span>לְ<span style=\"color:#c0392b;\">נוּ</span></span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\">קֻ<span style=\"color:#1a56db;\">טַּ</span>לְ<span style=\"color:#c0392b;\">תֶּן</span></span>","<span class=\"heb\">קֻ<span style=\"color:#1a56db;\">טַּ</span>לְ<span style=\"color:#c0392b;\">תֶּם</span></span>","2ᵉ pl."],
+    ["<span class=\"heb\">קֻ<span style=\"color:#1a56db;\">טְּ</span>ל<span style=\"color:#c0392b;\">וּ</span></span>","","3ᵉ pl."]
   ], [0,1])}
 </div>
 <div class="card">
   <h3><span class="en en-heb">יְקֻטַּל</span>Le Poual à l'inaccompli (Yiqtol)</h3>
+  <div class="callout info"><span class="ico">🎨</span><span><span style="color:#c0392b;font-weight:700;">Rouge</span> = la préformante ; <span style="color:#1a56db;font-weight:700;">bleu</span> = la marque du Poual (qamats ḥatouf + daguesh sur la 2ᵉ radicale) ; noir = le reste.</span></div>
   ${tableHTML("יְקֻטַּל au פֻּעַל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">אֲקֻטַּל</span>","","1ˢ sg."],
-    ["<span class=\"heb\">תְּקֻטְּלִי</span>","<span class=\"heb\">תְּקֻטַּל</span>","2ᵉ sg."],
-    ["<span class=\"heb\">תְּקֻטַּל</span>","<span class=\"heb\">יְקֻטַּל</span>","3ᵉ sg."],
-    ["<span class=\"heb\">נְקֻטַּל</span>","","1ʳᵉ pl."],
-    ["<span class=\"heb\">תְּקֻטַּלְנָה</span>","<span class=\"heb\">תְּקֻטְּלוּ</span>","2ᵉ pl."],
-    ["<span class=\"heb\">תְּקֻטַּלְנָה</span>","<span class=\"heb\">יְקֻטְּלוּ</span>","3ᵉ pl."]
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">אֲ</span><span style=\"color:#1a56db;\">קֻטַּ</span>ל</span>","","1ˢ sg."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תְּ</span><span style=\"color:#1a56db;\">קֻטְּ</span>לִי</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">תְּ</span><span style=\"color:#1a56db;\">קֻטַּ</span>ל</span>","2ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תְּ</span><span style=\"color:#1a56db;\">קֻטַּ</span>ל</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">יְ</span><span style=\"color:#1a56db;\">קֻטַּ</span>ל</span>","3ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">נְ</span><span style=\"color:#1a56db;\">קֻטַּ</span>ל</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תְּ</span><span style=\"color:#1a56db;\">קֻטַּ</span>לְנָה</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">תְּ</span><span style=\"color:#1a56db;\">קֻטְּ</span>לוּ</span>","2ᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תְּ</span><span style=\"color:#1a56db;\">קֻטַּ</span>לְנָה</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">יְ</span><span style=\"color:#1a56db;\">קֻטְּ</span>לוּ</span>","3ᵉ pl."]
   ], [0,1])}
   <div class="callout info"><span class="ico">💡</span><span>Les préfixes sont tous vocalisés d'un <span class="heb">ְ</span>, sauf le <span class="heb">א</span> de la 1ʳᵉ pers. sing. qui prend un <span class="heb">ֲ</span>, comme au Piel.</span></div>
 </div>
 <div class="card">
   <h3><span class="en en-heb">מְקֻטָּל</span>Participe et infinitif</h3>
+  <div class="callout info"><span class="ico">🎨</span><span><span style="color:#1a56db;font-weight:700;">Bleu</span> = préfixe <span class="heb">מְ</span> + marque du Poual ; <span style="color:#c0392b;font-weight:700;">rouge</span> = la marque de genre/nombre ; noir = le reste.</span></div>
   ${tableHTML("Participe présent — בֵּינוֹנִי פוֹעָל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">מְקֻטֶּלֶת</span> ou <span class=\"heb\">מְקֻטָּלָה</span>","<span class=\"heb\">מְקֻטָּל</span>","Sg. / יָחִיד"],
-    ["<span class=\"heb\">מְקֻטָּלוֹת</span>","<span class=\"heb\">מְקֻטָּלִים</span>","Pl. / רַבִּים"]
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">מְקֻטֶּ</span><span style=\"color:#c0392b;\">לֶת</span></span> ou <span class=\"heb\"><span style=\"color:#1a56db;\">מְקֻטָּ</span><span style=\"color:#c0392b;\">לָה</span></span>","<span class=\"heb\" style=\"color:#1a56db;\">מְקֻטָּל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">מְקֻטָּ</span><span style=\"color:#c0392b;\">לוֹת</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">מְקֻטָּ</span><span style=\"color:#c0392b;\">לִים</span></span>","Pl. / רַבִּים"]
   ], [0,1])}
   <div class="callout info"><span class="ico">💡</span><span>Comme au Piel, le participe présent est préfixé d'un <span class="heb">מְ</span> ; sa vocalisation est <span class="heb">מְ...ָּ</span>.</span></div>
   ${tableHTML(null, ["Forme","Type"], [
@@ -3011,34 +3110,36 @@ const lesson30 = `
 </div>
 <div class="card">
   <h3><span class="en en-heb">הִתְקַטַּל</span>Le Hitpaël à l'accompli (Qatal)</h3>
+  <div class="callout info"><span class="ico">🎨</span><span>Code couleur : <span style="color:#1a56db;font-weight:700;">bleu</span> = la marque du binyan (préfixe <span class="heb">הִתְ</span> + daguesh fort sur la 2ᵉ radicale) ; <span style="color:#c0392b;font-weight:700;">rouge</span> = la terminaison personnelle ; noir = le reste de la racine.</span></div>
   ${tableHTML("הִתְקַטַּל au הִתְפַּעֵל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">הִתְקַטַּלְתִּי</span>","","1ˢ sg."],
-    ["<span class=\"heb\">הִתְקַטַּלְתְּ</span>","<span class=\"heb\">הִתְקַטַּלְתָּ</span>","2ᵉ sg."],
-    ["<span class=\"heb\">הִתְקַטְּלָה</span>","<span class=\"heb\">הִתְקַטֵּל</span>","3ᵉ sg."],
-    ["<span class=\"heb\">הִתְקַטַּלְנוּ</span>","","1ʳᵉ pl."],
-    ["<span class=\"heb\">הִתְקַטַּלְתֶּן</span>","<span class=\"heb\">הִתְקַטַּלְתֶּם</span>","2ᵉ pl."],
-    ["<span class=\"heb\">הִתְקַטְּלוּ</span>","","3ᵉ pl."]
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הִתְ</span>קַ<span style=\"color:#1a56db;\">טַּ</span>לְ<span style=\"color:#c0392b;\">תִּי</span></span>","","1ˢ sg."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הִתְ</span>קַ<span style=\"color:#1a56db;\">טַּ</span>לְ<span style=\"color:#c0392b;\">תְּ</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">הִתְ</span>קַ<span style=\"color:#1a56db;\">טַּ</span>לְ<span style=\"color:#c0392b;\">תָּ</span></span>","2ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הִתְ</span>קַ<span style=\"color:#1a56db;\">טְּ</span>ל<span style=\"color:#c0392b;\">ָה</span></span>","<span class=\"heb\" style=\"color:#1a56db;\">הִתְקַטֵּל</span>","3ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הִתְ</span>קַ<span style=\"color:#1a56db;\">טַּ</span>לְ<span style=\"color:#c0392b;\">נוּ</span></span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הִתְ</span>קַ<span style=\"color:#1a56db;\">טַּ</span>לְ<span style=\"color:#c0392b;\">תֶּן</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">הִתְ</span>קַ<span style=\"color:#1a56db;\">טַּ</span>לְ<span style=\"color:#c0392b;\">תֶּם</span></span>","2ᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הִתְ</span>קַ<span style=\"color:#1a56db;\">טְּ</span>ל<span style=\"color:#c0392b;\">וּ</span></span>","","3ᵉ pl."]
   ], [0,1])}
   <div class="callout info"><span class="ico">💡</span><span>La vocalisation de la 2ᵉ lettre de la racine est <span class="heb">ַ</span>, sauf aux 3ᵉ pers. masc. sing. et plur. (<span class="heb">ֵ</span>). Le préfixe <span class="heb">הִתְ־</span> est constant.</span></div>
 </div>
 <div class="card">
   <h3><span class="en en-heb">יִתְקַטֵּל</span>Yiqtol, impératif, participe</h3>
+  <div class="callout info"><span class="ico">🎨</span><span><span style="color:#c0392b;font-weight:700;">Rouge</span> = la préformante ; <span style="color:#1a56db;font-weight:700;">bleu</span> = la marque du Hitpaël (תְ + daguesh sur la 2ᵉ radicale) ; noir = le reste.</span></div>
   ${tableHTML("יִתְקַטֵּל au הִתְפַּעֵל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">אֶתְקַטֵּל</span>","","1ˢ sg."],
-    ["<span class=\"heb\">תִּתְקַטְּלִי</span>","<span class=\"heb\">תִּתְקַטֵּל</span>","2ᵉ sg."],
-    ["<span class=\"heb\">תִּתְקַטֵּל</span>","<span class=\"heb\">יִתְקַטֵּל</span>","3ᵉ sg."],
-    ["<span class=\"heb\">נִתְקַטֵּל</span>","","1ʳᵉ pl."],
-    ["<span class=\"heb\">תִּתְקַטֵּלְנָה</span>","<span class=\"heb\">תִּתְקַטְּלוּ</span>","2ᵉ pl."],
-    ["<span class=\"heb\">תִּתְקַטֵּלְנָה</span>","<span class=\"heb\">יִתְקַטְּלוּ</span>","3ᵉ pl."]
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">אֶ</span><span style=\"color:#1a56db;\">תְ</span>קַ<span style=\"color:#1a56db;\">טֵּ</span>ל</span>","","1ˢ sg."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תִּ</span><span style=\"color:#1a56db;\">תְ</span>קַ<span style=\"color:#1a56db;\">טְּ</span>לִי</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">תִּ</span><span style=\"color:#1a56db;\">תְ</span>קַ<span style=\"color:#1a56db;\">טֵּ</span>ל</span>","2ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תִּ</span><span style=\"color:#1a56db;\">תְ</span>קַ<span style=\"color:#1a56db;\">טֵּ</span>ל</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">יִ</span><span style=\"color:#1a56db;\">תְ</span>קַ<span style=\"color:#1a56db;\">טֵּ</span>ל</span>","3ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">נִ</span><span style=\"color:#1a56db;\">תְ</span>קַ<span style=\"color:#1a56db;\">טֵּ</span>ל</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תִּ</span><span style=\"color:#1a56db;\">תְ</span>קַ<span style=\"color:#1a56db;\">טֵּ</span>לְנָה</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">תִּ</span><span style=\"color:#1a56db;\">תְ</span>קַ<span style=\"color:#1a56db;\">טְּ</span>לוּ</span>","2ᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תִּ</span><span style=\"color:#1a56db;\">תְ</span>קַ<span style=\"color:#1a56db;\">טֵּ</span>לְנָה</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">יִ</span><span style=\"color:#1a56db;\">תְ</span>קַ<span style=\"color:#1a56db;\">טְּ</span>לוּ</span>","3ᵉ pl."]
   ], [0,1])}
   <div class="callout info"><span class="ico">💡</span><span>Le <span class="heb">ה</span> du préfixe <span class="heb">הִתְ־</span> est remplacé par le préfixe du Yiqtol ; la vocalisation de la 2ᵉ lettre de la racine reste <span class="heb">ֵ</span>.</span></div>
   ${tableHTML("Impératif — צִיווּי", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">הִתְקַטְּלִי</span>","<span class=\"heb\">הִתְקַטֵּל</span>","Sg. / יָחִיד"],
-    ["<span class=\"heb\">הִתְקַטֵּלְנָה</span>","<span class=\"heb\">הִתְקַטְּלוּ</span>","Pl. / רַבִּים"]
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הִתְ</span>קַטְּ<span style=\"color:#c0392b;\">לִי</span></span>","<span class=\"heb\" style=\"color:#1a56db;\">הִתְקַטֵּל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הִתְ</span>קַטֵּ<span style=\"color:#c0392b;\">לְנָה</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">הִתְ</span>קַטְּ<span style=\"color:#c0392b;\">לוּ</span></span>","Pl. / רַבִּים"]
   ], [0,1])}
   ${tableHTML("Participe présent — בֵּינוֹנִי פּוֹעֵל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">מִתְקַטֶּלֶת</span> ou <span class=\"heb\">מִתְקַטְּלָה</span>","<span class=\"heb\">מִתְקַטֵּל</span>","Sg. / יָחִיד"],
-    ["<span class=\"heb\">מִתְקַטְּלוֹת</span>","<span class=\"heb\">מִתְקַטְּלִים</span>","Pl. / רַבִּים"]
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">מִתְקַטֶּ</span><span style=\"color:#c0392b;\">לֶת</span></span> ou <span class=\"heb\"><span style=\"color:#1a56db;\">מִתְקַטְּ</span><span style=\"color:#c0392b;\">לָה</span></span>","<span class=\"heb\" style=\"color:#1a56db;\">מִתְקַטֵּל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">מִתְקַטְּ</span><span style=\"color:#c0392b;\">לוֹת</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">מִתְקַטְּ</span><span style=\"color:#c0392b;\">לִים</span></span>","Pl. / רַבִּים"]
   ], [0,1])}
   <div class="callout info"><span class="ico">💡</span><span>À l'impératif, le <span class="heb">ה</span> du préfixe réapparaît (il ressemble alors à la 3ᵉ pers. masc. sing./plur. du Qatal). Au participe, le <span class="heb">ה</span> est remplacé par le <span class="heb">מ</span> qui marque le participe présent.</span></div>
   ${tableHTML(null, ["Forme","Type"], [
@@ -3190,35 +3291,37 @@ const lesson32 = `
 </div>
 <div class="card">
   <h3><span class="en en-heb">נִקְטַל</span>Le Nifal à l'accompli (Qatal)</h3>
+  <div class="callout info"><span class="ico">🎨</span><span>Code couleur : <span style="color:#1a56db;font-weight:700;">bleu</span> = la marque du binyan (ici, le préfixe <span class="heb">נ</span>, propre au Nifal) ; <span style="color:#c0392b;font-weight:700;">rouge</span> = la terminaison personnelle ; noir = le reste de la racine.</span></div>
   ${tableHTML("קָטַל au נִפְעַל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">נִקְטַלְתִּי</span>","","1ˢ sg."],
-    ["<span class=\"heb\">נִקְטַלְתְּ</span>","<span class=\"heb\">נִקְטַלְתָּ</span>","2ᵉ sg."],
-    ["<span class=\"heb\">נִקְטְלָה</span>","<span class=\"heb\">נִקְטַל</span>","3ᵉ sg."],
-    ["<span class=\"heb\">נִקְטַלְנוּ</span>","","1ʳᵉ pl."],
-    ["<span class=\"heb\">נִקְטַלְתֶּן</span>","<span class=\"heb\">נִקְטַלְתֶּם</span>","2ᵉ pl."],
-    ["<span class=\"heb\">נִקְטְלוּ</span>","","3ᵉ pl."]
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">נִ</span>קְטַלְ<span style=\"color:#c0392b;\">תִּי</span></span>","","1ˢ sg."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">נִ</span>קְטַלְ<span style=\"color:#c0392b;\">תְּ</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">נִ</span>קְטַלְ<span style=\"color:#c0392b;\">תָּ</span></span>","2ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">נִ</span>קְטְל<span style=\"color:#c0392b;\">ָה</span></span>","<span class=\"heb\" style=\"color:#1a56db;\">נִקְטַל</span>","3ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">נִ</span>קְטַלְ<span style=\"color:#c0392b;\">נוּ</span></span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">נִ</span>קְטַלְ<span style=\"color:#c0392b;\">תֶּן</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">נִ</span>קְטַלְ<span style=\"color:#c0392b;\">תֶּם</span></span>","2ᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">נִ</span>קְטְל<span style=\"color:#c0392b;\">וּ</span></span>","","3ᵉ pl."]
   ], [0,1])}
   <div class="callout info"><span class="ico">💡</span><span>Le <span class="heb">נ</span> en préfixe est présent à toutes les personnes.</span></div>
 </div>
 <div class="card">
   <h3><span class="en en-heb">יִקָּטֵל</span>Yiqtol, impératif, participe</h3>
+  <div class="callout info"><span class="ico">🎨</span><span><span style="color:#c0392b;font-weight:700;">Rouge</span> = la préformante ; <span style="color:#1a56db;font-weight:700;">bleu</span> = le daguesh (assimilation du נ, marque du Nifal) ; noir = le reste.</span></div>
   ${tableHTML("יִקָּטֵל au נִפְעַל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">אֶקָּטֵל</span> / <span class=\"heb\">אִקָּטֵל</span>","","1ˢ sg."],
-    ["<span class=\"heb\">תִּקָּטְלִי</span>","<span class=\"heb\">תִּקָּטֵל</span>","2ᵉ sg."],
-    ["<span class=\"heb\">תִּקָּטֵל</span>","<span class=\"heb\">יִקָּטֵל</span>","3ᵉ sg."],
-    ["<span class=\"heb\">נִקָּטֵל</span>","","1ʳᵉ pl."],
-    ["<span class=\"heb\">תִּקָּטַלְנָה</span>","<span class=\"heb\">תִּקָּטְלוּ</span>","2ᵉ pl."],
-    ["<span class=\"heb\">תִּקָּטַלְנָה</span>","<span class=\"heb\">יִקָּטְלוּ</span>","3ᵉ pl."]
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">אֶ</span><span style=\"color:#1a56db;\">קָּ</span>טֵל</span> / <span class=\"heb\"><span style=\"color:#c0392b;\">אִ</span><span style=\"color:#1a56db;\">קָּ</span>טֵל</span>","","1ˢ sg."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תִּ</span><span style=\"color:#1a56db;\">קָּ</span>טְלִי</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">תִּ</span><span style=\"color:#1a56db;\">קָּ</span>טֵל</span>","2ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תִּ</span><span style=\"color:#1a56db;\">קָּ</span>טֵל</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">יִ</span><span style=\"color:#1a56db;\">קָּ</span>טֵל</span>","3ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">נִ</span><span style=\"color:#1a56db;\">קָּ</span>טֵל</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תִּ</span><span style=\"color:#1a56db;\">קָּ</span>טַלְנָה</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">תִּ</span><span style=\"color:#1a56db;\">קָּ</span>טְלוּ</span>","2ᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תִּ</span><span style=\"color:#1a56db;\">קָּ</span>טַלְנָה</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">יִ</span><span style=\"color:#1a56db;\">קָּ</span>טְלוּ</span>","3ᵉ pl."]
   ], [0,1])}
   <div class="callout info"><span class="ico">💡</span><span>La vocalisation des préfixes est régulière, sauf à la 1ʳᵉ pers. sing. (<span class="heb">ֶ</span> ou <span class="heb">ִ</span>). Le <span class="heb">דָּגֵשׁ</span>, présent à toutes les personnes, témoigne de l'assimilation du <span class="heb">נ</span>. À la 2ᵉ et 3ᵉ pers. fém. plur., la 2ᵉ lettre de la racine prend un <span class="heb">ַ</span>.</span></div>
   ${tableHTML("Impératif — צִיווּי", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">הִקָּטְלִי</span>","<span class=\"heb\">הִקָּטֵל</span>","Sg. / יָחִיד"],
-    ["<span class=\"heb\">הִקָּטַלְנָה</span>","<span class=\"heb\">הִקָּטְלוּ</span>","Pl. / רַבִּים"]
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הִקָּ</span>טְ<span style=\"color:#c0392b;\">לִי</span></span>","<span class=\"heb\" style=\"color:#1a56db;\">הִקָּטֵל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הִקָּ</span>טַ<span style=\"color:#c0392b;\">לְנָה</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">הִקָּ</span>טְ<span style=\"color:#c0392b;\">לוּ</span></span>","Pl. / רַבִּים"]
   ], [0,1])}
   <div class="callout info"><span class="ico">💡</span><span>À l'impératif comme au Yiqtol, le <span class="heb">נ</span> est assimilé (<span class="heb">דָּגֵשׁ</span>) et un <span class="heb">ה</span> est ajouté en préfixe pour compenser l'absence de préfixe attendu.</span></div>
   ${tableHTML("Participe présent — בֵּינוֹנִי פּוֹעֵל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">נִקְטָלָה</span> / <span class=\"heb\">נִקְטֶלֶת</span>","<span class=\"heb\">נִקְטָל</span>","Sg. / יָחִיד"],
-    ["<span class=\"heb\">נִקְטָלוֹת</span>","<span class=\"heb\">נִקְטָלִים</span>","Pl. / רַבִּים"]
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">נִ</span>קְטָל<span style=\"color:#c0392b;\">ָה</span></span> / <span class=\"heb\"><span style=\"color:#1a56db;\">נִ</span>קְטֶ<span style=\"color:#c0392b;\">לֶת</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">נִ</span>קְטָל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">נִ</span>קְטָ<span style=\"color:#c0392b;\">לוֹת</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">נִ</span>קְטָ<span style=\"color:#c0392b;\">לִים</span></span>","Pl. / רַבִּים"]
   ], [0,1])}
   <div class="callout warn"><span class="ico">⚠️</span><span>Le masculin singulier du participe présent ressemble à la 3ᵉ pers. masc. sing. du Qatal — ne pas les confondre ! Le participe a un <span class="heb">ָ</span> sous la 2ᵉ lettre de la racine, le Qatal un <span class="heb">ַ</span>.</span></div>
   ${tableHTML(null, ["Forme","Type"], [
@@ -3296,35 +3399,37 @@ const lesson33 = `
 </div>
 <div class="card">
   <h3><span class="en en-heb">הִקְטִיל</span>Le Hifil à l'accompli (Qatal)</h3>
+  <div class="callout info"><span class="ico">🎨</span><span>Code couleur : <span style="color:#1a56db;font-weight:700;">bleu</span> = la marque du binyan (préfixe <span class="heb">הִ</span>, et le <span class="heb">י</span> du thème à la 3ᵉ personne) ; <span style="color:#c0392b;font-weight:700;">rouge</span> = la terminaison personnelle ; noir = le reste de la racine.</span></div>
   ${tableHTML("קָטַל au הִפְעִיל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">הִקְטַלְתִּי</span>","","1ˢ sg."],
-    ["<span class=\"heb\">הִקְטַלְתְּ</span>","<span class=\"heb\">הִקְטַלְתָּ</span>","2ᵉ sg."],
-    ["<span class=\"heb\">הִקְטִילָה</span>","<span class=\"heb\">הִקְטִיל</span>","3ᵉ sg."],
-    ["<span class=\"heb\">הִקְטַלְנוּ</span>","","1ʳᵉ pl."],
-    ["<span class=\"heb\">הִקְטַלְתֶּן</span>","<span class=\"heb\">הִקְטַלְתֶּם</span>","2ᵉ pl."],
-    ["<span class=\"heb\">הִקְטִילוּ</span>","","3ᵉ pl."]
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הִ</span>קְטַלְ<span style=\"color:#c0392b;\">תִּי</span></span>","","1ˢ sg."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הִ</span>קְטַלְ<span style=\"color:#c0392b;\">תְּ</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">הִ</span>קְטַלְ<span style=\"color:#c0392b;\">תָּ</span></span>","2ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הִ</span>קְטִ<span style=\"color:#1a56db;\">י</span>ל<span style=\"color:#c0392b;\">ָה</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">הִ</span>קְטִ<span style=\"color:#1a56db;\">י</span>ל</span>","3ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הִ</span>קְטַלְ<span style=\"color:#c0392b;\">נוּ</span></span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הִ</span>קְטַלְ<span style=\"color:#c0392b;\">תֶּן</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">הִ</span>קְטַלְ<span style=\"color:#c0392b;\">תֶּם</span></span>","2ᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הִ</span>קְטִ<span style=\"color:#1a56db;\">י</span>ל<span style=\"color:#c0392b;\">וּ</span></span>","","3ᵉ pl."]
   ], [0,1])}
   <div class="callout info"><span class="ico">💡</span><span>Le préfixe <span class="heb">הִ</span> est présent à toutes les personnes. La vocalisation <span class="heb">י ִ</span> n'apparaît qu'à la 3ᵉ pers. sing. et plur.</span></div>
 </div>
 <div class="card">
   <h3><span class="en en-heb">יַקְטִיל</span>Yiqtol, impératif, participe</h3>
+  <div class="callout info"><span class="ico">🎨</span><span><span style="color:#c0392b;font-weight:700;">Rouge</span> = la préformante ; <span style="color:#1a56db;font-weight:700;">bleu</span> = le <span class="heb">י</span> du thème (marque du Hifil, absent à la forme brève entre parenthèses) ; noir = le reste.</span></div>
   ${tableHTML("יַקְטִיל au הִפְעִיל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">אַקְטִיל</span>","","1ˢ sg."],
-    ["<span class=\"heb\">תַּקְטִילִי</span>","<span class=\"heb\">תַּקְטִיל</span> (<span class=\"heb\">תַּקְטֵל</span>)","2ᵉ sg."],
-    ["<span class=\"heb\">תַּקְטִיל</span> (<span class=\"heb\">תַּקְטֵל</span>)","<span class=\"heb\">יַקְטִיל</span> (<span class=\"heb\">יַקְטֵל</span>)","3ᵉ sg."],
-    ["<span class=\"heb\">נַקְטִיל</span>","","1ʳᵉ pl."],
-    ["<span class=\"heb\">תַּקְטֵלְנָה</span>","<span class=\"heb\">תַּקְטִילוּ</span>","2ᵉ pl."],
-    ["<span class=\"heb\">תַּקְטֵלְנָה</span>","<span class=\"heb\">יַקְטִילוּ</span>","3ᵉ pl."]
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">אַ</span>קְט<span style=\"color:#1a56db;\">י</span>ל</span>","","1ˢ sg."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תַּ</span>קְט<span style=\"color:#1a56db;\">י</span>לִי</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">תַּ</span>קְט<span style=\"color:#1a56db;\">י</span>ל</span> (<span class=\"heb\">תַּקְטֵל</span>)","2ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תַּ</span>קְט<span style=\"color:#1a56db;\">י</span>ל</span> (<span class=\"heb\">תַּקְטֵל</span>)","<span class=\"heb\"><span style=\"color:#c0392b;\">יַ</span>קְט<span style=\"color:#1a56db;\">י</span>ל</span> (<span class=\"heb\">יַקְטֵל</span>)","3ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">נַ</span>קְט<span style=\"color:#1a56db;\">י</span>ל</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תַּ</span>קְטֵלְנָה</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">תַּ</span>קְט<span style=\"color:#1a56db;\">י</span>לוּ</span>","2ᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תַּ</span>קְטֵלְנָה</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">יַ</span>קְט<span style=\"color:#1a56db;\">י</span>לוּ</span>","3ᵉ pl."]
   ], [0,1])}
   <div class="callout info"><span class="ico">💡</span><span>Le préfixe <span class="heb">הִ</span> est remplacé par les préfixes du Yiqtol, vocalisés d'un <span class="heb">ַ</span>. Les 2ᵉ et 3ᵉ pers. fém. plur. n'ont pas la vocalisation <span class="heb">י ִ</span> (remplacée par <span class="heb">ֵ</span> sous la 2ᵉ lettre). Aux 2ᵉ pers. masc. sing. et 3ᵉ pers. masc./fém. sing., il existe une forme brève (entre parenthèses), utilisée notamment au jussif et au <span class="heb">ו</span> conversif.</span></div>
   ${tableHTML("Impératif — צִיווּי", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">הַקְטִילִי</span>","<span class=\"heb\">הַקְטֵל</span>","Sg. / יָחִיד"],
-    ["<span class=\"heb\">הַקְטֵלְנָה</span>","<span class=\"heb\">הַקְטִילוּ</span>","Pl. / רַבִּים"]
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הַ</span>קְט<span style=\"color:#1a56db;\">י</span><span style=\"color:#c0392b;\">לִי</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">הַ</span>קְטֵל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הַ</span>קְטֵ<span style=\"color:#c0392b;\">לְנָה</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">הַ</span>קְט<span style=\"color:#1a56db;\">י</span><span style=\"color:#c0392b;\">לוּ</span></span>","Pl. / רַבִּים"]
   ], [0,1])}
   <div class="callout info"><span class="ico">💡</span><span>Le préfixe <span class="heb">ה</span> réapparaît, vocalisé d'un <span class="heb">ַ</span> ; le masculin singulier utilise la forme brève du verbe.</span></div>
   ${tableHTML("Participe présent — פּוֹעֵל בֵּינוֹנִי", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">מַקְטֶלֶת</span> / <span class=\"heb\">מַקְטִילָה</span>","<span class=\"heb\">מַקְטִיל</span>","Sg. / יָחִיד"],
-    ["<span class=\"heb\">מַקְטִילוֹת</span>","<span class=\"heb\">מַקְטִילִים</span>","Pl. / רַבִּים"]
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">מַ</span>קְטֶ<span style=\"color:#c0392b;\">לֶת</span></span> / <span class=\"heb\"><span style=\"color:#1a56db;\">מַ</span>קְט<span style=\"color:#1a56db;\">י</span>ל<span style=\"color:#c0392b;\">ָה</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">מַ</span>קְט<span style=\"color:#1a56db;\">י</span>ל</span>","Sg. / יָחִיד"],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">מַ</span>קְט<span style=\"color:#1a56db;\">י</span><span style=\"color:#c0392b;\">לוֹת</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">מַ</span>קְט<span style=\"color:#1a56db;\">י</span><span style=\"color:#c0392b;\">לִים</span></span>","Pl. / רַבִּים"]
   ], [0,1])}
   <div class="callout info"><span class="ico">💡</span><span>Le préfixe <span class="heb">מַ</span> remplace le <span class="heb">הַ</span>.</span></div>
   ${tableHTML(null, ["Forme","Type"], [
@@ -3383,25 +3488,27 @@ const lesson34 = `
 </div>
 <div class="card">
   <h3><span class="en en-heb">הָקְטַל</span>Le Hofal à l'accompli (Qatal)</h3>
+  <div class="callout info"><span class="ico">🎨</span><span>Code couleur : <span style="color:#1a56db;font-weight:700;">bleu</span> = la marque du binyan (préfixe <span class="heb">הָ</span>) ; <span style="color:#c0392b;font-weight:700;">rouge</span> = la terminaison personnelle ; noir = le reste de la racine.</span></div>
   ${tableHTML("קָטַל au הָפְעַל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">הָקְטַלְתִּי</span>","","1ˢ sg."],
-    ["<span class=\"heb\">הָקְטַלְתְּ</span>","<span class=\"heb\">הָקְטַלְתָּ</span>","2ᵉ sg."],
-    ["<span class=\"heb\">הָקְטְלָה</span>","<span class=\"heb\">הָקְטַל</span>","3ᵉ sg."],
-    ["<span class=\"heb\">הָקְטַלְנוּ</span>","","1ʳᵉ pl."],
-    ["<span class=\"heb\">הָקְטַלְתֶּן</span>","<span class=\"heb\">הָקְטַלְתֶּם</span>","2ᵉ pl."],
-    ["<span class=\"heb\">הָקְטְלוּ</span>","","3ᵉ pl."]
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הָ</span>קְטַלְ<span style=\"color:#c0392b;\">תִּי</span></span>","","1ˢ sg."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הָ</span>קְטַלְ<span style=\"color:#c0392b;\">תְּ</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">הָ</span>קְטַלְ<span style=\"color:#c0392b;\">תָּ</span></span>","2ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הָ</span>קְטְל<span style=\"color:#c0392b;\">ָה</span></span>","<span class=\"heb\" style=\"color:#1a56db;\">הָקְטַל</span>","3ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הָ</span>קְטַלְ<span style=\"color:#c0392b;\">נוּ</span></span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הָ</span>קְטַלְ<span style=\"color:#c0392b;\">תֶּן</span></span>","<span class=\"heb\"><span style=\"color:#1a56db;\">הָ</span>קְטַלְ<span style=\"color:#c0392b;\">תֶּם</span></span>","2ᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#1a56db;\">הָ</span>קְטְל<span style=\"color:#c0392b;\">וּ</span></span>","","3ᵉ pl."]
   ], [0,1])}
   <div class="callout info"><span class="ico">💡</span><span>Le préfixe <span class="heb">הָ</span> est présent à toutes les formes. La vocalisation ressemble à celle du Hifil ; seuls le préfixe et les 3ᵉ pers. sing./plur. changent.</span></div>
 </div>
 <div class="card">
   <h3><span class="en en-heb">יָקְטַל</span>Yiqtol, participe, infinitif</h3>
+  <div class="callout info"><span class="ico">🎨</span><span><span style="color:#c0392b;font-weight:700;">Rouge</span> = la préformante — c'est ici sa <b>voyelle</b> (qamats qatan <span class="heb">ָ</span>, au lieu du patah du Hifil) qui signale le Hofal, et non une lettre supplémentaire ; noir = le reste.</span></div>
   ${tableHTML("יָקְטַל au הָפְעַל", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
-    ["<span class=\"heb\">אָקְטַל</span>","","1ˢ sg."],
-    ["<span class=\"heb\">תָּקְטְלִי</span>","<span class=\"heb\">תָּקְטַל</span>","2ᵉ sg."],
-    ["<span class=\"heb\">תָּקְטַל</span>","<span class=\"heb\">יָקְטַל</span>","3ᵉ sg."],
-    ["<span class=\"heb\">נָקְטַל</span>","","1ʳᵉ pl."],
-    ["<span class=\"heb\">תָּקְטַלְנָה</span>","<span class=\"heb\">תָּקְטְלוּ</span>","2ᵉ pl."],
-    ["<span class=\"heb\">תָּקְטַלְנָה</span>","<span class=\"heb\">יָקְטְלוּ</span>","3ᵉ pl."]
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">אָ</span>קְטַל</span>","","1ˢ sg."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תָּ</span>קְטְלִי</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">תָּ</span>קְטַל</span>","2ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תָּ</span>קְטַל</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">יָ</span>קְטַל</span>","3ᵉ sg."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">נָ</span>קְטַל</span>","","1ʳᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תָּ</span>קְטַלְנָה</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">תָּ</span>קְטְלוּ</span>","2ᵉ pl."],
+    ["<span class=\"heb\"><span style=\"color:#c0392b;\">תָּ</span>קְטַלְנָה</span>","<span class=\"heb\"><span style=\"color:#c0392b;\">יָ</span>קְטְלוּ</span>","3ᵉ pl."]
   ], [0,1])}
   <div class="callout info"><span class="ico">💡</span><span>Le préfixe <span class="heb">הָ</span> est remplacé par les préfixes du Yiqtol, tout en gardant la vocalisation <span class="heb">ָ</span> (qamats qatan) ; elle reste constante. La vocalisation constante du <span class="heb">הָ</span>/préfixe et le <span class="heb">ְ</span> sous la 2ᵉ lettre de la racine permettent de distinguer le Hofal du Hifil.</span></div>
   ${tableHTML("Participe présent — פּוֹעֵל בֵּינוֹנִי", ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
@@ -7449,11 +7556,77 @@ function viewCours(){
   ${gnLegendHTML()}
   ${LESSONS[n-1]}
   ${notesHTML}
+  ${vocabMatchCardHTML(n)}
   <div class="lesson-nav">
     <button class="navbtn" ${n<=1?'disabled':''} onclick="go('cours',{lesson:${n-1}})">← Cours précédent</button>
     <button class="navbtn" ${n>=LESSON_TITLES.length||!isLessonUnlocked(n+1)?'disabled':''} onclick="go('cours',{lesson:${n+1}})">Cours suivant →</button>
   </div>`;
 }
+/* ---- Exercice "Relier" le vocabulaire du cours (hébreu ⇄ français) ---- */
+let MATCHGAME = {};
+function vocabMatchCardHTML(n){
+  const words = VOCAB.filter(v=>v.c===n);
+  if(words.length < 3) return '';
+  if(!MATCHGAME[n] || MATCHGAME[n].total !== words.length){
+    const picked = shuffle(words).slice(0, Math.min(8, words.length));
+    MATCHGAME[n] = {
+      total: words.length,
+      pairs: picked.map((v,i)=>({id:i, heb:v.heb, fr:v.fr})),
+      leftOrder: shuffle(picked.map((v,i)=>i)),
+      rightOrder: shuffle(picked.map((v,i)=>i)),
+      selLeft:null, selRight:null, matched:{}, wrongFlash:null
+    };
+  }
+  const g = MATCHGAME[n];
+  const done = Object.keys(g.matched).length === g.pairs.length;
+  const leftHTML = g.leftOrder.map(id=>{
+    const p = g.pairs[id];
+    const isMatched = g.matched[id];
+    const isSel = g.selLeft===id;
+    const isWrong = g.wrongFlash && g.wrongFlash.side==='left' && g.wrongFlash.id===id;
+    return `<button class="matchbtn ${isMatched?'matched':''} ${isSel?'selected':''} ${isWrong?'wrong':''}" ${isMatched?'disabled':''} onclick="pickMatch(${n},'left',${id})">${esc(p.fr)}</button>`;
+  }).join('');
+  const rightHTML = g.rightOrder.map(id=>{
+    const p = g.pairs[id];
+    const isMatched = g.matched[id];
+    const isSel = g.selRight===id;
+    const isWrong = g.wrongFlash && g.wrongFlash.side==='right' && g.wrongFlash.id===id;
+    return `<button class="matchbtn heb ${isMatched?'matched':''} ${isSel?'selected':''} ${isWrong?'wrong':''}" ${isMatched?'disabled':''} onclick="pickMatch(${n},'right',${id})">${esc(p.heb)}</button>`;
+  }).join('');
+  return `<div class="card">
+    <h3><span class="en">Vocabulaire</span>Relier les mots</h3>
+    <p class="ui" style="font-size:13px;color:var(--text-soft);">Cliquez un mot français, puis son équivalent en hébreu (ou l'inverse).</p>
+    <div class="matchgrid">
+      <div class="matchcol">${leftHTML}</div>
+      <div class="matchcol">${rightHTML}</div>
+    </div>
+    ${done?`<div class="callout info" style="margin-top:12px;"><span class="ico">🎉</span><span>Toutes les paires trouvées !</span></div>`:''}
+  </div>`;
+}
+function pickMatch(n, side, id){
+  const g = MATCHGAME[n];
+  if(!g || g.matched[id]) return;
+  g.wrongFlash = null;
+  if(side==='left') g.selLeft = (g.selLeft===id ? null : id);
+  else g.selRight = (g.selRight===id ? null : id);
+  if(g.selLeft!==null && g.selRight!==null){
+    if(g.selLeft === g.selRight){
+      g.matched[g.selLeft] = true;
+      g.selLeft = null; g.selRight = null;
+      render();
+    }else{
+      g.wrongFlash = {side:'left', id:g.selLeft};
+      const badLeft = g.selLeft, badRight = g.selRight;
+      render();
+      setTimeout(()=>{
+        if(MATCHGAME[n]===g){ g.selLeft=null; g.selRight=null; g.wrongFlash=null; render(); }
+      }, 700);
+    }
+  }else{
+    render();
+  }
+}
+
 
 /* ---- Fiche de révision (extraction automatique très synthétique) ---- */
 function viewRevisionSheet(){
@@ -7752,6 +7925,625 @@ function nextTypedQuestion(){
 }
 
 /* ---- Page Exercices (menu) ---- */
+/* ---- Jeux de dialogue : conversation à choix + se présenter ---- */
+const DIALOGUES = [
+  {
+    id: 'eliyahu-elisha',
+    title: "אֵלִיָּ֫הוּ וֶאֱלִישָׁע — Élie et Élisée",
+    theme: "Premiers mots : אנכי/אתה, מה, ה-, שם, נביא/מורה/תלמיד (cours 1-3)",
+    block: {start:1, end:3},
+    intro: "D'après 1 Rois 19,15-21 : le prophète Élie (אֵלִיָּהוּ) rencontre celui qui deviendra son disciple, Élisée (אֱלִישָׁע). Vous jouez le rôle d'Élisée.",
+    needsPersona: false,
+    turns: [
+      { npc: "אַתָּה מַה שִּׁמְךָ",
+        gloss: [["אַתָּה","toi (homme)"],["מַה","quoi, quel"],["שִּׁמְךָ","ton nom"]],
+        options: {
+          m:[{t:"אֱלִישָׁע שְׁמִי וּמַה שִּׁמְךָ",c:true},{t:"אֱלִישָׁע שְׁמֵךְ"},{t:"אַתָּה אֱלִישָׁע"},{t:"שְׁמִי מַה"},{t:"אֱלִישָׁע שְׁמוֹ"},{t:"אֲנַחְנוּ אֱלִישָׁע"}],
+          f:[{t:"אֱלִישָׁע שְׁמִי וּמַה שִּׁמְךָ",c:true},{t:"אֱלִישָׁע שְׁמֵךְ"},{t:"אַתָּה אֱלִישָׁע"},{t:"שְׁמִי מַה"},{t:"אֱלִישָׁע שְׁמוֹ"},{t:"אֲנַחְנוּ אֱלִישָׁע"}]
+        },
+        fr:"« Toi, quel est ton nom ? »" },
+      { npc: "אֵלִיָּ֫הוּ שְׁמִי׃ הֲשָׁלוֹם לְךָ",
+        gloss: [["שְׁמִי","mon nom"],["הֲ־","est-ce que… ?"],["שָׁלוֹם לְךָ","« paix à toi » = vas-tu bien ?"]],
+        options: {
+          m:[{t:"שָׁלוֹם",c:true},{t:"לֹא"},{t:"אֵלִיָּהוּ"},{t:"אֱלִישָׁע שְׁמִי"},{t:"מוֹרֶה אָנֹכִי"},{t:"תַּלְמִיד אַתָּה"}],
+          f:[{t:"שָׁלוֹם",c:true},{t:"לֹא"},{t:"אֵלִיָּהוּ"},{t:"אֱלִישָׁע שְׁמִי"},{t:"מוֹרֶה אָנֹכִי"},{t:"תַּלְמִיד אַתָּה"}]
+        },
+        fr:"« Mon nom est Élie. Vas-tu bien ? »" },
+      { npc: "אָנֹכִי נָבִיא וּמוֹרֶה וְאַתָּה תַלְמִיד",
+        gloss: [["נָבִיא","prophète"],["מוֹרֶה","maître, enseignant"],["תַלְמִיד","élève, disciple"]],
+        options: {
+          m:[{t:"לֹא תַלְמִיד אָנֹכִי",c:true},{t:"כֵּן, תַּלְמִיד אָנֹכִי"},{t:"מוֹרֶה אָנֹכִי גַּם"},{t:"נָבִיא אַתָּה"},{t:"לֹא מוֹרֶה אָנֹכִי"},{t:"תַּלְמִידָה אָנֹכִי"}],
+          f:[{t:"לֹא תַלְמִיד אָנֹכִי",c:true},{t:"כֵּן, תַּלְמִיד אָנֹכִי"},{t:"מוֹרֶה אָנֹכִי גַּם"},{t:"נָבִיא אַתָּה"},{t:"לֹא מוֹרֶה אָנֹכִי"},{t:"תַּלְמִידָה אָנֹכִי"}]
+        },
+        fr:"« Je suis prophète et maître, et toi tu es disciple » — Élisée proteste, refusant d'abord ce rôle." }
+    ],
+    outro: "אֱלִישָׁע תַּלְמִיד אַתָּה וְנָבִיא׃ (« Élisée, tu es disciple, et [tu seras] prophète ! » — Élie a le dernier mot.)"
+  },
+  {
+    id: 'ville',
+    title: "הָעִיר וְהַבַּיִת — La ville et la maison",
+    theme: "Article, accord de l'adjectif (cours 4-6)",
+    block: {start:4, end:6},
+    intro: "Un habitant vous décrit sa ville. Choisissez l'adjectif correctement accordé.",
+    needsPersona: false,
+    turns: [
+      { npc: "הַבַּיִת — גָּדוֹל אוֹ קָטֹן",
+        options: {
+          m:[{t:"הַבַּיִת הַגָּדוֹל",c:true},{t:"הַבַּיִת הַגְּדוֹלָה"},{t:"הַבַּיִת גְּדוֹלִים"},{t:"הַבַּיִת הַקְּטַנָּה"},{t:"בַּיִת גָּדוֹל הַזֶּה"},{t:"הַבָּתִּים הַגָּדוֹל"}],
+          f:[{t:"הַבַּיִת הַגָּדוֹל",c:true},{t:"הַבַּיִת הַגְּדוֹלָה"},{t:"הַבַּיִת גְּדוֹלִים"},{t:"הַבַּיִת הַקְּטַנָּה"},{t:"בַּיִת גָּדוֹל הַזֶּה"},{t:"הַבָּתִּים הַגָּדוֹל"}]
+        },
+        fr:"« La maison — grande ou petite ? » (בַּיִת est masculin)" },
+      { npc: "וְהָעִיר — גְּדוֹלָה אוֹ קְטַנָּה",
+        options: {
+          m:[{t:"הָעִיר הַגְּדוֹלָה",c:true},{t:"הָעִיר הַגָּדוֹל"},{t:"הָעִיר גְּדוֹלִים"},{t:"הָעִיר הַקָּטֹן"},{t:"עִיר גְּדוֹלָה הַזֹּאת"},{t:"הֶעָרִים הַגְּדוֹלָה"}],
+          f:[{t:"הָעִיר הַגְּדוֹלָה",c:true},{t:"הָעִיר הַגָּדוֹל"},{t:"הָעִיר גְּדוֹלִים"},{t:"הָעִיר הַקָּטֹן"},{t:"עִיר גְּדוֹלָה הַזֹּאת"},{t:"הֶעָרִים הַגְּדוֹלָה"}]
+        },
+        fr:"« Et la ville — grande ou petite ? » (עִיר est féminin)" },
+      { npc: "הַמֶּלֶךְ הַטּוֹב יֹשֵׁב פֹּה — הָעָם רַע אוֹ טוֹב",
+        options: {
+          m:[{t:"הָעָם הַטּוֹב",c:true},{t:"הָעָם הַטּוֹבָה"},{t:"הָעָם טוֹבִים"},{t:"הָעָם הָרָעָה"},{t:"עָם רַע הַזֶּה"},{t:"הָעַמִּים הַטּוֹב"}],
+          f:[{t:"הָעָם הַטּוֹב",c:true},{t:"הָעָם הַטּוֹבָה"},{t:"הָעָם טוֹבִים"},{t:"הָעָם הָרָעָה"},{t:"עָם רַע הַזֶּה"},{t:"הָעַמִּים הַטּוֹב"}]
+        },
+        fr:"« Le bon roi habite ici — le peuple est-il mauvais ou bon ? » (עָם est masculin)" }
+    ],
+    outro: "טוֹב מְאֹד — עַתָּה אַתָּה יוֹדֵעַ אֶת־הָעִיר הַזֹּאת׃ (« Très bien — maintenant tu connais cette ville. »)"
+  },
+  {
+    id: 'derekh',
+    title: "בַּדֶּרֶךְ — Sur le chemin",
+    theme: "Prépositions, coordination ו, pronoms (cours 7-9)",
+    block: {start:7, end:9},
+    intro: "Vous croisez un voyageur sur la route entre deux villes.",
+    needsPersona: true,
+    turns: [
+      { npc: "אַתָּה הֹלֵךְ אֶל־הָעִיר אוֹ מִן־הָעִיר", npc_f:"אַתְּ הֹלֶכֶת אֶל־הָעִיר אוֹ מִן־הָעִיר",
+        options: {
+          m:[{t:"הֹלֵךְ אָנֹכִי אֶל־הָעִיר",c:true},{t:"הֹלֶכֶת אָנֹכִי אֶל־הָעִיר"},{t:"הֹלְכִים אָנֹכִי"},{t:"אֶל־הָעִיר אַתָּה הֹלֵךְ"},{t:"מִן־הָעִיר הִיא הֹלֶכֶת"},{t:"הֹלֵךְ הוּא אֶל־הָעִיר"}],
+          f:[{t:"הֹלֶכֶת אָנֹכִי אֶל־הָעִיר",c:true},{t:"הֹלֵךְ אָנֹכִי אֶל־הָעִיר"},{t:"הֹלְכוֹת אָנֹכִי"},{t:"אֶל־הָעִיר אַתְּ הֹלֶכֶת"},{t:"מִן־הָעִיר הוּא הֹלֵךְ"},{t:"הֹלֶכֶת הִיא אֶל־הָעִיר"}]
+        },
+        fr:"« Vas-tu vers la ville ou depuis la ville ? »" },
+      { npc: "עִם־מִי אַתָּה", npc_f:"עִם־מִי אַתְּ",
+        options: {
+          m:[{t:"עִם־אָחִי וְעִם־אָבִי אָנֹכִי",c:true},{t:"עִם־אָחוֹתִי אָנֹכִי הִיא"},{t:"אָחִי עִמִּי הֵם"},{t:"אֲנִי עִם־אָחִי אַתָּה"},{t:"עִם־אָבִי הֵנָּה"},{t:"אָבִי וְאִמִּי אַתֶּם"}],
+          f:[{t:"עִם־אָחִי וְעִם־אָבִי אָנֹכִי",c:true},{t:"עִם־אָחוֹתִי אָנֹכִי הוּא"},{t:"אָחִי עִמִּי הֵם"},{t:"אֲנִי עִם־אָחִי אַתְּ"},{t:"עִם־אָבִי הֵנָּה"},{t:"אָבִי וְאִמִּי אַתֶּן"}]
+        },
+        fr:"« Avec qui es-tu ? »" },
+      { npc: "הַדֶּרֶךְ הַזֹּאת — הִיא טוֹבָה אוֹ רָעָה",
+        options: {
+          m:[{t:"טוֹבָה הַדֶּרֶךְ מְאֹד",c:true},{t:"טוֹב הַדֶּרֶךְ מְאֹד"},{t:"טוֹבִים הַדֶּרֶךְ"},{t:"רַע הַדֶּרֶךְ הַזֶּה"},{t:"טוֹבָה הוּא מְאֹד"},{t:"הַדְּרָכִים טוֹבָה"}],
+          f:[{t:"טוֹבָה הַדֶּרֶךְ מְאֹד",c:true},{t:"טוֹב הַדֶּרֶךְ מְאֹד"},{t:"טוֹבִים הַדֶּרֶךְ"},{t:"רַע הַדֶּרֶךְ הַזֶּה"},{t:"טוֹבָה הוּא מְאֹד"},{t:"הַדְּרָכִים טוֹבָה"}]
+        },
+        fr:"« Le chemin est long — est-il bon ou mauvais ? » (דֶּרֶךְ est féminin)" }
+    ],
+    outro: "שְׁבָה עִמָּנוּ וְנוּחַ מְעַט׃ (« Assieds-toi avec nous et repose-toi un peu. »)"
+  },
+  {
+    id: 'marche',
+    title: "בַּשּׁוּק — Au marché",
+    theme: "Pronoms, copule, Qatal, participe (cours 13-15)",
+    block: {start:13, end:15},
+    intro: "Vous êtes un(e) voyageur(euse) qui arrive au marché d'une ville. Un marchand vous interpelle.",
+    needsPersona: true,
+    turns: [
+      { npc: "מִי אַתָּה", npc_f:"מִי אַתְּ",
+        options: {
+          m:[{t:"אִישׁ אָנֹכִי, עֶבֶד אֵינֶנִּי",c:true},{t:"אִשָּׁה אָנֹכִי"},{t:"אִישׁ אַתָּה"},{t:"אֲנַחְנוּ אֲנָשִׁים"},{t:"הִיא אִשָּׁה"},{t:"אַתֶּם אֲנָשִׁים"}],
+          f:[{t:"אִשָּׁה אָנֹכִי, שִׁפְחָה אֵינֶנִּי",c:true},{t:"אִישׁ אָנֹכִי"},{t:"אַתְּ אִשָּׁה"},{t:"אֲנַחְנוּ נָשִׁים"},{t:"הוּא אִישׁ"},{t:"אַתֶּן נָשִׁים"}]
+        },
+        fr:"« Qui es-tu ? »" },
+      { npc: "מֵאַיִן אַתָּה", npc_f:"מֵאַיִן אַתְּ",
+        options: {
+          m:[{t:"מִירוּשָׁלַםִ אָנֹכִי בָּא",c:true},{t:"אֶל־יְרוּשָׁלַםִ אָנֹכִי הֹלֵךְ"},{t:"יְרוּשָׁלַםִ אָנֹכִי"},{t:"מִירוּשָׁלַםִ אַתָּה בָּא"},{t:"בִּירוּשָׁלַםִ אָנֹכִי יֹשְׁבִים"},{t:"מִירוּשָׁלַםִ הֵם בָּאִים"}],
+          f:[{t:"מִירוּשָׁלַםִ אָנֹכִי בָּאָה",c:true},{t:"אֶל־יְרוּשָׁלַםִ אָנֹכִי הֹלֶכֶת"},{t:"יְרוּשָׁלַםִ אָנֹכִי"},{t:"מִירוּשָׁלַםִ אַתְּ בָּאָה"},{t:"בִּירוּשָׁלַםִ אָנֹכִי יֹשְׁבוֹת"},{t:"מִירוּשָׁלַםִ הֵן בָּאוֹת"}]
+        },
+        fr:"« D'où viens-tu ? »" },
+      { npc: "מָה אַתָּה שֹׁאֵל פֹּה", npc_f:"מָה אַתְּ שֹׁאֶלֶת פֹּה",
+        options: {
+          m:[{t:"שֹׁאֵל אָנֹכִי לֶחֶם וָיַיִן",c:true},{t:"שֹׁאֶלֶת אָנֹכִי לֶחֶם"},{t:"שָׁאַלְתִּי לֶחֶם אֶתְמוֹל"},{t:"אֶשְׁאַל לְלֶחֶם"},{t:"שֹׁאֲלִים אֲנַחְנוּ לֶחֶם"},{t:"תִּשְׁאַל לֶחֶם"}],
+          f:[{t:"שֹׁאֶלֶת אָנֹכִי לֶחֶם וָיַיִן",c:true},{t:"שֹׁאֵל אָנֹכִי לֶחֶם"},{t:"שָׁאַלְתִּי לֶחֶם אֶתְמוֹל"},{t:"אֶשְׁאַל לְלֶחֶם"},{t:"שֹׁאֲלוֹת אֲנַחְנוּ לֶחֶם"},{t:"תִּשְׁאֲלִי לֶחֶם"}]
+        },
+        fr:"« Que demandes-tu ici ? »" }
+    ],
+    outro: "הִנֵּה הַלֶּחֶם וְהַיַּיִן — שָׁלוֹם לָךְ׃ (« Voici le pain et le vin — paix à toi ! »)"
+  },
+  {
+    id: 'presentation',
+    title: "הִתְוַדְּעוּת — Se présenter",
+    theme: "Pronoms, copule, adjectifs, שֵׁם (cours 16-18)",
+    block: {start:16, end:18},
+    intro: "On vous demande de vous présenter. Choisissez, à chaque question, la seule phrase à la fois vraie ET grammaticalement correcte pour votre genre.",
+    needsPersona: true,
+    turns: [
+      { npc: "מַה שְּׁמֶךָ", npc_f:"מַה שְּׁמֵךְ",
+        options: {
+          m:[{t:"שְׁמִי דָּוִד",c:true},{t:"שְׁמָהּ דָּוִד"},{t:"שְׁמִי דָּוִד הִיא"},{t:"אֲנִי שֵׁם דָּוִד"},{t:"שְׁמֵנוּ דָּוִד"},{t:"דָּוִד שְׁמָם"}],
+          f:[{t:"שְׁמִי רִבְקָה",c:true},{t:"שְׁמוֹ רִבְקָה"},{t:"שְׁמִי רִבְקָה הוּא"},{t:"אֲנִי שֵׁם רִבְקָה"},{t:"שְׁמֵנוּ רִבְקָה"},{t:"רִבְקָה שְׁמָן"}]
+        },
+        fr:"« Quel est ton nom ? »" },
+      { npc: "הַאִישׁ אַתָּה אוֹ נַעַר", npc_f:"הַאִשָּׁה אַתְּ אוֹ נַעֲרָה",
+        options: {
+          m:[{t:"אִישׁ אָנֹכִי",c:true},{t:"אִשָּׁה אָנֹכִי"},{t:"נַעֲרָה אָנֹכִי"},{t:"אֲנַחְנוּ אֲנָשִׁים"},{t:"הוּא אִישׁ"},{t:"אִישׁ אַתָּה"}],
+          f:[{t:"אִשָּׁה אָנֹכִי",c:true},{t:"אִישׁ אָנֹכִי"},{t:"נַעַר אָנֹכִי"},{t:"אֲנַחְנוּ נָשִׁים"},{t:"הִיא אִשָּׁה"},{t:"אִשָּׁה אַתְּ"}]
+        },
+        fr:"« Es-tu un homme ou un garçon ? / une femme ou une jeune fille ? »" },
+      { npc: "הֶחָכָם אַתָּה", npc_f:"הַחֲכָמָה אַתְּ",
+        options: {
+          m:[{t:"חָכָם אָנֹכִי מְעַט",c:true},{t:"חֲכָמָה אָנֹכִי"},{t:"חֲכָמִים אָנֹכִי"},{t:"אַתָּה חָכָם"},{t:"חָכָם הוּא"},{t:"נַחְנוּ חֲכָמִים"}],
+          f:[{t:"חֲכָמָה אָנֹכִי מְעַט",c:true},{t:"חָכָם אָנֹכִי"},{t:"חֲכָמוֹת אָנֹכִי"},{t:"אַתְּ חֲכָמָה"},{t:"חֲכָמָה הִיא"},{t:"נַחְנוּ חֲכָמוֹת"}]
+        },
+        fr:"« Es-tu sage ? »" }
+    ],
+    outro: "טוֹב מְאֹד — שָׁלוֹם עָלֶיךָ׃ (« Très bien — la paix soit sur toi ! »)"
+  },
+  {
+    id: 'mahaneh',
+    title: "בַּמַּחֲנֶה — Au campement",
+    theme: "Vocabulaire cours 19-21 (רָעֵב, גִּבּוֹר, קוּם, יָרַד)",
+    block: {start:19, end:21},
+    intro: "Vous arrivez épuisé(e) à un campement de voyageurs.",
+    needsPersona: true,
+    turns: [
+      { npc: "הֲרָעֵב אַתָּה", npc_f:"הֲרְעֵבָה אַתְּ",
+        options: {
+          m:[{t:"כֵּן, רָעֵב אָנֹכִי מְאֹד",c:true},{t:"כֵּן, רְעֵבָה אָנֹכִי"},{t:"כֵּן, רְעֵבִים אָנֹכִי"},{t:"לֹא, רְעֵבָה אָנֹכִי"},{t:"רָעֵב אַתָּה מְאֹד"},{t:"רָעֵב הִיא"}],
+          f:[{t:"כֵּן, רְעֵבָה אָנֹכִי מְאֹד",c:true},{t:"כֵּן, רָעֵב אָנֹכִי"},{t:"כֵּן, רְעֵבוֹת אָנֹכִי"},{t:"לֹא, רָעֵב אָנֹכִי"},{t:"רְעֵבָה אַתְּ מְאֹד"},{t:"רְעֵבָה הוּא"}]
+        },
+        fr:"« As-tu faim ? »" },
+      { npc: "הֲגִבּוֹר אַתָּה בַּמִּלְחָמָה", npc_f:"הֲגִבּוֹרָה אַתְּ בַּמִּלְחָמָה",
+        options: {
+          m:[{t:"כֵּן, גִּבּוֹר אָנֹכִי",c:true},{t:"כֵּן, גִּבּוֹרָה אָנֹכִי"},{t:"כֵּן, גִּבּוֹרִים אָנֹכִי"},{t:"לֹא, גִּבּוֹרָה אָנֹכִי"},{t:"גִּבּוֹר אַתָּה"},{t:"גִּבּוֹר הִיא"}],
+          f:[{t:"כֵּן, גִּבּוֹרָה אָנֹכִי",c:true},{t:"כֵּן, גִּבּוֹר אָנֹכִי"},{t:"כֵּן, גִּבּוֹרוֹת אָנֹכִי"},{t:"לֹא, גִּבּוֹר אָנֹכִי"},{t:"גִּבּוֹרָה אַתְּ"},{t:"גִּבּוֹרָה הוּא"}]
+        },
+        fr:"« Es-tu vaillant(e) au combat ? »" },
+      { npc: "עַתָּה קוּם וְרֵד אֶל־הַמַּחֲנֶה", npc_f:"עַתָּה קוּמִי וּרְדִי אֶל־הַמַּחֲנֶה",
+        options: {
+          m:[{t:"קָם אָנֹכִי וְיֹרֵד אֶל־הַמַּחֲנֶה",c:true},{t:"קָמָה אָנֹכִי וְיֹרֶדֶת"},{t:"קָמִים אָנֹכִי"},{t:"קָם אַתָּה וְיֹרֵד"},{t:"קָמָה הִיא וְיֹרֶדֶת"},{t:"קָם הוּא אֶל־הַמַּחֲנֶה"}],
+          f:[{t:"קָמָה אָנֹכִי וְיֹרֶדֶת אֶל־הַמַּחֲנֶה",c:true},{t:"קָם אָנֹכִי וְיֹרֵד"},{t:"קָמוֹת אָנֹכִי"},{t:"קָמָה אַתְּ וְיֹרֶדֶת"},{t:"קָם הוּא וְיֹרֵד"},{t:"קָמָה הִיא אֶל־הַמַּחֲנֶה"}]
+        },
+        fr:"« Maintenant, lève-toi et descends au camp ! »" }
+    ],
+    outro: "טוֹב — הִנֵּה לֶחֶם בַּמַּחֲנֶה, אֱכֹל וָחְיֵה׃ (« Bien — voici du pain au camp, mange et vis ! »)"
+  },
+  {
+    id: 'malakh',
+    title: "פְּגִישָׁה עִם מַלְאָךְ — Rencontre avec un messager",
+    theme: "Vocabulaire cours 22-24 (יָשָׁר, סֵפֶר, אָדוֹן)",
+    block: {start:22, end:24},
+    intro: "Un messager (מַלְאָךְ) vous arrête sur la route et vous pose des questions.",
+    needsPersona: true,
+    turns: [
+      { npc: "הֲיָשָׁר אַתָּה", npc_f:"הֲיְשָׁרָה אַתְּ",
+        options: {
+          m:[{t:"כֵּן, יָשָׁר אָנֹכִי",c:true},{t:"כֵּן, יְשָׁרָה אָנֹכִי"},{t:"כֵּן, יְשָׁרִים אָנֹכִי"},{t:"לֹא, יְשָׁרָה אָנֹכִי"},{t:"יָשָׁר אַתָּה"},{t:"יָשָׁר הִיא"}],
+          f:[{t:"כֵּן, יְשָׁרָה אָנֹכִי",c:true},{t:"כֵּן, יָשָׁר אָנֹכִי"},{t:"כֵּן, יְשָׁרוֹת אָנֹכִי"},{t:"לֹא, יָשָׁר אָנֹכִי"},{t:"יְשָׁרָה אַתְּ"},{t:"יְשָׁרָה הוּא"}]
+        },
+        fr:"« Es-tu droit(e) ? »" },
+      { npc: "הֲקָרוֹב הַסֵּפֶר הַזֶּה אוֹ רָחוֹק",
+        options: {
+          m:[{t:"קָרוֹב הַסֵּפֶר",c:true},{t:"קְרוֹבָה הַסֵּפֶר"},{t:"קְרוֹבִים הַסֵּפֶר"},{t:"רָחוֹק הַסֵּפֶר הַזֶּה מְאֹד"},{t:"קָרוֹב הֵם"},{t:"הַסְּפָרִים קָרוֹב"}],
+          f:[{t:"קָרוֹב הַסֵּפֶר",c:true},{t:"קְרוֹבָה הַסֵּפֶר"},{t:"קְרוֹבִים הַסֵּפֶר"},{t:"רָחוֹק הַסֵּפֶר הַזֶּה מְאֹד"},{t:"קָרוֹב הֵם"},{t:"הַסְּפָרִים קָרוֹב"}]
+        },
+        fr:"« Ce livre est-il proche ou loin ? » (סֵפֶר est masculin)" },
+      { npc: "הַאָדוֹן אַתָּה בַּבַּיִת הַזֶּה", npc_f:"הַאָדוֹן אַתְּ בַּבַּיִת הַזֶּה",
+        options: {
+          m:[{t:"לֹא, אֵינֶנִּי אָדוֹן — עֶבֶד אָנֹכִי",c:true},{t:"כֵּן, עֶבֶד אָנֹכִי"},{t:"אָדוֹן אַתָּה"},{t:"אָדוֹן הִיא"},{t:"עֲבָדִים אָנֹכִי"},{t:"אֵין אָדוֹן פֹּה"}],
+          f:[{t:"לֹא, אֵינֶנִּי אָדוֹן — עֶבֶד אָנֹכִי",c:true},{t:"כֵּן, אָדוֹן אָנֹכִי"},{t:"אָדוֹן אַתְּ"},{t:"אָדוֹן הוּא"},{t:"עֲבָדִים אָנֹכִי"},{t:"אֵין אָדוֹן פֹּה"}]
+        },
+        fr:"« Es-tu le maître de cette maison ? »" }
+    ],
+    outro: "בְּרָכָה עָלֶיךָ מֵאֵת אֲדֹנָי׃ (« Bénédiction sur toi de la part du Seigneur ! »)"
+  },
+  {
+    id: 'mishpaha',
+    title: "בְּנֵי הַמִּשְׁפָּחָה — Les enfants de la famille",
+    theme: "État construit, suffixes, chiffres (cours 10-12)",
+    block: {start:10, end:12},
+    intro: "Un voisin s'informe sur votre famille.",
+    needsPersona: true,
+    turns: [
+      { npc: "כַּמָּה בָנִים לְךָ", npc_f:"כַּמָּה בָנִים לָךְ",
+        gloss: [["כַּמָּה","Combien"]],
+        options: {
+          m:[{t:"שְׁלוֹשָׁה בָנִים לִי",c:true},{t:"שָׁלוֹשׁ בָּנִים לִי"},{t:"שְׁלוֹשָׁה בָּנוֹת לִי"},{t:"בָּנִים שְׁלוֹשָׁה אַתָּה"},{t:"לִי שְׁלוֹשָׁה בֵּן"},{t:"שְׁלוֹשָׁה בָנִים לוֹ"}],
+          f:[{t:"שְׁלוֹשָׁה בָנִים לִי",c:true},{t:"שָׁלוֹשׁ בָּנִים לִי"},{t:"שְׁלוֹשָׁה בָּנוֹת לִי"},{t:"בָּנִים שְׁלוֹשָׁה אַתְּ"},{t:"לִי שְׁלוֹשָׁה בֵּן"},{t:"שְׁלוֹשָׁה בָנִים לָהּ"}]
+        },
+        fr:"« Combien de fils as-tu ? » (שָׁלוֹשׁ pour un nom féminin, שְׁלוֹשָׁה pour un nom masculin — בֵּן est masculin)" },
+      { npc: "מִי שֵׁם בֶּן־בִּנְךָ", npc_f:"מִי שֵׁם בֶּן־בִּתֵּךְ",
+        gloss: [["בֶּן־בִּנְךָ","le fils de ton fils"],["בֶּן־בִּתֵּךְ","le fils de ta fille"]],
+        options: {
+          m:[{t:"שֵׁם בֶּן־בְּנִי דָּוִד",c:true},{t:"שֵׁם בֵּן בְּנִי דָּוִד הוּא הִיא"},{t:"בֶּן־בְּנִי שְׁמוֹ דָּוִד הֵם"},{t:"דָּוִד בֶּן־בְּנִי שְׁמָם"},{t:"שֵׁם בֶּן־בְּנוֹתַי דָּוִד"},{t:"בֶּן־בְּנִי אֵין שֵׁם"}],
+          f:[{t:"שֵׁם בֶּן־בִּתִּי דָּוִד",c:true},{t:"שֵׁם בֶּן בִּתִּי דָּוִד הוּא הִיא"},{t:"בֶּן־בִּתִּי שְׁמוֹ דָּוִד הֵם"},{t:"דָּוִד בֶּן־בִּתִּי שְׁמָם"},{t:"שֵׁם בֶּן־בָּנַי דָּוִד"},{t:"בֶּן־בִּתִּי אֵין שֵׁם"}]
+        },
+        fr:"« Quel est le nom du fils de ton fils / de ta fille ? »" },
+      { npc: "הַאִם מַלְכֵי הָאָרֶץ יְדִידֶיךָ", npc_f:"הַאִם מַלְכֵי הָאָרֶץ יְדִידַיִךְ",
+        gloss: [["יְדִידֶיךָ / יְדִידַיִךְ","tes amis"]],
+        options: {
+          m:[{t:"כֵּן, מַלְכֵי הָאָרֶץ יְדִידַי",c:true},{t:"כֵּן, מֶלֶךְ הָאָרֶץ יְדִידִי"},{t:"מַלְכֵי הָאָרֶץ יְדִידְךָ"},{t:"מַלְכֵי הָאָרֶץ יְדִידֵנוּ הֵם"},{t:"מַלְכֵי הָאָרֶץ יְדִידַי הוּא"},{t:"לֹא יְדִידִים לִי"}],
+          f:[{t:"כֵּן, מַלְכֵי הָאָרֶץ יְדִידַי",c:true},{t:"כֵּן, מֶלֶךְ הָאָרֶץ יְדִידִי"},{t:"מַלְכֵי הָאָרֶץ יְדִידֵךְ"},{t:"מַלְכֵי הָאָרֶץ יְדִידֵנוּ הֵם"},{t:"מַלְכֵי הָאָרֶץ יְדִידַי הִיא"},{t:"לֹא יְדִידִים לִי"}]
+        },
+        fr:"« Les rois du pays sont-ils tes amis ? » (état construit pluriel מַלְכֵי)" }
+    ],
+    outro: "מִשְׁפָּחָה גְּדוֹלָה מִשְׁפַּחְתְּךָ׃ (« Ta famille est une grande famille ! »)"
+  },
+  {
+    id: 'sheelot',
+    title: "שְׁאֵלוֹת בַּשַּׁעַר — Questions à la porte",
+    theme: "Interrogatifs, כִּי, révisions (cours 25-27)",
+    block: {start:25, end:27},
+    intro: "Un gardien vous interroge à la porte de la ville avant de vous laisser entrer.",
+    needsPersona: true,
+    turns: [
+      { npc: "מִי אַתָּה וּמָה אַתָּה מְבַקֵּשׁ", npc_f:"מִי אַתְּ וּמָה אַתְּ מְבַקֶּשֶׁת",
+        gloss: [["מְבַקֵּשׁ / מְבַקֶּשֶׁת","tu cherches (Piel)"]],
+        options: {
+          m:[{t:"עֶבֶד אָנֹכִי, וּמְבַקֵּשׁ אָנֹכִי מָנוֹחַ",c:true},{t:"עֶבֶד אָנֹכִי, וּמְבַקֶּשֶׁת אָנֹכִי"},{t:"אַתָּה עֶבֶד"},{t:"עֲבָדִים אָנֹכִי מְבַקְּשִׁים"},{t:"עֶבֶד הוּא מְבַקֵּשׁ"},{t:"אֵין אָנֹכִי מְבַקֵּשׁ"}],
+          f:[{t:"שִׁפְחָה אָנֹכִי, וּמְבַקֶּשֶׁת אָנֹכִי מָנוֹחַ",c:true},{t:"שִׁפְחָה אָנֹכִי, וּמְבַקֵּשׁ אָנֹכִי"},{t:"אַתְּ שִׁפְחָה"},{t:"שְׁפָחוֹת אָנֹכִי מְבַקְּשׁוֹת"},{t:"שִׁפְחָה הִיא מְבַקֶּשֶׁת"},{t:"אֵין אָנֹכִי מְבַקֶּשֶׁת"}]
+        },
+        fr:"« Qui es-tu et que cherches-tu ? »" },
+      { npc: "כִּי מָה תָּבוֹא הֵנָּה",
+        gloss: [["כִּי מָה","pourquoi (litt. « car quoi »)"]],
+        options: {
+          m:[{t:"כִּי אָבִי חוֹלֶה, וְעַל־כֵּן בָּאתִי",c:true},{t:"כִּי אָבִי חוֹלָה"},{t:"אָבִי חוֹלֶה אַתָּה"},{t:"כִּי אָבִינוּ חוֹלִים"},{t:"בָּאתִי כִּי אָבִי חוֹלֶה הוּא הִיא"},{t:"לֹא בָּאתִי"}],
+          f:[{t:"כִּי אָבִי חוֹלֶה, וְעַל־כֵּן בָּאתִי",c:true},{t:"כִּי אָבִי חוֹלָה"},{t:"אָבִי חוֹלֶה אַתְּ"},{t:"כִּי אָבִינוּ חוֹלִים"},{t:"בָּאתִי כִּי אָבִי חוֹלֶה הוּא הִיא"},{t:"לֹא בָּאתִי"}]
+        },
+        fr:"« Pourquoi viens-tu ici ? » — « Car mon père est malade, et c'est pourquoi je suis venu(e) »" },
+      { npc: "הֲיָדַעְתָּ כִּי גָדוֹל הַמֶּלֶךְ בָּעִיר הַזֹּאת", npc_f:"הֲיָדַעַתְּ כִּי גָדוֹל הַמֶּלֶךְ בָּעִיר הַזֹּאת",
+        options: {
+          m:[{t:"כֵּן, יָדַעְתִּי כִּי גָדוֹל הוּא",c:true},{t:"כֵּן, יָדַעְתְּ כִּי גָדוֹל הוּא"},{t:"יָדַעְנוּ כִּי גְדוֹלִים הֵם"},{t:"לֹא יָדַעְתִּי מְאוּמָה"},{t:"יָדַעְתִּי כִּי גְדוֹלָה הִיא"},{t:"יָדַע הוּא כִּי גָדוֹל"}],
+          f:[{t:"כֵּן, יָדַעְתִּי כִּי גָדוֹל הוּא",c:true},{t:"כֵּן, יָדַעַתְּ כִּי גָדוֹל הוּא"},{t:"יָדַעְנוּ כִּי גְדוֹלִים הֵם"},{t:"לֹא יָדַעְתִּי מְאוּמָה"},{t:"יָדַעְתִּי כִּי גְדוֹלָה הִיא"},{t:"יָדְעָה הִיא כִּי גָדוֹל"}]
+        },
+        fr:"« Savais-tu que ce roi est grand dans cette ville ? »" }
+    ],
+    outro: "בּוֹא בְשָׁלוֹם — הַשַּׁעַר פָּתוּחַ לְךָ׃ (« Entre en paix — la porte t'est ouverte ! »)"
+  },
+  {
+    id: 'moreh-melamed',
+    title: "הַמּוֹרֶה מְלַמֵּד — Le maître enseigne",
+    theme: "Piel, Poual, Hitpaël (cours 28-30)",
+    block: {start:28, end:30},
+    intro: "Vous rencontrez un maître (מוֹרֶה) qui enseigne des élèves.",
+    needsPersona: true,
+    turns: [
+      { npc: "הַאִם אַתָּה מְלַמֵּד אֶת־הַתַּלְמִידִים", npc_f:"הַאִם אַתְּ מְלַמֶּדֶת אֶת־הַתַּלְמִידִים",
+        gloss: [["מְלַמֵּד / מְלַמֶּדֶת","tu enseignes (Piel de לָמַד)"]],
+        options: {
+          m:[{t:"כֵּן, מְלַמֵּד אָנֹכִי אוֹתָם",c:true},{t:"כֵּן, מְלַמֶּדֶת אָנֹכִי"},{t:"מְלֻמָּד אָנֹכִי"},{t:"מְלַמְּדִים אָנֹכִי אוֹתָם"},{t:"אַתָּה מְלַמֵּד"},{t:"מְלַמֵּד הִיא אוֹתָם"}],
+          f:[{t:"כֵּן, מְלַמֶּדֶת אָנֹכִי אוֹתָם",c:true},{t:"כֵּן, מְלַמֵּד אָנֹכִי"},{t:"מְלֻמֶּדֶת אָנֹכִי"},{t:"מְלַמְּדוֹת אָנֹכִי אוֹתָם"},{t:"אַתְּ מְלַמֶּדֶת"},{t:"מְלַמֶּדֶת הוּא אוֹתָם"}]
+        },
+        fr:"« Enseignes-tu aux élèves ? »" },
+      { npc: "הֲמִתְפַּלֵּל אַתָּה בְּכָל־יוֹם", npc_f:"הֲמִתְפַּלֶּלֶת אַתְּ בְּכָל־יוֹם",
+        gloss: [["מִתְפַּלֵּל / מִתְפַּלֶּלֶת","tu pries (Hitpaël de פָּלַל)"]],
+        options: {
+          m:[{t:"כֵּן, מִתְפַּלֵּל אָנֹכִי בְּכָל־יוֹם",c:true},{t:"כֵּן, מִתְפַּלֶּלֶת אָנֹכִי"},{t:"מִתְפַּלְּלִים אָנֹכִי"},{t:"הִתְפַּלַּלְתִּי אֶתְמוֹל בִּלְבַד"},{t:"אַתָּה מִתְפַּלֵּל"},{t:"מִתְפַּלֵּל הִיא"}],
+          f:[{t:"כֵּן, מִתְפַּלֶּלֶת אָנֹכִי בְּכָל־יוֹם",c:true},{t:"כֵּן, מִתְפַּלֵּל אָנֹכִי"},{t:"מִתְפַּלְּלוֹת אָנֹכִי"},{t:"הִתְפַּלַּלְתִּי אֶתְמוֹל בִּלְבַד"},{t:"אַתְּ מִתְפַּלֶּלֶת"},{t:"מִתְפַּלֶּלֶת הוּא"}]
+        },
+        fr:"« Pries-tu chaque jour ? »" },
+      { npc: "הֲשֻׁלַּם הַכֶּסֶף לַתַּלְמִידִים",
+        gloss: [["שֻׁלַּם","a été payé (Poual de שָׁלַם)"]],
+        options: {
+          m:[{t:"כֵּן, שֻׁלַּם הַכֶּסֶף לָהֶם",c:true},{t:"כֵּן, שֻׁלְּמָה הַכֶּסֶף"},{t:"שִׁלַּמְתִּי אֶת־הַכֶּסֶף אֲנִי"},{t:"לֹא שֻׁלְּמוּ הַכֶּסֶף"},{t:"הַכֶּסֶף שֻׁלַּם אַתָּה"},{t:"שֻׁלַּם הֵם הַכֶּסֶף"}],
+          f:[{t:"כֵּן, שֻׁלַּם הַכֶּסֶף לָהֶם",c:true},{t:"כֵּן, שֻׁלְּמָה הַכֶּסֶף"},{t:"שִׁלַּמְתִּי אֶת־הַכֶּסֶף אֲנִי"},{t:"לֹא שֻׁלְּמוּ הַכֶּסֶף"},{t:"הַכֶּסֶף שֻׁלַּם אַתְּ"},{t:"שֻׁלַּם הֵם הַכֶּסֶף"}]
+        },
+        fr:"« L'argent a-t-il été payé aux élèves ? » (כֶּסֶף est masculin)" }
+    ],
+    outro: "בָּרוּךְ הַמּוֹרֶה הַמְלַמֵּד בֶּאֱמֶת׃ (« Béni soit le maître qui enseigne avec vérité ! »)"
+  },
+  {
+    id: 'nilham',
+    title: "הַנִּלְחָמִים — Ceux qui combattent",
+    theme: "Nifal, infinitif absolu (cours 31-33)",
+    block: {start:31, end:33},
+    intro: "Un soldat revient du champ de bataille.",
+    needsPersona: true,
+    turns: [
+      { npc: "הֲנִלְחַמְתָּ בַּמִּלְחָמָה", npc_f:"הֲנִלְחַמְתְּ בַּמִּלְחָמָה",
+        gloss: [["נִלְחַמְתָּ / נִלְחַמְתְּ","tu as combattu (Nifal de לָחַם)"]],
+        options: {
+          m:[{t:"כֵּן, נִלְחַמְתִּי בָּהּ",c:true},{t:"כֵּן, נִלְחַמְתְּ בָּהּ"},{t:"נִלְחַמְנוּ בָּהּ אֲנִי"},{t:"לֹא נִלְחָמָה אֲנִי"},{t:"נִלְחַם הוּא בָּהּ"},{t:"נִלְחַמְתִּי אַתָּה"}],
+          f:[{t:"כֵּן, נִלְחַמְתִּי בָּהּ",c:true},{t:"כֵּן, נִלְחַמְתָּ בָּהּ"},{t:"נִלְחַמְנוּ בָּהּ אֲנִי"},{t:"לֹא נִלְחָם אֲנִי"},{t:"נִלְחֲמָה הִיא בָּהּ"},{t:"נִלְחַמְתִּי אַתְּ"}]
+        },
+        fr:"« As-tu combattu dans la bataille ? »" },
+      { npc: "הֲשָׁמוֹר תִּשְׁמֹר אֶת־בְּרִית הַמֶּלֶךְ",
+        gloss: [["שָׁמוֹר תִּשְׁמֹר","tu garderas assurément (infinitif absolu emphatique)"]],
+        options: {
+          m:[{t:"כֵּן, שָׁמוֹר אֶשְׁמֹר אוֹתָהּ",c:true},{t:"כֵּן, שְׁמוֹר תִּשְׁמְרִי אוֹתָהּ"},{t:"לֹא אֶשְׁמֹר מְאוּמָה"},{t:"שָׁמַרְתִּי אוֹתָהּ אֶתְמוֹל בִּלְבַד"},{t:"נִשְׁמְרָה אוֹתָהּ אֲנִי"},{t:"שָׁמוֹר תִּשְׁמֹר אַתָּה"}],
+          f:[{t:"כֵּן, שָׁמוֹר אֶשְׁמֹר אוֹתָהּ",c:true},{t:"כֵּן, שְׁמוֹר תִּשְׁמְרִי אוֹתָהּ"},{t:"לֹא אֶשְׁמֹר מְאוּמָה"},{t:"שָׁמַרְתִּי אוֹתָהּ אֶתְמוֹל בִּלְבַד"},{t:"נִשְׁמְרָה אוֹתָהּ אֲנִי"},{t:"שָׁמוֹר תִּשְׁמֹר אַתְּ"}]
+        },
+        fr:"« Garderas-tu vraiment l'alliance du roi ? »" },
+      { npc: "הֲנוֹלַד לְךָ בֵן בַּמִּלְחָמָה הַזֹּאת", npc_f:"הֲנוֹלְדָה לָךְ בַת בַּמִּלְחָמָה הַזֹּאת",
+        gloss: [["נוֹלַד / נוֹלְדָה","est né/née (Nifal de יָלַד)"]],
+        options: {
+          m:[{t:"כֵּן, נוֹלַד לִי בֵן",c:true},{t:"כֵּן, נוֹלְדָה לִי בֵן"},{t:"נוֹלְדוּ לִי בֵן"},{t:"יָלַדְתִּי בֵן אֲנִי"},{t:"נוֹלַד הוּא לִי בֵן"},{t:"נוֹלַד לְךָ בֵן"}],
+          f:[{t:"כֵּן, נוֹלְדָה לִי בַת",c:true},{t:"כֵּן, נוֹלַד לִי בַת"},{t:"נוֹלְדוּ לִי בַת"},{t:"יָלַדְתִּי בַת אֲנִי"},{t:"נוֹלְדָה הִיא לִי בַת"},{t:"נוֹלְדָה לָךְ בַת"}]
+        },
+        fr:"« T'est-il né un fils / une fille dans cette bataille ? »" }
+    ],
+    outro: "שָׁלוֹם לְךָ הַגִּבּוֹר — נוּחַ עַתָּה׃ (« Paix à toi, vaillant guerrier — repose-toi maintenant ! »)"
+  },
+  {
+    id: 'hifil-melekh',
+    title: "הַמֶּלֶךְ מַצִּיל — Le roi délivre",
+    theme: "Hifil, Hofal, cohortatif, jussif (cours 34-36)",
+    block: {start:34, end:36},
+    intro: "Le roi s'adresse à son peuple après la victoire.",
+    needsPersona: true,
+    turns: [
+      { npc: "הֲהִצַּלְתִּי אֶתְכֶם מִיַּד אוֹיְבֵיכֶם",
+        gloss: [["הִצַּלְתִּי","j'ai délivré (Hifil de נָצַל)"]],
+        options: {
+          m:[{t:"כֵּן, הִצַּלְתָּ אֹתָנוּ",c:true},{t:"כֵּן, הִצַּלְתְּ אֹתָנוּ"},{t:"הִצַּלְתִּי אֹתְךָ"},{t:"הֻצַּלְנוּ אֲנַחְנוּ אֹתְךָ"},{t:"הִצַּלְתָּ אוֹתִי לְבַדִּי"},{t:"לֹא הִצַּלְתָּ מְאוּמָה"}],
+          f:[{t:"כֵּן, הִצַּלְתָּ אֹתָנוּ",c:true},{t:"כֵּן, הִצַּלְתְּ אֹתָנוּ"},{t:"הִצַּלְתִּי אֹתְךָ"},{t:"הֻצַּלְנוּ אֲנַחְנוּ אֹתְךָ"},{t:"הִצַּלְתָּ אוֹתִי לְבַדִּי"},{t:"לֹא הִצַּלְתָּ מְאוּמָה"}]
+        },
+        fr:"« Vous ai-je délivrés de la main de vos ennemis ? »" },
+      { npc: "נָקוּמָה עַתָּה וְנוֹדֶה לַיהוה",
+        gloss: [["נָקוּמָה / נוֹדֶה","levons-nous / rendons grâce (cohortatif pluriel)"]],
+        options: {
+          m:[{t:"כֵּן, נָקוּם וְנוֹדֶה לוֹ",c:true},{t:"כֵּן, אָקוּם וְאוֹדֶה לוֹ לְבַדִּי"},{t:"לֹא נָקוּם הַיּוֹם"},{t:"קַמְנוּ אֶתְמוֹל בִּלְבַד"},{t:"נָקוּמָה אַתֶּם"},{t:"נָקוּם הֵם וְיוֹדוּ לוֹ"}],
+          f:[{t:"כֵּן, נָקוּם וְנוֹדֶה לוֹ",c:true},{t:"כֵּן, אָקוּם וְאוֹדֶה לוֹ לְבַדִּי"},{t:"לֹא נָקוּם הַיּוֹם"},{t:"קַמְנוּ אֶתְמוֹל בִּלְבַד"},{t:"נָקוּמָה אַתֶּן"},{t:"נָקוּם הֵן וְיוֹדוּ לוֹ"}]
+        },
+        fr:"« Levons-nous maintenant et rendons grâce à l'Éternel ! »" },
+      { npc: "יְחִי הַמֶּלֶךְ לְעוֹלָם",
+        gloss: [["יְחִי","qu'il vive (jussif de חָיָה)"]],
+        options: {
+          m:[{t:"כֵּן, יְחִי הַמֶּלֶךְ",c:true},{t:"כֵּן, יִחְיֶה הַמֶּלֶךְ אַתָּה"},{t:"תְּחִי הַמֶּלֶךְ"},{t:"יִחְיוּ הַמֶּלֶךְ"},{t:"חַי הַמֶּלֶךְ אֶתְמוֹל"},{t:"יְחִי אֲנִי"}],
+          f:[{t:"כֵּן, יְחִי הַמֶּלֶךְ",c:true},{t:"כֵּן, יִחְיֶה הַמֶּלֶךְ אַתְּ"},{t:"תְּחִי הַמֶּלֶךְ"},{t:"יִחְיוּ הַמֶּלֶךְ"},{t:"חַי הַמֶּלֶךְ אֶתְמוֹל"},{t:"יְחִי אֲנִי"}]
+        },
+        fr:"« Que le roi vive à jamais ! »" }
+    ],
+    outro: "לְכוּ לְבָתֵּיכֶם בְּשָׁלוֹם׃ (« Allez à vos maisons en paix ! »)"
+  },
+  {
+    id: 'binyan-nishpat',
+    title: "הַנִּשְׁפָּט — L'accusé",
+    theme: "Participe passif, quadrilitères, accents (cours 37-39)",
+    block: {start:37, end:39},
+    intro: "Un homme se présente devant le juge pour être jugé.",
+    needsPersona: true,
+    turns: [
+      { npc: "הֲשָׁמוּר הָיָה הַחֹק בְּעֵינֶיךָ", npc_f:"הֲשָׁמוּר הָיָה הַחֹק בְּעֵינַיִךְ",
+        gloss: [["שָׁמוּר","gardé (participe passif Qal)"]],
+        options: {
+          m:[{t:"כֵּן, שָׁמוּר הָיָה הַחֹק בְּעֵינַי",c:true},{t:"כֵּן, שְׁמוּרָה הָיְתָה הַחֹק"},{t:"שָׁמוּר הָיִיתִי אֲנִי"},{t:"שְׁמוּרִים הָיוּ הַחֹק"},{t:"הַחֹק שָׁמוּר אַתָּה"},{t:"לֹא שָׁמוּר הָיָה"}],
+          f:[{t:"כֵּן, שָׁמוּר הָיָה הַחֹק בְּעֵינַי",c:true},{t:"כֵּן, שְׁמוּרָה הָיְתָה הַחֹק"},{t:"שְׁמוּרָה הָיִיתִי אֲנִי"},{t:"שְׁמוּרִים הָיוּ הַחֹק"},{t:"הַחֹק שָׁמוּר אַתְּ"},{t:"לֹא שָׁמוּר הָיָה"}]
+        },
+        fr:"« La loi était-elle gardée à tes yeux ? »" },
+      { npc: "הֲכִלְכַּלְתָּ אֶת־בֵּיתְךָ בְּיֹשֶׁר", npc_f:"הֲכִלְכַּלְתְּ אֶת־בֵּיתֵךְ בְּיֹשֶׁר",
+        gloss: [["כִּלְכַּלְתָּ","tu as nourri/soutenu (verbe quadrilitère)"]],
+        options: {
+          m:[{t:"כֵּן, כִּלְכַּלְתִּי אוֹתוֹ בְּיֹשֶׁר",c:true},{t:"כֵּן, כִּלְכַּלְתְּ אוֹתוֹ"},{t:"כִלְכַּלְנוּ אוֹתוֹ אֲנִי"},{t:"לֹא כִלְכַּלְתִּי מְאוּמָה"},{t:"כֻּלְכַּל בֵּיתִי אֲנִי"},{t:"כִּלְכַּלְתִּי אַתָּה"}],
+          f:[{t:"כֵּן, כִּלְכַּלְתִּי אוֹתוֹ בְּיֹשֶׁר",c:true},{t:"כֵּן, כִּלְכַּלְתָּ אוֹתוֹ"},{t:"כִלְכַּלְנוּ אוֹתוֹ אֲנִי"},{t:"לֹא כִלְכַּלְתִּי מְאוּמָה"},{t:"כֻּלְכְּלָה בֵּיתִי אֲנִי"},{t:"כִּלְכַּלְתִּי אַתְּ"}]
+        },
+        fr:"« As-tu soutenu ta maison avec droiture ? »" },
+      { npc: "צַדִּיק אַתָּה בְּעֵינֵי הַשֹּׁפֵט", npc_f:"צַדִּיקָה אַתְּ בְּעֵינֵי הַשֹּׁפֵט",
+        options: {
+          m:[{t:"תּוֹדָה, מְבַקֵּשׁ אָנֹכִי מִשְׁפָּט יָשָׁר",c:true},{t:"תּוֹדָה, מְבַקֶּשֶׁת אָנֹכִי"},{t:"אֵין אֲנִי מְבַקֵּשׁ דָּבָר"},{t:"צַדִּיק הוּא לְבַדּוֹ"},{t:"מְבַקְּשִׁים אָנֹכִי מִשְׁפָּט"},{t:"תּוֹדָה אַתָּה"}],
+          f:[{t:"תּוֹדָה, מְבַקֶּשֶׁת אָנֹכִי מִשְׁפָּט יָשָׁר",c:true},{t:"תּוֹדָה, מְבַקֵּשׁ אָנֹכִי"},{t:"אֵין אֲנִי מְבַקֶּשֶׁת דָּבָר"},{t:"צַדִּיקָה הִיא לְבַדָּהּ"},{t:"מְבַקְּשׁוֹת אָנֹכִי מִשְׁפָּט"},{t:"תּוֹדָה אַתְּ"}]
+        },
+        fr:"« Tu es juste aux yeux du juge » — « Merci, je demande un jugement droit »" }
+    ],
+    outro: "צָדַקְתָּ — לֵךְ לְשָׁלוֹם׃ (« Tu es justifié — va en paix ! »)"
+  },
+  {
+    id: 'gever-halul',
+    title: "בֵּין הֶהָרִים — Entre les montagnes",
+    theme: "Verbes creux ע״ו/ע״י, géminés ע״ע (cours 40-42)",
+    block: {start:40, end:42},
+    intro: "Vous marchez avec un compagnon entre deux montagnes.",
+    needsPersona: true,
+    turns: [
+      { npc: "הֲקַמְתָּ בַּבֹּקֶר אוֹ עוֹד יָשֵׁן אַתָּה", npc_f:"הֲקַמְתְּ בַּבֹּקֶר אוֹ עוֹד יְשֵׁנָה אַתְּ",
+        gloss: [["קַמְתָּ","tu t'es levé (verbe creux ע״ו)"]],
+        options: {
+          m:[{t:"קַמְתִּי עִם הַשָּׁמֶשׁ",c:true},{t:"קַמְתְּ עִם הַשָּׁמֶשׁ"},{t:"קַמְנוּ אֲנִי עִם הַשָּׁמֶשׁ"},{t:"עוֹד יָשֵׁן אָנֹכִי, לֹא קַמְתִּי"},{t:"קָם הוּא עִם הַשָּׁמֶשׁ"},{t:"קַמְתִּי אַתָּה"}],
+          f:[{t:"קַמְתִּי עִם הַשָּׁמֶשׁ",c:true},{t:"קַמְתָּ עִם הַשָּׁמֶשׁ"},{t:"קַמְנוּ אֲנִי עִם הַשָּׁמֶשׁ"},{t:"עוֹד יְשֵׁנָה אָנֹכִי, לֹא קַמְתִּי"},{t:"קָמָה הִיא עִם הַשָּׁמֶשׁ"},{t:"קַמְתִּי אַתְּ"}]
+        },
+        fr:"« T'es-tu levé(e) le matin, ou dors-tu encore ? »" },
+      { npc: "הֲסַבּוֹתָ אֶת־הָהָר הַזֶּה כְּבָר", npc_f:"הֲסַבּוֹת אֶת־הָהָר הַזֶּה כְּבָר",
+        gloss: [["סַבּוֹתָ","tu as fait le tour (verbe géminé ע״ע de סָבַב)"]],
+        options: {
+          m:[{t:"כֵּן, סַבּוֹתִי אוֹתוֹ פַּעֲמַיִם",c:true},{t:"כֵּן, סַבּוֹת אוֹתוֹ"},{t:"סַבּוֹנוּ אוֹתוֹ אֲנִי"},{t:"לֹא סַבּוֹתִי אוֹתוֹ מֵעוֹלָם"},{t:"סָבַב הוּא אוֹתוֹ אֲנִי"},{t:"סַבּוֹתִי אַתָּה"}],
+          f:[{t:"כֵּן, סַבּוֹתִי אוֹתוֹ פַּעֲמַיִם",c:true},{t:"כֵּן, סַבּוֹתָ אוֹתוֹ"},{t:"סַבּוֹנוּ אוֹתוֹ אֲנִי"},{t:"לֹא סַבּוֹתִי אוֹתוֹ מֵעוֹלָם"},{t:"סָבְבָה הִיא אוֹתוֹ אֲנִי"},{t:"סַבּוֹתִי אַתְּ"}]
+        },
+        fr:"« As-tu déjà fait le tour de cette montagne ? »" },
+      { npc: "מָתַי תָּשׂוּב אֶל־בֵּיתְךָ", npc_f:"מָתַי תָּשׁוּבִי אֶל־בֵּיתֵךְ",
+        gloss: [["תָּשׁוּב / תָּשׁוּבִי","tu reviendras (verbe creux ע״ו)"]],
+        options: {
+          m:[{t:"אָשׁוּב אֶל־בֵּיתִי בַּחֹדֶשׁ הַבָּא",c:true},{t:"אָשׁוּבִי אֶל־בֵּיתִי"},{t:"נָשׁוּב אֲנִי אֶל־בֵּיתִי"},{t:"שַׁבְתִּי אֶתְמוֹל בִּלְבַד"},{t:"תָּשׁוּב הוּא אֶל־בֵּיתוֹ"},{t:"אָשׁוּב אַתָּה"}],
+          f:[{t:"אָשׁוּב אֶל־בֵּיתִי בַּחֹדֶשׁ הַבָּא",c:true},{t:"אָשׁוּבִי אֶל־בֵּיתִי"},{t:"נָשׁוּב אֲנִי אֶל־בֵּיתִי"},{t:"שַׁבְתִּי אֶתְמוֹל בִּלְבַד"},{t:"תָּשׁוּב הִיא אֶל־בֵּיתָהּ"},{t:"אָשׁוּב אַתְּ"}]
+        },
+        fr:"« Quand reviendras-tu chez toi ? »" }
+    ],
+    outro: "לֵךְ לְשָׁלוֹם וְשׁוּב בְּשָׁלוֹם׃ (« Va en paix et reviens en paix ! »)"
+  },
+  {
+    id: 'yored-hayam',
+    title: "יֹרְדֵי הַיָּם — Ceux qui descendent à la mer",
+    theme: "Verbes פ״י, פ״נ, formes mixtes (cours 43-45)",
+    block: {start:43, end:45},
+    intro: "Des marins se préparent à descendre vers la mer.",
+    needsPersona: true,
+    turns: [
+      { npc: "הֲתֵדַע לָשֶׁבֶת בָּאֳנִיָּה", npc_f:"הֲתֵדְעִי לָשֶׁבֶת בָּאֳנִיָּה",
+        gloss: [["תֵדַע / תֵדְעִי","tu sauras (verbe פ״י de יָדַע)"],["אֳנִיָּה","bateau"]],
+        options: {
+          m:[{t:"כֵּן, אֵדַע לָשֶׁבֶת בָּהּ",c:true},{t:"כֵּן, תֵדְעִי לָשֶׁבֶת"},{t:"נֵדַע אֲנִי לָשֶׁבֶת"},{t:"לֹא יָדַעְתִּי מֵעוֹלָם"},{t:"תֵּדַע הוּא לָשֶׁבֶת"},{t:"אֵדַע אַתָּה"}],
+          f:[{t:"כֵּן, אֵדַע לָשֶׁבֶת בָּהּ",c:true},{t:"כֵּן, תֵדַע לָשֶׁבֶת"},{t:"נֵדַע אֲנִי לָשֶׁבֶת"},{t:"לֹא יָדַעְתִּי מֵעוֹלָם"},{t:"תֵּדַע הִיא לָשֶׁבֶת"},{t:"אֵדַע אַתְּ"}]
+        },
+        fr:"« Sauras-tu t'asseoir dans le bateau ? »" },
+      { npc: "הֲתִגַּשׁ אֶל־הַחוֹף", npc_f:"הֲתִגְּשִׁי אֶל־הַחוֹף",
+        gloss: [["תִּגַּשׁ / תִּגְּשִׁי","tu t'approcheras (verbe פ״נ de נָגַשׁ)"],["חוֹף","rivage"]],
+        options: {
+          m:[{t:"כֵּן, אֶגַּשׁ אֶל־הַחוֹף",c:true},{t:"כֵּן, תִּגְּשִׁי אֶל־הַחוֹף"},{t:"נִגַּשׁ אֲנִי אֶל־הַחוֹף"},{t:"נָגַשְׁתִּי אֶתְמוֹל בִּלְבַד"},{t:"יִגַּשׁ הוּא אֶל־הַחוֹף"},{t:"אֶגַּשׁ אַתָּה"}],
+          f:[{t:"כֵּן, אֶגַּשׁ אֶל־הַחוֹף",c:true},{t:"כֵּן, תִּגַּשׁ אֶל־הַחוֹף"},{t:"נִגַּשׁ אֲנִי אֶל־הַחוֹף"},{t:"נָגַשְׁתִּי אֶתְמוֹל בִּלְבַד"},{t:"תִּגַּשׁ הִיא אֶל־הַחוֹף"},{t:"אֶגַּשׁ אַתְּ"}]
+        },
+        fr:"« T'approcheras-tu du rivage ? »" },
+      { npc: "מַה תִּשָּׂא בָּאֳנִיָּה", npc_f:"מַה תִּשְׂאִי בָּאֳנִיָּה",
+        gloss: [["תִּשָּׂא / תִּשְׂאִי","tu porteras (verbe פ״נ de נָשָׂא)"]],
+        options: {
+          m:[{t:"אֶשָּׂא לֶחֶם וָמַיִם",c:true},{t:"תִּשְׂאִי לֶחֶם וָמַיִם"},{t:"נִשָּׂא אֲנִי לֶחֶם"},{t:"נָשָׂאתִי אֶתְמוֹל בִּלְבַד"},{t:"יִשָּׂא הוּא לֶחֶם"},{t:"אֶשָּׂא אַתָּה"}],
+          f:[{t:"אֶשָּׂא לֶחֶם וָמַיִם",c:true},{t:"תִּשָּׂא לֶחֶם וָמַיִם"},{t:"נִשָּׂא אֲנִי לֶחֶם"},{t:"נָשָׂאתִי אֶתְמוֹל בִּלְבַד"},{t:"תִּשָּׂא הִיא לֶחֶם"},{t:"אֶשָּׂא אַתְּ"}]
+        },
+        fr:"« Que porteras-tu dans le bateau ? »" }
+    ],
+    outro: "רוּחַ טוֹבָה תְּלַוֶּה אֶתְכֶם׃ (« Qu'un bon vent vous accompagne ! »)"
+  },
+  {
+    id: 'navi-aharon',
+    title: "הַנָּבִיא הָאַחֲרוֹן — Le dernier prophète",
+    theme: "Formes rares, ה et ן paragogiques, forme pausale (cours 46-48)",
+    block: {start:46, end:48},
+    intro: "Un vieux prophète vous parle avec des tournures solennelles et anciennes.",
+    needsPersona: true,
+    turns: [
+      { npc: "הֲתִשְׁמְעוּן אֶת־קוֹל יהוה",
+        gloss: [["תִשְׁמְעוּן","vous entendrez (forme avec נ paragogique = תִּשְׁמְעוּ)"]],
+        options: {
+          m:[{t:"כֵּן, נִשְׁמַע אֶת־קוֹלוֹ",c:true},{t:"כֵּן, תִּשְׁמְעוּן אֶת־קוֹלוֹ אַתֶּם"},{t:"שָׁמַעְתִּי אֶתְמוֹל בִּלְבַד"},{t:"לֹא נִשְׁמַע דָּבָר"},{t:"יִשְׁמְעוּן הֵם אֶת־קוֹלוֹ"},{t:"נִשְׁמְעָה אֲנַחְנוּ"}],
+          f:[{t:"כֵּן, נִשְׁמַע אֶת־קוֹלוֹ",c:true},{t:"כֵּן, תִּשְׁמַעְנָה אֶת־קוֹלוֹ אַתֶּן"},{t:"שָׁמַעְתִּי אֶתְמוֹל בִּלְבַד"},{t:"לֹא נִשְׁמַע דָּבָר"},{t:"יִשְׁמְעוּן הֵם אֶת־קוֹלוֹ"},{t:"נִשְׁמְעָה אֲנַחְנוּ"}]
+        },
+        fr:"« Écouterez-vous la voix de l'Éternel ? »" },
+      { npc: "לָ֫כְנָה בָּנוֹת וְשֵׁ֫בְנָה לְפָנַי",
+        gloss: [["לָכְנָה / שֵׁבְנָה","allez / asseyez-vous (impératif féminin pluriel archaïque)"]],
+        options: {
+          m:[{t:"הִנֵּה בָּאנוּ וְיָשַׁבְנוּ לְפָנֶיךָ",c:true},{t:"הִנֵּה בָּאתִי וְיָשַׁבְתִּי לְבַדִּי"},{t:"לֹא נָבוֹא הַיּוֹם"},{t:"בָּאנוּ אַתָּה"},{t:"בָּאוּ הֵם וְיָשְׁבוּ"},{t:"הִנֵּה בָּאנוּ אֲנַחְנוּ הֵם"}],
+          f:[{t:"הִנֵּה בָּאנוּ וְיָשַׁבְנוּ לְפָנֶיךָ",c:true},{t:"הִנֵּה בָּאתִי וְיָשַׁבְתִּי לְבַדִּי"},{t:"לֹא נָבוֹא הַיּוֹם"},{t:"בָּאנוּ אַתְּ"},{t:"בָּאוּ הֵן וְיָשְׁבוּ"},{t:"הִנֵּה בָּאנוּ אֲנַחְנוּ הֵן"}]
+        },
+        fr:"« Allez, filles, et asseyez-vous devant moi » — « Nous voici, nous sommes venues et nous nous sommes assises devant toi »" },
+      { npc: "בָּרוּ֣ךְ אַתָּ֔ה בְּבֹאֶ֖ךָ וּבָרוּ֥ךְ אַתָּ֖ה בְּצֵאתֶֽךָ", npc_f:"בְּרוּכָ֣ה אַ֔תְּ בְּבֹאֵ֖ךְ וּבְרוּכָ֥ה אַ֖תְּ בְּצֵאתֵֽךְ",
+        gloss: [["בְּבֹאֶךָ / בְּבֹאֵךְ","à ton entrée"],["בְּצֵאתֶךָ / בְּצֵאתֵךְ","à ta sortie"]],
+        options: {
+          m:[{t:"תּוֹדָה, בָּרוּךְ אַתָּה גַּם כֵּן",c:true},{t:"תּוֹדָה, בְּרוּכָה אַתָּה"},{t:"בָּרוּךְ אֲנִי לְבַדִּי"},{t:"בְּרוּכִים אַתָּה"},{t:"בָּרוּךְ הוּא גַּם כֵּן"},{t:"תּוֹדָה אַתְּ"}],
+          f:[{t:"תּוֹדָה, בְּרוּכָה אַתָּה גַּם כֵּן",c:true},{t:"תּוֹדָה, בָּרוּךְ אַתָּה"},{t:"בְּרוּכָה אֲנִי לְבַדִּי"},{t:"בְּרוּכוֹת אַתָּה"},{t:"בְּרוּכָה הוּא גַּם כֵּן"},{t:"תּוֹדָה אַתְּ"}]
+        },
+        fr:"« Béni sois-tu à ton entrée et béni sois-tu à ta sortie » (verset de Deutéronome 28,6, ici avec les accents de cantillation)" }
+    ],
+    outro: "לֵךְ בְּדַרְכֵי יהוה כָּל־יְמֵי חַיֶּיךָ׃ (« Marche dans les voies de l'Éternel tous les jours de ta vie ! »)"
+  },
+  {
+    id: 'shalom-siyum',
+    title: "שָׁלוֹם וְסִיּוּם — Adieux et achèvement",
+    theme: "Révision finale (cours 49-50)",
+    block: {start:49, end:50},
+    intro: "Après un long voyage d'étude, vous prenez congé de votre compagnon de route.",
+    needsPersona: true,
+    turns: [
+      { npc: "הֲלָמַדְתָּ הַרְבֵּה בַּדֶּרֶךְ הַזֹּאת", npc_f:"הֲלָמַדְתְּ הַרְבֵּה בַּדֶּרֶךְ הַזֹּאת",
+        options: {
+          m:[{t:"כֵּן, לָמַדְתִּי הַרְבֵּה מְאֹד",c:true},{t:"כֵּן, לָמַדְתְּ הַרְבֵּה"},{t:"לָמַדְנוּ אֲנִי הַרְבֵּה"},{t:"לֹא לָמַדְתִּי דָבָר"},{t:"לָמַד הוּא הַרְבֵּה"},{t:"לָמַדְתִּי אַתָּה"}],
+          f:[{t:"כֵּן, לָמַדְתִּי הַרְבֵּה מְאֹד",c:true},{t:"כֵּן, לָמַדְתָּ הַרְבֵּה"},{t:"לָמַדְנוּ אֲנִי הַרְבֵּה"},{t:"לֹא לָמַדְתִּי דָבָר"},{t:"לָמְדָה הִיא הַרְבֵּה"},{t:"לָמַדְתִּי אַתְּ"}]
+        },
+        fr:"« As-tu beaucoup appris sur ce chemin ? »" },
+      { npc: "הֲתִזְכֹּר אֶת־כָּל־אֲשֶׁר לָמַדְתָּ", npc_f:"הֲתִזְכְּרִי אֶת־כָּל־אֲשֶׁר לָמַדְתְּ",
+        options: {
+          m:[{t:"זָכוֹר אֶזְכֹּר אֶת־כֻּלּוֹ",c:true},{t:"זְכוֹר תִּזְכְּרִי אֶת־כֻּלּוֹ"},{t:"זָכַרְתִּי אֶתְמוֹל בִּלְבַד"},{t:"לֹא אֶזְכֹּר מְאוּמָה"},{t:"יִזְכֹּר הוּא אֶת־כֻּלּוֹ"},{t:"אֶזְכֹּר אַתָּה"}],
+          f:[{t:"זָכוֹר אֶזְכֹּר אֶת־כֻּלּוֹ",c:true},{t:"זְכוֹר תִּזְכֹּר אֶת־כֻּלּוֹ"},{t:"זָכַרְתִּי אֶתְמוֹל בִּלְבַד"},{t:"לֹא אֶזְכֹּר מְאוּמָה"},{t:"תִּזְכֹּר הִיא אֶת־כֻּלּוֹ"},{t:"אֶזְכֹּר אַתְּ"}]
+        },
+        fr:"« Te souviendras-tu de tout ce que tu as appris ? » (infinitif absolu emphatique)" },
+      { npc: "לֵךְ לְשָׁלוֹם, יְדִידִי", npc_f:"לְכִי לְשָׁלוֹם, יְדִידָתִי",
+        options: {
+          m:[{t:"וְגַם אַתָּה לֵךְ לְשָׁלוֹם",c:true},{t:"וְגַם אַתְּ לְכִי לְשָׁלוֹם"},{t:"נֵלֵךְ אֲנִי לְשָׁלוֹם"},{t:"הָלַכְתִּי כְּבָר"},{t:"יֵלֵךְ הוּא לְשָׁלוֹם"},{t:"לֵךְ אֲנִי לְשָׁלוֹם"}],
+          f:[{t:"וְגַם אַתְּ לְכִי לְשָׁלוֹם",c:true},{t:"וְגַם אַתָּה לֵךְ לְשָׁלוֹם"},{t:"נֵלֵךְ אֲנִי לְשָׁלוֹם"},{t:"הָלַכְתִּי כְּבָר"},{t:"תֵּלֵךְ הִיא לְשָׁלוֹם"},{t:"לְכִי אֲנִי לְשָׁלוֹם"}]
+        },
+        fr:"« Va en paix, mon ami » — « Et toi aussi, va en paix »" }
+    ],
+    outro: "כָּל־הַכָּבוֹד — סִיַּמְתָּ אֶת־הַמַּסָּע׃ (« Tous mes honneurs — tu as achevé le voyage ! »)"
+  }
+];
+let DIALOGUE = null;
+function viewDialoguePicker(){
+  const blocks = [];
+  for(let start=1; start<=50; start+=3){
+    const end = Math.min(start+2, 50);
+    const d = DIALOGUES.find(x=>x.block && x.block.start===start);
+    blocks.push({start, end, dialogue:d});
+  }
+  return `
+  <div class="topline"><div><div class="eyebrow">תַּרְגִּילִים</div><h1>💬 Dialogues</h1></div>
+    <button class="navbtn" onclick="go('exercices')">← Retour</button></div>
+  <p class="ui" style="font-size:13px;color:var(--text-soft);margin-bottom:12px;">Un dialogue tous les 3 cours, pour réviser en contexte. Choisissez la bonne réponse pour faire avancer la conversation.</p>
+  <div class="exlist">
+    ${blocks.map(b=>{
+      if(b.dialogue){
+        const d = b.dialogue;
+        return `<div class="extile" onclick="pickPersona('${d.id}')"><h4>Cours ${b.start}-${b.end} — ${d.title}</h4><p>${d.theme}</p><div class="go">Commencer →</div></div>`;
+      }
+      return `<div class="extile" style="opacity:.5;cursor:default;"><h4>Cours ${b.start}-${b.end}</h4><p>Dialogue à venir</p></div>`;
+    }).join('')}
+  </div>`;
+}
+function pickPersona(id){
+  const d = DIALOGUES.find(x=>x.id===id);
+  if(!d.needsPersona){ startDialogue(id, 'm'); return; }
+  STATE.pendingDialogueId = id;
+  go('dialoguepersona');
+}
+function viewDialoguePersona(){
+  const d = DIALOGUES.find(x=>x.id===STATE.pendingDialogueId);
+  if(!d) return viewDialoguePicker();
+  return `
+  <div class="topline"><div><div class="eyebrow">${d.title}</div><h1>Avant de commencer</h1></div>
+    <button class="navbtn" onclick="go('dialoguepicker')">Annuler</button></div>
+  <div class="card">
+    <p>${d.intro}</p>
+    <p class="ui" style="font-size:13px;color:var(--text-soft);margin-top:10px;">L'hébreu accorde les verbes et adjectifs au genre du locuteur — déterminez d'abord qui vous êtes :</p>
+    <div style="display:flex;gap:12px;justify-content:center;margin-top:14px;flex-wrap:wrap;">
+      <button class="navbtn" onclick="startDialogue('${d.id}','m')">👤 Je suis un homme (אִישׁ)</button>
+      <button class="navbtn" onclick="startDialogue('${d.id}','f')">👤 Je suis une femme (אִשָּׁה)</button>
+    </div>
+  </div>`;
+}
+function startDialogue(id, gender){
+  const d = DIALOGUES.find(x=>x.id===id);
+  DIALOGUE = {id, gender, turn:0, answered:false, wrong:null, score:0};
+  go('dialoguegame');
+}
+function viewDialogueGame(){
+  if(!DIALOGUE) return viewDialoguePicker();
+  const d = DIALOGUES.find(x=>x.id===DIALOGUE.id);
+  const g = DIALOGUE;
+  if(g.turn >= d.turns.length){
+    return `<div class="topline"><div><div class="eyebrow">${d.title}</div><h1>🎉 Terminé</h1></div>
+      <button class="navbtn" onclick="DIALOGUE=null; go('dialoguepicker')">Retour</button></div>
+    <div class="card">
+      <p class="heb" style="font-size:1.15em;">${d.outro}</p>
+      <p class="ui" style="margin-top:12px;">Score : ${g.score}/${d.turns.length}</p>
+      <button class="navbtn" style="margin-top:10px;" onclick="pickPersona('${d.id}')">Rejouer →</button> <button class="navbtn" onclick="go('dialoguepicker')">Autre dialogue →</button>
+    </div>`;
+  }
+  const t = d.turns[g.turn];
+  const npcLine = g.gender==='f' ? (t.npc_f||t.npc) : t.npc;
+  const opts = t.options[g.gender];
+  const glossHTML = t.gloss ? `<p class="ui" style="font-size:11.5px;color:var(--text-soft);margin-top:4px;">${t.gloss.map(gl=>`<span class="heb" style="font-size:13px;">${esc(gl[0])}</span> = ${esc(gl[1])}`).join(' · ')}</p>` : '';
+  return `<div class="topline"><div><div class="eyebrow">${d.title} — ${g.turn+1}/${d.turns.length}</div><h1>💬 Dialogue</h1></div>
+    <button class="navbtn" onclick="DIALOGUE=null; go('dialoguepicker')">Quitter</button></div>
+  <div class="card">
+    <div class="rule"><span class="heb" style="font-size:1.2em;">${npcLine}</span><div class="tr" style="font-style:italic;margin-top:6px;">${t.fr}</div>${glossHTML}</div>
+    <p class="ui" style="font-size:12.5px;color:var(--text-soft);margin-top:12px;">Choisissez votre réponse :</p>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+      ${opts.map((o,i)=>`<button class="matchbtn heb" style="text-align:right;font-size:16px;" ${g.answered?'disabled':''} onclick="answerDialogue(${i})">${esc(o.t)}</button>`).join('')}
+    </div>
+    <div id="dialoguemsg" style="margin-top:10px;font-family:'Inter',sans-serif;font-size:14px;">${g.answered ? (g.wrong===null ? '<span style="color:#2e7d32;">✓ Correct !</span>' : '<span style="color:#c0392b;">✗ Incorrect — la bonne réponse était surlignée.</span>') : ''}</div>
+    ${g.answered ? `<button class="navbtn" style="margin-top:10px;" onclick="nextDialogueTurn()">Continuer →</button>` : ''}
+  </div>`;
+}
+function answerDialogue(i){
+  const d = DIALOGUES.find(x=>x.id===DIALOGUE.id);
+  const t = d.turns[DIALOGUE.turn];
+  const opts = t.options[DIALOGUE.gender];
+  if(DIALOGUE.answered) return;
+  DIALOGUE.answered = true;
+  if(opts[i].c){ DIALOGUE.wrong = null; DIALOGUE.score++; }
+  else DIALOGUE.wrong = i;
+  render();
+}
+function nextDialogueTurn(){
+  DIALOGUE.turn++;
+  DIALOGUE.answered = false;
+  DIALOGUE.wrong = null;
+  render();
+}
+
+
 function viewExercices(){
   const scores = PROGRESS.scores || {};
   const scoreLabel = k => scores[k] ? `Meilleur score : ${scores[k].best}/${scores[k].total}` : 'Pas encore tenté';
@@ -7759,6 +8551,7 @@ function viewExercices(){
   <div class="topline"><div><div class="eyebrow">תַּרְגִּילִים</div><h1>Exercices</h1></div></div>
   <div class="exlist">
     <div class="extile" onclick="go('memblocks')"><h4>🎴 Jeu de mémoire</h4><p>Retrouvez les paires hébreu ⇄ français, par blocs de 5 cours.</p><div class="go">Ouvrir →</div></div>
+    <div class="extile" onclick="go('dialoguepicker')"><h4>💬 Dialogues</h4><p>Choisissez la bonne réponse pour faire avancer une conversation en hébreu biblique.</p><div class="go">Ouvrir →</div></div>
     <div class="extile" onclick="go('vocabquiz')"><h4>מ Quiz de vocabulaire</h4><p>QCM auto-corrigé, hébreu ⇄ français (tous cours).</p><div class="go">Ouvrir →</div><div class="score">${scoreLabel('vocabQuizall')}</div></div>
     <div class="extile" onclick="startWriteExercise(null)"><h4>⌨️ Écrire au clavier</h4><p>Voir/entendre un mot et le taper en hébreu avec le clavier virtuel.</p><div class="go">Ouvrir →</div><div class="score">${scoreLabel('writeVocaball')}</div></div>
     <div class="extile" onclick="go('handwriting')"><h4>✍️ Tracer les lettres</h4><p>S'entraîner à écrire les lettres à la main (doigt ou stylet).</p><div class="go">Ouvrir →</div></div>
@@ -8010,7 +8803,7 @@ function viewConjugList(){
 function viewConjug(){
   const item = CONJUG[STATE.conjugIndex];
   if(!item) return viewConjugList();
-  let html = `<div class="topline"><div><div class="eyebrow">Conjugaison — Cours ${item.course}</div><h1><span class="heb">${item.root}</span></h1></div>
+  let html = `<div class="topline"><div><div class="eyebrow">Conjugaison — Cours ${item.course}</div><h1><span class="ui" style="font-size:0.5em;color:var(--text-soft);display:block;">Racine :</span><span class="heb">${item.root}</span></h1></div>
     <button class="navbtn" onclick="go('conjuglist')">← Toutes les conjugaisons</button></div>
   <p class="ui" style="color:var(--text-soft);font-size:13px;margin:-10px 0 4px;">${item.meaning}</p>
   ${gnLegendHTML()}`;
@@ -8925,6 +9718,9 @@ function renderContentOnly(){
   else if(STATE.view==='handwriting') html = viewHandwriting();
   else if(STATE.view==='memblocks') html = viewMemoryBlocks();
   else if(STATE.view==='memorygame') html = viewMemoryGame();
+  else if(STATE.view==='dialoguepicker') html = viewDialoguePicker();
+  else if(STATE.view==='dialoguepersona') html = viewDialoguePersona();
+  else if(STATE.view==='dialoguegame') html = viewDialogueGame();
   main.innerHTML = html;
   enhanceHebrewText(main);
   if(STATE.view==='cours' && isLessonUnlocked(STATE.lesson)) attachBlockComments(main, STATE.lesson);
