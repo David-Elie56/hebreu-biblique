@@ -7576,8 +7576,12 @@ const SHUALI_CHAPTERS = [
   {title:"La flexion des noms au singulier", content:true},
   {title:"Les chiffres 1-10", content:true},
   {title:"La flexion des prépositions (I)", content:true},
+  {title:"Flexion au pluriel (noms, prépositions)", content:true},
+  {title:"Le complément d'objet direct", content:true},
+  {title:"קָטַל / וְקָטַל — leur emploi", content:true},
   {title:"Le système verbal", content:true},
   {title:"L'état construit", content:true},
+  {title:"L'infinitif construit, lecture", content:true},
   {title:"Le Nifal", content:true},
   {title:"Les conjugaisons passives", content:true},
   {title:"La proposition relative", content:true},
@@ -7591,6 +7595,9 @@ function viewShualiHome(){
   <div class="card">
     <p>D'après <i>Lire l'hébreu biblique</i>, d'Eran Shuali (Faculté de Théologie protestante, Université de Strasbourg). Cette méthode suit sa propre progression, distincte de la Méthode Yehi-Or.</p>
     <p class="ui" style="font-size:13px;color:var(--text-soft);margin-top:8px;">${done}/${SHUALI_CHAPTERS.length} chapitres disponibles pour l'instant — les autres seront ajoutés progressivement.</p>
+  </div>
+  <div class="card">
+    <div class="extile" onclick="go('verseanalysis')"><h4>🔬 Analyse grammaticale de versets</h4><p>Révision générale (commune aux deux méthodes) : décortiquez des versets réels — binyan, temps, préformante, genre/nombre.</p><div class="go">Ouvrir →</div></div>
   </div>
   <div class="exlist">
     ${SHUALI_CHAPTERS.map((c,i)=>{
@@ -7628,6 +7635,10 @@ function viewShualiChapter(){
   if(n===24) return shualiChapter24();
   if(n===25) return shualiChapter25();
   if(n===26) return shualiChapter26();
+  if(n===27) return shualiChapter27();
+  if(n===28) return shualiChapter28();
+  if(n===29) return shualiChapter29();
+  if(n===30) return shualiChapter30();
   return viewShualiHome();
 }
 const SHUALI_ABRAHAM = [
@@ -9093,7 +9104,164 @@ function shualiChapter19(){
 }
 function shualiChapter20(){
   return `
-  <div class="topline"><div><div class="eyebrow">Méthode Shuali — Chapitre 20</div><h1>מַעֲרֶכֶת הַפֹּעַל — Le système verbal</h1><div class="ui" style="font-size:11.5px;color:var(--gold-dim);margin-top:2px;">📖 Manuel Méthode I, p. 89-93 (avant l'état construit)</div></div>
+  <div class="topline"><div><div class="eyebrow">Méthode Shuali — Chapitre 20</div><h1>נְטִיָּה בָּרַבִּים — Flexion au pluriel (noms et prépositions)</h1><div class="ui" style="font-size:11.5px;color:var(--gold-dim);margin-top:2px;">📖 Manuel Méthode I, p. 109-114</div></div>
+    <button class="navbtn" onclick="go('shualihome')">← Chapitres</button></div>
+
+  <div class="card">
+    <h3><span class="en en-heb">תַּלְמִידִים / תַּלְמִידוֹת</span>La flexion des noms au pluriel</h3>
+    ${ex('חָכָם הוּא תַּלְמִידִי — חֲכָמִים הֵם תַּלְמִידַי',"« Il est sage, mon élève — ils sont sages, mes élèves »")}
+    ${ex('וַיֹּ֫אמֶר יַעֲקֹב אֶל־בָּנָיו לֵאמֹר בָּנַי שִׁמְעוּ אֶל־דְּבָרַי כִּי מֵאֱלֹהֵ֫ינוּ הֵ֫מָּה',"« Jacob dit à ses fils : mes fils, écoutez mes paroles, car elles sont de notre Dieu »")}
+    ${tableHTML("תַּלְמִידִים (masc.)", ["","ז","נ"], [
+      ["Sing. I","<span class=\"heb\">תַּלְמִידַי</span>",""],
+      ["Sing. II","<span class=\"heb\">תַּלְמִידֶ֫יךָ</span>","<span class=\"heb\">תַּלְמִידַ֫יִךְ</span>"],
+      ["Sing. III","<span class=\"heb\">תַּלְמִידָיו</span>","<span class=\"heb\">תַּלְמִידֶ֫יהָ</span>"],
+      ["Plur. I","<span class=\"heb\">תַּלְמִידֵ֫ינוּ</span>",""],
+      ["Plur. II","<span class=\"heb\">תַּלְמִידֵיכֶם</span>","<span class=\"heb\">תַּלְמִידֵיכֶן</span>"],
+      ["Plur. III","<span class=\"heb\">תַּלְמִידֵיהֶם</span>","<span class=\"heb\">תַּלְמִידֵיהֶן</span>"]
+    ])}
+    <p class="ui" style="font-size:13px;color:var(--text-soft);">Le pluriel féminin suit le même schéma avec <span class="heb">וֹת</span> : <span class="heb">תַּלְמִידוֹתַי, תַּלְמִידוֹתֶ֫יךָ...</span> Fléchissez de même <span class="heb">נְבִיאִים</span> et <span class="heb">נְבִיאוֹת</span>.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="en">Exercice</span>Mettez les phrases suivantes au pluriel</h3>
+    <div class="rule"><span class="heb" style="font-size:1.05em;">1. אֲדֹנָי דְּבָרְךָ אֱמֶת: ← <u>אֲדֹנָי דְּבָרֶ֫יךָ אֱמֶת:</u></span></div>
+    ${tableHTML(null, ["Phrase à mettre au pluriel"], [
+      ["2. <span class=\"heb\">אִשְׁתִּי יָפָה וַחֲכָמָה הִיא:</span>"],
+      ["3. <span class=\"heb\">אֱלֹהִים עִירְךָ קְדוֹשָׁה וְכֹהֲנְךָ צַדִּיק:</span>"],
+      ["4. <span class=\"heb\">וַיֹּאמְרוּ עַם־יִשְׂרָאֵל לֵאמֹר אַיֵּה נְבִיאֵ֫נוּ וְאַיֵּה נְבִיאָתֵ֫נוּ:</span>"],
+      ["5. <span class=\"heb\">וַתְּדַבֵּר הָאִשָּׁה אֶל־יַלְדָּהּ וַתֹּ֫אמֶר לוֹ לֵאמֹר אֱכֹל יַלְדִּי וּגְדָל:</span>"],
+      ["6. <span class=\"heb\">וַיִּתֵּן הָאִישׁ אֶת־פִּתּוֹ לְכִבְשָׂתוֹ:</span>"],
+      ["7. <span class=\"heb\">וַיֹּ֫אמֶר הָרָשׁ לֶעָשִׁיר לֵאמֹר תֶּן־לִי יַ֫יִן מִכֹּסְךָ וְאֶשְׁתֶּה:</span>"]
+    ])}
+    <details style="margin-top:10px;"><summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé possible</summary>
+    ${tableHTML(null, ["N°","Corrigé"], [
+      ["2","<span class=\"heb\">נָשַׁי יָפוֹת וַחֲכָמוֹת הֵ֫נָּה:</span>"],
+      ["3","<span class=\"heb\">אֱלֹהִים עָרֶ֫יךָ קְדוֹשׁוֹת וְכֹהֲנֶ֫יךָ צַדִּיקִים:</span>"],
+      ["4","<span class=\"heb\">וַיֹּאמְרוּ עַם־יִשְׂרָאֵל לֵאמֹר אַיֵּה נְבִיאֵ֫ינוּ וְאַיֵּה נְבִיאוֹתֵ֫ינוּ:</span>"],
+      ["5","<span class=\"heb\">וַתְּדַבֵּ֫רְנָה הַנָּשִׁים אֶל־יַלְדֵיהֶן וַתֹּאמַ֫רְנָה לָהֶם לֵאמֹר אִכְלוּ יְלָדַי וְגִדְלוּ:</span>"],
+      ["6","<span class=\"heb\">וַיִּתְּנוּ הָאֲנָשִׁים אֶת־פִּתֵּיהֶם לְכִבְשׂוֹתֵיהֶם:</span>"],
+      ["7","<span class=\"heb\">וַיֹּאמְרוּ הָרָשִׁים לָעֲשִׁירִים לֵאמֹר תְּנוּ־לָ֫נוּ יַ֫יִן מִכֹּסֵיכֶם וְנִשְׁתֶּה:</span>"]
+    ])}
+    <div class="callout info"><span class="ico">💡</span><span>Corrigés dérivés des règles du cours.</span></div>
+    </details>
+  </div>
+
+  <div class="card">
+    <h3><span class="en">Grammaire</span>La flexion des prépositions au pluriel</h3>
+    <p>Certaines prépositions se fléchissent comme des noms au <b>pluriel</b> plutôt qu'au singulier — cela n'indique rien sur leur sens :</p>
+    ${ex('וַיְדַבֵּר שְׁלֹמֹה אֶל־הָאִישׁ — וַיְדַבֵּר שְׁלֹמֹה אֵלָיו',"« Salomon parla à l'homme — Salomon lui parla »")}
+    ${ex('וַיְדַבֵּר שְׁלֹמֹה אֶל־הַנָּשִׁים — וַיְדַבֵּר שְׁלֹמֹה אֲלֵיהֶן',"« Salomon parla aux femmes — Salomon leur parla »")}
+    ${tableHTML("אֶל־", ["","ז","נ"], [
+      ["Sing. I","<span class=\"heb\">אֵלַי</span>",""],
+      ["Sing. II","<span class=\"heb\">אֵלֶ֫יךָ</span>","<span class=\"heb\">אֵלַ֫יִךְ</span>"],
+      ["Sing. III","<span class=\"heb\">אֵלָיו</span>","<span class=\"heb\">אֵלֶ֫יהָ</span>"],
+      ["Plur. I","<span class=\"heb\">אֵלֵ֫ינוּ</span>",""],
+      ["Plur. II","<span class=\"heb\">אֲלֵיכֶם</span>","<span class=\"heb\">אֲלֵיכֶן</span>"],
+      ["Plur. III","<span class=\"heb\">אֲלֵיהֶם</span>","<span class=\"heb\">אֲלֵיהֶן</span>"]
+    ])}
+    <p class="ui" style="font-size:13px;color:var(--text-soft);">Fléchissez de même : <span class="heb">עַל־</span> (<span class="heb">עָלַי, עָלֶ֫יךָ, עָלֶ֫יהָ, עָלֵ֫ינוּ, עֲלֵיכֶם, עֲלֵיהֶם</span>) ; <span class="heb">תַּ֫חַת־</span> (<span class="heb">תַּחְתַּי</span>…) ; <span class="heb">לִפְנֵי־</span> (<span class="heb">לְפָנַי, לְפָנֶ֫יךָ, לִפְנֵיכֶם</span>…) ; <span class="heb">אַחֲרֵי־</span> (<span class="heb">אַחֲרַי</span>…).</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="en">קְרָא</span>Versets à lire et comprendre</h3>
+    ${tableHTML(null, ["Verset","Référence"], [
+      ["<span class=\"heb\">(…) בָּא אֵלַי לִשְׁכַּב עִמִּי וָאֶקְרָא בְּקוֹל גָּדוֹל</span>","Gn 39,14"],
+      ["<span class=\"heb\">שִׁמְעוּ אֵלַי בַּעֲלֵי שְׁכֶם וְיִשְׁמַע אֲלֵיכֶם אֱלֹהִים</span>","Jg 9,7"],
+      ["<span class=\"heb\">וַתֵּ֫בְךְּ עָלָיו שִׁבְעַת הַיָּמִים</span>","Jg 14,17"],
+      ["<span class=\"heb\">וַיֹּ֫אמֶר שׁוֹב אָשׁוּב אֵלֶ֫יךָ כָּעֵת חַיָּה</span>","Gn 18,10"]
+    ])}
+  </div>`;
+}
+function shualiChapter21(){
+  return `
+  <div class="topline"><div><div class="eyebrow">Méthode Shuali — Chapitre 21</div><h1>מֻשָּׂא יָשִׁיר — Le complément d'objet direct</h1><div class="ui" style="font-size:11.5px;color:var(--gold-dim);margin-top:2px;">📖 Manuel Méthode I, p. 115-117</div></div>
+    <button class="navbtn" onclick="go('shualihome')">← Chapitres</button></div>
+
+  <div class="card">
+    <h3><span class="en">Grammaire</span>Deux façons d'éviter la répétition</h3>
+    <p>La phrase <span class="heb">וָאֵלֵךְ אֶל־בֵּית שָׂרָה וָאֵרֶא שָׁם אֶת־שָׂרָה</span> répète étrangement le nom. En hébreu, on évite cette répétition de deux façons pour un COD déjà connu.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="en en-heb">אֶת־</span>1. La flexion de la préposition</h3>
+    ${tableHTML(null, ["","ז","נ"], [
+      ["Sing. I","<span class=\"heb\">אֹתִי</span>",""],
+      ["Sing. II","<span class=\"heb\">אֹתְךָ</span>","<span class=\"heb\">אֹתָךְ</span>"],
+      ["Sing. III","<span class=\"heb\">אֹתוֹ</span>","<span class=\"heb\">אֹתָהּ</span>"],
+      ["Plur. I","<span class=\"heb\">אֹתָ֫נוּ</span>",""],
+      ["Plur. II","<span class=\"heb\">אֶתְכֶם</span>","<span class=\"heb\">אֶתְכֶן</span>"],
+      ["Plur. III","<span class=\"heb\">אֹתָם</span>","<span class=\"heb\">אֶתְהֶן</span>"]
+    ])}
+    <p style="text-align:center;"><span class="heb">וָאֵלֵךְ אֶל־בֵּית שָׂרָה וָאֵרֶא שָׁם <b>אֹתָהּ</b>׃</span></p>
+  </div>
+
+  <div class="card">
+    <h3><span class="en">2. Les pronoms suffixes</span>Directement sur le verbe</h3>
+    <p>Une seconde façon consiste à ajouter au verbe un pronom suffixe COD, qui s'accorde en personne/genre/nombre avec ce qu'il remplace :</p>
+    <p style="text-align:center;"><span class="heb">וָאֵלֵךְ אֶל־בֵּית שָׂרָה וָאֶרְאֶ<b>נָּה</b> שָׁם׃</span></p>
+    ${tableHTML("יִשְׁפֹּט + suffixes COD", ["","ז","נ"], [
+      ["Sing. I","<span class=\"heb\">יִשְׁפְּטֵ֫נִי / יִשְׁפְּטֶ֫נִּי</span>",""],
+      ["Sing. II","<span class=\"heb\">יִשְׁפָּטְךָ</span>","<span class=\"heb\">יִשְׁפְּטֵךְ</span>"],
+      ["Sing. III","<span class=\"heb\">יִשְׁפְּטֵ֫הוּ / יִשְׁפְּטֶ֫נּוּ</span>","<span class=\"heb\">יִשְׁפְּטֶ֫הָ / יִשְׁפְּטֶ֫נָּה</span>"],
+      ["Plur. I","<span class=\"heb\">יִשְׁפְּטֵ֫נוּ</span>",""],
+      ["Plur. II","<span class=\"heb\">יִשְׁפָּטְכֶם</span>","<span class=\"heb\">יִשְׁפָּטְכֶן</span>"],
+      ["Plur. III","<span class=\"heb\">יִשְׁפְּטֵם / יִשְׁפְּטֵ֫מוֹ</span>","<span class=\"heb\">יִשְׁפְּטֵן</span>"]
+    ])}
+  </div>`;
+}
+function shualiChapter22(){
+  return `
+  <div class="topline"><div><div class="eyebrow">Méthode Shuali — Chapitre 22</div><h1>קָטַל / וְקָטַל — Quand les employer ?</h1><div class="ui" style="font-size:11.5px;color:var(--gold-dim);margin-top:2px;">📖 Manuel Méthode I, p. 122-125</div></div>
+    <button class="navbtn" onclick="go('shualihome')">← Chapitres</button></div>
+
+  <div class="card">
+    <h3><span class="en">Grammaire</span>קָטַל contre וַיִּקְטֹל</h3>
+    <p>Le <span class="heb">וַיִּקְטֹל</span> est le <b>passé de la narration</b> : il s'emploie pour raconter la trame d'une histoire, et se place toujours en <b>tête</b> de sa proposition (puisqu'il commence par la conjonction « et »).</p>
+    <p>Le <span class="heb">קָטַל</span> décrit souvent l'<b>arrière-plan</b> du récit, ou une action <b>antérieure</b> à celle du וַיִּקְטֹל qui suit :</p>
+    ${ex('וַיָּ֫מָת בֶּן־הָאִשָּׁה הַזֹּאת לַ֫יְלָה אֲשֶׁר שָׁכְבָה עָלָיו',"« Et le fils de cette femme mourut — celui sur lequel elle s'était couchée »","1 Rois 3,19")}
+    <p><i>D'abord elle s'est couchée sur lui (קָטַל, antérieur) ; ensuite il est mort (וַיִּקְטֹל, trame du récit).</i></p>
+    <div class="callout info"><span class="ico">💡</span><span>Quand un verbe au passé <b>ne peut pas</b> se placer en tête de proposition (négation, mot interrogatif…), il se conjugue obligatoirement au קָטַל :</span></div>
+    ${ex('לֶ֫חֶם לֹא אָכַל וּמַ֫יִם לֹא שָׁתָה',"« Il ne mangea pas de pain et ne but pas d'eau »","Exode 34,28 — négation en tête")}
+    ${ex('וַיִּקְרָא אֲבִימֶ֫לֶךְ לְאַבְרָהָם וַיֹּ֫אמֶר לוֹ מֶה־עָשִׂ֫יתָ לָּ֫נוּ',"« Abimélek appela Abraham et lui dit : que nous as-tu fait ? »","Genèse 20,9 — adverbe interrogatif en tête")}
+  </div>
+
+  <div class="card">
+    <h3><span class="en">Exercice</span>Mettez les phrases suivantes au passé (קָטַל)</h3>
+    ${tableHTML(null, ["Phrase au futur"], [
+      ["1. <span class=\"heb\">בַּיּוֹם הַהוּא יִשְׁמְעוּ בְנֵי־יִשְׂרָאֵל בְּקוֹל אֲדֹנָי:</span>"],
+      ["2. <span class=\"heb\">לֶ֫חֶם לֹא־אֹכַל וּמַ֫יִם לֹא־אֶשְׁתֶּה:</span>"],
+      ["3. <span class=\"heb\">בָּכֹה תִּבְכֶּה הָאִשָּׁה לִפְנֵי־אֱלֹהִים:</span>"],
+      ["4. <span class=\"heb\">שָׂרָה אַתְּ תֵּלְדִי יֶ֫לֶד וּשְׁמוֹ יִהְיֶה יִצְחָק:</span>"],
+      ["5. <span class=\"heb\">אָ֫נָה תֵּלַ֫כְנָה:</span>"],
+      ["6. <span class=\"heb\">לָ֫מָּה תְּדַבֵּר כַּדְּבָרִים הָאֵ֫לֶּה:</span>"],
+      ["7. <span class=\"heb\">עַם־יִשְׂרָאֵל יָשׁוּב אֶל־אַרְצוֹ:</span>"]
+    ])}
+    <details style="margin-top:10px;"><summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
+    ${tableHTML(null, ["N°","Corrigé"], [
+      ["1","<span class=\"heb\">בַּיּוֹם הַהוּא שָׁמְעוּ בְנֵי־יִשְׂרָאֵל בְּקוֹל אֲדֹנָי:</span>"],
+      ["2","<span class=\"heb\">לֶ֫חֶם לֹא אָכַ֫לְתִּי וּמַ֫יִם לֹא שָׁתִ֫יתִי:</span>"],
+      ["3","<span class=\"heb\">בָּכֹה בָכְתָה הָאִשָּׁה לִפְנֵי־אֱלֹהִים:</span>"],
+      ["4","<span class=\"heb\">שָׂרָה אַתְּ יָלַ֫דְתְּ יֶ֫לֶד וּשְׁמוֹ הָיָה יִצְחָק:</span>"],
+      ["5","<span class=\"heb\">אָ֫נָה הֲלַכְתֶּן:</span>"],
+      ["6","<span class=\"heb\">לָ֫מָּה דִּבַּ֫רְתָּ כַּדְּבָרִים הָאֵ֫לֶּה:</span>"],
+      ["7","<span class=\"heb\">עַם־יִשְׂרָאֵל שָׁב אֶל־אַרְצוֹ:</span>"]
+    ])}
+    </details>
+  </div>
+
+  <div class="card">
+    <h3><span class="en en-heb">וְקָטַל</span>Une forme apparentée : le Weqatal</h3>
+    <p>Le <span class="heb">וְקָטַל</span> se conjugue exactement comme le קָטַל, mais précédé de <span class="heb">וְ־</span> — parfois avec déplacement de l'accent : <span class="heb">אָכַ֫לְתָּ → וְאָכַלְתָּ֫</span>.</p>
+    ${ex('בְּאַחֲרִית הַיָּמִים וְשַׁבְתָּ עַד־יְהוָה אֱלֹהֶ֫יךָ וְשָׁמַ֫עְתָּ בְּקֹלוֹ',"« À la fin des temps, tu reviendras vers l'Éternel ton Dieu et tu écouteras sa voix »","Deutéronome 4,30")}
+    <div class="callout info"><span class="ico">💡</span><span>Comme le יִקְטֹל, le וְקָטַל peut décrire une action <b>future</b> — mais contrairement au יִקְטֹל (qui ne se met jamais en tête de proposition), le וְקָטַל s'y place volontiers.</span></div>
+    <p>Le וְקָטַל s'emploie aussi pour donner des <b>ordres</b>, en continuation d'un impératif :</p>
+    ${ex('וַיֹּ֫אמֶר יְהוָה אֶל־מֹשֶׁה בֹּא אֶל־פַּרְעֹה וְאָמַ֫רְתָּ אֵלָיו',"« L'Éternel dit à Moïse : va vers Pharaon et dis-lui… »","Exode 7,26")}
+    <div class="callout warn"><span class="ico">⚠️</span><span>Dans bien des cas, le וְקָטַל décrit une action conçue comme la <b>conséquence</b> d'une action précédemment mentionnée.</span></div>
+  </div>`;
+}
+function shualiChapter23(){
+  return `
+  <div class="topline"><div><div class="eyebrow">Méthode Shuali — Chapitre 23</div><h1>מַעֲרֶכֶת הַפֹּעַל — Le système verbal</h1><div class="ui" style="font-size:11.5px;color:var(--gold-dim);margin-top:2px;">📖 Manuel Méthode I, p. 89-93 (avant l'état construit)</div></div>
     <button class="navbtn" onclick="go('shualihome')">← Chapitres</button></div>
 
   <div class="card">
@@ -9130,9 +9298,9 @@ function shualiChapter20(){
   </div>`;
 }
 
-function shualiChapter21(){
+function shualiChapter24(){
   return `
-  <div class="topline"><div><div class="eyebrow">Méthode Shuali — Chapitre 21</div><h1>סְמִיכוּת — L'état construit</h1><div class="ui" style="font-size:11.5px;color:var(--gold-dim);margin-top:2px;">📖 Manuel Méthode I, p. 94-96</div></div>
+  <div class="topline"><div><div class="eyebrow">Méthode Shuali — Chapitre 24</div><h1>סְמִיכוּת — L'état construit</h1><div class="ui" style="font-size:11.5px;color:var(--gold-dim);margin-top:2px;">📖 Manuel Méthode I, p. 94-96</div></div>
     <button class="navbtn" onclick="go('shualihome')">← Chapitres</button></div>
 
   <div class="card">
@@ -9182,9 +9350,70 @@ function shualiChapter21(){
   </div>`;
 }
 
-function shualiChapter22(){
+function shualiChapter25(){
   return `
-  <div class="topline"><div><div class="eyebrow">Méthode Shuali II — Chapitre 22</div><h1>נִפְעַל — Le Nifal</h1><div class="ui" style="font-size:11.5px;color:var(--gold-dim);margin-top:2px;">📖 Manuel Méthode II, p. 2-7</div></div>
+  <div class="topline"><div><div class="eyebrow">Méthode Shuali — Chapitre 25</div><h1>שֵׁם־הַפֹּעַל — L'infinitif construit</h1><div class="ui" style="font-size:11.5px;color:var(--gold-dim);margin-top:2px;">📖 Manuel Méthode I, p. 118-121</div></div>
+    <button class="navbtn" onclick="go('shualihome')">← Chapitres</button></div>
+
+  <div class="card">
+    <h3><span class="en">Grammaire</span>L'infinitif construit</h3>
+    <p>Outre l'infinitif absolu (qui insiste sur une action), l'hébreu a un <b>infinitif construit</b>. Précédé de <span class="heb ns-copule">לְ־</span>, il s'emploie comme l'infinitif français, pour exprimer le <b>but</b> d'une action :</p>
+    ${tableHTML(null, ["Verset","Référence"], [
+      ["<span class=\"heb\">וַיֵּלְכוּ כָל־הָעָם <b>לֶאֱכֹל</b> וְ<b>לִשְׁתּוֹת</b></span>","Né 8,12"],
+      ["<span class=\"heb\">וַאֲנִי אָבוֹא אֶל־בֵּיתִי <b>לֶאֱכֹל</b> וְ<b>לִשְׁתּוֹת</b> וְ<b>לִשְׁכַּב</b> עִם־אִשְׁתִּי</span>","2 S 11,11"],
+      ["<span class=\"heb\">וַיֵּ֫שֶׁב מֹשֶׁה <b>לִשְׁפֹּט</b> אֶת־הָעָם</span>","Ex 18,13"],
+      ["<span class=\"heb\">וַתָּבֹא בַת־שֶׁ֫בַע אֶל־הַמֶּ֫לֶךְ שְׁלֹמֹה <b>לְדַבֵּר</b>־לוֹ עַל־אֲדֹנִיָּ֫הוּ</span>","1 R 2,19"]
+    ])}
+  </div>
+
+  <div class="card">
+    <h3><span class="en en-heb">קַל</span>Formation — verbes forts et faibles</h3>
+    <p><span class="heb">שָׁפַט → לִשְׁפֹּט</span> (modèle régulier). Complétez sur ce modèle : <span class="heb">שָׁאַל, גָּזַר, קָרָא, גָּדַל, שָׁלַח, שָׁמַע</span>.</p>
+    ${tableHTML(null, ["Catégorie","Exemple donné","À dériver"], [
+      ["פ״ג (gutturale 1ʳᵉ lettre)","<span class=\"heb\">עָמַד → לַעֲמֹד</span>","<span class=\"heb\">חָמַל → לַחְמֹל</span>"],
+      ["פ״א (Alef 1ʳᵉ lettre)","<span class=\"heb\">אָכַל → לֶאֱכֹל</span>",""],
+      ["ל״ה (Hé 3ᵉ lettre)","<span class=\"heb\">שָׁתָה → לִשְׁתּוֹת</span>","<span class=\"heb\">קָנָה, בָּכָה, רָאָה, הָיָה, חַי, עָשָׂה</span> → <span class=\"heb\">לִקְנוֹת, לִבְכּוֹת, לִרְאוֹת, לִהְיוֹת, לִחְיוֹת, לַעֲשׂוֹת</span>"],
+      ["ע״ו (Vav 2ᵉ lettre)","<span class=\"heb\">קָם → לָקוּם</span> ; <span class=\"heb\">בָּא → לָבוֹא</span>","<span class=\"heb\">שָׁב, מֵת</span> → <span class=\"heb\">לָשׁוּב, לָמוּת</span>"],
+      ["פ״י (Yod 1ʳᵉ lettre)","<span class=\"heb\">יָלַד → לָלֶ֫דֶת</span> ; <span class=\"heb\">יָדַע → לָדַ֫עַת</span>","<span class=\"heb\">יָשַׁב, הָלַךְ</span> → <span class=\"heb\">לָשֶׁ֫בֶת, לָלֶ֫כֶת</span>"],
+      ["Formes étonnantes","<span class=\"heb\">נָתַן → לָתֵת</span> ; <span class=\"heb\">לָקַח → לָקַ֫חַת</span> ; <span class=\"heb\">שָׁכַב → לִשְׁכַּב</span>",""],
+      ["פִּעֵל","<span class=\"heb\">דִּבֵּר → לְדַבֵּר</span>","<span class=\"heb\">חִיָּה → לְחַיּוֹת</span>"],
+      ["הִפְעִיל","<span class=\"heb\">הִשְׁכִּיב → לְהַשְׁכִּיב</span>",""]
+    ])}
+  </div>
+
+  <div class="card">
+    <h3><span class="en">Exercice</span>Mettez les verbes entre parenthèses à l'infinitif construit</h3>
+    ${tableHTML(null, ["Phrase à compléter"], [
+      ["1. <span class=\"heb\">וַתָּבֹ֫אנָה שְׁתַּ֫יִם נָשִׁים אֶל־הֵיכַל הַמֶּ֫לֶךְ לְדַבֵּר (דִּבֵּר) אֶל־שְׁלֹמֹה וַיֵּ֫שֶׁב שְׁלֹמֹה עַל־כִּסְאוֹ ___ (שָׁפַט) אֶתְהֶן:</span>"],
+      ["2. <span class=\"heb\">וַיִּ֫קֶן הָאִישׁ לֶ֫חֶם ___ (אָכַל) וְיַ֫יִן ___ (שָׁתָה):</span>"],
+      ["3. <span class=\"heb\">וַיִּקְרָא הֶחָכָם יוֹם יוֹם בַּסֵּ֫פֶר הַקָּדוֹשׁ ___ (יָדַע) אֶת־תּוֹרַת אֲדֹנָי:</span>"],
+      ["4. <span class=\"heb\">וַיָּ֫קָם יַעֲקֹב ___ (הָלַךְ) מִבֵּית־לָבָן וְ___ (שָׁב) לְאַרְצוֹ כְנַ֫עַן:</span>"],
+      ["5. <span class=\"heb\">וַתִּשְׁאַל הַמּוֹרָה שְׁאֵלָה וַתָּ֫קָם הַתַּלְמִידָה ___ (עָנָה):</span>"],
+      ["6. <span class=\"heb\">יָבֹ֫אוּ כָּל־הָעַמִּים יְרוּשָׁלָ֫יְמָה ___ (רָאָה) אֶת־הֵיכַל אֲדֹנָי וְ___ (עָמַד) לִפְנֵי־כֹהֲנָיו:</span>"]
+    ])}
+    <details style="margin-top:10px;"><summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
+    ${tableHTML(null, ["N°","Corrigé"], [
+      ["1","<span class=\"heb\">לִשְׁפֹּט</span>"],["2","<span class=\"heb\">לֶאֱכֹל</span> / <span class=\"heb\">לִשְׁתּוֹת</span>"],
+      ["3","<span class=\"heb\">לָדַ֫עַת</span>"],["4","<span class=\"heb\">לָלֶ֫כֶת</span> / <span class=\"heb\">לָשׁוּב</span>"],
+      ["5","<span class=\"heb\">לַעֲנוֹת</span>"],["6","<span class=\"heb\">לִרְאוֹת</span> / <span class=\"heb\">לַעֲמֹד</span>"]
+    ])}
+    </details>
+  </div>
+
+  <div class="card">
+    <h3><span class="en en-heb">כִּבְשַׂת הָרָשׁ</span>Lecture — la brebis du pauvre</h3>
+    <p class="ui" style="font-size:13px;color:var(--text-soft);">D'après 2 Samuel 12,1-4 — la parabole que le prophète Nathan raconte à David.</p>
+    <div class="rule" style="line-height:2;">
+      <span class="heb" style="font-size:1.05em;">א וַיִּשְׁלַח יְהוָה אֶת־נָתָן אֶל־דָּוִד וַיָּבֹא אֵלָיו וַיֹּ֫אמֶר לוֹ שְׁנֵי אֲנָשִׁים הָיוּ בְּעִיר אֶחָת אֶחָד עָשִׁיר וְאֶחָד רָאשׁ׃<br>
+      ב לְעָשִׁיר הָיָה צֹאן וּבָקָר הַרְבֵּה מְאֹד׃<br>
+      ג וְלָרָשׁ אֵין־כֹּל כִּי אִם־כִּבְשָׂה אַחַת קְטַנָּה אֲשֶׁר קָנָה וַיְחַיֶּ֫הָ וַתִּגְדַּל עִמּוֹ וְעִם־בָּנָיו יַחְדָּו מִפִּתּוֹ תֹאכַל וּמִכֹּסוֹ תִשְׁתֶּה וּבְחֵיקוֹ תִשְׁכָּב וַתְּהִי־לוֹ כְּבַת׃<br>
+      ד וַיָּבֹא הֵ֫לֶךְ לְאִישׁ הֶעָשִׁיר וַיַּחְמֹל לָקַ֫חַת מִצֹּאנוֹ וּמִבְּקָרוֹ לַעֲשׂוֹת לָאֹרֵ֫חַ הַבָּא־לוֹ וַיִּקַּח אֶת־כִּבְשַׂת הָאִישׁ הָרָאשׁ וַיַּעֲשֶׂ֫הָ לָאִישׁ הַבָּא אֵלָֽיו׃</span>
+    </div>
+  </div>`;
+}
+function shualiChapter26(){
+  return `
+  <div class="topline"><div><div class="eyebrow">Méthode Shuali II — Chapitre 26</div><h1>נִפְעַל — Le Nifal</h1><div class="ui" style="font-size:11.5px;color:var(--gold-dim);margin-top:2px;">📖 Manuel Méthode II, p. 2-7</div></div>
     <button class="navbtn" onclick="go('shualihome')">← Chapitres</button></div>
 
   <div class="card">
@@ -9229,9 +9458,9 @@ function shualiChapter22(){
   </div>`;
 }
 
-function shualiChapter23(){
+function shualiChapter27(){
   return `
-  <div class="topline"><div><div class="eyebrow">Méthode Shuali II — Chapitre 23</div><h1>הַבִּנְיָנִים הַסְּבִילִים — Les conjugaisons passives</h1><div class="ui" style="font-size:11.5px;color:var(--gold-dim);margin-top:2px;">📖 Manuel Méthode II, p. 17-25</div></div>
+  <div class="topline"><div><div class="eyebrow">Méthode Shuali II — Chapitre 27</div><h1>הַבִּנְיָנִים הַסְּבִילִים — Les conjugaisons passives</h1><div class="ui" style="font-size:11.5px;color:var(--gold-dim);margin-top:2px;">📖 Manuel Méthode II, p. 17-25</div></div>
     <button class="navbtn" onclick="go('shualihome')">← Chapitres</button></div>
 
   <div class="card">
@@ -9305,9 +9534,9 @@ function shualiChapter23(){
   </div>`;
 }
 
-function shualiChapter24(){
+function shualiChapter28(){
   return `
-  <div class="topline"><div><div class="eyebrow">Méthode Shuali II — Chapitre 24</div><h1>מִשְׁפַּט הַזִּיקָה — La proposition relative</h1><div class="ui" style="font-size:11.5px;color:var(--gold-dim);margin-top:2px;">📖 Manuel Méthode II, p. 26-30</div></div>
+  <div class="topline"><div><div class="eyebrow">Méthode Shuali II — Chapitre 28</div><h1>מִשְׁפַּט הַזִּיקָה — La proposition relative</h1><div class="ui" style="font-size:11.5px;color:var(--gold-dim);margin-top:2px;">📖 Manuel Méthode II, p. 26-30</div></div>
     <button class="navbtn" onclick="go('shualihome')">← Chapitres</button></div>
 
   <div class="card">
@@ -9378,9 +9607,9 @@ function shualiChapter24(){
   </div>`;
 }
 
-function shualiChapter25(){
+function shualiChapter29(){
   return `
-  <div class="topline"><div><div class="eyebrow">Méthode Shuali II — Chapitre 25</div><h1>בְּ / כְּ + שֵׁם־הַפֹּעַל — Propositions de temps, Hitpaël</h1><div class="ui" style="font-size:11.5px;color:var(--gold-dim);margin-top:2px;">📖 Manuel Méthode II, p. 8-13</div></div>
+  <div class="topline"><div><div class="eyebrow">Méthode Shuali II — Chapitre 29</div><h1>בְּ / כְּ + שֵׁם־הַפֹּעַל — Propositions de temps, Hitpaël</h1><div class="ui" style="font-size:11.5px;color:var(--gold-dim);margin-top:2px;">📖 Manuel Méthode II, p. 8-13</div></div>
     <button class="navbtn" onclick="go('shualihome')">← Chapitres</button></div>
 
   <div class="card">
@@ -9426,9 +9655,9 @@ function shualiChapter25(){
   </div>`;
 }
 
-function shualiChapter26(){
+function shualiChapter30(){
   return `
-  <div class="topline"><div><div class="eyebrow">Méthode Shuali II — Chapitre 26</div><h1>הַמּוֹדוּסִים הָרְצוֹנִיִּים — Cohortatif et jussif</h1><div class="ui" style="font-size:11.5px;color:var(--gold-dim);margin-top:2px;">📖 Manuel Méthode II, p. 14-16</div></div>
+  <div class="topline"><div><div class="eyebrow">Méthode Shuali II — Chapitre 30</div><h1>הַמּוֹדוּסִים הָרְצוֹנִיִּים — Cohortatif et jussif</h1><div class="ui" style="font-size:11.5px;color:var(--gold-dim);margin-top:2px;">📖 Manuel Méthode II, p. 14-16</div></div>
     <button class="navbtn" onclick="go('shualihome')">← Chapitres</button></div>
 
   <div class="card">
@@ -10572,6 +10801,57 @@ function nextDialogueTurn(){
 }
 
 
+function viewVerseAnalysis(){
+  return `
+  <div class="topline"><div><div class="eyebrow">תַּרְגִּילִים</div><h1>🔬 Analyse grammaticale de versets</h1></div>
+    <button class="navbtn" onclick="go('exercices')">← Retour</button></div>
+  <p class="ui" style="font-size:13px;color:var(--text-soft);margin-bottom:12px;">Révision générale : décortiquez chaque mot d'un verset — racine, binyan, temps/forme, préformante/postformante ou terminaison de genre-nombre. Cliquez pour révéler l'analyse de chaque verset.</p>
+  ${VERSE_ANALYSES.map((v,i)=>`
+  <div class="card">
+    <h3><span class="en">Verset ${i+1}</span>${v.ref}</h3>
+    <div class="rule"><span class="heb" style="font-size:1.25em;">${v.heb}</span><div class="tr" style="font-style:italic;margin-top:6px;">${v.fr}</div></div>
+    <p class="ui" style="font-size:13px;color:var(--text-soft);margin-top:10px;">Pour chaque mot en gras, identifiez : s'il s'agit d'un <b>verbe</b> (racine, binyan, temps — Qatal/Yiqtol/Wayyiqtol/Weqatal/Participe/Impératif —, personne/genre/nombre) ou d'un <b>nom/adjectif</b> (genre, nombre, état).</p>
+    <details style="margin-top:10px;"><summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Révéler l'analyse complète</summary>
+      ${tableHTML(null, ["Mot","Analyse"], v.words)}
+    </details>
+  </div>`).join('')}`;
+}
+const VERSE_ANALYSES = [
+  {
+    ref: "Genèse 1,3",
+    heb: "וַיֹּ֫אמֶר <b>אֱלֹהִים</b> <b>יְהִי</b> אוֹר <b>וַֽיְהִי</b>־אוֹר׃",
+    fr: "« Dieu dit : que la lumière soit ! Et la lumière fut. »",
+    words: [
+      ["<span class=\"heb\">וַיֹּ֫אמֶר</span>","<b>Verbe</b> — racine <span class=\"heb\">א.מ.ר</span>, <b>Qal</b>, <b>Wayyiqtol</b> (passé narratif), 3ᵉ masc. sg. — préformante <span class=\"heb\" style=\"color:#1a8a3d;\">וַ</span> (ו conversif) + <span class=\"heb\" style=\"color:#c0392b;\">יִּ</span> (3ᵉ masc.)"],
+      ["<span class=\"heb\">אֱלֹהִים</span>","<b>Nom</b> — masculin, forme plurielle (mais accord singulier : « Dieu »)"],
+      ["<span class=\"heb\">יְהִי</span>","<b>Verbe</b> — racine <span class=\"heb\">ה.י.ה</span> (verbe faible ל״ה), <b>Qal</b>, <b>Jussif</b> (forme courte du Yiqtol, « qu'il soit »), 3ᵉ masc. sg. — préformante <span class=\"heb\" style=\"color:#c0392b;\">יְ</span>"],
+      ["<span class=\"heb\">אוֹר</span>","<b>Nom</b> — masculin singulier"],
+      ["<span class=\"heb\">וַֽיְהִי</span>","<b>Verbe</b> — même racine <span class=\"heb\">ה.י.ה</span>, <b>Qal</b>, <b>Wayyiqtol</b> (« et il y eut »), 3ᵉ masc. sg. — préformante <span class=\"heb\" style=\"color:#1a8a3d;\">וַ</span> (ו conversif) + <span class=\"heb\" style=\"color:#c0392b;\">יְ</span>"]
+    ]
+  },
+  {
+    ref: "2 Samuel 16,16",
+    heb: "<b>יְחִי</b> <b>הַמֶּ֫לֶךְ</b>׃",
+    fr: "« Vive le roi ! »",
+    words: [
+      ["<span class=\"heb\">יְחִי</span>","<b>Verbe</b> — racine <span class=\"heb\">ח.י.ה</span> (ל״ה), <b>Qal</b>, <b>Jussif</b> (forme courte, en tête de phrase → critère syntaxique du jussif), 3ᵉ masc. sg."],
+      ["<span class=\"heb\">הַמֶּ֫לֶךְ</span>","<b>Nom</b> — masculin singulier, <b>défini</b> (article <span class=\"heb ns-copule\">הַ</span>)"]
+    ]
+  },
+  {
+    ref: "1 Rois 3,19",
+    heb: "וַ<b>יָּ֫מָת</b> בֶּן־הָאִשָּׁה הַזֹּאת לַ֫יְלָה אֲשֶׁר <b>שָׁכְבָה</b> עָלָיו׃",
+    fr: "« Et le fils de cette femme mourut de nuit, [celui] sur lequel elle s'était couchée. »",
+    words: [
+      ["<span class=\"heb\">וַיָּ֫מָת</span>","<b>Verbe</b> — racine <span class=\"heb\">מ.ו.ת</span> (creux ע״ו), <b>Qal</b>, <b>Wayyiqtol</b> (trame du récit), 3ᵉ masc. sg."],
+      ["<span class=\"heb\">בֶּן</span>","<b>Nom</b> — masculin singulier, à l'<b>état construit</b> (suivi de <span class=\"heb\">הָאִשָּׁה</span>)"],
+      ["<span class=\"heb\">הָאִשָּׁה</span>","<b>Nom</b> — féminin singulier, défini"],
+      ["<span class=\"heb\">הַזֹּאת</span>","<b>Démonstratif</b> épithète, féminin singulier (accord avec <span class=\"heb\">הָאִשָּׁה</span>), précédé de l'article car épithète d'un nom défini"],
+      ["<span class=\"heb\">שָׁכְבָה</span>","<b>Verbe</b> — racine <span class=\"heb\">ש.כ.ב</span>, <b>Qal</b>, <b>Qatal</b> (antériorité par rapport au וַיָּ֫מָת — elle s'était couchée <i>avant</i> qu'il ne meure), 3ᵉ fém. sg. — postformante <span class=\"heb\" style=\"color:#c0392b;\">ָה</span>"]
+    ]
+  }
+];
+
 function viewExercices(){
   const scores = PROGRESS.scores || {};
   const scoreLabel = k => scores[k] ? `Meilleur score : ${scores[k].best}/${scores[k].total}` : 'Pas encore tenté';
@@ -10580,6 +10860,7 @@ function viewExercices(){
   <div class="exlist">
     <div class="extile" onclick="go('memblocks')"><h4>🎴 Jeu de mémoire</h4><p>Retrouvez les paires hébreu ⇄ français, par blocs de 5 cours.</p><div class="go">Ouvrir →</div></div>
     <div class="extile" onclick="go('dialoguepicker')"><h4>💬 Dialogues</h4><p>Choisissez la bonne réponse pour faire avancer une conversation en hébreu biblique.</p><div class="go">Ouvrir →</div></div>
+    <div class="extile" onclick="go('verseanalysis')"><h4>🔬 Analyse grammaticale de versets</h4><p>Révision générale : décortiquez des versets réels (binyan, temps, préformante, genre/nombre).</p><div class="go">Ouvrir →</div></div>
     <div class="extile" onclick="go('vocabquiz')"><h4>מ Quiz de vocabulaire</h4><p>QCM auto-corrigé, hébreu ⇄ français (tous cours).</p><div class="go">Ouvrir →</div><div class="score">${scoreLabel('vocabQuizall')}</div></div>
     <div class="extile" onclick="startWriteExercise(null)"><h4>⌨️ Écrire au clavier</h4><p>Voir/entendre un mot et le taper en hébreu avec le clavier virtuel.</p><div class="go">Ouvrir →</div><div class="score">${scoreLabel('writeVocaball')}</div></div>
     <div class="extile" onclick="go('handwriting')"><h4>✍️ Tracer les lettres</h4><p>S'entraîner à écrire les lettres à la main (doigt ou stylet).</p><div class="go">Ouvrir →</div></div>
@@ -11732,6 +12013,7 @@ function renderContentOnly(){
   else if(STATE.view==='shualidialogue') html = viewShualiDialogue();
   else if(STATE.view==='shualiprophete') html = viewShualiProphete();
   else if(STATE.view==='shualiabraham') html = viewShualiAbraham();
+  else if(STATE.view==='verseanalysis') html = viewVerseAnalysis();
   else if(STATE.view==='shualisamuel') html = viewShualiSamuel();
   else if(STATE.view==='cours') html = viewCours();
   else if(STATE.view==='revisionsheet') html = viewRevisionSheet();
