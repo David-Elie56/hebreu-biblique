@@ -419,6 +419,32 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
 .ns-copule{color:#1a56db;font-weight:600;}
 .shuali-scene-title{text-align:center;font-family:'Frank Ruhl Libre',serif;color:var(--gold-dim);font-size:14px;margin:10px 0 4px;text-transform:uppercase;letter-spacing:.05em;}
 .interlinear-block{margin:10px 0;}
+.ws-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:6px;background:var(--parchment);border:1px solid var(--parchment2);border-radius:10px;padding:8px;margin-bottom:10px;position:sticky;top:0;z-index:50;}
+.ws-btn{min-width:34px;height:32px;padding:0 8px;border-radius:6px;border:1px solid var(--parchment2);background:var(--paper);cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;}
+.ws-btn:hover{background:rgba(184,147,90,.15);}
+.ws-select{height:32px;border-radius:6px;border:1px solid var(--parchment2);background:var(--paper);font-family:'Inter',sans-serif;font-size:12.5px;padding:0 4px;}
+.ws-color{width:32px;height:32px;border-radius:6px;border:1px solid var(--parchment2);padding:2px;cursor:pointer;background:var(--paper);}
+.ws-sep{width:1px;height:22px;background:var(--parchment2);margin:0 2px;}
+.ws-page{background:#ffffff;color:#1a1a1a;min-height:60vh;max-width:800px;margin:0 auto;padding:2.5cm 2cm;border-radius:4px;box-shadow:0 2px 12px rgba(0,0,0,.15);font-family:'Times New Roman',serif;font-size:16px;line-height:1.6;outline:none;}
+.ws-page:empty::before{content:'Commencez à écrire ici…';color:#999;}
+.ws-kbd-wrap{max-width:900px;margin:14px auto 0;}
+.ws-body{display:flex;gap:16px;max-width:1100px;margin:0 auto;align-items:flex-start;flex-wrap:wrap;}
+.ws-filepanel{width:230px;flex-shrink:0;background:var(--parchment);border:1px solid var(--parchment2);border-radius:10px;padding:10px;}
+.ws-filepanel-head{margin-bottom:6px;}
+.ws-breadcrumb{font-family:'Inter',sans-serif;font-size:11px;color:var(--gold-dim);margin-bottom:6px;min-height:14px;}
+.ws-crumb{cursor:pointer;text-decoration:underline;}
+.ws-filelist{min-height:120px;max-height:320px;overflow-y:auto;border:1px solid var(--parchment2);border-radius:6px;background:var(--paper);}
+.ws-fileitem{display:flex;align-items:center;gap:6px;padding:6px 8px;font-family:'Inter',sans-serif;font-size:12.5px;cursor:pointer;border-bottom:1px solid var(--parchment2);}
+.ws-fileitem:last-child{border-bottom:none;}
+.ws-fileitem:hover{background:rgba(184,147,90,.1);}
+.ws-fileitem-active{background:rgba(184,147,90,.2);font-weight:600;}
+.ws-fileicon{flex-shrink:0;}
+.ws-filename{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ws-filedel{flex-shrink:0;opacity:.4;font-size:11px;padding:2px 4px;}
+.ws-filedel:hover{opacity:1;color:#c0392b;}
+.ws-fileactions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.ws-editorcol{flex:1;min-width:320px;}
+.ws-doctitle{width:100%;max-width:800px;margin:0 auto 8px;display:block;font-family:'Frank Ruhl Libre',serif;font-size:18px;padding:6px 10px;border:1px solid var(--parchment2);border-radius:6px;background:var(--paper);}
 .il-fullplay{display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-family:'Inter',sans-serif;font-size:12.5px;color:var(--gold-dim);padding:6px;margin-bottom:6px;border:1px dashed var(--parchment2);border-radius:8px;}
 .il-fullplay:hover{background:var(--paper);}
 .interlinear{display:flex;flex-direction:row-reverse;flex-wrap:wrap;gap:10px 6px;justify-content:center;padding:10px;background:var(--paper);border-radius:8px;}
@@ -1181,7 +1207,7 @@ function enhanceHebrewText(scopeEl){
       [fem, masc].forEach(td=>{
         const hebEl = td.querySelector('.heb');
         if(!hebEl || processed.has(hebEl)) return;
-        if(hebEl.querySelector('span[style]')) { processed.add(hebEl); return; } // code couleur pédagogique déjà présent (binyanim/verbes faibles) : ne pas l'écraser
+        if(hebEl.querySelector('span[style]')) { hebEl.dataset.orig = hebEl.textContent.trim(); processed.add(hebEl); return; } // code couleur pédagogique déjà présent (binyanim/verbes faibles) : ne pas l'écraser, mais garder l'édition rapide accessible
         const original = hebEl.textContent.trim();
         if(!original) return;
         const raw = TEXT_OVERRIDES[original] || original;
@@ -1195,7 +1221,7 @@ function enhanceHebrewText(scopeEl){
   });
   scopeEl.querySelectorAll('.heb, .heb-static').forEach(el=>{
     if(processed.has(el)) return;
-    if(el.querySelector('span[style]')) return; // code couleur pédagogique déjà présent : ne pas l'écraser
+    if(el.querySelector('span[style]')) { el.dataset.orig = el.textContent.trim(); return; } // code couleur pédagogique déjà présent : ne pas l'écraser, mais garder l'édition rapide accessible
     const original = el.textContent.trim();
     if(!original) return;
     const raw = TEXT_OVERRIDES[original] || original;
@@ -7468,6 +7494,7 @@ async function go(view, extra){
     await ensureProgressLoaded(all);
   }
   render();
+  if(view==='workspace'){ wsInitFs(); }
   if(view==='suggestions'){
     loadMyEdits();
     if(SESSION && SESSION.role==='admin') loadPendingQueue();
@@ -7488,7 +7515,7 @@ function renderSidebar(){
   h += `<div class="userbox"><div class="uname">${esc(SESSION.name)}</div><div class="urole">${roleLabel(SESSION.role)}</div></div>`;
   h += `<div class="navgroup"><div class="navitem" onclick="switchMethode()" style="font-size:12px;color:var(--gold-dim);">🔀 Passer à la Méthode Shuali</div></div>`;
 
-  h += `<div class="navgroup"><div class="navitem ${STATE.view==='home'?'active':''}" onclick="go('home')"><span class="num">⌂</span>Accueil</div></div>`;
+  h += `<div class="navgroup"><div class="navitem ${STATE.view==='home'?'active':''}" onclick="go('home')"><span class="num">⌂</span>Accueil</div><div class="navitem ${STATE.view==='workspace'?'active':''}" onclick="go('workspace')"><span class="num">📝</span>Espace de travail</div></div>`;
 
   h += `<div class="navgroup"><div class="label">Cours</div>`;
   LESSON_TITLES.forEach((t,i)=>{
@@ -9818,6 +9845,238 @@ function switchMethode(){
     chooseMethode(other);
   }
 }
+/* =========================================================================
+   ESPACE DE TRAVAIL LIBRE — traitement de texte avec saisie hébraïque directe
+   au clavier physique (même mappage phonétique AZERTY que le clavier virtuel),
+   mise en forme de base, et export Word (.doc) / PDF.
+   ========================================================================= */
+function viewWorkspace(){
+  return `
+  <div class="topline"><div><div class="eyebrow">Outils</div><h1>📝 Espace de travail libre</h1></div>
+    <button class="navbtn" onclick="go('home')">← Accueil</button></div>
+
+  <div class="ws-toolbar">
+    <button type="button" class="ws-btn" onmousedown="event.preventDefault()" onclick="document.execCommand('bold')"><b>G</b></button>
+    <button type="button" class="ws-btn" onmousedown="event.preventDefault()" onclick="document.execCommand('italic')"><i>I</i></button>
+    <button type="button" class="ws-btn" onmousedown="event.preventDefault()" onclick="document.execCommand('underline')"><u>S</u></button>
+    <span class="ws-sep"></span>
+    <select class="ws-select" onmousedown="event.preventDefault()" onchange="document.execCommand('fontSize', false, this.value); this.selectedIndex=0;">
+      <option value="">Taille</option>
+      <option value="3">Normal</option><option value="4">Grand</option><option value="5">Très grand</option><option value="6">Titre</option><option value="2">Petit</option>
+    </select>
+    <input type="color" class="ws-color" title="Couleur du texte" onmousedown="event.preventDefault()" onchange="document.execCommand('foreColor', false, this.value)" value="#2a2a2a">
+    <span class="ws-sep"></span>
+    <button type="button" class="ws-btn" onmousedown="event.preventDefault()" onclick="document.execCommand('justifyRight')">⇥</button>
+    <button type="button" class="ws-btn" onmousedown="event.preventDefault()" onclick="document.execCommand('justifyCenter')">≡</button>
+    <button type="button" class="ws-btn" onmousedown="event.preventDefault()" onclick="document.execCommand('justifyLeft')">⇤</button>
+    <span class="ws-sep"></span>
+    <button type="button" class="ws-btn" onmousedown="event.preventDefault()" onclick="document.execCommand('insertUnorderedList')">• Liste</button>
+    <button type="button" class="ws-btn" onmousedown="event.preventDefault()" onclick="document.execCommand('removeFormat')">✕ Effacer style</button>
+    <span class="ws-sep"></span>
+    <button type="button" class="ws-btn" onclick="wsClearAll()">🗑️ Nouveau (vider)</button>
+    <span class="ws-sep"></span>
+    <button type="button" class="navbtn" onclick="wsDownloadWord()">⬇️ .doc</button>
+    <button type="button" class="navbtn" onclick="wsDownloadPdf()">⬇️ PDF</button>
+  </div>
+
+  <div class="ws-kbd-wrap" id="wsKbdWrap">${hebKeyboardHTML('wsPage')}</div>
+  <p class="ui" style="font-size:11.5px;color:var(--text-soft);text-align:center;margin:-6px 0 10px;">⌨️ Tapez directement avec votre clavier physique (A→א, K→כּ… même mappage que ci-dessus) — <b>Maj+lettre</b> = variante. Cliquez les touches ci-dessus pour les voyelles.</p>
+
+  <div class="ws-body">
+    <div class="ws-filepanel">
+      <div class="ws-filepanel-head">
+        <b class="ui" style="font-size:13px;">📁 Mes documents</b>
+      </div>
+      <div class="ws-breadcrumb" id="wsBreadcrumb"></div>
+      <div class="ws-filelist" id="wsFileList"></div>
+      <div class="ws-fileactions">
+        <button type="button" class="btn-ghost" style="font-size:12px;" onclick="wsNewFolder()">📁+ Dossier</button>
+        <button type="button" class="btn-ghost" style="font-size:12px;" onclick="wsSaveCurrent()">💾 Enregistrer</button>
+      </div>
+      <div class="ui" id="wsFileMsg" style="font-size:11.5px;color:var(--text-soft);margin-top:6px;"></div>
+    </div>
+    <div class="ws-editorcol">
+      <input type="text" id="wsDocTitle" class="ws-doctitle" placeholder="Titre du document (sans titre)" value="">
+      <div id="wsPage" class="ws-page" contenteditable="true" dir="rtl" spellcheck="false"></div>
+    </div>
+  </div>
+  `;
+}
+/* ---- Système de dossiers/sous-dossiers (façon explorateur de fichiers), stocké localement ---- */
+function wsLoadFs(){
+  if(PROGRESS && PROGRESS.wsFiles && Array.isArray(PROGRESS.wsFiles.nodes)) return PROGRESS.wsFiles;
+  return {nodes:[{id:'root', name:'Mes documents', type:'folder', parentId:null}], currentFolder:'root', currentFileId:null};
+}
+function wsSaveFs(fs){
+  if(!PROGRESS) return;
+  PROGRESS.wsFiles = fs;
+  saveProgress(); // synchronise sur le serveur, comme le reste de la progression — accessible depuis n'importe quel appareil connecté à ce compte
+}
+let WS_FS = null;
+function wsInitFs(){
+  WS_FS = wsLoadFs();
+  wsRenderFilePanel();
+}
+function wsGenId(){ return 'n'+Date.now()+Math.random().toString(36).slice(2,7); }
+function wsRenderFilePanel(){
+  if(!WS_FS) return;
+  const bc = document.getElementById('wsBreadcrumb');
+  const list = document.getElementById('wsFileList');
+  if(!bc || !list) return;
+  // Fil d'Ariane
+  let chain = [], cur = WS_FS.currentFolder;
+  while(cur){
+    const node = WS_FS.nodes.find(n=>n.id===cur);
+    if(!node) break;
+    chain.unshift(node);
+    cur = node.parentId;
+  }
+  bc.innerHTML = chain.map((n,i)=>`<span class="ws-crumb" onclick="wsOpenFolder('${n.id}')">${esc(n.name)}</span>${i<chain.length-1?' / ':''}`).join('');
+  // Contenu du dossier courant
+  const children = WS_FS.nodes.filter(n=>n.parentId===WS_FS.currentFolder).sort((a,b)=>{
+    if(a.type!==b.type) return a.type==='folder' ? -1 : 1;
+    return a.name.localeCompare(b.name);
+  });
+  if(!children.length){
+    list.innerHTML = '<p class="ui" style="font-size:12px;color:var(--text-soft);padding:8px;">Dossier vide.</p>';
+    return;
+  }
+  list.innerHTML = children.map(n=>{
+    const isCurrentFile = n.id===WS_FS.currentFileId;
+    if(n.type==='folder'){
+      return `<div class="ws-fileitem" ondblclick="wsOpenFolder('${n.id}')">
+        <span class="ws-fileicon" onclick="wsOpenFolder('${n.id}')">📁</span><span class="ws-filename" onclick="wsOpenFolder('${n.id}')">${esc(n.name)}</span>
+        <span class="ws-filedel" onclick="wsDeleteNode('${n.id}')" title="Supprimer">✕</span>
+      </div>`;
+    }
+    return `<div class="ws-fileitem ${isCurrentFile?'ws-fileitem-active':''}" ondblclick="wsOpenFile('${n.id}')">
+      <span class="ws-fileicon" onclick="wsOpenFile('${n.id}')">📄</span><span class="ws-filename" onclick="wsOpenFile('${n.id}')">${esc(n.name)}</span>
+      <span class="ws-filedel" onclick="wsDeleteNode('${n.id}')" title="Supprimer">✕</span>
+    </div>`;
+  }).join('');
+}
+function wsOpenFolder(id){
+  WS_FS.currentFolder = id;
+  wsSaveFs(WS_FS);
+  wsRenderFilePanel();
+}
+function wsNewFolder(){
+  const name = prompt('Nom du nouveau dossier :');
+  if(!name || !name.trim()) return;
+  WS_FS.nodes.push({id:wsGenId(), name:name.trim(), type:'folder', parentId:WS_FS.currentFolder});
+  wsSaveFs(WS_FS);
+  wsRenderFilePanel();
+}
+function wsSaveCurrent(){
+  const page = document.getElementById('wsPage');
+  const titleInput = document.getElementById('wsDocTitle');
+  const msg = document.getElementById('wsFileMsg');
+  if(!page) return;
+  let title = (titleInput.value || '').trim() || 'Sans titre';
+  if(WS_FS.currentFileId){
+    const node = WS_FS.nodes.find(n=>n.id===WS_FS.currentFileId);
+    if(node){
+      node.name = title;
+      node.content = page.innerHTML;
+      node.updatedAt = Date.now();
+    }
+  }else{
+    const id = wsGenId();
+    WS_FS.nodes.push({id, name:title, type:'file', parentId:WS_FS.currentFolder, content:page.innerHTML, updatedAt:Date.now()});
+    WS_FS.currentFileId = id;
+  }
+  wsSaveFs(WS_FS);
+  wsRenderFilePanel();
+  if(msg){ msg.textContent = 'Enregistré ✓'; setTimeout(()=>{ if(msg) msg.textContent=''; }, 2000); }
+}
+function wsOpenFile(id){
+  const node = WS_FS.nodes.find(n=>n.id===id);
+  if(!node) return;
+  WS_FS.currentFileId = id;
+  wsSaveFs(WS_FS);
+  document.getElementById('wsDocTitle').value = node.name;
+  document.getElementById('wsPage').innerHTML = node.content || '';
+  wsRenderFilePanel();
+}
+function wsDeleteNode(id){
+  const node = WS_FS.nodes.find(n=>n.id===id);
+  if(!node) return;
+  const label = node.type==='folder' ? 'ce dossier et tout son contenu' : 'ce document';
+  if(!confirm('Supprimer '+label+' ("'+node.name+'") ?')) return;
+  const idsToRemove = new Set([id]);
+  if(node.type==='folder'){
+    let changed = true;
+    while(changed){
+      changed = false;
+      WS_FS.nodes.forEach(n=>{ if(idsToRemove.has(n.parentId) && !idsToRemove.has(n.id)){ idsToRemove.add(n.id); changed = true; } });
+    }
+  }
+  WS_FS.nodes = WS_FS.nodes.filter(n=>!idsToRemove.has(n.id));
+  if(idsToRemove.has(WS_FS.currentFileId)) WS_FS.currentFileId = null;
+  if(idsToRemove.has(WS_FS.currentFolder)) WS_FS.currentFolder = 'root';
+  wsSaveFs(WS_FS);
+  wsRenderFilePanel();
+}
+function wsClearAll(){
+  if(confirm("Effacer tout le contenu de l'espace de travail ?")){
+    const page = document.getElementById('wsPage');
+    if(page) page.innerHTML = '';
+  }
+}
+/* ---- Saisie au clavier physique : mappage AZERTY phonétique -> hébreu ---- */
+function wsInsertAtCaret(text){
+  document.execCommand('insertText', false, text);
+}
+function initWsPhysicalKeyboard(){
+  document.addEventListener('keydown', function(e){
+    const page = document.getElementById('wsPage');
+    if(!page || document.activeElement !== page) return;
+    if(e.ctrlKey || e.metaKey || e.altKey) return; // laisser passer les raccourcis (Ctrl+B, Ctrl+Z, copier/coller...)
+    const k = e.key.toLowerCase();
+    if(k.length!==1 || k<'a' || k>'z') return; // seules les lettres latines simples sont mappées
+    const map = AZERTY_HEB_MAP[k];
+    if(!map) return;
+    e.preventDefault();
+    if(e.shiftKey && map.alts.length){
+      wsInsertAtCaret(map.alts[0]);
+    }else{
+      wsInsertAtCaret(map.base);
+    }
+  });
+}
+initWsPhysicalKeyboard();
+/* ---- Export Word (.doc) — fichier HTML avec espaces de noms Word, ouvert nativement par Microsoft Word ---- */
+function wsDownloadWord(){
+  const page = document.getElementById('wsPage');
+  if(!page) return;
+  const content = page.innerHTML || '<p></p>';
+  const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+  <head><meta charset="utf-8"><title>Document</title>
+  <style>body{font-family:'Times New Roman',serif;font-size:14pt;direction:rtl;} @page{size:21cm 29.7cm;margin:2.5cm;}</style>
+  </head><body dir="rtl">${content}</body></html>`;
+  const blob = new Blob(['\ufeff', html], {type:'application/msword'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'document-hebreu.doc';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 3000);
+}
+/* ---- Export PDF — via la boîte de dialogue d'impression du navigateur (option "Enregistrer en PDF") ---- */
+function wsDownloadPdf(){
+  const page = document.getElementById('wsPage');
+  if(!page) return;
+  const printWin = window.open('', '_blank');
+  printWin.document.write(`<html><head><meta charset="utf-8"><title>Document</title>
+  <style>
+    body{font-family:'Times New Roman',serif;font-size:14pt;direction:rtl;padding:2.5cm;color:#1a1a1a;}
+    @media print{ @page{margin:2cm;} }
+  </style></head><body dir="rtl">${page.innerHTML}</body></html>`);
+  printWin.document.close();
+  printWin.onload = function(){
+    printWin.focus();
+    printWin.print();
+  };
+}
 function viewHome(){
   const visitedCount = PROGRESS.visited ? Object.keys(PROGRESS.visited).length : 0;
   const knownCount = PROGRESS.vocabKnown ? Object.values(PROGRESS.vocabKnown).filter(v=>v).length : 0;
@@ -12099,6 +12358,7 @@ function renderContentOnly(){
   const main = document.getElementById('main');
   let html = '';
   if(STATE.view==='home') html = viewHome();
+  else if(STATE.view==='workspace') html = viewWorkspace();
   else if(STATE.view==='shualihome') html = viewShualiHome();
   else if(STATE.view==='shualichapter') html = viewShualiChapter();
   else if(STATE.view==='shualidialogue') html = viewShualiDialogue();
