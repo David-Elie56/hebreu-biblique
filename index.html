@@ -418,6 +418,17 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
 .ns-attribut{color:#b5601e;font-weight:600;}
 .ns-copule{color:#1a56db;font-weight:600;}
 .shuali-scene-title{text-align:center;font-family:'Frank Ruhl Libre',serif;color:var(--gold-dim);font-size:14px;margin:10px 0 4px;text-transform:uppercase;letter-spacing:.05em;}
+.interlinear-block{margin:10px 0;}
+.il-fullplay{display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-family:'Inter',sans-serif;font-size:12.5px;color:var(--gold-dim);padding:6px;margin-bottom:6px;border:1px dashed var(--parchment2);border-radius:8px;}
+.il-fullplay:hover{background:var(--paper);}
+.interlinear{display:flex;flex-direction:row-reverse;flex-wrap:wrap;gap:10px 6px;justify-content:center;padding:10px;background:var(--paper);border-radius:8px;}
+.il-word{display:flex;flex-direction:column;align-items:center;min-width:40px;}
+.il-say{font-size:13px;cursor:pointer;opacity:.6;margin-bottom:2px;}
+.il-say:hover{opacity:1;}
+.il-word .heb{font-size:1.3em;line-height:1.2;cursor:pointer;}
+.il-word:not(.revealed) .heb{border-bottom:2px dotted var(--gold-dim);}
+.il-gloss{font-family:'Inter',sans-serif;font-size:11px;color:var(--text-soft);margin-top:3px;text-align:center;white-space:nowrap;visibility:hidden;background:rgba(184,147,90,.15);border-radius:4px;padding:1px 4px;cursor:pointer;}
+.il-word.revealed .il-gloss{visibility:visible;}
 .matchbtn{padding:10px 14px;border-radius:8px;border:2px solid var(--parchment2);background:var(--parchment);cursor:pointer;font-family:'Inter',sans-serif;font-size:14px;text-align:center;transition:border-color .2s,background .2s;}
 .matchbtn.heb{font-family:'Noto Serif Hebrew','Frank Ruhl Libre',serif;font-size:18px;direction:rtl;}
 .matchbtn.selected{border-color:var(--gold);background:rgba(184,147,90,.12);}
@@ -680,6 +691,12 @@ function tableHTML(caption, headers, rows, hebColIndexes){
 
 function ex(heb, fr, tr){
   return '<div class="example"><span class="heb">'+heb+'</span><span class="fr">'+fr+'</span>'+(tr?'<span class="tr">'+tr+'</span>':'')+'</div>';
+}
+/* ---- Traduction interlinéaire (mot à mot, aligné sous chaque mot hébreu) ---- */
+function interlinear(pairs, ref){
+  const fullText = pairs.map(p=>p[0]).join(' ');
+  const words = pairs.map(([heb,gloss])=>`<div class="il-word"><span class="il-say" onclick="event.stopPropagation(); playHebSound('${heb.replace(/'/g,"\\'")}', this);" title="Écouter">🔊</span><span class="heb" onclick="this.parentElement.classList.toggle('revealed')">${heb}</span><span class="il-gloss" onclick="this.parentElement.classList.toggle('revealed')">${gloss}</span></div>`).join('');
+  return `<div class="interlinear-block"><div class="il-fullplay" onclick="playHebSound('${fullText.replace(/'/g,"\\'")}', this);" title="Écouter tout le verset"><span class="il-say" style="font-size:16px;">🔊</span><span>Écouter le verset entier</span></div><div class="interlinear">${words}</div>${ref?`<div class="tr" style="margin-top:8px;">${ref}</div>`:''}<p class="ui" style="font-size:11px;color:var(--text-soft);margin-top:6px;text-align:center;">💡 Cliquez un mot pour révéler sa traduction — cliquez 🔊 pour l'entendre</p></div>`;
 }
 
 /* ---- Blank / reveal cells for conjugation drills ---- */
@@ -1710,7 +1727,7 @@ const lesson8 = `
   <p>Ce pronom relatif signifie « que », « qui », « auquel »… Comme la conjonction ו, il relie deux mots ou groupes de mots. <b>Invariable</b>, il ne prend ni marque de genre ni de nombre. Il reprend le plus souvent le mot qui le précède, et peut jouer le rôle de <b>sujet</b> (avec ou sans verbe) ou de <b>complément</b> :</p>
   ${ex('דָּוִד אֲשֶׁר שָׁמַר מִצְוֹתַי','« David qui a gardé mes commandements » (sujet, avec verbe)')}
   ${ex('הַנָּבִיא אֲשֶׁר בְּיִשְׂרָאֵל',"« le prophète qui (est) en Israël » (sujet, sans verbe)")}
-  ${ex('הָאָרֶץ אֲשֶׁר נָתַן יהוה',"« la terre qu'a donnée l'Éternel » (complément)")}
+  ${interlinear([["הָאָרֶץ","la.terre"],["אֲשֶׁר","que"],["נָתַן","a.donnée"],["יהוה","l'Éternel"]])}
   <div class="callout warn"><span class="ico">⚠️</span><span><span class="heb">אֲשֶׁר</span> lui-même n'indique <b>jamais</b> la fonction exacte (sujet, possessif, lieu…) de l'antécédent dans la relative : c'est un <b>pronom rétrospectif</b>, à l'intérieur même de la proposition relative, qui s'en charge — un pronom indépendant, un suffixe, ou un adverbe, qui reprend l'antécédent et s'accorde avec lui.</span></div>
   ${tableHTML(null, ["Fonction du pronom rétrospectif","Exemple"], [
     ["Sujet (pronom indépendant)","<span class=\"heb\">וְהָאִישׁ אֲשֶׁר־הוּא טָהוֹר</span> « et l'homme qui est pur » — litt. « (relatif) lui est pur » (Nombres 9,13)"],
@@ -2148,10 +2165,10 @@ const lesson14 = `
 </div>
 <div class="card">
   <h3><span class="en">Lire</span>מִן־הַתַּנַ״ךְ — Le participe dans la Bible</h3>
-  ${ex('וְאַבְרָהָם עֹדֶנּוּ עֹמֵד לִפְנֵי יְהוָה׃',"« Et Abraham se tenait encore devant l'Éternel »","Genèse 18,22 — בראשית יח כב")}
-  ${ex('דּוֹר הֹלֵךְ וְדוֹר בָּא וְהָאָרֶץ לְעוֹלָם עֹמָדֶת׃',"« Une génération va, une génération vient, mais la terre subsiste toujours »","Ecclésiaste 1,4 — קהלת א ד")}
-  ${ex('אָנָה אַתָּה הֹלֵךְ׃',"« Où vas-tu ? »","Zacharie 2,6 — זכריה ב ו")}
-  ${ex('וְדָוִד יוֹשֵׁב בִּירוּשָׁלָ‍ִם׃',"« Et David restait à Jérusalem »","2 Samuel 11,1 — שמואל ב יא א")}
+  ${interlinear([["וְאַבְרָהָם","et.Abraham"],["עֹדֶנּוּ","encore.lui"],["עֹמֵד","se.tenait"],["לִפְנֵי","devant"],["יְהוָה","l'Éternel"]], "Genèse 18,22")}
+  ${interlinear([["דּוֹר","génération"],["הֹלֵךְ","va"],["וְדוֹר","et.génération"],["בָּא","vient"],["וְהָאָרֶץ","et.la.terre"],["לְעוֹלָם","pour.toujours"],["עֹמָדֶת","subsiste"]], "Ecclésiaste 1,4")}
+  ${interlinear([["אָנָה","où"],["אַתָּה","toi"],["הֹלֵךְ","vas"]], "Zacharie 2,6")}
+  ${interlinear([["וְדָוִד","et.David"],["יוֹשֵׁב","restait"],["בִּירוּשָׁלָ‍ִם","à.Jérusalem"]], "2 Samuel 11,1")}
 </div>
 <div class="card">
   <h3><span class="en">Exercice</span>תרגיל — Conjuguer au participe</h3>
@@ -2347,9 +2364,9 @@ const lesson18 = `
     ["10","<span class=\"heb\">עֶשֶׂר</span>","<span class=\"heb\">עֲשָׂרָה</span>"]
   ])}
   <p>Tous les nombres se placent <b>avant</b> le nom qu'ils déterminent, sauf le chiffre <b>1</b> qui se place <b>après</b> : ${ex('וְהָיוּ לְבָשָׂר אֶחָד',"« … ils seront une chair » (Genèse 2,24)")}</p>
-  <p>Devant un nom, le chiffre 2 se met à l'état construit <span class="heb">שְׁנֵי</span> ou <span class="heb">שְׁתֵּי</span> : ${ex('וַיָּבֹאוּ שְׁנֵי הַמַּלְאָכִים סְדֹמָה',"« Les 2 anges vinrent à Sodome » (Genèse 19,1)")}</p>
+  <p>Devant un nom, le chiffre 2 se met à l'état construit <span class="heb">שְׁנֵי</span> ou <span class="heb">שְׁתֵּי</span> : ${interlinear([["וַיָּבֹאוּ","et.ils.vinrent"],["שְׁנֵי","les.deux"],["הַמַּלְאָכִים","les.anges"],["סְדֹמָה","à.Sodome"]], "Genèse 19,1")}</p>
   <div class="callout info"><span class="ico">💡</span><span>Devant un nom indéfini, les nombres ne sont généralement pas à l'état construit ; devant un nom <b>défini</b>, ils sont <b>toujours</b> à l'état construit.</span></div>
-  <p>Le chiffre 1 peut se mettre au pluriel, signifiant alors « quelques » : ${ex('וְיָשַׁבְתָּ עִמּוֹ יָמִים אֲחָדִים',"« Il habitera avec lui quelques jours » (Genèse 27,44)")}</p>
+  <p>Le chiffre 1 peut se mettre au pluriel, signifiant alors « quelques » : ${interlinear([["וְיָשַׁבְתָּ","et.tu.habiteras"],["עִמּוֹ","avec.lui"],["יָמִים","des.jours"],["אֲחָדִים","quelques"]], "Genèse 27,44")}</p>
 </div>
 <div class="card">
   <h3><span class="en">11 à 9000</span>Les dizaines, centaines, milliers</h3>
@@ -2396,7 +2413,7 @@ const lesson19 = `
 <div class="card">
   <h3><span class="en">Absent en hébreu</span>Le verbe avoir</h3>
   <p>Le verbe avoir n'existe pas en hébreu. Au passé, il s'exprime avec le verbe <span class="heb">הָיָה</span>, généralement accompagné de la préposition <span class="heb">לְ</span> : ${ex('וְלוֹ־הָיָה בֵן',"« Et il avait un fils », litt. « et pour lui était un fils »")}</p>
-  <p>Sans la préposition, <span class="heb">הָיָה</span> peut traduire « il y avait » : ${ex('וּבְכָל־אֶרֶץ מִצְרַיִם הָיָה לָחֶם',"« Mais dans tout le pays d'Égypte il y avait du pain » (Genèse 41,54)")}</p>
+  <p>Sans la préposition, <span class="heb">הָיָה</span> peut traduire « il y avait » : ${interlinear([["וּבְכָל־אֶרֶץ","et.dans.tout.le.pays.de"],["מִצְרַיִם","Égypte"],["הָיָה","il.y.avait"],["לָחֶם","du.pain"]], "Genèse 41,54")}</p>
 </div>
 <div class="card">
   <h3><span class="en en-heb">כֹּל</span>La particule כֹּל</h3>
@@ -2468,7 +2485,7 @@ const lesson20 = `
   <p style="text-align:center;"><a href="#" onclick="go('conjug',{conjugIndex:24}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a></p>
 
   <div class="callout info"><span class="ico">💡</span><span>Peu de changement par rapport au Qatal. Le <span class="heb">ו</span> suit la règle de vocalisation de la conjonction (<span class="heb">וּ</span> devant un shéwa ou les labiales <span class="heb">בּ מּ פּ</span>, comme à la 2ᵉ pers. plur.). Le <span class="heb">ו</span> déplace l'accent sur la dernière syllabe — si l'accent n'est pas déplacé, c'est une simple conjonction.</span></div>
-  <div class="callout warn"><span class="ico">⚠️</span><span>Le « ו conversif » est indissociable de la forme verbale : il n'existe pas de Weqatal ni de Wayiqtol à la forme négative. ${ex('לֹא־תִהְיֶה קְדֵשָׁה … וְלֹא־יִהְיֶה קָדֵשׁ',"« Il n'y aura pas de prostituée … et il n'y aura pas de prostitué » (Deutéronome 23,18)")}</span></div>
+  <div class="callout warn"><span class="ico">⚠️</span><span>Le « ו conversif » est indissociable de la forme verbale : il n'existe pas de Weqatal ni de Wayiqtol à la forme négative. ${interlinear([["לֹא־תִהְיֶה","pas.il.y.aura"],["קְדֵשָׁה","de.prostituée"],["וְלֹא־יִהְיֶה","et.pas.il.y.aura"],["קָדֵשׁ","de.prostitué"]], "Deutéronome 23,18")}</span></div>
 </div>
 <div class="card">
   <h3><span class="en">Immersion</span>🎥 Vidéos complémentaires</h3>
@@ -2608,8 +2625,8 @@ const lesson22 = `
   <h3><span class="en">Proposition de temps</span>« Quand… » avec l'infinitif construit</h3>
   <p>Introduit par <span class="heb">בְּ</span> (« lors de ») ou <span class="heb">כְּ</span> (« comme, dès que »), suivi du sujet de l'action, l'infinitif construit sert à exprimer une proposition de temps :</p>
   <div class="rule"><span class="heb" style="font-size:1.1em;">בִּשְׁפֹט הַמֶּלֶךְ…</span> litt. « lors du fait de juger du roi » = « quand le roi jugeait… »</div>
-  ${ex('כִּשְׁמֹעַ עֵשָׂו אֶת־דִּבְרֵי אָבִיו וַיִּצְעַק צְעָקָה גְּדֹלָה',"« Quand Ésaü entendit les paroles de son père, il poussa un grand cri »","Genèse 27,34 — בראשית כז לד")}
-  ${ex('וְשִׁנַּנְתָּם לְבָנֶיךָ וְדִבַּרְתָּ בָּם בְּשִׁבְתְּךָ בְּבֵיתֶךָ וּבְלֶכְתְּךָ בַדֶּרֶךְ וּבְשָׁכְבְּךָ וּבְקוּמֶךָ',"« Tu les répéteras à tes fils et tu en parleras, quand tu seras assis dans ta maison, quand tu marcheras sur le chemin, quand tu te coucheras et quand tu te lèveras »","Deutéronome 6,7 — דברים ו ז")}
+  ${interlinear([["כִּשְׁמֹעַ","en.entendant"],["עֵשָׂו","Ésaü"],["אֶת־דִּבְרֵי","les.paroles.de"],["אָבִיו","son.père"],["וַיִּצְעַק","et.il.cria"],["צְעָקָה","un.cri"],["גְּדֹלָה","grand"]], "Genèse 27,34")}
+  ${interlinear([["וְשִׁנַּנְתָּם","et.tu.les.répéteras"],["לְבָנֶיךָ","à.tes.fils"],["וְדִבַּרְתָּ","et.tu.parleras"],["בָּם","d'elles"],["בְּשִׁבְתְּךָ","quand.tu.es-assis"],["בְּבֵיתֶךָ","dans.ta.maison"],["וּבְלֶכְתְּךָ","et.quand.tu.vas"],["בַדֶּרֶךְ","sur.le.chemin"],["וּבְשָׁכְבְּךָ","et.quand.tu.te-couches"],["וּבְקוּמֶךָ","et.quand.tu.te-lèves"]], "Deutéronome 6,7 — le Shema")}
 </div>
 <div class="card">
   <h3><span class="en">Exercice</span>תרגיל — הֲטוֹב… ? Est-il bon de… ?</h3>
@@ -2717,9 +2734,9 @@ const lesson24 = `
     "<span class=\"heb\">אֵין לוֹ אַחִים</span> « Il n'a pas de frère »"
   ]])}
   <div class="callout warn"><span class="ico">⚠️</span><span><span class="heb">יֵשׁ</span>/<span class="heb">אֵין</span> ne s'emploient qu'au présent. Au <b>passé</b> ou au <b>futur</b>, la possession se rend avec le verbe <span class="heb">הָיָה</span> (« être ») + <span class="heb">לְ</span> :</span></div>
-  ${ex('הָיָה לִי בֵּן',"« j'avais un fils »")}${ex('לֹא הָיָה לְךָ בֵּן',"« tu n'avais pas de fils »")}
-  ${ex('וְיֵדַע כִּי יֵשׁ נָבִיא בְּיִשְׂרָאֵל',"« Et qu'il sache qu'il y a un prophète en Israël »","2 Rois 5,8 — מלכים ב ה ח")}
-  ${ex('יְהוָה הוּא הָאֱלֹהִים אֵין עוֹד',"« L'Éternel, c'est lui qui est Dieu ; il n'y en a pas d'autre »","1 Rois 8,60 — מלכים א ח ס")}
+  ${ex('הָיָה לִי בֵּן',"« j'avais un fils »")}${interlinear([["לֹא","pas"],["הָיָה","il.y.avait"],["לְךָ","à.toi"],["בֵּן","un.fils"]])}
+  ${interlinear([["וְיֵדַע","et.qu'il.sache"],["כִּי","que"],["יֵשׁ","il.y.a"],["נָבִיא","un.prophète"],["בְּיִשְׂרָאֵל","en.Israël"]], "2 Rois 5,8")}
+  ${interlinear([["יְהוָה","l'Éternel"],["הוּא","il"],["הָאֱלֹהִים","est.Dieu"],["אֵין","il.n'y.a"],["עוֹד","pas.d'autre"]], "1 Rois 8,60")}
 </div>
 <div class="card">
   <h3><span class="en">Immersion</span>🎥 Vidéo complémentaire</h3>
@@ -2739,7 +2756,7 @@ const lesson25 = `
   ])}
   <p style="text-align:center;"><a href="#" onclick="go('conjug',{conjugIndex:20}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a></p>
 
-  <p>Les verbes se terminant par une gutturale prennent, comme au participe présent, un pata'h furtif. Le participe passif peut avoir un <b>sens réflexif</b> : ${ex('כַּכָּתוּב בְּסֵפֶר תּוֹרַת מֹשֶׁה',"Comme « ce qui est écrit » dans la torah de Moïse (2 Rois 14,6)")}</p>
+  <p>Les verbes se terminant par une gutturale prennent, comme au participe présent, un pata'h furtif. Le participe passif peut avoir un <b>sens réflexif</b> : ${interlinear([["כַּכָּתוּב","comme.ce.qui.est.écrit"],["בְּסֵפֶר","dans.le.livre.de"],["תּוֹרַת","la.Loi.de"],["מֹשֶׁה","Moïse"]], "2 Rois 14,6")}</p>
 </div>
 <div class="card">
   <h3><span class="en en-heb">סְטָטִיבִי</span>Verbes d'état et verbes d'action</h3>
@@ -2866,7 +2883,7 @@ const lesson28 = `
     ["2. <b>Dénominatif</b> — verbe créé à partir d'un nom", "<span class=\"heb\">כֹּהֵן</span> « prêtre » → <span class=\"heb\">כִּהֵן</span> « être prêtre »"],
     ["3. <b>Intensif</b> — action faite avec force", "<span class=\"heb\">שָׁבַר</span> « casser » (Qal) → <span class=\"heb\">שִׁבֵּר</span> « casser avec force, fracasser » (Piel)"]
   ], [1])}
-  ${ex('וְרוּחַ גְּדוֹלָה וְחָזָק מְפָרֵק הָרִים וּמְשַׁבֵּר סְלָעִים לִפְנֵי יְהוָה',"« … un grand vent, fort, déchirant les montagnes et fracassant les rochers devant l'Éternel »","1 Rois 19,11 — מלכים א יט יא")}
+  ${interlinear([["וְרוּחַ","et.un.vent"],["גְּדוֹלָה","grand"],["וְחָזָק","et.fort"],["מְפָרֵק","déchirant"],["הָרִים","les.montagnes"],["וּמְשַׁבֵּר","et.brisant"],["סְלָעִים","les.rochers"],["לִפְנֵי","devant"],["יְהוָה","l'Éternel"]], "1 Rois 19,11")}
   <div class="callout warn"><span class="ico">⚠️</span><span>Certaines grammaires généralisent le sens intensif à tout le Piel/Poual/Hitpaël — c'est une erreur. Beaucoup de verbes à ces binyanim n'ont <b>aucune</b> nuance de force : <span class="heb">דִּבֵּר</span> signifie simplement « parler », pas « parler avec intensité ». Le sens précis de chaque verbe au Piel s'apprend au cas par cas.</span></div>
   <div class="rule">Les verbes au <span class="heb">פִּעֵל</span> se reconnaissent à la présence d'un <b>דָּגֵשׁ חָזָק</b> (daguesh fort) dans la <b>2ᵉ lettre de la racine</b>.</div>
 </div>
@@ -3738,7 +3755,7 @@ const lesson36 = `
 <div class="card">
   <h3><span class="en en-heb">אֲדֹנָי</span>La lecture du Nom divin</h3>
   <p>Dans le texte hébreu, le nom de l'Éternel (le tétragramme <span class="heb">יהוה</span>) n'est pas lu comme il est écrit : il est généralement lu <span class="heb">אֲדֹנָי</span> (les massorètes ont d'ailleurs vocalisé le tétragramme avec les voyelles d'<span class="heb">אֲדֹנָי</span>). Quand <span class="heb">אֲדֹנָי</span> et le tétragramme se suivent, ce dernier est lu <span class="heb">אֱלֹהִים</span> et vocalisé en conséquence.</p>
-  ${ex('וַיֹּאמֶר אַבְרָם אֲדֹנָי יֱהוִה מַה־תִּתֶּן־לִי',"« Et il dit, Avraham : Adonaï Elohim, que me donneras-tu ? »")}
+  ${interlinear([["וַיֹּאמֶר","et.il.dit"],["אַבְרָם","Abram"],["אֲדֹנָי","Seigneur"],["יֱהוִה","Dieu"],["מַה־תִּתֶּן־לִי","que.me-donneras-tu"]])}
   <p>D'autres appellations et abréviations sont utilisées par respect pour le Nom divin :</p>
   ${tableHTML(null, ["Forme","Usage"], [
     ["<span class=\"heb\">יְיָ</span>","Abréviation du tétragramme"],
@@ -4685,7 +4702,7 @@ const lesson49 = `
 <div class="card">
   <h3><span class="en en-heb">שֶׁל</span>La particule שֶׁל</h3>
   <p>La particule <span class="heb">שֶׁל</span> est utilisée comme relateur et possessif ; on peut la voir à la place de l'état construit. Elle est composée de la particule <span class="heb">שֶׁ</span> + la préposition <span class="heb">לְ</span> :</p>
-  ${ex('בֵּית יַעֲקֹב ← הַבַּיִת שֶׁל יַעֲקֹב',"« la maison de Jacob »")}
+  ${interlinear([["בֵּית","maison-de"],["יַעֲקֹב","Jacob"]], "état construit")}
   <p>Elle se décline avec les suffixes pronominaux, comme une préposition :</p>
   ${tableHTML(null, ["Féminin / נְקֵבָה","Masculin / זָכָר",""], [
     ["<span class=\"heb\">שֶׁלִּי</span>","","1ˢ sg."],
@@ -4843,7 +4860,7 @@ const lesson51 = `
     ["<span class=\"heb\">◌ֽ</span>","<span class=\"heb\">סִלּוּק</span> (Silloq)","Marque la fin de chaque verset (sous le dernier mot)"],
     ["<span class=\"heb\">◌֑</span>","<span class=\"heb\">אַתְנָח</span> (Atna'h)","Marque la pause la plus importante à l'intérieur du verset"]
   ])}
-  ${ex('לֹא יָפֶה הוּא הַיּוֹם הַזֶּ֑ה │ וְלֹא יָפִים הֵ֫מָּה כָּל־הַיָּמִֽים',"« Ce jour n'est pas beau │ et ces jours-là ne sont pas beaux » — l'Atna'h marque la pause médiane, le Silloq la fin du verset")}
+  ${interlinear([["לֹא","pas"],["יָפֶה","beau"],["הוּא","il"],["הַיּוֹם","le.jour"],["הַזֶּ֑ה","celui-ci"],["וְלֹא","et.pas"],["יָפִים","beaux"],["הֵ֫מָּה","eux"],["כָּל־הַיָּמִֽים","tous.les.jours"]])}
   <div class="callout info"><span class="ico">💡</span><span>Le signe se place le plus souvent sur la 1ʳᵉ lettre de la <b>syllabe accentuée</b> du mot — ce qui peut déplacer l'accent attendu : <span class="heb">תְּאֵנָה</span> → <span class="heb">תְּאֵנָ֑ה</span> ; <span class="heb">וְאִישׁ</span> → <span class="heb">וְאִֽישׁ</span> ; <span class="heb">הֵנָּה</span> → <span class="heb">הֵ֑נָּה</span>.</span></div>
 </div>
 <div class="card">
@@ -4858,7 +4875,7 @@ const lesson51 = `
   ])}
   <div class="callout warn"><span class="ico">⚠️</span><span>Tous ces signes se placent sur la 1ʳᵉ lettre de la syllabe accentuée — <b>sauf</b> le <span class="heb">סְגוֹל</span>, toujours marqué sur la <b>dernière</b> lettre du mot (<span class="heb">לֵךְ֒</span>, <span class="heb">אַבְרָהָם֒</span>) : il ne permet donc pas, à lui seul, de savoir quelle syllabe est accentuée.</span></div>
   <p>Ces signes découpent la phrase en segments de plus en plus courts, du <span class="heb">זָקֵף</span> (pause moyenne) jusqu'à l'<span class="heb">אַתְנָח</span> puis au <span class="heb">סִלּוּק</span> :</p>
-  ${ex('שָׂרָ֕ה │ בּ֫וֹאִי לְכִ֔י │ עִם אַבְרָהָ֖ם │ אִישֵׁ֑ךְ ║ וּב֫וֹאִי הָגָר גַּם־אַ֔תְּ │ וָלֵ֖כְנָה │ אַחֲרֵי־אַבְרָהָֽם׃',"« Sarah, viens, va avec Avraham ton mari ; et toi aussi Hagar, viens, va après Avraham »")}
+  ${interlinear([["שָׂרָ֕ה","Sara"],["בּ֫וֹאִי","viens"],["לְכִ֔י","va"],["עִם אַבְרָהָ֖ם","avec.Abraham"],["אִישֵׁ֑ךְ","ton.mari"],["וּב֫וֹאִי","et.viens"],["הָגָר","Agar"],["גַּם־אַ֔תְּ","toi.aussi"],["וָלֵ֖כְנָה","et.allez"],["אַחֲרֵי־אַבְרָהָֽם","après.Abraham"]])}
 </div>
 <div class="card">
   <h3><span class="en">Exercices</span>תרגילים — Repérer les pauses</h3>
@@ -7642,31 +7659,56 @@ function viewShualiChapter(){
   return viewShualiHome();
 }
 const SHUALI_ABRAHAM = [
-  {scene:1, who:"אֱלֹהִים", heb:"אַבְרָם קוּם לֵֽךְ׃", fr:"« Abram, lève-toi, va ! »"},
-  {scene:1, who:"אַבְרָם", heb:"אֵי־מִזֶּה וְאָֽנָה׃", fr:"« D'où et vers où ? »"},
-  {scene:1, who:"אֱלֹהִים", heb:"קוּם לֵךְ מִן־הַבַּ֫יִת הַזֶּה וּמִן־הָאָ֫רֶץ הַזֹּאת לֵךְ אַ֫רְצָה כְּנַ֫עַן לָאָ֫רֶץ הַטּוֹבָה וְהַיָּפָה וָשֵׁב שָֽׁם׃", fr:"« Lève-toi, va, de cette maison et de ce pays ; va au pays de Canaan, vers le pays bon et beau, et habite là. »"},
-  {scene:1, who:"אַבְרָם", heb:"אַיֵּה הָאָ֫רֶץ הַזֹּאת אֲדֹנָֽי׃", fr:"« Où est ce pays, Seigneur ? »"},
-  {scene:1, who:"אֱלֹהִים", heb:"אֶֽרֶץ־כְּנַ֫עַן אַחֲרֵי־הַמִּדְבָּר הַגָּדוֹל הִֽיא׃ לְכוּ אַתָּה וְשָׂרַי וְכָל־בֵּיתֶ֫ךָ וְגַם לוֹט וְכָל־בֵּיתֽוֹ׃", fr:"« Le pays de Canaan est après le grand désert. Allez, toi et Saraï et toute ta maison, et Lot aussi et toute sa maison. »"},
-  {scene:2, who:"", heb:"אַחֲרֵי־יָמִים רַבִּים וְאַבְרָהָם בְּאֶֽרֶץ־כְּנַֽעַן׃", fr:"(Après de nombreux jours, Abraham est au pays de Canaan.)"},
-  {scene:2, who:"אַבְרָהָם", heb:"שָׂרָה בּ֫וֹאִי לְכִי עִם־אַבְרָהָם אִישֵׁ֑ךְ וּב֫וֹאִי הָגָר גַּם־אַ֫תְּ וָלֵ֫כְנָה אַחֲרֵי־אַבְרָהָֽם׃", fr:"« Sara, viens, va avec Abraham ton mari ; et viens Agar toi aussi, et allez après Abraham. »"},
-  {scene:2, who:"שָׂרָה", heb:"אָ֫נָה אִישִׁי הַטּוֹב אַבְרָהָֽם׃", fr:"« Vers où, mon bon mari Abraham ? »"},
-  {scene:2, who:"אַבְרָהָם", heb:"אֶל־אֶ֫רֶץ מִצְרָֽיִם׃", fr:"« Vers le pays d'Égypte. »"},
-  {scene:2, who:"שָׂרָה", heb:"לָ֫מָּה זֶּה אִישִֽׁי׃", fr:"« Pourquoi donc, mon mari ? »"},
-  {scene:2, who:"אַבְרָהָם", heb:"פֹּה בְּאֶ֫רֶץ כְּנַ֫עַן מְעַט מַ֫יִם וּמְעַט לֶ֫חֶם וְשָׁם בְּמִצְרַ֫יִם נְחָלִים גְּדוֹלִים וּמַעְיָנוֹת רַבִּים וְהַרְבֵּה לֶֽחֶם׃", fr:"« Ici, au pays de Canaan, peu d'eau et peu de pain ; et là, en Égypte, de grands fleuves, de nombreuses sources et beaucoup de pain. »"},
-  {scene:2, who:"שָׂרָה", heb:"טוֹב אָכוֹל לֶ֫חֶם וְשָׁתֹה מַ֫יִם וְרַע מְאֹד הָלוֹךְ מֵאֶֽרֶץ־כְּנַ֫עַן וְיָשׁוֹב בְּמִצְרָֽיִם׃", fr:"« Il est bon de manger du pain et de boire de l'eau, et il est très mauvais de quitter le pays de Canaan et d'habiter en Égypte. »"},
-  {scene:3, who:"", heb:"אַחֲרֵי־יָמִים רַבִּים וְהִנֵּה אַבְרָהָם תַּ֫חַת־עֵֽץ׃", fr:"(Après de nombreux jours, voici Abraham sous un arbre.)"},
-  {scene:3, who:"אַבְרָהָם", heb:"הָלוֹךְ בַּמִּדְבָּר קָשֶׁה מְאֹד וְטוֹב וְגַם נָעִים שָׁכוֹב בָּאֹ֫הֶל בַּלַּ֫יְלָה וְיָשׁוֹב בָּר֫וּחַ תַּ֫חַת־הָעֵץ בַּיּֽוֹם׃", fr:"« Marcher dans le désert est très dur, et il est bon et agréable de se coucher sous la tente la nuit, et de revenir dans la brise sous l'arbre le jour. »"},
-  {scene:3, who:"", heb:"וְהִנֵּה שְׁלֹשָׁה אֲנָשִׁים לִפְנֵי־הָאֹֽהֶל׃", fr:"(Et voici trois hommes devant la tente.)"},
-  {scene:3, who:"אַבְרָהָם", heb:"בּ֫וֹאוּ־נָא לְאָהֳלִי אֲנָשִׁים קְדוֹשִׁ֑ים׃ בּ֫וֹאוּ־נָא אִכְלוּ פֹה לֶ֫חֶם וּשְׁתוּ מַֽיִם׃", fr:"« Venez donc à ma tente, hommes saints ! Venez donc, mangez ici du pain et buvez de l'eau. »"},
-  {scene:3, who:"הָאֲנָשִׁים", heb:"אֵי־זֶה אֲנַ֫חְנוּ אִישׁ צַדִּֽיק׃", fr:"« Où sommes-nous, homme juste ? »"},
-  {scene:3, who:"אַבְרָהָם", heb:"בְּאֵלֹנֵי־מַמְרֵא אַתֶּֽם׃", fr:"« Vous êtes aux chênes de Mamré. »"},
-  {scene:3, who:"הָאֲנָשִׁים", heb:"אֵיפֹה הָעִיר סְדֹֽם׃", fr:"« Où est la ville de Sodome ? »"},
-  {scene:3, who:"אַבְרָהָם", heb:"שָֽׁם׃ בִּסְדֹם לְכוּ אֶל־לוֹט וּבְבֵיתוֹ אִכְלוּ וּשְׁתוּ וְשִׁכְבוּ בַּלַּ֫יְלָה וּבַיּוֹם שׁ֫וּבוּ אֶל־אֵלֹנֵי מַמְרֵא לְאָהֳלִֽי׃", fr:"« Là. À Sodome, allez chez Lot ; dans sa maison, mangez, buvez et couchez-vous la nuit, et le jour revenez aux chênes de Mamré, à ma tente. »"},
-  {scene:4, who:"אֱלֹהִים", heb:"אַבְרָהָם קוּם לֵךְ עִם־יִצְחָק בִּנְךָ׃ ק֫וּמוּ לְכוּ עִם־הַחֲמוֹר אֶל־הַר הַמּוֹרִיָּֽה׃", fr:"« Abraham, lève-toi, va avec Isaac ton fils. Levez-vous, allez avec l'âne vers le mont Moriah. »"},
-  {scene:4, who:"", heb:"אַחֲרֵי־שְׁלֹשָׁה יָמִים וְאַבְרָהָם וְיִצְחָק עַל־הַר הַמּוֹרִיָּֽה׃", fr:"(Après trois jours, Abraham et Isaac sont sur le mont Moriah.)"},
-  {scene:4, who:"אַבְרָהָם", heb:"יִצְחָק בְּנִי לֵךְ שְׁכַב פֹּה עַל־הָאָֽרֶץ׃", fr:"« Isaac mon fils, va te coucher ici sur la terre. »"},
-  {scene:4, who:"", heb:"וְהִנֵּה ר֫וּחַ גְּדוֹלָה וּבָר֫וּחַ אֱלֹהִֽים׃", fr:"(Et voici un grand vent, et dans le vent, Dieu.)"},
-  {scene:4, who:"אֱלֹהִים", heb:"יִצְחָק ק֫וּם עֲמֹֽד׃ שׁ֫וּבוּ־נָא יַחְדָּו הַבָּ֫יְתָה אֶל־שָׂרָה וְאִכְלוּ וּשְׁתֽוּ׃", fr:"« Isaac, lève-toi, tiens-toi debout ! Retournez ensemble à la maison auprès de Sara, et mangez et buvez. »"}
+  {scene:1, who:"אֱלֹהִים", heb:"אַבְרָם קוּם לֵֽךְ׃", fr:"« Abram, lève-toi, va ! »",
+   il:[["אַבְרָם","Abram"],["קוּם","lève-toi"],["לֵֽךְ","va"]]},
+  {scene:1, who:"אַבְרָם", heb:"אֵי־מִזֶּה וְאָֽנָה׃", fr:"« D'où et vers où ? »",
+   il:[["אֵי־מִזֶּה","d'où"],["וְאָֽנָה","et.vers-où"]]},
+  {scene:1, who:"אֱלֹהִים", heb:"קוּם לֵךְ מִן־הַבַּ֫יִת הַזֶּה וּמִן־הָאָ֫רֶץ הַזֹּאת לֵךְ אַ֫רְצָה כְּנַ֫עַן לָאָ֫רֶץ הַטּוֹבָה וְהַיָּפָה וָשֵׁב שָֽׁם׃", fr:"« Lève-toi, va, de cette maison et de ce pays ; va au pays de Canaan, vers le pays bon et beau, et habite là. »",
+   il:[["קוּם","lève-toi"],["לֵךְ","va"],["מִן־הַבַּ֫יִת","de.la.maison"],["הַזֶּה","celle-ci"],["וּמִן־הָאָ֫רֶץ","et.du.pays"],["הַזֹּאת","celui-ci"],["לֵךְ","va"],["אַ֫רְצָה כְּנַ֫עַן","vers-le-pays.Canaan"],["לָאָ֫רֶץ","vers.le.pays"],["הַטּוֹבָה","le.bon"],["וְהַיָּפָה","et.le.beau"],["וָשֵׁב","et.habite"],["שָֽׁם","là"]]},
+  {scene:1, who:"אַבְרָם", heb:"אַיֵּה הָאָ֫רֶץ הַזֹּאת אֲדֹנָֽי׃", fr:"« Où est ce pays, Seigneur ? »",
+   il:[["אַיֵּה","où"],["הָאָ֫רֶץ","le.pays"],["הַזֹּאת","celui-ci"],["אֲדֹנָֽי","Seigneur"]]},
+  {scene:1, who:"אֱלֹהִים", heb:"אֶֽרֶץ־כְּנַ֫עַן אַחֲרֵי־הַמִּדְבָּר הַגָּדוֹל הִֽיא׃ לְכוּ אַתָּה וְשָׂרַי וְכָל־בֵּיתֶ֫ךָ וְגַם לוֹט וְכָל־בֵּיתֽוֹ׃", fr:"« Le pays de Canaan est après le grand désert. Allez, toi et Saraï et toute ta maison, et Lot aussi et toute sa maison. »",
+   il:[["אֶֽרֶץ־כְּנַ֫עַן","le.pays.de.Canaan"],["אַחֲרֵי־הַמִּדְבָּר","après.le.désert"],["הַגָּדוֹל","le.grand"],["הִֽיא","il.est"],["לְכוּ","allez"],["אַתָּה","toi"],["וְשָׂרַי","et.Saraï"],["וְכָל־בֵּיתֶ֫ךָ","et.toute.ta.maison"],["וְגַם","et.aussi"],["לוֹט","Lot"],["וְכָל־בֵּיתֽוֹ","et.toute.sa.maison"]]},
+  {scene:2, who:"", heb:"אַחֲרֵי־יָמִים רַבִּים וְאַבְרָהָם בְּאֶֽרֶץ־כְּנַֽעַן׃", fr:"(Après de nombreux jours, Abraham est au pays de Canaan.)",
+   il:[["אַחֲרֵי־יָמִים","après.des.jours"],["רַבִּים","nombreux"],["וְאַבְרָהָם","et.Abraham"],["בְּאֶֽרֶץ־כְּנַֽעַן","au.pays.de.Canaan"]]},
+  {scene:2, who:"אַבְרָהָם", heb:"שָׂרָה בּ֫וֹאִי לְכִי עִם־אַבְרָהָם אִישֵׁ֑ךְ וּב֫וֹאִי הָגָר גַּם־אַ֫תְּ וָלֵ֫כְנָה אַחֲרֵי־אַבְרָהָֽם׃", fr:"« Sara, viens, va avec Abraham ton mari ; et viens Agar toi aussi, et allez après Abraham. »",
+   il:[["שָׂרָה","Sara"],["בּ֫וֹאִי","viens"],["לְכִי","va"],["עִם־אַבְרָהָם","avec.Abraham"],["אִישֵׁ֑ךְ","ton.mari"],["וּב֫וֹאִי","et.viens"],["הָגָר","Agar"],["גַּם־אַ֫תְּ","toi.aussi"],["וָלֵ֫כְנָה","et.allez"],["אַחֲרֵי־אַבְרָהָֽם","après.Abraham"]]},
+  {scene:2, who:"שָׂרָה", heb:"אָ֫נָה אִישִׁי הַטּוֹב אַבְרָהָֽם׃", fr:"« Vers où, mon bon mari Abraham ? »",
+   il:[["אָ֫נָה","vers-où"],["אִישִׁי","mon.mari"],["הַטּוֹב","le.bon"],["אַבְרָהָֽם","Abraham"]]},
+  {scene:2, who:"אַבְרָהָם", heb:"אֶל־אֶ֫רֶץ מִצְרָֽיִם׃", fr:"« Vers le pays d'Égypte. »",
+   il:[["אֶל־אֶ֫רֶץ","vers.le.pays"],["מִצְרָֽיִם","d'Égypte"]]},
+  {scene:2, who:"שָׂרָה", heb:"לָ֫מָּה זֶּה אִישִֽׁי׃", fr:"« Pourquoi donc, mon mari ? »",
+   il:[["לָ֫מָּה","pourquoi"],["זֶּה","donc"],["אִישִֽׁי","mon.mari"]]},
+  {scene:2, who:"אַבְרָהָם", heb:"פֹּה בְּאֶ֫רֶץ כְּנַ֫עַן מְעַט מַ֫יִם וּמְעַט לֶ֫חֶם וְשָׁם בְּמִצְרַ֫יִם נְחָלִים גְּדוֹלִים וּמַעְיָנוֹת רַבִּים וְהַרְבֵּה לֶֽחֶם׃", fr:"« Ici, au pays de Canaan, peu d'eau et peu de pain ; et là, en Égypte, de grands fleuves, de nombreuses sources et beaucoup de pain. »",
+   il:[["פֹּה","ici"],["בְּאֶ֫רֶץ כְּנַ֫עַן","au.pays.de.Canaan"],["מְעַט","peu"],["מַ֫יִם","d'eau"],["וּמְעַט","et.peu"],["לֶ֫חֶם","de.pain"],["וְשָׁם","et.là"],["בְּמִצְרַ֫יִם","en.Égypte"],["נְחָלִים","des.fleuves"],["גְּדוֹלִים","grands"],["וּמַעְיָנוֹת","et.des.sources"],["רַבִּים","nombreuses"],["וְהַרְבֵּה","et.beaucoup"],["לֶֽחֶם","de.pain"]]},
+  {scene:2, who:"שָׂרָה", heb:"טוֹב אָכוֹל לֶ֫חֶם וְשָׁתֹה מַ֫יִם וְרַע מְאֹד הָלוֹךְ מֵאֶֽרֶץ־כְּנַ֫עַן וְיָשׁוֹב בְּמִצְרָֽיִם׃", fr:"« Il est bon de manger du pain et de boire de l'eau, et il est très mauvais de quitter le pays de Canaan et d'habiter en Égypte. »",
+   il:[["טוֹב","bon"],["אָכוֹל","manger"],["לֶ֫חֶם","du.pain"],["וְשָׁתֹה","et.boire"],["מַ֫יִם","de.l'eau"],["וְרַע","et.mauvais"],["מְאֹד","très"],["הָלוֹךְ","aller"],["מֵאֶֽרֶץ־כְּנַ֫עַן","du.pays.de.Canaan"],["וְיָשׁוֹב","et.habiter"],["בְּמִצְרָֽיִם","en.Égypte"]]},
+  {scene:3, who:"", heb:"אַחֲרֵי־יָמִים רַבִּים וְהִנֵּה אַבְרָהָם תַּ֫חַת־עֵֽץ׃", fr:"(Après de nombreux jours, voici Abraham sous un arbre.)",
+   il:[["אַחֲרֵי־יָמִים","après.des.jours"],["רַבִּים","nombreux"],["וְהִנֵּה","et.voici"],["אַבְרָהָם","Abraham"],["תַּ֫חַת־עֵֽץ","sous.un.arbre"]]},
+  {scene:3, who:"אַבְרָהָם", heb:"הָלוֹךְ בַּמִּדְבָּר קָשֶׁה מְאֹד וְטוֹב וְגַם נָעִים שָׁכוֹב בָּאֹ֫הֶל בַּלַּ֫יְלָה וְיָשׁוֹב בָּר֫וּחַ תַּ֫חַת־הָעֵץ בַּיּֽוֹם׃", fr:"« Marcher dans le désert est très dur, et il est bon et agréable de se coucher sous la tente la nuit, et de revenir dans la brise sous l'arbre le jour. »",
+   il:[["הָלוֹךְ","marcher"],["בַּמִּדְבָּר","dans.le.désert"],["קָשֶׁה","dur"],["מְאֹד","très"],["וְטוֹב","et.bon"],["וְגַם","et.aussi"],["נָעִים","agréable"],["שָׁכוֹב","se.coucher"],["בָּאֹ֫הֶל","dans.la.tente"],["בַּלַּ֫יְלָה","la.nuit"],["וְיָשׁוֹב","et.revenir"],["בָּר֫וּחַ","dans.la.brise"],["תַּ֫חַת־הָעֵץ","sous.l'arbre"],["בַּיּֽוֹם","le.jour"]]},
+  {scene:3, who:"", heb:"וְהִנֵּה שְׁלֹשָׁה אֲנָשִׁים לִפְנֵי־הָאֹֽהֶל׃", fr:"(Et voici trois hommes devant la tente.)",
+   il:[["וְהִנֵּה","et.voici"],["שְׁלֹשָׁה","trois"],["אֲנָשִׁים","hommes"],["לִפְנֵי־הָאֹֽהֶל","devant.la.tente"]]},
+  {scene:3, who:"אַבְרָהָם", heb:"בּ֫וֹאוּ־נָא לְאָהֳלִי אֲנָשִׁים קְדוֹשִׁ֑ים׃ בּ֫וֹאוּ־נָא אִכְלוּ פֹה לֶ֫חֶם וּשְׁתוּ מַֽיִם׃", fr:"« Venez donc à ma tente, hommes saints ! Venez donc, mangez ici du pain et buvez de l'eau. »",
+   il:[["בּ֫וֹאוּ־נָא","venez.donc"],["לְאָהֳלִי","à.ma.tente"],["אֲנָשִׁים","hommes"],["קְדוֹשִׁ֑ים","saints"],["בּ֫וֹאוּ־נָא","venez.donc"],["אִכְלוּ","mangez"],["פֹה","ici"],["לֶ֫חֶם","du.pain"],["וּשְׁתוּ","et.buvez"],["מַֽיִם","de.l'eau"]]},
+  {scene:3, who:"הָאֲנָשִׁים", heb:"אֵי־זֶה אֲנַ֫חְנוּ אִישׁ צַדִּֽיק׃", fr:"« Où sommes-nous, homme juste ? »",
+   il:[["אֵי־זֶה","où"],["אֲנַ֫חְנוּ","nous"],["אִישׁ","homme"],["צַדִּֽיק","juste"]]},
+  {scene:3, who:"אַבְרָהָם", heb:"בְּאֵלֹנֵי־מַמְרֵא אַתֶּֽם׃", fr:"« Vous êtes aux chênes de Mamré. »",
+   il:[["בְּאֵלֹנֵי־מַמְרֵא","aux.chênes-de.Mamré"],["אַתֶּֽם","vous"]]},
+  {scene:3, who:"הָאֲנָשִׁים", heb:"אֵיפֹה הָעִיר סְדֹֽם׃", fr:"« Où est la ville de Sodome ? »",
+   il:[["אֵיפֹה","où"],["הָעִיר","la.ville"],["סְדֹֽם","Sodome"]]},
+  {scene:3, who:"אַבְרָהָם", heb:"שָֽׁם׃ בִּסְדֹם לְכוּ אֶל־לוֹט וּבְבֵיתוֹ אִכְלוּ וּשְׁתוּ וְשִׁכְבוּ בַּלַּ֫יְלָה וּבַיּוֹם שׁ֫וּבוּ אֶל־אֵלֹנֵי מַמְרֵא לְאָהֳלִֽי׃", fr:"« Là. À Sodome, allez chez Lot ; dans sa maison, mangez, buvez et couchez-vous la nuit, et le jour revenez aux chênes de Mamré, à ma tente. »",
+   il:[["שָֽׁם","là"],["בִּסְדֹם","à.Sodome"],["לְכוּ","allez"],["אֶל־לוֹט","vers.Lot"],["וּבְבֵיתוֹ","et.dans.sa.maison"],["אִכְלוּ","mangez"],["וּשְׁתוּ","et.buvez"],["וְשִׁכְבוּ","et.couchez-vous"],["בַּלַּ֫יְלָה","la.nuit"],["וּבַיּוֹם","et.le.jour"],["שׁ֫וּבוּ","revenez"],["אֶל־אֵלֹנֵי מַמְרֵא","aux.chênes-de.Mamré"],["לְאָהֳלִֽי","à.ma.tente"]]},
+  {scene:4, who:"אֱלֹהִים", heb:"אַבְרָהָם קוּם לֵךְ עִם־יִצְחָק בִּנְךָ׃ ק֫וּמוּ לְכוּ עִם־הַחֲמוֹר אֶל־הַר הַמּוֹרִיָּֽה׃", fr:"« Abraham, lève-toi, va avec Isaac ton fils. Levez-vous, allez avec l'âne vers le mont Moriah. »",
+   il:[["אַבְרָהָם","Abraham"],["קוּם","lève-toi"],["לֵךְ","va"],["עִם־יִצְחָק","avec.Isaac"],["בִּנְךָ","ton.fils"],["ק֫וּמוּ","levez-vous"],["לְכוּ","allez"],["עִם־הַחֲמוֹר","avec.l'âne"],["אֶל־הַר","vers.le.mont"],["הַמּוֹרִיָּֽה","Moriah"]]},
+  {scene:4, who:"", heb:"אַחֲרֵי־שְׁלֹשָׁה יָמִים וְאַבְרָהָם וְיִצְחָק עַל־הַר הַמּוֹרִיָּֽה׃", fr:"(Après trois jours, Abraham et Isaac sont sur le mont Moriah.)",
+   il:[["אַחֲרֵי־שְׁלֹשָׁה יָמִים","après.trois.jours"],["וְאַבְרָהָם","et.Abraham"],["וְיִצְחָק","et.Isaac"],["עַל־הַר","sur.le.mont"],["הַמּוֹרִיָּֽה","Moriah"]]},
+  {scene:4, who:"אַבְרָהָם", heb:"יִצְחָק בְּנִי לֵךְ שְׁכַב פֹּה עַל־הָאָֽרֶץ׃", fr:"« Isaac mon fils, va te coucher ici sur la terre. »",
+   il:[["יִצְחָק","Isaac"],["בְּנִי","mon.fils"],["לֵךְ","va"],["שְׁכַב","couche-toi"],["פֹּה","ici"],["עַל־הָאָֽרֶץ","sur.la.terre"]]},
+  {scene:4, who:"", heb:"וְהִנֵּה ר֫וּחַ גְּדוֹלָה וּבָר֫וּחַ אֱלֹהִֽים׃", fr:"(Et voici un grand vent, et dans le vent, Dieu.)",
+   il:[["וְהִנֵּה","et.voici"],["ר֫וּחַ","un.vent"],["גְּדוֹלָה","grand"],["וּבָר֫וּחַ","et.dans.le.vent"],["אֱלֹהִֽים","Dieu"]]},
+  {scene:4, who:"אֱלֹהִים", heb:"יִצְחָק ק֫וּם עֲמֹֽד׃ שׁ֫וּבוּ־נָא יַחְדָּו הַבָּ֫יְתָה אֶל־שָׂרָה וְאִכְלוּ וּשְׁתֽוּ׃", fr:"« Isaac, lève-toi, tiens-toi debout ! Retournez ensemble à la maison auprès de Sara, et mangez et buvez. »",
+   il:[["יִצְחָק","Isaac"],["ק֫וּם","lève-toi"],["עֲמֹֽד","tiens-toi-debout"],["שׁ֫וּבוּ־נָא","retournez.donc"],["יַחְדָּו","ensemble"],["הַבָּ֫יְתָה","à.la.maison"],["אֶל־שָׂרָה","vers.Sara"],["וְאִכְלוּ","et.mangez"],["וּשְׁתֽוּ","et.buvez"]]}
 ];
 let SHUALI_ABRAHAM_IDX = 0;
 function viewShualiAbraham(){
@@ -7685,7 +7727,7 @@ function viewShualiAbraham(){
         <div class="shuali-bubble ${l.who==='אֱלֹהִים'||l.who==='אַבְרָהָם'||l.who==='אַבְרָם'?'left':(l.who===''?'center':'right')} ${i===idx?'just-in':''}">
           ${l.who?`<div class="shuali-bubble-name">${l.who}</div>`:''}
           <div class="shuali-bubble-heb heb">${l.heb}</div>
-          <div class="shuali-bubble-fr">${l.fr}</div>
+          
         </div>`).join('')}
     </div>
     ${done
@@ -7696,17 +7738,28 @@ function viewShualiAbraham(){
   </div>`;
 }
 const SHUALI_PROPHETE = [
-  {who:"", heb:"נָבִיא עַל־הָאָ֫רֶץ תַּ֫חַת־תְּאֵנָ֑ה וְאִֽישׁ׃", fr:"(Un prophète est assis sur la terre sous un figuier ; un homme arrive.)"},
-  {who:"הָאִישׁ", heb:"הֲשָׁלוֹם־לָ֑ךְ נָבִיא קָדֽוֹשׁ׃", fr:"« Paix à toi, saint prophète. »"},
-  {who:"הַנָּבִיא", heb:"לֹֽא׃", fr:"« Non. »"},
-  {who:"הָאִישׁ", heb:"יוֹם יָפֶה הַיּ֑וֹם נְבִיאִֽי׃", fr:"« C'est un beau jour aujourd'hui, mon prophète. »"},
-  {who:"הַנָּבִיא", heb:"לֹא יָפֶה הוּא הַיּוֹם הַזֶּ֑ה וְלֹא יָפִים הֵ֫מָּה כָל־הַיָּמִֽים׃", fr:"« Ce jour n'est pas beau, et tous les jours ne sont pas beaux. »"},
-  {who:"הָאִישׁ", heb:"יָפוֹת הַתְּאֵנִים עַל־הָעֵץ הַקָּטֹן הַזֶּֽה׃ הֲטוֹבוֹת הֵ֑נָּה נָבִיא צַדִּֽיק׃", fr:"« Belles sont les figues sur ce petit arbre — sont-elles bonnes, juste prophète ? »"},
-  {who:"הַנָּבִיא", heb:"לֹא טוֹבוֹת הֵ֑נָּה, רָעוֹת מְאֹֽד׃ גַּם הֵ֫נָּה וְגַם כָּל־הָאָ֫רֶץ הַגְּדוֹלָֽה׃", fr:"« Elles ne sont pas bonnes, elles sont très mauvaises — elles, et toute la grande terre aussi. »"},
-  {who:"הָאִישׁ", heb:"מַה־לָּ֑ךְ נָבִיא טֽוֹב׃", fr:"« Qu'as-tu, bon prophète ? »"},
-  {who:"הַנָּבִיא", heb:"רַע הוּא הָאָדָ֑ם רַע מְאֹֽד׃ הָאָרֶץ גְּדוֹלָ֑ה וּבְכָל־הֶעָרִים הָרַבּוֹת רָעִים הָאֲנָשִׁים וְרָעוֹת הַנָּשִׁים מְאֹֽד׃ רָעִים הַמְּלָכִים וְרָעוֹת הַמְּלָכוֹת וְרָעִים הַכֹּהֲנִ֑ים וְרַע עַם־יִשְׂרָאֵל וְרָעִים הֵ֫מָּה כָל־הַגּוֹיִֽם׃", fr:"« L'homme est mauvais, très mauvais. La terre est grande, et dans toutes les nombreuses villes les hommes sont mauvais et les femmes très mauvaises. Mauvais sont les rois, mauvaises les reines, mauvais les prêtres, mauvais le peuple d'Israël, et mauvaises sont toutes les nations. »"},
-  {who:"הָאִישׁ", heb:"אֱלֹהִים הוּא ט֑וֹב וְאַתֶּם הַנְּבִיאִים טוֹבִֽים׃", fr:"« Dieu est bon, et vous, les prophètes, êtes bons. »"},
-  {who:"הַנָּבִיא", heb:"הֲטוֹב הוּא אֱלֹהִֽים׃ בְּכָל־הֶעָרִים בָּתִּים גְּדוֹלִים וּבַבָּתִּים הַגְּדוֹלִים אֲנָשִׁים עֲשִׁירִים וְשֻׁלְחָנוֹת גְּדוֹלִים וְעַל־הַשֻּׁלְחָנוֹת הַגְּדוֹלִים תְּאֵנִים טוֹבוֹת וְרַבּ֑וֹת וְהַתְּאֵנִים הַטּוֹבוֹת טוֹבוֹת מְאֹד מְאֹד הֵֽנָּה׃ וְאָנֹכִי נָבִיא וּבֶן־נָבִיא וְעַל־הָאָ֫רֶץ אֲנִי תַ֫חַת־עֵץ קָטֹ֑ן וְעַל־הָעֵץ הַקָּטֹן תְּאֵנִים לֹא רַבּוֹת וְרָעוֹת מְאֹֽד׃", fr:"« Dieu est-il bon ? Dans toutes les villes il y a de grandes maisons, et dans les grandes maisons des hommes riches et de grandes tables, et sur les grandes tables des figues bonnes et nombreuses, et ces bonnes figues sont très très bonnes. Et moi je suis prophète et fils de prophète, et moi je suis sur la terre sous un petit arbre, et sur le petit arbre des figues peu nombreuses et très mauvaises. »"}
+  {who:"", heb:"נָבִיא עַל־הָאָ֫רֶץ תַּ֫חַת־תְּאֵנָ֑ה וְאִֽישׁ׃", fr:"(Un prophète est assis sur la terre sous un figuier ; un homme arrive.)",
+   il:[["נָבִיא","prophète"],["עַל־הָאָ֫רֶץ","sur.la.terre"],["תַּ֫חַת־תְּאֵנָ֑ה","sous.un.figuier"],["וְאִֽישׁ","et.un.homme"]]},
+  {who:"הָאִישׁ", heb:"הֲשָׁלוֹם־לָ֑ךְ נָבִיא קָדֽוֹשׁ׃", fr:"« Paix à toi, saint prophète. »",
+   il:[["הֲשָׁלוֹם־לָ֑ךְ","est-ce-paix.à.toi"],["נָבִיא","prophète"],["קָדֽוֹשׁ","saint"]]},
+  {who:"הַנָּבִיא", heb:"לֹֽא׃", fr:"« Non. »",
+   il:[["לֹֽא","non"]]},
+  {who:"הָאִישׁ", heb:"יוֹם יָפֶה הַיּ֑וֹם נְבִיאִֽי׃", fr:"« C'est un beau jour aujourd'hui, mon prophète. »",
+   il:[["יוֹם","jour"],["יָפֶה","beau"],["הַיּ֑וֹם","aujourd'hui"],["נְבִיאִֽי","mon.prophète"]]},
+  {who:"הַנָּבִיא", heb:"לֹא יָפֶה הוּא הַיּוֹם הַזֶּ֑ה וְלֹא יָפִים הֵ֫מָּה כָל־הַיָּמִֽים׃", fr:"« Ce jour n'est pas beau, et tous les jours ne sont pas beaux. »",
+   il:[["לֹא","pas"],["יָפֶה","beau"],["הוּא","il"],["הַיּוֹם","le.jour"],["הַזֶּ֑ה","celui-ci"],["וְלֹא","et.pas"],["יָפִים","beaux"],["הֵ֫מָּה","eux"],["כָל־הַיָּמִֽים","tous.les.jours"]]},
+  {who:"הָאִישׁ", heb:"יָפוֹת הַתְּאֵנִים עַל־הָעֵץ הַקָּטֹן הַזֶּֽה׃ הֲטוֹבוֹת הֵ֑נָּה נָבִיא צַדִּֽיק׃", fr:"« Belles sont les figues sur ce petit arbre — sont-elles bonnes, juste prophète ? »",
+   il:[["יָפוֹת","belles"],["הַתְּאֵנִים","les.figues"],["עַל־הָעֵץ","sur.l'arbre"],["הַקָּטֹן","le.petit"],["הַזֶּֽה","celui-ci"],["הֲטוֹבוֹת","est-ce-bonnes"],["הֵ֑נָּה","elles"],["נָבִיא","prophète"],["צַדִּֽיק","juste"]]},
+  {who:"הַנָּבִיא", heb:"לֹא טוֹבוֹת הֵ֑נָּה, רָעוֹת מְאֹֽד׃ גַּם הֵ֫נָּה וְגַם כָּל־הָאָ֫רֶץ הַגְּדוֹלָֽה׃", fr:"« Elles ne sont pas bonnes, elles sont très mauvaises — elles, et toute la grande terre aussi. »",
+   il:[["לֹא","pas"],["טוֹבוֹת","bonnes"],["הֵ֑נָּה","elles"],["רָעוֹת","mauvaises"],["מְאֹֽד","très"],["גַּם","aussi"],["הֵ֫נָּה","elles"],["וְגַם","et.aussi"],["כָּל־הָאָ֫רֶץ","toute.la.terre"],["הַגְּדוֹלָֽה","la.grande"]]},
+  {who:"הָאִישׁ", heb:"מַה־לָּ֑ךְ נָבִיא טֽוֹב׃", fr:"« Qu'as-tu, bon prophète ? »",
+   il:[["מַה־לָּ֑ךְ","qu'as-tu"],["נָבִיא","prophète"],["טֽוֹב","bon"]]},
+  {who:"הַנָּבִיא", heb:"רַע הוּא הָאָדָ֑ם רַע מְאֹֽד׃ הָאָרֶץ גְּדוֹלָ֑ה וּבְכָל־הֶעָרִים הָרַבּוֹת רָעִים הָאֲנָשִׁים וְרָעוֹת הַנָּשִׁים מְאֹֽד׃ רָעִים הַמְּלָכִים וְרָעוֹת הַמְּלָכוֹת וְרָעִים הַכֹּהֲנִ֑ים וְרַע עַם־יִשְׂרָאֵל וְרָעִים הֵ֫מָּה כָל־הַגּוֹיִֽם׃", fr:"« L'homme est mauvais, très mauvais. La terre est grande, et dans toutes les nombreuses villes les hommes sont mauvais et les femmes très mauvaises. Mauvais sont les rois, mauvaises les reines, mauvais les prêtres, mauvais le peuple d'Israël, et mauvaises sont toutes les nations. »",
+   il:[["רַע","mauvais"],["הוּא","il"],["הָאָדָ֑ם","l'homme"],["רַע","mauvais"],["מְאֹֽד","très"],["הָאָרֶץ","la.terre"],["גְּדוֹלָ֑ה","grande"],["וּבְכָל־הֶעָרִים","et.dans.toutes.les.villes"],["הָרַבּוֹת","nombreuses"],["רָעִים","mauvais"],["הָאֲנָשִׁים","les.hommes"],["וְרָעוֹת","et.mauvaises"],["הַנָּשִׁים","les.femmes"],["מְאֹֽד","très"],["רָעִים","mauvais"],["הַמְּלָכִים","les.rois"],["וְרָעוֹת","et.mauvaises"],["הַמְּלָכוֹת","les.reines"],["וְרָעִים","et.mauvais"],["הַכֹּהֲנִ֑ים","les.prêtres"],["וְרַע","et.mauvais"],["עַם־יִשְׂרָאֵל","le.peuple.d'Israël"],["וְרָעִים","et.mauvaises"],["הֵ֫מָּה","elles"],["כָל־הַגּוֹיִֽם","toutes.les.nations"]]},
+  {who:"הָאִישׁ", heb:"אֱלֹהִים הוּא ט֑וֹב וְאַתֶּם הַנְּבִיאִים טוֹבִֽים׃", fr:"« Dieu est bon, et vous, les prophètes, êtes bons. »",
+   il:[["אֱלֹהִים","Dieu"],["הוּא","il"],["ט֑וֹב","bon"],["וְאַתֶּם","et.vous"],["הַנְּבִיאִים","les.prophètes"],["טוֹבִֽים","bons"]]},
+  {who:"הַנָּבִיא", heb:"הֲטוֹב הוּא אֱלֹהִֽים׃ בְּכָל־הֶעָרִים בָּתִּים גְּדוֹלִים וּבַבָּתִּים הַגְּדוֹלִים אֲנָשִׁים עֲשִׁירִים וְשֻׁלְחָנוֹת גְּדוֹלִים וְעַל־הַשֻּׁלְחָנוֹת הַגְּדוֹלִים תְּאֵנִים טוֹבוֹת וְרַבּ֑וֹת וְהַתְּאֵנִים הַטּוֹבוֹת טוֹבוֹת מְאֹד מְאֹד הֵֽנָּה׃ וְאָנֹכִי נָבִיא וּבֶן־נָבִיא וְעַל־הָאָ֫רֶץ אֲנִי תַ֫חַת־עֵץ קָטֹ֑ן וְעַל־הָעֵץ הַקָּטֹן תְּאֵנִים לֹא רַבּוֹת וְרָעוֹת מְאֹֽד׃", fr:"« Dieu est-il bon ? Dans toutes les villes il y a de grandes maisons, et dans les grandes maisons des hommes riches et de grandes tables, et sur les grandes tables des figues bonnes et nombreuses, et ces bonnes figues sont très très bonnes. Et moi je suis prophète et fils de prophète, et moi je suis sur la terre sous un petit arbre, et sur le petit arbre des figues peu nombreuses et très mauvaises. »",
+   il:[["הֲטוֹב","est-ce-bon"],["הוּא","il"],["אֱלֹהִֽים","Dieu"],["בְּכָל־הֶעָרִים","dans.toutes.les.villes"],["בָּתִּים","des.maisons"],["גְּדוֹלִים","grandes"],["וּבַבָּתִּים","et.dans.les.maisons"],["הַגְּדוֹלִים","les.grandes"],["אֲנָשִׁים","des.hommes"],["עֲשִׁירִים","riches"],["וְשֻׁלְחָנוֹת","et.des.tables"],["גְּדוֹלִים","grandes"],["וְעַל־הַשֻּׁלְחָנוֹת","et.sur.les.tables"],["הַגְּדוֹלִים","les.grandes"],["תְּאֵנִים","des.figues"],["טוֹבוֹת","bonnes"],["וְרַבּ֑וֹת","et.nombreuses"],["וְהַתְּאֵנִים","et.les.figues"],["הַטּוֹבוֹת","les.bonnes"],["טוֹבוֹת","bonnes"],["מְאֹד מְאֹד","très.très"],["הֵֽנָּה","elles"],["וְאָנֹכִי","et.moi"],["נָבִיא","prophète"],["וּבֶן־נָבִיא","et.fils-de.prophète"],["וְעַל־הָאָ֫רֶץ","et.sur.la.terre"],["אֲנִי","moi"],["תַ֫חַת־עֵץ","sous.un.arbre"],["קָטֹ֑ן","petit"],["וְעַל־הָעֵץ","et.sur.l'arbre"],["הַקָּטֹן","le.petit"],["תְּאֵנִים","des.figues"],["לֹא רַבּוֹת","pas.nombreuses"],["וְרָעוֹת","et.mauvaises"],["מְאֹֽד","très"]]}
 ];
 let SHUALI_PROPHETE_IDX = 0;
 function viewShualiProphete(){
@@ -7723,7 +7776,7 @@ function viewShualiProphete(){
         <div class="shuali-bubble ${l.who==='הַנָּבִיא'?'left':(l.who===''?'center':'right')} ${i===idx?'just-in':''}">
           ${l.who?`<div class="shuali-bubble-name">${l.who}</div>`:''}
           <div class="shuali-bubble-heb heb">${l.heb}</div>
-          <div class="shuali-bubble-fr">${l.fr}</div>
+          
         </div>`).join('')}
     </div>
     ${done
@@ -7736,34 +7789,60 @@ function viewShualiProphete(){
 
 /* ---- Lecteur de dialogue animé (Méthode Shuali) ---- */
 const SHUALI_DIALOGUE = [
-  {who:"אֵלִיָּהוּ", heb:"אַתָּה מַה שִּׁמְךָ׃", fr:"Toi, quel est ton nom ?"},
-  {who:"אֱלִישָׁע", heb:"אֱלִישָׁע שְׁמִי וּמַה שִּׁמְךָ׃", fr:"Mon nom est Élisée, et quel est ton nom ?"},
-  {who:"אֵלִיָּהוּ", heb:"אֵלִיָּ֫הוּ שְׁמִי׃ הֲשָׁלוֹם לְךָ׃", fr:"Mon nom est Élie. Vas-tu bien ?"},
-  {who:"אֱלִישָׁע", heb:"שָׁלוֹם׃", fr:"Bien."},
-  {who:"אֵלִיָּהוּ", heb:"אָנֹכִי נָבִיא וּמוֹרֶה וְאַתָּה תַלְמִיד׃", fr:"Je suis prophète et maître, et toi tu es disciple."},
-  {who:"אֱלִישָׁע", heb:"לֹא תַלְמִיד אָנֹכִי׃", fr:"Je ne suis pas disciple !"},
-  {who:"אֵלִיָּהוּ", heb:"אֱלִישָׁע תַּלְמִיד אַתָּה וְנָבִיא׃", fr:"Élisée, tu es disciple, et [tu seras] prophète."}
+  {who:"אֵלִיָּהוּ", heb:"אַתָּה מַה שִּׁמְךָ׃", fr:"Toi, quel est ton nom ?",
+   il:[["אַתָּה","toi"],["מַה","quel"],["שִּׁמְךָ","ton.nom"]]},
+  {who:"אֱלִישָׁע", heb:"אֱלִישָׁע שְׁמִי וּמַה שִּׁמְךָ׃", fr:"Mon nom est Élisée, et quel est ton nom ?",
+   il:[["אֱלִישָׁע","Élisée"],["שְׁמִי","mon.nom"],["וּמַה","et.quel"],["שִּׁמְךָ","ton.nom"]]},
+  {who:"אֵלִיָּהוּ", heb:"אֵלִיָּ֫הוּ שְׁמִי׃ הֲשָׁלוֹם לְךָ׃", fr:"Mon nom est Élie. Vas-tu bien ?",
+   il:[["אֵלִיָּ֫הוּ","Élie"],["שְׁמִי","mon.nom"],["הֲשָׁלוֹם","est-ce.paix"],["לְךָ","à.toi"]]},
+  {who:"אֱלִישָׁע", heb:"שָׁלוֹם׃", fr:"Bien.",
+   il:[["שָׁלוֹם","paix"]]},
+  {who:"אֵלִיָּהוּ", heb:"אָנֹכִי נָבִיא וּמוֹרֶה וְאַתָּה תַלְמִיד׃", fr:"Je suis prophète et maître, et toi tu es disciple.",
+   il:[["אָנֹכִי","moi"],["נָבִיא","prophète"],["וּמוֹרֶה","et.maître"],["וְאַתָּה","et.toi"],["תַלְמִיד","disciple"]]},
+  {who:"אֱלִישָׁע", heb:"לֹא תַלְמִיד אָנֹכִי׃", fr:"Je ne suis pas disciple !",
+   il:[["לֹא","pas"],["תַלְמִיד","disciple"],["אָנֹכִי","moi"]]},
+  {who:"אֵלִיָּהוּ", heb:"אֱלִישָׁע תַּלְמִיד אַתָּה וְנָבִיא׃", fr:"Élisée, tu es disciple, et [tu seras] prophète.",
+   il:[["אֱלִישָׁע","Élisée"],["תַּלְמִיד","disciple"],["אַתָּה","toi"],["וְנָבִיא","et.prophète"]]}
 ];
 const SHUALI_SAMUEL = [
-  {who:"שְׁמוּאֵל", heb:"אַתָּה ! אַיֵּה בֵית־לָ֫חֶם ?", fr:"« Toi ! Où est Bethléem ? »"},
-  {who:"יִשַׁי", heb:"זֹאת בֵּית־לָ֫חֶם׃", fr:"« Ceci est Bethléem. »"},
-  {who:"שְׁמוּאֵל", heb:"וְאַיֵּה יִשַׁי ?", fr:"« Et où est Jessé ? »"},
-  {who:"יִשַׁי", heb:"אַיֵּה יִשַׁי ?? אָנֹכִי יִשַׁי וּמָה שְּׁמְךָ ?", fr:"« Où est Jessé ?? C'est moi, Jessé — et quel est ton nom ? »"},
-  {who:"שְׁמוּאֵל", heb:"שְׁמוּאֵל בֶּן־אֶלְקָנָה שְׁמִי וְנָבִיא אָנֹכִי׃ אַיֵּה בִנְךָ ?", fr:"« Mon nom est Samuel fils d'Elqana, et je suis prophète. Où est ton fils ? »"},
-  {who:"יִשַׁי", heb:"זֶה בְנִי׃", fr:"« Voici mon fils. »"},
-  {who:"שְׁמוּאֵל", heb:"מַה שְּׁמוֹ ?", fr:"« Quel est son nom ? »"},
-  {who:"יִשַׁי", heb:"אֱלִיאָב שְׁמוֹ׃", fr:"« Éliab est son nom. »"},
-  {who:"שְׁמוּאֵל", heb:"לֹא הוּא׃ אַיֵּה בִנְךָ ?", fr:"« Ce n'est pas lui. Où est ton fils ? »"},
-  {who:"יִשַׁי", heb:"זֶה בְנִי׃", fr:"« Voici mon fils. »"},
-  {who:"שְׁמוּאֵל", heb:"מַה שְּׁמוֹ ?", fr:"« Quel est son nom ? »"},
-  {who:"יִשַׁי", heb:"אֲבִינָדָב שְׁמוֹ׃", fr:"« Abinadav est son nom. »"},
-  {who:"שְׁמוּאֵל", heb:"לֹא הוּא׃ אַיֵּה בִנְךָ ?", fr:"« Ce n'est pas lui. Où est ton fils ? »"},
-  {who:"יִשַׁי", heb:"בְּנִי ? דָוִד בְּנִי ??", fr:"« Mon fils ? David, mon fils ?? »"},
-  {who:"שְׁמוּאֵל", heb:"דָּוִד בִּנְךָ ! מֶ֫לֶךְ הוּא עַל־יִשְׂרָאֵל׃", fr:"« David ton fils ! Il est roi sur Israël. »"},
-  {who:"יִשַׁי", heb:"הֲמֶ֫לֶךְ הוּא דָוִד בְּנִי ?? לֹא מֶ֫לֶךְ הוּא וְלֹא בֶן־מֶ֫לֶךְ הוּא׃ לֹא כֹהֵן הוּא וְלֹא בֶן־כֹּהֵן הוּא׃", fr:"« David mon fils, un roi ?? Il n'est ni roi ni fils de roi ! Il n'est ni prêtre ni fils de prêtre ! »"},
-  {who:"שְׁמוּאֵל", heb:"יִשַׁי, מֶ֫לֶךְ הוּא דָוִד בִּנְךָ !", fr:"« Jessé, David ton fils est roi ! »"},
-  {who:"יִשַׁי", heb:"הֲמֶ֫לֶךְ הוּא בְבֵית־לֶ֫חֶם עַל־בְּנִי אֱלִיאָב וְעַל־בְּנִי אֲבִינָדָב ??", fr:"« Est-il roi à Bethléem sur mon fils Éliab et sur mon fils Abinadav ?? »"},
-  {who:"שְׁמוּאֵל", heb:"לֹא בְבֵית־לֶ֫חֶם מֶ֫לֶךְ בִּנְךָ׃ בָּעִיר יְרוּשָׁלַ֫םִ עַל־הַר הַמּוֹרִיָּה תַ֫חַת־אֲדֹנָי מֶ֫לֶךְ בִּנְךָ׃", fr:"« Ce n'est pas à Bethléem que ton fils est roi. C'est dans la ville de Jérusalem, sur le mont Moriah, sous l'Éternel, que ton fils est roi. »"}
+  {who:"שְׁמוּאֵל", heb:"אַתָּה ! אַיֵּה בֵית־לָ֫חֶם ?", fr:"« Toi ! Où est Bethléem ? »",
+   il:[["אַתָּה","toi"],["אַיֵּה","où"],["בֵית־לָ֫חֶם","Bethléem"]]},
+  {who:"יִשַׁי", heb:"זֹאת בֵּית־לָ֫חֶם׃", fr:"« Ceci est Bethléem. »",
+   il:[["זֹאת","ceci"],["בֵּית־לָ֫חֶם","Bethléem"]]},
+  {who:"שְׁמוּאֵל", heb:"וְאַיֵּה יִשַׁי ?", fr:"« Et où est Jessé ? »",
+   il:[["וְאַיֵּה","et.où"],["יִשַׁי","Jessé"]]},
+  {who:"יִשַׁי", heb:"אַיֵּה יִשַׁי ?? אָנֹכִי יִשַׁי וּמָה שְּׁמְךָ ?", fr:"« Où est Jessé ?? C'est moi, Jessé — et quel est ton nom ? »",
+   il:[["אַיֵּה","où"],["יִשַׁי","Jessé"],["אָנֹכִי","moi"],["יִשַׁי","Jessé"],["וּמָה","et.quel"],["שְּׁמְךָ","ton.nom"]]},
+  {who:"שְׁמוּאֵל", heb:"שְׁמוּאֵל בֶּן־אֶלְקָנָה שְׁמִי וְנָבִיא אָנֹכִי׃ אַיֵּה בִנְךָ ?", fr:"« Mon nom est Samuel fils d'Elqana, et je suis prophète. Où est ton fils ? »",
+   il:[["שְׁמוּאֵל","Samuel"],["בֶּן־אֶלְקָנָה","fils.d'Elqana"],["שְׁמִי","mon.nom"],["וְנָבִיא","et.prophète"],["אָנֹכִי","moi"],["אַיֵּה","où"],["בִנְךָ","ton.fils"]]},
+  {who:"יִשַׁי", heb:"זֶה בְנִי׃", fr:"« Voici mon fils. »",
+   il:[["זֶה","voici"],["בְנִי","mon.fils"]]},
+  {who:"שְׁמוּאֵל", heb:"מַה שְּׁמוֹ ?", fr:"« Quel est son nom ? »",
+   il:[["מַה","quel"],["שְּׁמוֹ","son.nom"]]},
+  {who:"יִשַׁי", heb:"אֱלִיאָב שְׁמוֹ׃", fr:"« Éliab est son nom. »",
+   il:[["אֱלִיאָב","Éliab"],["שְׁמוֹ","son.nom"]]},
+  {who:"שְׁמוּאֵל", heb:"לֹא הוּא׃ אַיֵּה בִנְךָ ?", fr:"« Ce n'est pas lui. Où est ton fils ? »",
+   il:[["לֹא","pas"],["הוּא","lui"],["אַיֵּה","où"],["בִנְךָ","ton.fils"]]},
+  {who:"יִשַׁי", heb:"זֶה בְנִי׃", fr:"« Voici mon fils. »",
+   il:[["זֶה","voici"],["בְנִי","mon.fils"]]},
+  {who:"שְׁמוּאֵל", heb:"מַה שְּׁמוֹ ?", fr:"« Quel est son nom ? »",
+   il:[["מַה","quel"],["שְּׁמוֹ","son.nom"]]},
+  {who:"יִשַׁי", heb:"אֲבִינָדָב שְׁמוֹ׃", fr:"« Abinadav est son nom. »",
+   il:[["אֲבִינָדָב","Abinadav"],["שְׁמוֹ","son.nom"]]},
+  {who:"שְׁמוּאֵל", heb:"לֹא הוּא׃ אַיֵּה בִנְךָ ?", fr:"« Ce n'est pas lui. Où est ton fils ? »",
+   il:[["לֹא","pas"],["הוּא","lui"],["אַיֵּה","où"],["בִנְךָ","ton.fils"]]},
+  {who:"יִשַׁי", heb:"בְּנִי ? דָוִד בְּנִי ??", fr:"« Mon fils ? David, mon fils ?? »",
+   il:[["בְּנִי","mon.fils"],["דָוִד","David"],["בְּנִי","mon.fils"]]},
+  {who:"שְׁמוּאֵל", heb:"דָּוִד בִּנְךָ ! מֶ֫לֶךְ הוּא עַל־יִשְׂרָאֵל׃", fr:"« David ton fils ! Il est roi sur Israël. »",
+   il:[["דָּוִד","David"],["בִּנְךָ","ton.fils"],["מֶ֫לֶךְ","roi"],["הוּא","lui"],["עַל־יִשְׂרָאֵל","sur.Israël"]]},
+  {who:"יִשַׁי", heb:"הֲמֶ֫לֶךְ הוּא דָוִד בְּנִי ?? לֹא מֶ֫לֶךְ הוּא וְלֹא בֶן־מֶ֫לֶךְ הוּא׃ לֹא כֹהֵן הוּא וְלֹא בֶן־כֹּהֵן הוּא׃", fr:"« David mon fils, un roi ?? Il n'est ni roi ni fils de roi ! Il n'est ni prêtre ni fils de prêtre ! »",
+   il:[["הֲמֶ֫לֶךְ","est-ce-roi"],["הוּא","lui"],["דָוִד","David"],["בְּנִי","mon.fils"],["לֹא","pas"],["מֶ֫לֶךְ","roi"],["הוּא","lui"],["וְלֹא","et.pas"],["בֶן־מֶ֫לֶךְ","fils-de-roi"],["הוּא","lui"],["לֹא","pas"],["כֹהֵן","prêtre"],["הוּא","lui"],["וְלֹא","et.pas"],["בֶן־כֹּהֵן","fils-de-prêtre"],["הוּא","lui"]]},
+  {who:"שְׁמוּאֵל", heb:"יִשַׁי, מֶ֫לֶךְ הוּא דָוִד בִּנְךָ !", fr:"« Jessé, David ton fils est roi ! »",
+   il:[["יִשַׁי","Jessé"],["מֶ֫לֶךְ","roi"],["הוּא","lui"],["דָוִד","David"],["בִּנְךָ","ton.fils"]]},
+  {who:"יִשַׁי", heb:"הֲמֶ֫לֶךְ הוּא בְבֵית־לֶ֫חֶם עַל־בְּנִי אֱלִיאָב וְעַל־בְּנִי אֲבִינָדָב ??", fr:"« Est-il roi à Bethléem sur mon fils Éliab et sur mon fils Abinadav ?? »",
+   il:[["הֲמֶ֫לֶךְ","est-ce-roi"],["הוּא","lui"],["בְבֵית־לֶ֫חֶם","à.Bethléem"],["עַל־בְּנִי","sur.mon.fils"],["אֱלִיאָב","Éliab"],["וְעַל־בְּנִי","et.sur.mon.fils"],["אֲבִינָדָב","Abinadav"]]},
+  {who:"שְׁמוּאֵל", heb:"לֹא בְבֵית־לֶ֫חֶם מֶ֫לֶךְ בִּנְךָ׃ בָּעִיר יְרוּשָׁלַ֫םִ עַל־הַר הַמּוֹרִיָּה תַ֫חַת־אֲדֹנָי מֶ֫לֶךְ בִּנְךָ׃", fr:"« Ce n'est pas à Bethléem que ton fils est roi. C'est dans la ville de Jérusalem, sur le mont Moriah, sous l'Éternel, que ton fils est roi. »",
+   il:[["לֹא","pas"],["בְבֵית־לֶ֫חֶם","à.Bethléem"],["מֶ֫לֶךְ","roi"],["בִּנְךָ","ton.fils"],["בָּעִיר","dans.la.ville"],["יְרוּשָׁלַ֫םִ","Jérusalem"],["עַל־הַר","sur.le.mont"],["הַמּוֹרִיָּה","Moriah"],["תַ֫חַת־אֲדֹנָי","sous.le.Seigneur"],["מֶ֫לֶךְ","roi"],["בִּנְךָ","ton.fils"]]}
 ];
 let SHUALI_SAMUEL_IDX = 0;
 function viewShualiSamuel(){
@@ -7780,7 +7859,7 @@ function viewShualiSamuel(){
         <div class="shuali-bubble ${l.who==='שְׁמוּאֵל'?'left':'right'} ${i===idx?'just-in':''}">
           <div class="shuali-bubble-name">${l.who}</div>
           <div class="shuali-bubble-heb heb">${l.heb}</div>
-          <div class="shuali-bubble-fr">${l.fr}</div>
+          
         </div>`).join('')}
     </div>
     ${done
@@ -7805,7 +7884,7 @@ function viewShualiDialogue(){
         <div class="shuali-bubble ${l.who==='אֵלִיָּהוּ'?'left':'right'} ${i===idx?'just-in':''}">
           <div class="shuali-bubble-name">${l.who}</div>
           <div class="shuali-bubble-heb heb">${l.heb}</div>
-          <div class="shuali-bubble-fr">${l.fr}</div>
+          
         </div>`).join('')}
     </div>
     ${done
@@ -8938,9 +9017,9 @@ function shualiChapter17(){
   <div class="card">
     <h3><span class="en">Grammaire</span>Le pronom suffixe</h3>
     <p>On peut joindre un <b>pronom suffixe</b> à la plupart des noms hébreux ; il en désigne le possesseur : <span class="heb">שֵׁם</span> « un nom » → <span class="heb">שְׁמִי</span> « mon nom ».</p>
-    ${ex('וַיֹּ֫אמֶר אֲדֹנָי לְעַם־יִשְׂרָאֵל לֵאמֹר עַמִּי אַתֶּם וַיַּעַן עַם־יִשְׂרָאֵל לֵאמֹר עַמְּךָ אֲנָ֫חְנוּ',"« Le Seigneur dit au peuple d'Israël : vous êtes mon peuple ; et le peuple d'Israël répondit : nous sommes ton peuple »")}
-    ${ex('וְלֹא־תִּקְרָא עוֹד אֶת־שִׁמְךָ אַבְרָם כִּי שִׁמְךָ אַבְרָהָם',"« On ne t'appellera plus du nom d'Abram, car ton nom sera Abraham »")}
-    ${ex('וַיֹּ֫אמֶר אֱלֹהִים אֶל־אַבְרָהָם שָׂרַי אִשְׁתְּךָ לֹא־תִקְרָא אֶת־שְׁמָהּ שָׂרַי כִּי שָׂרָה שְׁמָהּ',"« Dieu dit à Abraham : Saraï ta femme, tu ne l'appelleras plus Saraï, car Sara est son nom »")}
+    ${interlinear([["וַיֹּ֫אמֶר","et.il.dit"],["אֲדֹנָי","le.Seigneur"],["לְעַם־יִשְׂרָאֵל","au.peuple.d'Israël"],["לֵאמֹר","disant"],["עַמִּי","mon.peuple"],["אַתֶּם","vous"],["וַיַּעַן","et.il.répondit"],["עַם־יִשְׂרָאֵל","le.peuple.d'Israël"],["לֵאמֹר","disant"],["עַמְּךָ","ton.peuple"],["אֲנָ֫חְנוּ","nous"]])}
+    ${interlinear([["וְלֹא־תִּקְרָא","et.pas.tu.seras.appelé"],["עוֹד","encore"],["אֶת־שִׁמְךָ","de.ton.nom"],["אַבְרָם","Abram"],["כִּי","car"],["שִׁמְךָ","ton.nom"],["אַבְרָהָם","Abraham"]])}
+    ${interlinear([["וַיֹּ֫אמֶר","et.il.dit"],["אֱלֹהִים","Dieu"],["אֶל־אַבְרָהָם","à.Abraham"],["שָׂרַי","Saraï"],["אִשְׁתְּךָ","ta.femme"],["לֹא־תִקְרָא","pas.tu.appelleras"],["אֶת־שְׁמָהּ","son.nom"],["שָׂרַי","Saraï"],["כִּי","car"],["שָׂרָה","Sara"],["שְׁמָהּ","son.nom"]])}
   </div>
 
   <div class="card">
@@ -9055,8 +9134,8 @@ function shualiChapter19(){
   <div class="card">
     <h3><span class="en">Grammaire</span>Fléchir une préposition</h3>
     <p>Pour ajouter un complément pronominal à une préposition, on la fléchit — beaucoup de prépositions suivent le modèle de la flexion des noms au singulier :</p>
-    ${ex('וַתֵּ֫לֶךְ חַנָּה עִם־אֶלְקָנָה אֶל־שִׁלֹה — וַתֵּ֫לֶךְ חַנָּה עִמּוֹ אֶל־שִׁלֹה',"« Hanna alla avec Elqana à Silo — Hanna alla avec lui à Silo »")}
-    ${ex('וַיֵּ֫לֶךְ אֶלְקָנָה עִם־חַנָּה וּפְנִנָּה אֶל־שִׁלֹה — וַיֵּ֫לֶךְ אֶלְקָנָה עִמָּן אֶל־שִׁלֹה',"« Elqana alla avec Hanna et Peninna à Silo — Elqana alla avec elles à Silo »")}
+    ${interlinear([["וַתֵּ֫לֶךְ","et.elle.alla"],["חַנָּה","Hanna"],["עִם־אֶלְקָנָה","avec.Elqana"],["אֶל־שִׁלֹה","à.Silo"],["וַתֵּ֫לֶךְ","et.elle.alla"],["חַנָּה","Hanna"],["עִמּוֹ","avec.lui"],["אֶל־שִׁלֹה","à.Silo"]])}
+    ${interlinear([["וַיֵּ֫לֶךְ","et.il.alla"],["אֶלְקָנָה","Elqana"],["עִם־חַנָּה","avec.Hanna"],["וּפְנִנָּה","et.Peninna"],["אֶל־שִׁלֹה","à.Silo"],["וַיֵּ֫לֶךְ","et.il.alla"],["אֶלְקָנָה","Elqana"],["עִמָּן","avec.elles"],["אֶל־שִׁלֹה","à.Silo"]])}
     <div class="callout warn"><span class="ico">⚠️</span><span>Une préposition n'est <b>jamais</b> suivie d'un pronom personnel <i>sujet</i> : <span class="heb">עִם אָנֹכִי</span> « avec je » est agrammatical.</span></div>
   </div>
 
@@ -9109,8 +9188,8 @@ function shualiChapter20(){
 
   <div class="card">
     <h3><span class="en en-heb">תַּלְמִידִים / תַּלְמִידוֹת</span>La flexion des noms au pluriel</h3>
-    ${ex('חָכָם הוּא תַּלְמִידִי — חֲכָמִים הֵם תַּלְמִידַי',"« Il est sage, mon élève — ils sont sages, mes élèves »")}
-    ${ex('וַיֹּ֫אמֶר יַעֲקֹב אֶל־בָּנָיו לֵאמֹר בָּנַי שִׁמְעוּ אֶל־דְּבָרַי כִּי מֵאֱלֹהֵ֫ינוּ הֵ֫מָּה',"« Jacob dit à ses fils : mes fils, écoutez mes paroles, car elles sont de notre Dieu »")}
+    ${interlinear([["חָכָם","sage"],["הוּא","il"],["תַּלְמִידִי","mon.élève"],["חֲכָמִים","sages"],["הֵם","ils"],["תַּלְמִידַי","mes.élèves"]])}
+    ${interlinear([["וַיֹּ֫אמֶר","et.il.dit"],["יַעֲקֹב","Jacob"],["אֶל־בָּנָיו","à.ses.fils"],["לֵאמֹר","disant"],["בָּנַי","mes.fils"],["שִׁמְעוּ","écoutez"],["אֶל־דְּבָרַי","mes.paroles"],["כִּי","car"],["מֵאֱלֹהֵ֫ינוּ","de.notre.Dieu"],["הֵ֫מָּה","elles"]])}
     ${tableHTML("תַּלְמִידִים (masc.)", ["","ז","נ"], [
       ["Sing. I","<span class=\"heb\">תַּלְמִידַי</span>",""],
       ["Sing. II","<span class=\"heb\">תַּלְמִידֶ֫יךָ</span>","<span class=\"heb\">תַּלְמִידַ֫יִךְ</span>"],
@@ -9149,8 +9228,8 @@ function shualiChapter20(){
   <div class="card">
     <h3><span class="en">Grammaire</span>La flexion des prépositions au pluriel</h3>
     <p>Certaines prépositions se fléchissent comme des noms au <b>pluriel</b> plutôt qu'au singulier — cela n'indique rien sur leur sens :</p>
-    ${ex('וַיְדַבֵּר שְׁלֹמֹה אֶל־הָאִישׁ — וַיְדַבֵּר שְׁלֹמֹה אֵלָיו',"« Salomon parla à l'homme — Salomon lui parla »")}
-    ${ex('וַיְדַבֵּר שְׁלֹמֹה אֶל־הַנָּשִׁים — וַיְדַבֵּר שְׁלֹמֹה אֲלֵיהֶן',"« Salomon parla aux femmes — Salomon leur parla »")}
+    ${interlinear([["וַיְדַבֵּר","et.il.parla"],["שְׁלֹמֹה","Salomon"],["אֶל־הָאִישׁ","à.l'homme"],["וַיְדַבֵּר","et.il.parla"],["שְׁלֹמֹה","Salomon"],["אֵלָיו","à.lui"]])}
+    ${interlinear([["וַיְדַבֵּר","et.il.parla"],["שְׁלֹמֹה","Salomon"],["אֶל־הַנָּשִׁים","aux.femmes"],["וַיְדַבֵּר","et.il.parla"],["שְׁלֹמֹה","Salomon"],["אֲלֵיהֶן","à.elles"]])}
     ${tableHTML("אֶל־", ["","ז","נ"], [
       ["Sing. I","<span class=\"heb\">אֵלַי</span>",""],
       ["Sing. II","<span class=\"heb\">אֵלֶ֫יךָ</span>","<span class=\"heb\">אֵלַ֫יִךְ</span>"],
@@ -9218,11 +9297,11 @@ function shualiChapter22(){
     <h3><span class="en">Grammaire</span>קָטַל contre וַיִּקְטֹל</h3>
     <p>Le <span class="heb">וַיִּקְטֹל</span> est le <b>passé de la narration</b> : il s'emploie pour raconter la trame d'une histoire, et se place toujours en <b>tête</b> de sa proposition (puisqu'il commence par la conjonction « et »).</p>
     <p>Le <span class="heb">קָטַל</span> décrit souvent l'<b>arrière-plan</b> du récit, ou une action <b>antérieure</b> à celle du וַיִּקְטֹל qui suit :</p>
-    ${ex('וַיָּ֫מָת בֶּן־הָאִשָּׁה הַזֹּאת לַ֫יְלָה אֲשֶׁר שָׁכְבָה עָלָיו',"« Et le fils de cette femme mourut — celui sur lequel elle s'était couchée »","1 Rois 3,19")}
+    ${interlinear([["וַיָּ֫מָת","et.il.mourut"],["בֶּן־הָאִשָּׁה","le.fils.de.la.femme"],["הַזֹּאת","celle-ci"],["לַ֫יְלָה","de.nuit"],["אֲשֶׁר","que"],["שָׁכְבָה","elle.s'était.couchée"],["עָלָיו","sur.lui"]], "1 Rois 3,19")}
     <p><i>D'abord elle s'est couchée sur lui (קָטַל, antérieur) ; ensuite il est mort (וַיִּקְטֹל, trame du récit).</i></p>
     <div class="callout info"><span class="ico">💡</span><span>Quand un verbe au passé <b>ne peut pas</b> se placer en tête de proposition (négation, mot interrogatif…), il se conjugue obligatoirement au קָטַל :</span></div>
-    ${ex('לֶ֫חֶם לֹא אָכַל וּמַ֫יִם לֹא שָׁתָה',"« Il ne mangea pas de pain et ne but pas d'eau »","Exode 34,28 — négation en tête")}
-    ${ex('וַיִּקְרָא אֲבִימֶ֫לֶךְ לְאַבְרָהָם וַיֹּ֫אמֶר לוֹ מֶה־עָשִׂ֫יתָ לָּ֫נוּ',"« Abimélek appela Abraham et lui dit : que nous as-tu fait ? »","Genèse 20,9 — adverbe interrogatif en tête")}
+    ${interlinear([["לֶ֫חֶם","du.pain"],["לֹא","pas"],["אָכַל","il.mangea"],["וּמַ֫יִם","et.de.l'eau"],["לֹא","pas"],["שָׁתָה","il.but"]], "Exode 34,28 — négation en tête")}
+    ${interlinear([["וַיִּקְרָא","et.il.appela"],["אֲבִימֶ֫לֶךְ","Abimélek"],["לְאַבְרָהָם","Abraham"],["וַיֹּ֫אמֶר","et.il.dit"],["לוֹ","à.lui"],["מֶה־עָשִׂ֫יתָ","qu'as-tu.fait"],["לָּ֫נוּ","à.nous"]], "Genèse 20,9 — adverbe interrogatif en tête")}
   </div>
 
   <div class="card">
@@ -9252,10 +9331,10 @@ function shualiChapter22(){
   <div class="card">
     <h3><span class="en en-heb">וְקָטַל</span>Une forme apparentée : le Weqatal</h3>
     <p>Le <span class="heb">וְקָטַל</span> se conjugue exactement comme le קָטַל, mais précédé de <span class="heb">וְ־</span> — parfois avec déplacement de l'accent : <span class="heb">אָכַ֫לְתָּ → וְאָכַלְתָּ֫</span>.</p>
-    ${ex('בְּאַחֲרִית הַיָּמִים וְשַׁבְתָּ עַד־יְהוָה אֱלֹהֶ֫יךָ וְשָׁמַ֫עְתָּ בְּקֹלוֹ',"« À la fin des temps, tu reviendras vers l'Éternel ton Dieu et tu écouteras sa voix »","Deutéronome 4,30")}
+    ${interlinear([["בְּאַחֲרִית","à.la.fin.de"],["הַיָּמִים","les.jours"],["וְשַׁבְתָּ","et.tu.reviendras"],["עַד־יְהוָה","jusqu'à.l'Éternel"],["אֱלֹהֶ֫יךָ","ton.Dieu"],["וְשָׁמַ֫עְתָּ","et.tu.écouteras"],["בְּקֹלוֹ","sa.voix"]], "Deutéronome 4,30")}
     <div class="callout info"><span class="ico">💡</span><span>Comme le יִקְטֹל, le וְקָטַל peut décrire une action <b>future</b> — mais contrairement au יִקְטֹל (qui ne se met jamais en tête de proposition), le וְקָטַל s'y place volontiers.</span></div>
     <p>Le וְקָטַל s'emploie aussi pour donner des <b>ordres</b>, en continuation d'un impératif :</p>
-    ${ex('וַיֹּ֫אמֶר יְהוָה אֶל־מֹשֶׁה בֹּא אֶל־פַּרְעֹה וְאָמַ֫רְתָּ אֵלָיו',"« L'Éternel dit à Moïse : va vers Pharaon et dis-lui… »","Exode 7,26")}
+    ${interlinear([["וַיֹּ֫אמֶר","et.il.dit"],["יְהוָה","l'Éternel"],["אֶל־מֹשֶׁה","à.Moïse"],["בֹּא","viens"],["אֶל־פַּרְעֹה","vers.Pharaon"],["וְאָמַ֫רְתָּ","et.tu.diras"],["אֵלָיו","à.lui"]], "Exode 7,26")}
     <div class="callout warn"><span class="ico">⚠️</span><span>Dans bien des cas, le וְקָטַל décrit une action conçue comme la <b>conséquence</b> d'une action précédemment mentionnée.</span></div>
   </div>`;
 }
@@ -9292,8 +9371,8 @@ function shualiChapter23(){
       ["<span class=\"heb\">פִּעֵל — הִתְפָּעֵל — פֻּעַל</span>","3 possibilités : <b>causatif/factitif</b> (<span class=\"heb\">גָּדַל</span> grandir → <span class=\"heb\">גִּדֵּל</span> faire grandir) ; <b>dénominatif</b> (<span class=\"heb\">כֹּהֵן</span> prêtre → <span class=\"heb\">כִּהֵן</span> être prêtre ; <span class=\"heb\">קֵן</span> nid → <span class=\"heb\">קִנֵּן</span> nicher) ; <b>intensif</b> (<span class=\"heb\">שָׁבַר</span> casser → <span class=\"heb\">שִׁבֵּר</span> casser avec force)."],
       ["<span class=\"heb\">הִפְעִיל — הָפְעַל</span>","Le plus souvent <b>causatif/factitif</b> : <span class=\"heb\">שָׁכַב</span> être couché → <span class=\"heb\">הִשְׁכִּיב</span> coucher ; <span class=\"heb\">אָכַל</span> manger → <span class=\"heb\">הֶאֱכִיל</span> nourrir ; <span class=\"heb\">לָבַשׁ</span> porter (un vêtement) → <span class=\"heb\">הִלְבִּישׁ</span> habiller ; <span class=\"heb\">זָכַר</span> se souvenir → <span class=\"heb\">הִזְכִּיר</span> rappeler."]
     ])}
-    ${ex('וְרוּחַ גְּדוֹלָה וְחָזָק מְפָרֵק הָרִים וּמְשַׁבֵּר סְלָעִים לִפְנֵי יְהוָה',"« … un grand vent, fort, déchirant les montagnes et cassant les rochers devant l'Éternel »","1 Rois 19,11")}
-    ${ex('דַּלְתוֹת נְחוּשָׁה אֲשַׁבֵּר וּבְרִיחֵי בַרְזֶל אֲגַדֵּעַ',"« Je casserai les portes de bronze et je trancherai les verrous de fer »","Ésaïe 45,2")}
+    ${interlinear([["וְרוּחַ","et.un.vent"],["גְּדוֹלָה","grand"],["וְחָזָק","et.fort"],["מְפָרֵק","déchirant"],["הָרִים","les.montagnes"],["וּמְשַׁבֵּר","et.brisant"],["סְלָעִים","les.rochers"],["לִפְנֵי","devant"],["יְהוָה","l'Éternel"]], "1 Rois 19,11")}
+    ${interlinear([["דַּלְתוֹת","des.portes.de"],["נְחוּשָׁה","bronze"],["אֲשַׁבֵּר","je.casserai"],["וּבְרִיחֵי","et.les.verrous.de"],["בַרְזֶל","fer"],["אֲגַדֵּעַ","je.trancherai"]], "Ésaïe 45,2")}
     <div class="callout warn"><span class="ico">⚠️</span><span>Certaines grammaires généralisent à tort le sens intensif à tout le Piel/Hitpaël/Poual — seule une petite partie de leurs verbes le sont vraiment. <span class="heb">דִּבֵּר</span> (Piel) signifie simplement « parler », pas « parler intensivement ».</span></div>
   </div>`;
 }
@@ -10809,7 +10888,8 @@ function viewVerseAnalysis(){
   ${VERSE_ANALYSES.map((v,i)=>`
   <div class="card">
     <h3><span class="en">Verset ${i+1}</span>${v.ref}</h3>
-    <div class="rule"><span class="heb" style="font-size:1.25em;">${v.heb}</span><div class="tr" style="font-style:italic;margin-top:6px;">${v.fr}</div></div>
+    <div class="rule"><span class="heb" style="font-size:1.25em;">${v.heb}</span></div>
+    ${interlinear(v.il)}
     <p class="ui" style="font-size:13px;color:var(--text-soft);margin-top:10px;">Pour chaque mot en gras, identifiez : s'il s'agit d'un <b>verbe</b> (racine, binyan, temps — Qatal/Yiqtol/Wayyiqtol/Weqatal/Participe/Impératif —, personne/genre/nombre) ou d'un <b>nom/adjectif</b> (genre, nombre, état).</p>
     <details style="margin-top:10px;"><summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Révéler l'analyse complète</summary>
       ${tableHTML(null, ["Mot","Analyse"], v.words)}
@@ -10821,6 +10901,10 @@ const VERSE_ANALYSES = [
     ref: "Genèse 1,3",
     heb: "וַיֹּ֫אמֶר <b>אֱלֹהִים</b> <b>יְהִי</b> אוֹר <b>וַֽיְהִי</b>־אוֹר׃",
     fr: "« Dieu dit : que la lumière soit ! Et la lumière fut. »",
+    il: [
+      ["וַיֹּ֫אמֶר","et.il.dit"],["אֱלֹהִים","Dieu"],["יְהִי","qu'il.soit"],
+      ["אוֹר","lumière"],["וַֽיְהִי","et.il.fut"],["אוֹר","lumière"]
+    ],
     words: [
       ["<span class=\"heb\">וַיֹּ֫אמֶר</span>","<b>Verbe</b> — racine <span class=\"heb\">א.מ.ר</span>, <b>Qal</b>, <b>Wayyiqtol</b> (passé narratif), 3ᵉ masc. sg. — préformante <span class=\"heb\" style=\"color:#1a8a3d;\">וַ</span> (ו conversif) + <span class=\"heb\" style=\"color:#c0392b;\">יִּ</span> (3ᵉ masc.)"],
       ["<span class=\"heb\">אֱלֹהִים</span>","<b>Nom</b> — masculin, forme plurielle (mais accord singulier : « Dieu »)"],
@@ -10833,6 +10917,9 @@ const VERSE_ANALYSES = [
     ref: "2 Samuel 16,16",
     heb: "<b>יְחִי</b> <b>הַמֶּ֫לֶךְ</b>׃",
     fr: "« Vive le roi ! »",
+    il: [
+      ["יְחִי","qu'il.vive"],["הַמֶּ֫לֶךְ","le.roi"]
+    ],
     words: [
       ["<span class=\"heb\">יְחִי</span>","<b>Verbe</b> — racine <span class=\"heb\">ח.י.ה</span> (ל״ה), <b>Qal</b>, <b>Jussif</b> (forme courte, en tête de phrase → critère syntaxique du jussif), 3ᵉ masc. sg."],
       ["<span class=\"heb\">הַמֶּ֫לֶךְ</span>","<b>Nom</b> — masculin singulier, <b>défini</b> (article <span class=\"heb ns-copule\">הַ</span>)"]
@@ -10842,6 +10929,10 @@ const VERSE_ANALYSES = [
     ref: "1 Rois 3,19",
     heb: "וַ<b>יָּ֫מָת</b> בֶּן־הָאִשָּׁה הַזֹּאת לַ֫יְלָה אֲשֶׁר <b>שָׁכְבָה</b> עָלָיו׃",
     fr: "« Et le fils de cette femme mourut de nuit, [celui] sur lequel elle s'était couchée. »",
+    il: [
+      ["וַיָּ֫מָת","et.il.mourut"],["בֶּן","fils.de"],["הָאִשָּׁה","la.femme"],["הַזֹּאת","celle-ci"],
+      ["לַ֫יְלָה","de.nuit"],["אֲשֶׁר","que"],["שָׁכְבָה","elle.s'était.couchée"],["עָלָיו","sur.lui"]
+    ],
     words: [
       ["<span class=\"heb\">וַיָּ֫מָת</span>","<b>Verbe</b> — racine <span class=\"heb\">מ.ו.ת</span> (creux ע״ו), <b>Qal</b>, <b>Wayyiqtol</b> (trame du récit), 3ᵉ masc. sg."],
       ["<span class=\"heb\">בֶּן</span>","<b>Nom</b> — masculin singulier, à l'<b>état construit</b> (suivi de <span class=\"heb\">הָאִשָּׁה</span>)"],
