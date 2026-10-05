@@ -428,6 +428,26 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
 .ws-page{background:#ffffff;color:#1a1a1a;min-height:60vh;max-width:800px;margin:0 auto;padding:2.5cm 2cm;border-radius:4px;box-shadow:0 2px 12px rgba(0,0,0,.15);font-family:'Times New Roman',serif;font-size:16px;line-height:1.6;outline:none;}
 .ws-page:empty::before{content:'Commencez à écrire ici…';color:#999;}
 .ws-kbd-wrap{max-width:900px;margin:14px auto 0;}
+.ws-alphabet{max-width:900px;margin:0 auto 14px;background:var(--parchment);border:1px solid var(--parchment2);border-radius:10px;padding:12px;}
+.ws-alpha-title{font-family:'Frank Ruhl Libre',serif;font-size:14px;color:var(--gold-dim);margin-bottom:8px;}
+.ws-alpha-section{margin-bottom:10px;}
+.ws-alpha-section:last-child{margin-bottom:0;}
+.ws-alpha-label{font-family:'Inter',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin-bottom:5px;}
+.ws-alpha-grid{display:flex;flex-wrap:wrap;gap:5px;}
+.ws-alpha-cell{display:flex;flex-direction:column;align-items:center;min-width:56px;padding:5px 4px;background:var(--paper);border:1px solid var(--parchment2);border-radius:6px;}
+.ws-alpha-cell .heb{font-size:1.35em;line-height:1.1;}
+.ws-alpha-name{font-family:'Inter',sans-serif;font-size:9.5px;color:var(--text-soft);margin-top:2px;}
+.ws-alpha-key{font-family:'Inter',sans-serif;font-size:10px;font-weight:700;color:var(--gold-dim);margin-top:1px;}
+.ws-kbdiagram{display:flex;flex-direction:column;gap:4px;align-items:flex-start;}
+.ws-kbrow{display:flex;gap:4px;}
+.ws-kbrow-off1{margin-left:14px;}
+.ws-kbrow-off2{margin-left:20px;}
+.ws-kbrow-off3{margin-left:34px;}
+.ws-kbkey{display:flex;flex-direction:column;align-items:center;justify-content:space-between;width:44px;height:52px;padding:3px 2px;background:var(--paper);border:1px solid var(--parchment2);border-radius:6px;box-shadow:0 1px 2px rgba(0,0,0,.08);}
+.ws-kk-lat{font-family:'Inter',sans-serif;font-size:10px;color:var(--text-soft);display:flex;flex-direction:column;align-items:center;line-height:1.1;}
+.ws-kk-lat2{font-size:9px;color:var(--gold-dim);font-weight:700;}
+.ws-kk-heb{font-family:'Noto Serif Hebrew','Frank Ruhl Libre',serif;font-size:15px;color:var(--ink);line-height:1;position:relative;}
+.ws-kk-heb2{font-family:'Noto Serif Hebrew','Frank Ruhl Libre',serif;font-size:12px;color:#8a4a1e;line-height:1;}
 .ws-body{display:flex;gap:16px;max-width:1100px;margin:0 auto;align-items:flex-start;flex-wrap:wrap;}
 .ws-filepanel{width:230px;flex-shrink:0;background:var(--parchment);border:1px solid var(--parchment2);border-radius:10px;padding:10px;}
 .ws-filepanel-head{margin-bottom:6px;}
@@ -9879,8 +9899,80 @@ function viewWorkspace(){
     <button type="button" class="navbtn" onclick="wsDownloadPdf()">⬇️ PDF</button>
   </div>
 
+  <div class="ws-alphabet" id="wsAlphabet">
+    <div class="ws-alpha-title">⌨️ Le clavier hébreu Langlois — lettres directement sur les touches</div>
+    <div class="ws-kbdiagram">
+      <div class="ws-kbrow">
+        ${[
+          ['&','1','',''],['é','2','ֵ',''],['"','3','',''],["'",'4','',''],['(','5','',''],
+          ['-','6','',''],['è','7','ֶ','ֱ'],['_','8','',''],['ç','9','',''],['à','@','ַ','ָ'],
+          [')','°','','ֳ'],['=','+','','']
+        ].map(([base,shift,plain,shifted])=>`<div class="ws-kbkey"><span class="ws-kk-lat">${base}<span class="ws-kk-lat2">${shift}</span></span>${plain||shifted?`<span class="ws-kk-heb">${plain||''}</span><span class="ws-kk-heb2">${shifted||''}</span>`:''}</div>`).join('')}
+      </div>
+      <div class="ws-kbrow ws-kbrow-off1">
+        ${[
+          ['a','A','א','ע'],['z','Z','',''],['e','E','',''],['r','R','ר',''],['t','T','ת',''],
+          ['y','Y','י','צ'],['u','U','ֻ','וּ'],['i','I','ִ','ִי'],['o','O','ֹ','וֹ'],['p','P','פּ','פ']
+        ].map(([base,shift,plain,shifted])=>`<div class="ws-kbkey"><span class="ws-kk-lat">${base}<span class="ws-kk-lat2">${shift}</span></span><span class="ws-kk-heb">${plain||''}</span><span class="ws-kk-heb2">${shifted||''}</span></div>`).join('')}
+      </div>
+      <div class="ws-kbrow ws-kbrow-off2">
+        ${[
+          ['q','Q','ק',''],['s','S','ס','שׁ'],['d','D','ד',''],['f','F','פ',''],['g','G','ג',''],
+          ['h','H','ה','ח'],['j','J','',''],['k','K','כּ',''],['l','L','ל',''],['m','M','מ','']
+        ].map(([base,shift,plain,shifted])=>`<div class="ws-kbkey"><span class="ws-kk-lat">${base}<span class="ws-kk-lat2">${shift}</span></span><span class="ws-kk-heb">${plain||''}</span><span class="ws-kk-heb2">${shifted||''}</span></div>`).join('')}
+      </div>
+      <div class="ws-kbrow ws-kbrow-off3">
+        ${[
+          ['w','W','שׁ','שׂ'],['x','X','',''],['c','C','כ',''],['v','V','ו','וּ'],['b','B','בּ','ב'],['n','N','נ','']
+        ].map(([base,shift,plain,shifted])=>`<div class="ws-kbkey"><span class="ws-kk-lat">${base}<span class="ws-kk-lat2">${shift}</span></span><span class="ws-kk-heb">${plain||''}</span><span class="ws-kk-heb2">${shifted||''}</span></div>`).join('')}
+      </div>
+      <div class="ws-kbrow ws-kbrow-off1">
+        <div class="ws-kbkey" style="min-width:60px;"><span class="ws-kk-lat">;</span><span class="ws-kk-heb">ְ</span><span class="ws-kk-lat2" style="margin-top:2px;">shéva</span></div>
+        <div class="ws-kbkey" style="min-width:100px;"><span class="ws-kk-lat">.</span><span class="ws-kk-heb">ּ</span><span class="ws-kk-lat2" style="margin-top:2px;">dagesh</span></div>
+        <div class="ws-kbkey" style="min-width:60px;"><span class="ws-kk-lat">-</span><span class="ws-kk-heb">־</span><span class="ws-kk-lat2" style="margin-top:2px;">maqaf</span></div>
+      </div>
+    </div>
+    <p class="ui" style="font-size:11px;color:var(--text-soft);text-align:center;margin-top:8px;">En haut de chaque touche : la lettre latine (et sa forme Maj). En bas : la lettre/voyelle hébraïque — <span class="ws-kk-heb" style="font-size:1em;position:static;">en noir</span> sans Maj, <span class="ws-kk-heb2" style="font-size:1em;position:static;color:#8a4a1e;">en brun</span> avec Maj. Pour la 1ʳᵉ rangée : AltGr donne les demi-voyelles.</p>
+  </div>
+  <div class="ws-alphabet" id="wsAlphabetList" style="margin-top:10px;">
+    <div class="ws-alpha-title">📖 Même chose, en liste</div>
+    <div class="ws-alpha-section">
+      <div class="ws-alpha-label">Consonnes</div>
+      <div class="ws-alpha-grid">
+        ${[['א','alef','A'],['בּ','bet (+daguesh)','B'],['ב','bet (sans daguesh)','Maj+B'],['ג','guimel','G'],['ד','dalet','D'],['ה','hé','H'],['ו','vav','V'],['וּ','vav + daguesh','Maj+V'],['ז','zayin','Z'],
+           ['ח','het','Maj+H'],['ט','tet','Maj+T'],['י','yod','Y'],['כּ','kaf (+daguesh)','K'],['כ','kaf (sans daguesh)','C ou Maj+C ou Maj+K'],['ל','lamed','L'],['מ','mem','M'],['נ','noun','N'],
+           ['ס','samekh','S'],['ע','ayin','Maj+A'],['פּ','pé (+daguesh)','P'],['פ','pé (sans daguesh)','F ou Maj+P'],['צ','tsadé','Maj+Y'],['ק','qof','Q'],['ר','resh','R'],
+           ['שׁ','shin','W'],['שׂ','sin','Maj+W'],['ת','tav','T']
+        ].map(([heb,name,key])=>`<div class="ws-alpha-cell" onclick="wsCopyChar('${heb.replace(/'/g,"\\'")}', this)" title="Cliquer pour copier"><span class="heb">${heb}</span><span class="ws-alpha-name">${name}</span><span class="ws-alpha-key">${key}</span></div>`).join('')}
+      </div>
+    </div>
+    <div class="ws-alpha-section">
+      <div class="ws-alpha-label">Formes finales</div>
+      <div class="ws-alpha-grid">
+        ${[['ך','kaf finale','AltGr+C'],['ךּ','kaf finale + daguesh','AltGr+K'],['ם','mem finale','AltGr+M'],['ן','noun finale','AltGr+N'],['ף','pé finale','AltGr+F'],['ףּ','pé finale + daguesh','AltGr+P'],['ץ','tsadé finale','AltGr+Y']
+        ].map(([heb,name,key])=>`<div class="ws-alpha-cell" onclick="wsCopyChar('${heb.replace(/'/g,"\\'")}', this)" title="Cliquer pour copier"><span class="heb">${heb}</span><span class="ws-alpha-name">${name}</span><span class="ws-alpha-key">${key}</span></div>`).join('')}
+      </div>
+    </div>
+    <div class="ws-alpha-section">
+      <div class="ws-alpha-label">Voyelles (sur une consonne, ex. <span class="heb">בַ</span>) — le ◌ est un cercle de repère, ne pas le copier</div>
+      <div class="ws-alpha-grid">
+        ${[['◌ַ','patah','À','\u05B7'],['◌ָ','qamats','@','\u05B8'],['◌ֵ','tséré','É','\u05B5'],['◌ֶ','ségol','È','\u05B6'],
+           ['◌ִ','hiriq','I','\u05B4'],['ִי','hiriq malé','Maj+I'],['◌ֹ','holam','O','\u05B9'],['וֹ','holam malé','Maj+O'],
+           ['◌ֻ','qibbouts','U','\u05BB'],['וּ','chourouq','Maj+U']
+        ].map(([heb,name,key,copyVal])=>`<div class="ws-alpha-cell" onclick="wsCopyChar('${(copyVal||heb).replace(/'/g,"\\'")}', this)" title="Cliquer pour copier"><span class="heb">${heb}</span><span class="ws-alpha-name">${name}</span><span class="ws-alpha-key">${key}</span></div>`).join('')}
+      </div>
+    </div>
+    <div class="ws-alpha-section">
+      <div class="ws-alpha-label">Demi-voyelles et autres signes — le ◌ est un cercle de repère, ne pas le copier</div>
+      <div class="ws-alpha-grid">
+        ${[['◌ֲ','hatef-patah','AltGr+À','\u05B2'],['◌ֱ','hatef-ségol','AltGr+È','\u05B1'],['◌ֳ','hatef-qamats','AltGr+)','\u05B3'],
+           ['◌ְ','shéva',':','\u05B0'],['◌ּ','dagesh','.','\u05BC'],['־','maqaf','-'],['◌֫','accent tonique (déplacé)','E','\u05AB'],['׃','fin de verset (sof pasuq)','Option+:']
+        ].map(([heb,name,key,copyVal])=>`<div class="ws-alpha-cell" onclick="wsCopyChar('${(copyVal||heb).replace(/'/g,"\\'")}', this)" title="Cliquer pour copier"><span class="heb">${heb}</span><span class="ws-alpha-name">${name}</span><span class="ws-alpha-key">${key}</span></div>`).join('')}
+      </div>
+    </div>
+  </div>
   <div class="ws-kbd-wrap" id="wsKbdWrap">${hebKeyboardHTML('wsPage')}</div>
-  <p class="ui" style="font-size:11.5px;color:var(--text-soft);text-align:center;margin:-6px 0 10px;">⌨️ Tapez directement avec votre clavier physique (A→א, K→כּ… même mappage que ci-dessus) — <b>Maj+lettre</b> = variante. Cliquez les touches ci-dessus pour les voyelles.</p>
+  <p class="ui" style="font-size:11.5px;color:var(--text-soft);text-align:center;margin:-6px 0 10px;">⌨️ Clavier Denoual — la frappe suit la <b>position</b> des touches de ton clavier français Apple, exactement comme le fichier installé sur le Mac. <b>B/K/P</b> = lettre avec daguesh ; <b>Maj+B</b> = ב ; <b>C</b>, <b>Maj+C</b>, <b>Maj+K</b> = כ ; <b>F</b> ou <b>Maj+P</b> = פ ; <b>Option+C/F/K/P/M/N/Y</b> = formes finales ; <b>Maj+Y</b> = צ ; voyelles : <b>à</b> patah, <b>é</b> tséré, <b>è</b> ségol, <b>I/O/U</b>, touche <b>@</b> qamats ; <b>Option</b> + à / è / @ = demi-voyelles ; <b>:</b> = shéva ; <b>Maj+;</b> (le « . ») = daguesh ; <b>;</b> = point-virgule. Chiffres : <b>Maj</b> + la rangée du haut. Ne peuvent plus se taper : le point, les deux-points, le tiret, le tiret bas, £, ç, ù, ^, ¨ et l'accent grave (prises par l'hébreu ou supprimées du clavier).</p>
 
   <div class="ws-body">
     <div class="ws-filepanel">
@@ -10017,6 +10109,28 @@ function wsDeleteNode(id){
   wsSaveFs(WS_FS);
   wsRenderFilePanel();
 }
+function wsCopyChar(text, el){
+  const done = ()=>{
+    if(!el) return;
+    const prevBg = el.style.background;
+    el.style.background = 'rgba(46,125,50,.25)';
+    const badge = document.createElement('div');
+    badge.textContent = 'Copié ✓';
+    badge.style.cssText = 'position:absolute;font-size:9px;color:#2e7d32;font-family:Inter,sans-serif;margin-top:-4px;';
+    setTimeout(()=>{ el.style.background = prevBg; }, 600);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(()=>{
+      const ta = document.createElement('textarea'); ta.value = text;
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+      done();
+    });
+  }else{
+    const ta = document.createElement('textarea'); ta.value = text;
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    done();
+  }
+}
 function wsClearAll(){
   if(confirm("Effacer tout le contenu de l'espace de travail ?")){
     const page = document.getElementById('wsPage');
@@ -10027,21 +10141,38 @@ function wsClearAll(){
 function wsInsertAtCaret(text){
   document.execCommand('insertText', false, text);
 }
+/* ---- Clavier hébreu Denoual ----
+   Table générée à partir du fichier « Clavier_hebreu_Denoual.keylayout » (Mac) :
+   chaque touche physique -> [normal, Maj, Option/AltGr, Maj+Option/AltGr].
+   La frappe suit la POSITION de la touche (disposition AZERTY française Apple), pas l'étiquette. */
+const DENOUAL_KB = {"KeyA": ["\u05e7", "", "", ""], "KeyS": ["\u05e1", "", "", ""], "KeyD": ["\u05d3", "", "", ""], "KeyF": ["\u05e4", "", "\u05e3", ""], "KeyH": ["\u05d4", "\u05d7", "", ""], "KeyG": ["\u05d2", "", "", ""], "KeyZ": ["\u05e9\u05c1", "\u05e9\u05c2", "", ""], "KeyX": ["", "", "", ""], "KeyC": ["\u05db", "\u05db", "\u05da", ""], "KeyV": ["\u05d5", "\u05d5\u05bc", "", ""], "KeyB": ["\u05d1\u05bc", "\u05d1", "", ""], "KeyQ": ["\u05d0", "\u05e2", "", ""], "KeyW": ["\u05d6", "", "", ""], "KeyE": ["\u05ab", "", "", ""], "KeyR": ["\u05e8", "", "", ""], "KeyY": ["\u05d9", "\u05e6", "\u05e5", ""], "KeyT": ["\u05ea", "\u05d8", "", ""], "Digit1": ["&", "1", "", ""], "Digit2": ["\u05b5", "2", "", ""], "Digit3": ["\"", "3", "", ""], "Digit4": ["'", "4", "", ""], "Digit6": ["\u00a7", "6", "", ""], "Digit5": ["(", "5", "", ""], "Equal": ["\u05be", "@", "", ""], "Digit9": ["", "9", "", ""], "Digit7": ["\u05b6", "7", "\u05b1", ""], "Minus": [")", "\u00b0", "", ""], "Digit8": ["!", "8", "", ""], "Digit0": ["\u05b7", "0", "\u05b2", ""], "BracketRight": ["$", "*", "\u20ac", ""], "KeyO": ["\u05b9", "\u05d5\u05b9", "", ""], "KeyU": ["\u05bb", "\u05d5\u05bc", "", ""], "BracketLeft": ["", "", "", ""], "KeyI": ["\u05b4", "\u05b4\u05d9", "", ""], "KeyP": ["\u05e4\u05bc", "\u05e4", "\u05e3\u05bc", ""], "KeyL": ["\u05dc", "", "", ""], "KeyJ": ["", "", "", ""], "Quote": ["", "", "", ""], "KeyK": ["\u05db\u05bc", "\u05db", "\u05da\u05bc", ""], "Semicolon": ["\u05de", "", "\u05dd", ""], "Backslash": ["%", "", "", ""], "Comma": [";", "\u05bc", "", ""], "Slash": ["=", "+", "", ""], "KeyN": ["\u05e0", "", "\u05df", ""], "KeyM": [",", "?", "", ""], "Period": ["\u05b0", "/", "\u05c3", ""], "TOPLEFT": ["\u05b8", "#", "\u05b3", ""], "ANGLE": ["<", ">", "", ""]};
+function isAltGrPressed(e){
+  return !!(e.getModifierState && (e.getModifierState('AltGraph') || (e.getModifierState('Control') && e.getModifierState('Alt'))));
+}
+/* Les deux touches à part du clavier ISO : en haut à gauche (@ #) et à côté de Maj (< >). */
+function wsTopLeftOrAngle(e){
+  const k = e.key;
+  if(k==='@' || k==='#' || k==='²') return 'TOPLEFT';
+  if(k==='<' || k==='>') return 'ANGLE';
+  const mac = /Mac/i.test(navigator.platform || navigator.userAgent || '');
+  const topLeftCode = mac ? 'IntlBackslash' : 'Backquote'; // Apple ISO : haut-gauche = IntlBackslash ; PC : Backquote
+  return e.code===topLeftCode ? 'TOPLEFT' : 'ANGLE';
+}
 function initWsPhysicalKeyboard(){
   document.addEventListener('keydown', function(e){
     const page = document.getElementById('wsPage');
     if(!page || document.activeElement !== page) return;
-    if(e.ctrlKey || e.metaKey || e.altKey) return; // laisser passer les raccourcis (Ctrl+B, Ctrl+Z, copier/coller...)
-    const k = e.key.toLowerCase();
-    if(k.length!==1 || k<'a' || k>'z') return; // seules les lettres latines simples sont mappées
-    const map = AZERTY_HEB_MAP[k];
-    if(!map) return;
+    if(e.metaKey) return;                         // raccourcis Cmd
+    const altGr = isAltGrPressed(e);
+    if(e.ctrlKey && !altGr) return;               // raccourcis Ctrl (copier, annuler...)
+    const name = (e.code==='Backquote' || e.code==='IntlBackslash') ? wsTopLeftOrAngle(e) : e.code;
+    const row = DENOUAL_KB[name];
+    if(!row) return;                              // touche non gérée (flèches, Entrée, espace...) : comportement normal
+    const opt = e.altKey || altGr;                // Option (Mac) ou AltGr (Windows)
+    const idx = (opt ? 2 : 0) + (e.shiftKey ? 1 : 0);
     e.preventDefault();
-    if(e.shiftKey && map.alts.length){
-      wsInsertAtCaret(map.alts[0]);
-    }else{
-      wsInsertAtCaret(map.base);
-    }
+    const out = row[idx];
+    if(out) wsInsertAtCaret(out);
   });
 }
 initWsPhysicalKeyboard();
