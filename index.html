@@ -36,12 +36,15 @@ body{
   min-height:100vh;
 }
 .heb{
-  font-family:'Noto Serif Hebrew','Frank Ruhl Libre', serif;
+  font-family:'Noto Serif Hebrew','Frank Ruhl Libre','SBL Hebrew','Ezra SIL','Arial Hebrew','Times New Roman',serif;
   direction:rtl;
   unicode-bidi:isolate;
-  font-feature-settings:"liga" 1;
+  font-feature-settings:"liga" 1,"ccmp" 1,"mark" 1,"mkmk" 1;
+  font-variant-ligatures:common-ligatures;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
   font-size:1.85em;
-  line-height:1.5;
+  line-height:1.75;
   cursor:pointer;
 }
 .heb:hover{ text-decoration:underline; text-decoration-style:dotted; text-decoration-color:var(--gold-dim); text-underline-offset:4px; }
@@ -50,15 +53,18 @@ body{
 .affix{ color:#b5401e; font-weight:600; } /* ajout grammatical : préfixe/suffixe/changement interne */
 .affix.niqqud{ color:#b5401e; } /* une voyelle qui fait partie de l'ajout reste dans la couleur de l'ajout */
 .heb-static{
-  font-family:'Noto Serif Hebrew','Frank Ruhl Libre', serif;
+  font-family:'Noto Serif Hebrew','Frank Ruhl Libre','SBL Hebrew','Ezra SIL','Arial Hebrew','Times New Roman',serif;
   direction:rtl;
   unicode-bidi:isolate;
-  font-feature-settings:"liga" 1;
+  font-feature-settings:"liga" 1,"ccmp" 1,"mark" 1,"mkmk" 1;
+  font-variant-ligatures:common-ligatures;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
   font-size:1.85em;
-  line-height:1.5;
+  line-height:1.75;
 }
 h1,h2,h3,h4{
-  font-family:'Noto Serif Hebrew','Frank Ruhl Libre', serif;
+  font-family:'Noto Serif Hebrew','Frank Ruhl Libre','SBL Hebrew','Ezra SIL','Arial Hebrew','Times New Roman',serif;
   color:var(--ink);
   margin:0 0 .4em 0;
   letter-spacing:.01em;
@@ -468,13 +474,23 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
 .il-fullplay{display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-family:'Inter',sans-serif;font-size:12.5px;color:var(--gold-dim);padding:6px;margin-bottom:6px;border:1px dashed var(--parchment2);border-radius:8px;}
 .il-fullplay:hover{background:var(--paper);}
 .interlinear{display:flex;flex-direction:row-reverse;flex-wrap:wrap;gap:10px 6px;justify-content:center;padding:10px;background:var(--paper);border-radius:8px;}
-.il-word{display:flex;flex-direction:column;align-items:center;min-width:40px;}
+.il-word{display:flex;flex-direction:column;align-items:center;min-width:40px;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;-webkit-user-select:none;user-select:none;}
 .il-say{font-size:13px;cursor:pointer;opacity:.6;margin-bottom:2px;}
 .il-say:hover{opacity:1;}
 .il-word .heb{font-size:1.3em;line-height:1.2;cursor:pointer;}
-.il-word:not(.revealed) .heb{border-bottom:2px dotted var(--gold-dim);}
-.il-gloss{font-family:'Inter',sans-serif;font-size:11px;color:var(--text-soft);margin-top:3px;text-align:center;white-space:nowrap;visibility:hidden;background:rgba(184,147,90,.15);border-radius:4px;padding:1px 4px;cursor:pointer;}
-.il-word.revealed .il-gloss{visibility:visible;}
+.interlinear.il-hidden .il-word:not(.revealed) .heb{border-bottom:2px dotted var(--gold-dim);}
+.il-gloss{font-family:'Inter',sans-serif;font-size:11px;color:var(--text-soft);margin-top:3px;text-align:center;white-space:nowrap;background:rgba(184,147,90,.15);border-radius:4px;padding:1px 4px;cursor:pointer;}
+.interlinear.il-inline{display:flex;margin:6px 0;}
+.interlinear.il-compact{padding:4px;background:transparent;justify-content:flex-start;gap:6px 4px;}
+.interlinear.il-compact .il-word .heb{font-size:1.05em;}
+.interlinear.il-compact .il-gloss{font-size:10px;white-space:normal;max-width:84px;word-break:break-word;line-height:1.15;}
+.interlinear.il-compact{direction:rtl;flex-direction:row;max-width:100%;}
+.interlinear .heb{font-style:normal;}
+@media (max-width:900px){ .heb, .heb-static{ line-height:1.9; padding-top:.1em; padding-bottom:.15em; } .heb span{ font:inherit; } }
+@media (max-width:600px){ table.gridtbl td .heb{font-size:1.25em;} .interlinear.il-compact .il-word .heb{font-size:1em;} .il-word{min-width:34px;} }
+.interlinear.il-hidden .il-gloss{visibility:hidden;}
+.interlinear.il-hidden .il-word.revealed .il-gloss{visibility:visible;}
+.il-toggle{font-family:'Inter',sans-serif;font-size:11px;color:var(--gold-dim);cursor:pointer;text-align:center;margin-top:6px;text-decoration:underline;}
 .matchbtn{padding:10px 14px;border-radius:8px;border:2px solid var(--parchment2);background:var(--parchment);cursor:pointer;font-family:'Inter',sans-serif;font-size:14px;text-align:center;transition:border-color .2s,background .2s;}
 .matchbtn.heb{font-family:'Noto Serif Hebrew','Frank Ruhl Libre',serif;font-size:18px;direction:rtl;}
 .matchbtn.selected{border-color:var(--gold);background:rgba(184,147,90,.12);}
@@ -723,12 +739,25 @@ function tableHTML(caption, headers, rows, hebColIndexes){
   let h = '<div class="tblwrap"><table class="gridtbl">';
   if(caption) h += '<caption>'+caption+'</caption>';
   h += '<thead><tr>' + headers.map(x=>'<th>'+x+'</th>').join('') + '</tr></thead><tbody>';
+  // Colonnes Féminin / Masculin adjacentes : une forme valable pour les deux genres
+  // (case voisine vide) est centrée entre les deux colonnes (colspan=2).
+  let fIdx = -1;
+  headers.forEach((x,i)=>{ if(fIdx<0 && /^Féminin/.test(x) && i+1<headers.length && /^Masculin/.test(headers[i+1])) fIdx=i; });
   rows.forEach(r=>{
+    let merged = -1;
+    if(fIdx>=0){
+      const a = String(r[fIdx]==null?'':r[fIdx]).trim(), b = String(r[fIdx+1]==null?'':r[fIdx+1]).trim();
+      const emp = v=> v==='' || v==='—';
+      if(emp(a) !== emp(b)) merged = emp(a) ? fIdx+1 : fIdx;
+    }
     h += '<tr>' + r.map((c,i)=>{
-      if(!hebColIndexes.includes(i)) return '<td>'+c+'</td>';
+      if(merged>=0 && i===(merged===fIdx ? fIdx+1 : fIdx)) return '';
+      const span = (merged>=0 && i===merged) ? ' colspan="2" style="text-align:center;"' : '';
+      const cls = (merged>=0 && i===merged) ? 'h common' : 'h';
+      if(!hebColIndexes.includes(i)) return span ? '<td'+span+' class="common">'+c+'</td>' : '<td>'+c+'</td>';
       if(c === '—' || c === '' ) return '<td class="h">'+c+'</td>';
       const already = typeof c === 'string' && /^\s*<span[\s>]/.test(c);
-      return '<td class="h">' + (already ? c : '<span class="heb">'+c+'</span>') + '</td>';
+      return '<td class="'+cls+'"'+span+'>' + (already ? c : '<span class="heb">'+c+'</span>') + '</td>';
     }).join('') + '</tr>';
   });
   h += '</tbody></table></div>';
@@ -739,10 +768,23 @@ function ex(heb, fr, tr){
   return '<div class="example"><span class="heb">'+heb+'</span><span class="fr">'+fr+'</span>'+(tr?'<span class="tr">'+tr+'</span>':'')+'</div>';
 }
 /* ---- Traduction interlinéaire (mot à mot, aligné sous chaque mot hébreu) ---- */
+function interlinearInline(pairs){
+  return '<span class="interlinear il-compact il-inline il-hidden">'+pairs.map(([h,g])=>'<span class="il-word" onclick="this.classList.toggle(\'revealed\')"><span class="heb">'+h+'</span><span class="il-gloss">'+g+'</span></span>').join('')+'</span>';
+}
+function interlinearCompact(pairs){
+  return '<div class="interlinear il-compact il-hidden">'+pairs.map(([h,g])=>'<div class="il-word" onclick="this.classList.toggle(\'revealed\')"><span class="heb">'+h+'</span><span class="il-gloss">'+g+'</span></div>').join('')+'</div>';
+}
+function ilToggleAll(btn){
+  const b = btn.parentElement.querySelector('.interlinear');
+  const wasHidden = b.classList.contains('il-hidden');
+  if(wasHidden){ b.classList.remove('il-hidden'); }
+  else { b.classList.add('il-hidden'); b.querySelectorAll('.il-word.revealed').forEach(w=>w.classList.remove('revealed')); }
+  btn.textContent = wasHidden ? '🙈 Masquer la traduction littérale' : '👁 Afficher toute la traduction littérale';
+}
 function interlinear(pairs, ref){
   const fullText = pairs.map(p=>p[0]).join(' ');
-  const words = pairs.map(([heb,gloss])=>`<div class="il-word"><span class="il-say" onclick="event.stopPropagation(); playHebSound('${heb.replace(/'/g,"\\'")}', this);" title="Écouter">🔊</span><span class="heb" onclick="this.parentElement.classList.toggle('revealed')">${heb}</span><span class="il-gloss" onclick="this.parentElement.classList.toggle('revealed')">${gloss}</span></div>`).join('');
-  return `<div class="interlinear-block"><div class="il-fullplay" onclick="playHebSound('${fullText.replace(/'/g,"\\'")}', this);" title="Écouter tout le verset"><span class="il-say" style="font-size:16px;">🔊</span><span>Écouter le verset entier</span></div><div class="interlinear">${words}</div>${ref?`<div class="tr" style="margin-top:8px;">${ref}</div>`:''}<p class="ui" style="font-size:11px;color:var(--text-soft);margin-top:6px;text-align:center;">💡 Cliquez un mot pour révéler sa traduction — cliquez 🔊 pour l'entendre</p></div>`;
+  const words = pairs.map(([heb,gloss])=>`<div class="il-word" onclick="this.classList.toggle('revealed')"><span class="il-say" onclick="event.stopPropagation(); playHebSound('${heb.replace(/'/g,"\\'")}', this);" title="Écouter">🔊</span><span class="heb">${heb}</span><span class="il-gloss">${gloss}</span></div>`).join('');
+  return `<div class="interlinear-block"><div class="il-fullplay" onclick="playHebSound('${fullText.replace(/'/g,"\\'")}', this);" title="Écouter tout le verset"><span class="il-say" style="font-size:16px;">🔊</span><span>Écouter le verset entier</span></div><div class="interlinear il-hidden">${words}</div>${ref?`<div class="tr" style="margin-top:8px;">${ref}</div>`:''}<p class="ui" style="font-size:11px;color:var(--text-soft);margin-top:6px;text-align:center;">👆 Touchez un mot pour voir sa traduction littérale</p><div class="il-toggle" onclick="ilToggleAll(this)">👁 Afficher toute la traduction littérale</div></div>`;
 }
 
 /* ---- Blank / reveal cells for conjugation drills ---- */
@@ -762,8 +804,20 @@ function conjugTableHTML(caption, headers, rows, blankColIndexes){
   let h = '<div class="tblwrap"><table class="gridtbl">';
   if(caption) h += '<caption>'+caption+'</caption>';
   h += '<thead><tr>' + headers.map(x=>'<th>'+x+'</th>').join('') + '</tr></thead><tbody>';
+  // Forme commune aux deux genres (case voisine vide) : centrée entre Féminin et Masculin
+  let fIdx = -1;
+  headers.forEach((x,i)=>{ if(fIdx<0 && /^Féminin/.test(x) && i+1<headers.length && /^Masculin/.test(headers[i+1])) fIdx=i; });
   rows.forEach(r=>{
-    h += '<tr>' + r.map((c,i)=> blankColIndexes.includes(i) ? '<td class="h">'+bc(c)+'</td>' : '<td>'+c+'</td>').join('') + '</tr>';
+    let merged = -1;
+    if(fIdx>=0){
+      const a = String(r[fIdx]==null?'':r[fIdx]).trim(), b = String(r[fIdx+1]==null?'':r[fIdx+1]).trim();
+      if((a==='') !== (b==='')) merged = a==='' ? fIdx+1 : fIdx;
+    }
+    h += '<tr>' + r.map((c,i)=>{
+      if(merged>=0 && i===(merged===fIdx ? fIdx+1 : fIdx)) return '';
+      const span = (merged>=0 && i===merged) ? ' colspan="2" style="text-align:center;"' : '';
+      return blankColIndexes.includes(i) ? '<td class="h'+(span?' common':'')+'"'+span+'>'+bc(c)+'</td>' : '<td'+span+'>'+c+'</td>';
+    }).join('') + '</tr>';
   });
   h += '</tbody></table></div>';
   return h;
@@ -1111,16 +1165,53 @@ function isHebrewLetter(ch){
 }
 const FINAL_LETTER_MAP = {'\u05DA':'\u05DB','\u05DD':'\u05DE','\u05DF':'\u05E0','\u05E3':'\u05E4','\u05E5':'\u05E6'};
 function normLetter(ch){ return FINAL_LETTER_MAP[ch] || ch; } // ך/ם/ן/ף/ץ = même lettre que כ/מ/נ/פ/צ
-function renderHebSpan(text, mask){
+/* Marques qui doivent rester collées à leur lettre (daguesh, rafé, point shin/sin).
+   On les place TOUJOURS juste après la lettre, avant les voyelles : l'ordre canonique
+   Unicode est équivalent, mais ainsi un point shin/sin ou un daguesh n'est jamais
+   séparé de sa lettre par un <span> coloré (ce qui faisait afficher des שׁ en שׂ
+   et décalait daguesh/voyelles sur mobile et tablette). */
+function hebMarkRank(ch){
+  const cp = ch.codePointAt(0);
+  if(cp===0x05BC || cp===0x05BF) return 1;      // daguesh / rafé
+  if(cp===0x05C1 || cp===0x05C2) return 2;      // point shin / sin
+  if((cp>=0x05B0 && cp<=0x05BB) || cp===0x05C7) return 3; // voyelles
+  if((cp>=0x0591 && cp<=0x05AF) || cp===0x05BD || cp===0x05C4 || cp===0x05C5) return 4; // accents, meteg
+  return 0;
+}
+function renderHebSpan(text, mask, perChar){
   const chars = Array.from(text);
-  let html = '';
-  for(let i=0;i<chars.length;i++){
-    const ch = chars[i];
-    const classes = [];
-    if(isVowelPoint(ch)) classes.push('niqqud');
-    if(mask && mask[i]) classes.push('affix');
-    html += classes.length ? '<span class="'+classes.join(' ')+'">'+ch+'</span>' : ch;
+  // 1) regroupe en grappes (lettre + marques), en gardant l'indice d'origine pour masque / couleurs
+  const out = [];
+  let i = 0;
+  while(i<chars.length){
+    const cluster = [{ch:chars[i], idx:i, r:0}];
+    i++;
+    while(i<chars.length && hebMarkRank(chars[i])>0){ cluster.push({ch:chars[i], idx:i, r:hebMarkRank(chars[i])}); i++; }
+    const base = cluster[0], marks = cluster.slice(1);
+    marks.sort((a,b)=> a.r-b.r || a.idx-b.idx);
+    out.push(base); marks.forEach(m=>out.push(m));
   }
+  // 2) un <span> par groupe consécutif de même style
+  let html = '', curKey = null, buf = '';
+  const flush = ()=>{
+    if(buf==='') return;
+    if(curKey==='') html += buf;
+    else{
+      const [cls, col] = curKey.split('|');
+      html += '<span'+(cls?' class="'+cls+'"':'')+(col?' style="color:'+col+';"':'')+'>'+buf+'</span>';
+    }
+    buf='';
+  };
+  out.forEach(o=>{
+    const classes = [];
+    if(isVowelPoint(o.ch)) classes.push('niqqud');
+    if(mask && mask[o.idx]) classes.push('affix');
+    const col = (perChar && perChar[o.idx]) ? String(perChar[o.idx]).replace(/[^#0-9a-zA-Z(),.% -]/g,'') : '';
+    const key = (classes.length||col) ? classes.join(' ')+'|'+col : '';
+    if(key!==curKey){ flush(); curKey=key; }
+    buf += o.ch;
+  });
+  flush();
   return html;
 }
 /* Distance d'édition pondérée : substituer/supprimer une VRAIE LETTRE (consonne
@@ -1178,23 +1269,18 @@ function diffMaskMultiForm(refText, raw){
   });
   return mask;
 }
+function perCharOf(raw){
+  const override = COLOR_OVERRIDES[raw];
+  if(typeof override === 'string' && override.charAt(0) === '{'){
+    try{ return (JSON.parse(override).perChar) || null; }catch(e){ return null; }
+  }
+  return null;
+}
 function applyColorOverride(el, raw){
   const override = COLOR_OVERRIDES[raw];
   if(!override) return;
-  if(typeof override === 'string' && override.charAt(0) === '{'){
-    // Coloration lettre par lettre : {perChar:{"0":"#rrggbb", ...}} — on
-    // reconstruit le contenu de l'élément en enveloppant chaque caractère
-    // ciblé dans son propre span coloré, sans toucher aux autres.
-    let perChar = {};
-    try{ perChar = (JSON.parse(override).perChar) || {}; }catch(e){ return; }
-    const chars = Array.from(el.textContent);
-    el.innerHTML = chars.map((ch,i)=>{
-      const col = perChar[i];
-      return col ? `<span style="color:${esc(col)};">${esc(ch)}</span>` : esc(ch);
-    }).join('');
-  }else{
-    el.style.color = override;
-  }
+  if(typeof override === 'string' && override.charAt(0) === '{') return; // lettre par lettre : déjà appliqué par renderHebSpan
+  el.style.color = override;
 }
 function escapeNoteHTML(text){
   const esc = String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -1218,11 +1304,15 @@ function enhanceHebrewText(scopeEl){
       const tds = tr.querySelectorAll('td');
       if(tds.length<2) return;
       const isPlural = (trs.length===6) ? (ri>=3) : (ri===1);
-      const fem = tds[tds.length-2], masc = tds[tds.length-1];
+      const lastTd = tds[tds.length-1];
+      const common = lastTd.colSpan===2; // forme commune aux deux genres, centrée
+      const fem = common ? lastTd : tds[tds.length-2], masc = lastTd;
       const femHeb = fem.querySelector('.heb');
       const mascHeb = masc.querySelector('.heb');
-      if(femHeb) femHeb.classList.add(isPlural ? 'gn-fp' : 'gn-fs');
-      if(mascHeb) mascHeb.classList.add(isPlural ? 'gn-mp' : 'gn-ms');
+      if(!common){
+        if(femHeb) femHeb.classList.add(isPlural ? 'gn-fp' : 'gn-fs');
+        if(mascHeb) mascHeb.classList.add(isPlural ? 'gn-mp' : 'gn-ms');
+      }
       if(!refText) return; // référence pas encore révélée : coloration genre/nombre déjà posée, coloration voyelles/ajouts en attente
       [fem, masc].forEach(td=>{
         const hebEl = td.querySelector('.heb');
@@ -1232,7 +1322,7 @@ function enhanceHebrewText(scopeEl){
         if(!original) return;
         const raw = TEXT_OVERRIDES[original] || original;
         const mask = (hebEl===refHebEl) ? null : diffMaskMultiForm(refText, raw);
-        hebEl.innerHTML = renderHebSpan(raw, mask);
+        hebEl.innerHTML = renderHebSpan(raw, mask, perCharOf(original));
         applyColorOverride(hebEl, original);
         hebEl.dataset.orig = original;
         processed.add(hebEl);
@@ -1245,7 +1335,7 @@ function enhanceHebrewText(scopeEl){
     const original = el.textContent.trim();
     if(!original) return;
     const raw = TEXT_OVERRIDES[original] || original;
-    el.innerHTML = renderHebSpan(raw, null);
+    el.innerHTML = renderHebSpan(raw, null, perCharOf(original));
     applyColorOverride(el, original);
     el.dataset.orig = original;
     processed.add(el);
@@ -1552,7 +1642,7 @@ const lesson5 = `
     <svg width="60" height="90" viewBox="0 0 60 90"><circle cx="30" cy="16" r="14" fill="var(--ink)"/><path d="M12 88 L12 50 Q12 34 30 34 Q48 34 48 50 L48 88 Z" fill="var(--ink)"/></svg>
     <div>
       <span class="heb">מִי זֶה ? ← זֶה אִישׁ׃</span><br>
-      <span class="heb"><b>הָ</b>אִישׁ <b>הַ</b>זֶּה חָכָם הוּא׃</span> <span class="tr" style="font-style:italic;">« Cet homme est sage »</span>
+      <span class="heb"><b>הָ</b>אִישׁ <b>הַ</b>זֶּה חָכָם הוּא׃</span> <span class="tr" style="font-style:italic;">${interlinearInline([["הָאִישׁ","l'homme"],["הַזֶּה","celui-ci"],["חָכָם","sage"],["הוּא׃","lui"]])}</span>
     </div>
   </div>
   <div class="rule" style="text-align:center;">
@@ -1620,16 +1710,16 @@ const lesson6 = `
   <p>Mettez chaque phrase au pluriel (nom, adjectif, pronom/copule) sur le modèle de l'exemple :</p>
   <div class="rule">
     <span class="heb" style="font-size:1.1em;">1. הַתַּלְמִיד הַטּוֹב חָכָם הוּא׃ ← הַתַּלְמִידִים הַטּוֹבִים חֲכָמִים הֵ֫מָּה׃</span>
-    <div class="tr" style="font-style:italic;">« Le bon élève est sage » → « Les bons élèves sont sages »</div>
+    <div class="tr" style="font-style:italic;">${interlinearInline([["הַתַּלְמִיד","l'élève"],["הַטּוֹב","le.bon"],["חָכָם","sage"],["הוּא׃","lui"],["←",""],["הַתַּלְמִידִים","les.élèves"],["הַטּוֹבִים","les.bons"],["חֲכָמִים","sages"],["הֵ֫מָּה׃","eux"]])}</div>
   </div>
-  ${tableHTML(null, ["Phrase à mettre au pluriel","Traduction"], [
-    ["<span class=\"heb\">2. הַנָּבִיא הַקָּדוֹשׁ צַדִּיק הוּא׃</span>","« Le saint prophète est juste »"],
+  ${tableHTML(null, ["Phrase à mettre au pluriel","Traduction littérale"], [
+    ["<span class=\"heb\">2. הַנָּבִיא הַקָּדוֹשׁ צַדִּיק הוּא׃</span>",interlinearCompact([["הַנָּבִיא","le.prophète"],["הַקָּדוֹשׁ","le.saint"],["צַדִּיק","juste"],["הוּא׃","lui"]])],
     ["<span class=\"heb\">3. מֶלֶךְ אַתָּה עַל־יִשְׂרָאֵל׃</span>","« Tu es roi sur Israël »"],
-    ["<span class=\"heb\">4. הַמַּלְכָּה הָעֲשִׁירָה רָעָה הִיא׃</span>","« La riche reine est mauvaise »"],
-    ["<span class=\"heb\">5. הַכִּסֵּא הַגָּדוֹל עַל־הַשֻּׁלְחָן הוּא׃</span>","« Le grand trône est sur la table »"],
-    ["<span class=\"heb\">7. נְבִיאָה וּמוֹרָה גְדוֹלָה אַתְּ׃</span>","« Tu es une prophétesse et une grande maîtresse »"],
-    ["<span class=\"heb\">9. כֹּהֵן אָנֹכִי וְלֹא מֶלֶךְ וְלֹא נָבִיא׃</span>","« Je suis prêtre, et non roi, et non prophète »"],
-    ["<span class=\"heb\">10. בֵּן טוֹב שֵׁם טוֹב הוּא׃</span>","« Un bon fils est un bon nom »"]
+    ["<span class=\"heb\">4. הַמַּלְכָּה הָעֲשִׁירָה רָעָה הִיא׃</span>",interlinearCompact([["הַמַּלְכָּה","la.reine"],["הָעֲשִׁירָה","la.riche"],["רָעָה","mauvaise"],["הִיא׃","elle"]])],
+    ["<span class=\"heb\">5. הַכִּסֵּא הַגָּדוֹל עַל־הַשֻּׁלְחָן הוּא׃</span>",interlinearCompact([["הַכִּסֵּא","le.trône"],["הַגָּדוֹל","le.grand"],["עַל־הַשֻּׁלְחָן","sur-la.table"],["הוּא׃","lui"]])],
+    ["<span class=\"heb\">7. נְבִיאָה וּמוֹרָה גְדוֹלָה אַתְּ׃</span>",interlinearCompact([["נְבִיאָה","prophétesse"],["וּמוֹרָה","et.maîtresse"],["גְדוֹלָה","grande"],["אַתְּ׃","toi.(f)"]])],
+    ["<span class=\"heb\">9. כֹּהֵן אָנֹכִי וְלֹא מֶלֶךְ וְלֹא נָבִיא׃</span>",interlinearCompact([["כֹּהֵן","prêtre"],["אָנֹכִי","moi"],["וְלֹא","et.pas"],["מֶלֶךְ","roi"],["וְלֹא","et.pas"],["נָבִיא׃","prophète"]])],
+    ["<span class=\"heb\">10. בֵּן טוֹב שֵׁם טוֹב הוּא׃</span>",interlinearCompact([["בֵּן","un.fils"],["טוֹב","bon"],["שֵׁם","nom"],["טוֹב","bon"],["הוּא׃","lui"]])]
   ])}
   <details style="margin-top:10px;">
     <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
@@ -1668,17 +1758,17 @@ const lesson6 = `
   <p>Complétez chaque adjectif avec l'article défini <span class="heb">הַ</span> s'il est <b>épithète</b>, ou laissez-le sans article s'il est <b>attribut</b> (« Ø »). Le premier est fait à titre d'exemple :</p>
   <div class="rule">
     <span class="heb" style="font-size:1.15em;">1. הַנָּבִיא <b>הֶ</b>עָנִי <b>Ø</b> חָכָם הוּא:</span>
-    <div class="tr" style="font-style:italic;">« Le prophète, le pauvre, est sage » — <span class="heb">עָנִי</span> qualifie <span class="heb">נָבִיא</span> (épithète, article) ; <span class="heb">חָכָם</span> est l'information nouvelle (attribut, sans article)</div>
+    <div class="tr" style="font-style:italic;">${interlinearInline([["הַנָּבִיא","le.prophète"],["הֶעָנִי","le.pauvre"],["Ø","(sans.verbe)"],["חָכָם","sage"],["הוּא","lui"]])} — <span class="heb">עָנִי</span> qualifie <span class="heb">נָבִיא</span> (épithète, article) ; <span class="heb">חָכָם</span> est l'information nouvelle (attribut, sans article)</div>
   </div>
   <p class="ui" style="font-size:13px;color:var(--text-soft);margin-top:14px;">Complétez chaque phrase (cliquez pour révéler le corrigé) :</p>
-  ${tableHTML(null, ["Phrase à compléter","Traduction"], [
+  ${tableHTML(null, ["Phrase à compléter","Traduction littérale"], [
     ["<span class=\"heb\">2. הַכֹּהֵן __עָשִׁיר __רַע:</span>","« Le prêtre, le riche, est mauvais »"],
-    ["<span class=\"heb\">3. הַנְּבִיאָה __קְדוֹשָׁה __חֲכָמָה הִיא:</span>","« La prophétesse, la sainte, est sage »"],
+    ["<span class=\"heb\">3. הַנְּבִיאָה __קְדוֹשָׁה __חֲכָמָה הִיא:</span>",interlinearCompact([["הַנְּבִיאָה","la.prophétesse"],["__קְדוֹשָׁה","sainte"],["__חֲכָמָה","sage"],["הִיא","elle"]])],
     ["<span class=\"heb\">4. הָעִיר __רָעָה __גְדוֹלָה:</span>","« La ville, la mauvaise, est grande »"],
-    ["<span class=\"heb\">5. הָהָר __גָּדוֹל __קָדוֹשׁ הוּא:</span>","« La montagne, la grande, est sainte »"],
-    ["<span class=\"heb\">6. הַמַּלְכָּה __רָעָה __עֲשִׁירָה הִיא:</span>","« La reine, la mauvaise, est riche »"],
-    ["<span class=\"heb\">7. הַבַּיִת __זֶּה __קָדוֹשׁ וְהַדֶּלֶת __זֹּאת __קְדוֹשָׁה:</span>","« Cette maison est sainte et cette porte est sainte »"],
-    ["<span class=\"heb\">8. הַבֵּן __קָּטֹן וְ__רָע עָנִי הוּא:</span>","« Le fils, le petit et le mauvais, est pauvre »"],
+    ["<span class=\"heb\">5. הָהָר __גָּדוֹל __קָדוֹשׁ הוּא:</span>",interlinearCompact([["הָהָר","la.montagne"],["__גָּדוֹל","grand"],["__קָדוֹשׁ","saint"],["הוּא","lui"]])],
+    ["<span class=\"heb\">6. הַמַּלְכָּה __רָעָה __עֲשִׁירָה הִיא:</span>",interlinearCompact([["הַמַּלְכָּה","la.reine"],["__רָעָה","mauvaise"],["__עֲשִׁירָה","riche"],["הִיא","elle"]])],
+    ["<span class=\"heb\">7. הַבַּיִת __זֶּה __קָדוֹשׁ וְהַדֶּלֶת __זֹּאת __קְדוֹשָׁה:</span>",interlinearCompact([["הַבַּיִת","la.maison"],["__זֶּה","donc"],["__קָדוֹשׁ","saint"],["וְהַדֶּלֶת","et.la.porte"],["__זֹּאת","celle-ci"],["__קְדוֹשָׁה","sainte"]])],
+    ["<span class=\"heb\">8. הַבֵּן __קָּטֹן וְ__רָע עָנִי הוּא:</span>",interlinearCompact([["הַבֵּן","le.fils"],["__קָּטֹן","petit"],["וְ__רָע","et.mauvais"],["עָנִי","pauvre"],["הוּא","lui"]])],
     ["<span class=\"heb\">9. שְׁמִי __קָדוֹשׁ הוּא:</span>","« Mon nom est saint »"]
   ])}
   <details style="margin-top:10px;">
@@ -1771,28 +1861,28 @@ const lesson8 = `
 <div class="card">
   <h3><span class="en">« qui, que »</span>Le pronom relatif אֲשֶׁר</h3>
   <p>Ce pronom relatif signifie « que », « qui », « auquel »… Comme la conjonction ו, il relie deux mots ou groupes de mots. <b>Invariable</b>, il ne prend ni marque de genre ni de nombre. Il reprend le plus souvent le mot qui le précède, et peut jouer le rôle de <b>sujet</b> (avec ou sans verbe) ou de <b>complément</b> :</p>
-  ${ex('דָּוִד אֲשֶׁר שָׁמַר מִצְוֹתַי','« David qui a gardé mes commandements » (sujet, avec verbe)')}
+  ${interlinear([["דָּוִד","David"],["אֲשֶׁר","que"],["שָׁמַר","il.a.gardé"],["מִצְוֹתַי","mes.commandements"]], null)}
   ${ex('הַנָּבִיא אֲשֶׁר בְּיִשְׂרָאֵל',"« le prophète qui (est) en Israël » (sujet, sans verbe)")}
   ${interlinear([["הָאָרֶץ","la.terre"],["אֲשֶׁר","que"],["נָתַן","a.donnée"],["יהוה","l'Éternel"]])}
   <div class="callout warn"><span class="ico">⚠️</span><span><span class="heb">אֲשֶׁר</span> lui-même n'indique <b>jamais</b> la fonction exacte (sujet, possessif, lieu…) de l'antécédent dans la relative : c'est un <b>pronom rétrospectif</b>, à l'intérieur même de la proposition relative, qui s'en charge — un pronom indépendant, un suffixe, ou un adverbe, qui reprend l'antécédent et s'accorde avec lui.</span></div>
   ${tableHTML(null, ["Fonction du pronom rétrospectif","Exemple"], [
     ["Sujet (pronom indépendant)","<span class=\"heb\">וְהָאִישׁ אֲשֶׁר־הוּא טָהוֹר</span> « et l'homme qui est pur » — litt. « (relatif) lui est pur » (Nombres 9,13)"],
-    ["Complément d'objet (suffixe)","<span class=\"heb\">אֲחִיכֶם אֲשֶׁר־מְכַרְתֶּם אֹתִי מִצְרָיְמָה</span> « votre frère que vous avez vendu en Égypte » — litt. « (relatif) vous m'avez vendu » (Genèse 45,4)"],
-    ["Complément de lieu (suffixe + préposition)","<span class=\"heb\">הָאָרֶץ אֲשֶׁר־הוּא יֹשֵׁב בָּהּ</span> « la terre où il habite » — litt. « (relatif) il habite en elle » (Nombres 13,19)"],
-    ["Possessif (suffixe)","<span class=\"heb\">גּוֹי אֲשֶׁר לֹא־תִשְׁמַע לְשֹׁנוֹ</span> « une nation dont tu ne comprendras pas la langue » — litt. « (relatif) sa langue » (Deutéronome 28,49)"]
+    ["Complément d'objet (suffixe)","<span class=\"heb\">אֲחִיכֶם אֲשֶׁר־מְכַרְתֶּם אֹתִי מִצְרָיְמָה</span> " + interlinearInline([["אֲחִיכֶם","vos.frères"],["אֲשֶׁר־מְכַרְתֶּם","que-vous.avez.vendu"],["אֹתִי","moi.(COD)"],["מִצְרָיְמָה","vers.l'Égypte"]]) + " — litt. « (relatif) vous m'avez vendu » (Genèse 45,4)"],
+    ["Complément de lieu (suffixe + préposition)","<span class=\"heb\">הָאָרֶץ אֲשֶׁר־הוּא יֹשֵׁב בָּהּ</span> " + interlinearInline([["הָאָרֶץ","la.terre"],["אֲשֶׁר־הוּא","que-lui"],["יֹשֵׁב","habitant"],["בָּהּ","en.elle"]]) + " — litt. « (relatif) il habite en elle » (Nombres 13,19)"],
+    ["Possessif (suffixe)","<span class=\"heb\">גּוֹי אֲשֶׁר לֹא־תִשְׁמַע לְשֹׁנוֹ</span> " + interlinearInline([["גּוֹי","nation"],["אֲשֶׁר","que"],["לֹא־תִשְׁמַע","pas-tu.écouteras"],["לְשֹׁנוֹ","sa.langue"]]) + " — litt. « (relatif) sa langue » (Deutéronome 28,49)"]
   ])}
   <div class="callout info"><span class="ico">💡</span><span>Ce pronom rétrospectif est souvent <b>omis</b> quand l'antécédent est complément d'objet direct : <span class="heb">אִשָּׁה אֲשֶׁר־אָהַבְתָּ</span> « une femme que tu aimes » (Ecclésiaste 9,9), sans <span class="heb">אֹתָהּ</span>. Un second pronom relatif, <span class="heb">שֶׁ־</span>, apparaît dans des textes plus tardifs (Qohélet, Cantique des Cantiques) — et déjà, ponctuellement, dans le très ancien Cantique de Débora (Juges 5,7).</span></div>
 </div>
 <div class="card">
   <h3><span class="en">Exercice</span>תרגיל — Joindre deux phrases avec אֲשֶׁר</h3>
   <p>Joignez les deux phrases au moyen d'<span class="heb">אֲשֶׁר</span>, sur le modèle :</p>
-  <div class="rule"><span class="heb">אֱלֹהִים בָּרָא אֶת־הַשָּׁמַיִם׃ הַשָּׁמַיִם גְּדוֹלִים׃ ← הַשָּׁמַיִם אֲשֶׁר אֱלֹהִים בָּרָא אֹתָם גְּדוֹלִים׃</span><div class="tr" style="font-style:italic;">« Dieu a créé les cieux. Les cieux sont grands. » → « Les cieux que Dieu a créés sont grands »</div></div>
-  ${tableHTML(null, ["Deux phrases à joindre","Traduction"], [
-    ["<span class=\"heb\">הַמִּצְוֹת תִּשְׁמֹר׃ אֲדֹנָי נָתַן אֶת־הַמִּצְוֹת לְךָ׃</span>","« Tu garderas les commandements. Le Seigneur t'a donné les commandements. »"],
-    ["<span class=\"heb\">הַמֶּלֶךְ רַע הוּא׃ הָעָם בָּחַר בַּמֶּלֶךְ׃</span>","« Le roi est mauvais. Le peuple a choisi le roi. »"],
-    ["<span class=\"heb\">עַם־יִשְׂרָאֵל אָהַב אֶת־הַנְּבִיאִים׃ אֲדֹנָי שָׁלַח אֶת־הַנְּבִיאִים לְעַם־יִשְׂרָאֵל׃</span>","« Le peuple d'Israël a aimé les prophètes. Le Seigneur a envoyé les prophètes au peuple d'Israël. »"],
-    ["<span class=\"heb\">שְׁמוּאֵל שָׁמַע אֶת־אֲדֹנָי׃ אֲדֹנָי קָרָא אֶל־שְׁמוּאֵל׃</span>","« Samuel a entendu le Seigneur. Le Seigneur a appelé Samuel. »"],
-    ["<span class=\"heb\">אַתָּה שֹׁכֵב עַל־הָאָרֶץ׃ הָאָרֶץ קְדוֹשָׁה הִיא׃</span>","« Tu es couché sur la terre. La terre est sainte. »"]
+  <div class="rule"><span class="heb">אֱלֹהִים בָּרָא אֶת־הַשָּׁמַיִם׃ הַשָּׁמַיִם גְּדוֹלִים׃ ← הַשָּׁמַיִם אֲשֶׁר אֱלֹהִים בָּרָא אֹתָם גְּדוֹלִים׃</span><div class="tr" style="font-style:italic;">${interlinearInline([["אֱלֹהִים","Dieu"],["בָּרָא","il.a.créé"],["אֶת־הַשָּׁמַיִם׃","(COD)-les.cieux"],["הַשָּׁמַיִם","les.cieux"],["גְּדוֹלִים׃","grandes"],["←",""],["הַשָּׁמַיִם","les.cieux"],["אֲשֶׁר","que"],["אֱלֹהִים","Dieu"],["בָּרָא","il.a.créé"],["אֹתָם","eux.(COD)"],["גְּדוֹלִים׃","grandes"]])}</div></div>
+  ${tableHTML(null, ["Deux phrases à joindre","Traduction littérale"], [
+    ["<span class=\"heb\">הַמִּצְוֹת תִּשְׁמֹר׃ אֲדֹנָי נָתַן אֶת־הַמִּצְוֹת לְךָ׃</span>",interlinearCompact([["הַמִּצְוֹת","les.commandements"],["תִּשְׁמֹר׃","tu.garderas"],["אֲדֹנָי","Seigneur"],["נָתַן","il.a.donné"],["אֶת־הַמִּצְוֹת","(COD)-les.commandements"],["לְךָ׃","à.toi"]])],
+    ["<span class=\"heb\">הַמֶּלֶךְ רַע הוּא׃ הָעָם בָּחַר בַּמֶּלֶךְ׃</span>",interlinearCompact([["הַמֶּלֶךְ","le.roi"],["רַע","mauvais"],["הוּא׃","lui"],["הָעָם","le.peuple"],["בָּחַר","il.a.choisi"],["בַּמֶּלֶךְ׃","en.le.roi"]])],
+    ["<span class=\"heb\">עַם־יִשְׂרָאֵל אָהַב אֶת־הַנְּבִיאִים׃ אֲדֹנָי שָׁלַח אֶת־הַנְּבִיאִים לְעַם־יִשְׂרָאֵל׃</span>",interlinearCompact([["עַם־יִשְׂרָאֵל","peuple-Israël"],["אָהַב","il.a.aimé"],["אֶת־הַנְּבִיאִים׃","(COD)-les.prophètes"],["אֲדֹנָי","Seigneur"],["שָׁלַח","il.a.envoyé"],["אֶת־הַנְּבִיאִים","(COD)-les.prophètes"],["לְעַם־יִשְׂרָאֵל׃","au.peuple-Israël"]])],
+    ["<span class=\"heb\">שְׁמוּאֵל שָׁמַע אֶת־אֲדֹנָי׃ אֲדֹנָי קָרָא אֶל־שְׁמוּאֵל׃</span>",interlinearCompact([["שְׁמוּאֵל","Samuel"],["שָׁמַע","il.a.écouté"],["אֶת־אֲדֹנָי׃","(COD)-Seigneur"],["אֲדֹנָי","Seigneur"],["קָרָא","il.a.appelé"],["אֶל־שְׁמוּאֵל׃","vers-Samuel"]])],
+    ["<span class=\"heb\">אַתָּה שֹׁכֵב עַל־הָאָרֶץ׃ הָאָרֶץ קְדוֹשָׁה הִיא׃</span>",interlinearCompact([["אַתָּה","toi"],["שֹׁכֵב","couché"],["עַל־הָאָרֶץ׃","sur-la.terre"],["הָאָרֶץ","la.terre"],["קְדוֹשָׁה","sainte"],["הִיא׃","elle"]])]
   ])}
   <details style="margin-top:10px;">
     <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
@@ -1942,24 +2032,24 @@ const lesson10 = `
 </div>
 <div class="card">
   <h3><span class="en">COD</span>La particule אֵת</h3>
-  <p>La particule <span class="heb">אֵת</span> n'a pas de traduction : elle indique le <b>complément d'objet direct</b>, en général devant un COD défini. ${ex('בְּרֵאשִׁית בָּרָא אֱלֹהִים אֵת הַשָּׁמַיִם וְאֵת הָאָרֶץ','Au commencement Dieu créa les cieux et la terre')}</p>
+  <p>La particule <span class="heb">אֵת</span> n'a pas de traduction : elle indique le <b>complément d'objet direct</b>, en général devant un COD défini. ${interlinear([["בְּרֵאשִׁית","au.commencement"],["בָּרָא","il.a.créé"],["אֱלֹהִים","Dieu"],["אֵת","(COD)"],["הַשָּׁמַיִם","les.cieux"],["וְאֵת","et.(COD)"],["הָאָרֶץ","la.terre"]], null)}</p>
   <div class="callout info"><span class="ico">💡</span><span>Elle se trouve souvent devant les noms propres, qui n'ont pas besoin d'article défini.</span></div>
   <p>Liée au COD par un maqqef, elle devient <span class="heb">אֶת־</span> (l'accent se déplace) : <span class="heb">אֶת־הַכְּרֻבִים</span>. Elle permet de distinguer le sujet du complément : ${ex('לָקַח שְׁמוּאֵל','Samuel a pris (sujet)')}${ex('לָקַח אֶת־שְׁמוּאֵל','Il a pris Samuel (complément)')}</p>
 </div>
 <div class="card">
   <h3><span class="en">Exercice</span>תרגיל — Placer אֶת quand il le faut</h3>
   <p class="ui" style="font-size:13px;color:var(--text-soft);">Rappel : <span class="heb">אֶת</span> n'apparaît que si le mot est <b>à la fois</b> complément d'objet direct <b>et</b> défini (article, nom propre, ou déjà déterminé). Complétez chaque blanc par <span class="heb">אֶת</span> ou par rien (« Ø ») :</p>
-  ${tableHTML(null, ["Phrase à compléter","Traduction"], [
-    ["<span class=\"heb\">1. וַתִּגְזֹרְנָה הַנָּשִׁים ___ לֶחֶם לְיוֹם הַשַּׁבָּת׃</span>","« Les femmes coupèrent du pain pour le jour du sabbat »"],
-    ["<span class=\"heb\">2. וַתֵּלֶד לֵאָה ___ בָּנִים רַבִּים מְאֹד׃</span>","« Léa enfanta de très nombreux fils »"],
-    ["<span class=\"heb\">3. וַתֹּאמֶר הָאִשָּׁה לָאִישׁ לֵאמֹר הַשְׁכֵּב אַתָּה ___ הַיְלָדִים וַאֲנִי אֵלֵךְ לַמַּעְיָן׃</span>","« La femme dit à l'homme : couche les enfants, et moi j'irai à la source »"],
-    ["<span class=\"heb\">4. וַיִּתֵּן אֱלֹהִים לִשְׁלֹמֹה ___ חָכְמָה רַבָּה מְאֹד׃</span>","« Dieu donna à Salomon une très grande sagesse »"],
-    ["<span class=\"heb\">5. וַיִּתֵּן הַנַּעַר ___ הַחֶרֶב לְשָׁאוּל וַיִּפֹּל שָׁאוּל עַל־הַחָרֶב׃</span>","« Le jeune homme donna l'épée à Saül, et Saül tomba sur l'épée »"],
-    ["<span class=\"heb\">6. לְכִי אֶל הָעֵץ וּקְחִי מִן הָעֵץ ___ תְּאֵנִים טוֹבוֹת וְאִכְלִי ___ הַתְּאֵנִים׃</span>","« Va vers l'arbre, prends de l'arbre de bonnes figues, et mange les figues »"],
-    ["<span class=\"heb\">7. וָאֵרֶא ___ חֶבְרוֹן וָאֵלֵךְ אֶל הָעִיר וָאֶשְׁאַל ___ הָאֲנָשִׁים אַיֵּה יִשַׁי׃</span>","« Je vis Hébron, j'allai à la ville et je demandai aux hommes : où est Jessé ? »"],
-    ["<span class=\"heb\">8. וַיֹּאמֶר אַבְרָהָם אֶל הַנַּעַר לֵאמֹר קַח ___ הַחֲמוֹר וְלֵךְ חָרָנָה וּשְׁאַל שָׁם ___ אִשָּׁה לִבְנִי יִצְחָק׃</span>","« Abraham dit au jeune homme : prends l'âne, va à Harân et demande là une femme pour mon fils Isaac »"],
-    ["<span class=\"heb\">9. וַיִּגְזֹר הַצַּדִּיק ___ הַלֶּחֶם וַיִּתֵּן ___ הַחֲצִי לֶעָנִי׃</span>","« Le juste coupa le pain et donna la moitié au pauvre »"],
-    ["<span class=\"heb\">10. וַיִּקַּח הַנָּבִיא אֱלִישָׁע ___ הַיֶּלֶד הַמֵּת וַיַּשְׁכֵּב ___ הַיֶּלֶד וַיִּשְׁכַּב הוּא עַל הַיֶּלֶד וַיֹּאמַר אֲדֹנָי אַל־___ הָרוּחַ מִן־הַיֶּלֶד הַזֶּה׃</span>","« Le prophète Élisée prit l'enfant mort, le coucha, se coucha lui-même sur l'enfant et dit : Seigneur, ne prends pas l'esprit hors de cet enfant »"]
+  ${tableHTML(null, ["Phrase à compléter","Traduction littérale"], [
+    ["<span class=\"heb\">1. וַתִּגְזֹרְנָה הַנָּשִׁים ___ לֶחֶם לְיוֹם הַשַּׁבָּת׃</span>",interlinearCompact([["וַתִּגְזֹרְנָה","et.elles.coupèrent"],["הַנָּשִׁים","les.femmes"],["___","…"],["לֶחֶם","du.pain"],["לְיוֹם","pour.le.jour.de"],["הַשַּׁבָּת׃","le.sabbat"]])],
+    ["<span class=\"heb\">2. וַתֵּלֶד לֵאָה ___ בָּנִים רַבִּים מְאֹד׃</span>",interlinearCompact([["וַתֵּלֶד","et.elle.enfanta"],["לֵאָה","Léa"],["___","…"],["בָּנִים","fils"],["רַבִּים","nombreux"],["מְאֹד׃","très"]])],
+    ["<span class=\"heb\">3. וַתֹּאמֶר הָאִשָּׁה לָאִישׁ לֵאמֹר הַשְׁכֵּב אַתָּה ___ הַיְלָדִים וַאֲנִי אֵלֵךְ לַמַּעְיָן׃</span>",interlinearCompact([["וַתֹּאמֶר","et.elle.dit"],["הָאִשָּׁה","la.femme"],["לָאִישׁ","à.l'homme"],["לֵאמֹר","disant"],["הַשְׁכֵּב","couche"],["אַתָּה","toi"],["___","…"],["הַיְלָדִים","les.enfants"],["וַאֲנִי","et.moi"],["אֵלֵךְ","j'irai"],["לַמַּעְיָן׃","à.la.source"]])],
+    ["<span class=\"heb\">4. וַיִּתֵּן אֱלֹהִים לִשְׁלֹמֹה ___ חָכְמָה רַבָּה מְאֹד׃</span>",interlinearCompact([["וַיִּתֵּן","et.il.donna"],["אֱלֹהִים","Dieu"],["לִשְׁלֹמֹה","à.Salomon"],["___","…"],["חָכְמָה","sagesse"],["רַבָּה","grande"],["מְאֹד׃","très"]])],
+    ["<span class=\"heb\">5. וַיִּתֵּן הַנַּעַר ___ הַחֶרֶב לְשָׁאוּל וַיִּפֹּל שָׁאוּל עַל־הַחָרֶב׃</span>",interlinearCompact([["וַיִּתֵּן","et.il.donna"],["הַנַּעַר","le.jeune.homme"],["___","…"],["הַחֶרֶב","l'épée"],["לְשָׁאוּל","à.Saül"],["וַיִּפֹּל","et.il.tomba"],["שָׁאוּל","Saül"],["עַל־הַחָרֶב׃","sur-l'épée"]])],
+    ["<span class=\"heb\">6. לְכִי אֶל הָעֵץ וּקְחִי מִן הָעֵץ ___ תְּאֵנִים טוֹבוֹת וְאִכְלִי ___ הַתְּאֵנִים׃</span>",interlinearCompact([["לְכִי","va"],["אֶל","vers"],["הָעֵץ","l'arbre"],["וּקְחִי","et.prends.(f)"],["מִן","de"],["הָעֵץ","l'arbre"],["___","…"],["תְּאֵנִים","des.figues"],["טוֹבוֹת","bonnes"],["וְאִכְלִי","et.mange.(f)"],["___","…"],["הַתְּאֵנִים׃","les.figues"]])],
+    ["<span class=\"heb\">7. וָאֵרֶא ___ חֶבְרוֹן וָאֵלֵךְ אֶל הָעִיר וָאֶשְׁאַל ___ הָאֲנָשִׁים אַיֵּה יִשַׁי׃</span>",interlinearCompact([["וָאֵרֶא","et.je.vis"],["___","…"],["חֶבְרוֹן","Hébron"],["וָאֵלֵךְ","et.j'allai"],["אֶל","vers"],["הָעִיר","la.ville"],["וָאֶשְׁאַל","et.je.demandai"],["___","…"],["הָאֲנָשִׁים","les.hommes"],["אַיֵּה","où"],["יִשַׁי׃","Jessé"]])],
+    ["<span class=\"heb\">8. וַיֹּאמֶר אַבְרָהָם אֶל הַנַּעַר לֵאמֹר קַח ___ הַחֲמוֹר וְלֵךְ חָרָנָה וּשְׁאַל שָׁם ___ אִשָּׁה לִבְנִי יִצְחָק׃</span>",interlinearCompact([["וַיֹּאמֶר","et.il.dit"],["אַבְרָהָם","Abraham"],["אֶל","vers"],["הַנַּעַר","le.jeune.homme"],["לֵאמֹר","disant"],["קַח","prends"],["___","…"],["הַחֲמוֹר","l'âne"],["וְלֵךְ","et.va"],["חָרָנָה","vers.Harân"],["וּשְׁאַל","et.demande"],["שָׁם","là"],["___","…"],["אִשָּׁה","femme"],["לִבְנִי","pour.mon.fils"],["יִצְחָק׃","Isaac"]])],
+    ["<span class=\"heb\">9. וַיִּגְזֹר הַצַּדִּיק ___ הַלֶּחֶם וַיִּתֵּן ___ הַחֲצִי לֶעָנִי׃</span>",interlinearCompact([["וַיִּגְזֹר","et.il.coupa"],["הַצַּדִּיק","le.juste"],["___","…"],["הַלֶּחֶם","le.pain"],["וַיִּתֵּן","et.il.donna"],["___","…"],["הַחֲצִי","la.moitié"],["לֶעָנִי׃","au.pauvre"]])],
+    ["<span class=\"heb\">10. וַיִּקַּח הַנָּבִיא אֱלִישָׁע ___ הַיֶּלֶד הַמֵּת וַיַּשְׁכֵּב ___ הַיֶּלֶד וַיִּשְׁכַּב הוּא עַל הַיֶּלֶד וַיֹּאמַר אֲדֹנָי אַל־___ הָרוּחַ מִן־הַיֶּלֶד הַזֶּה׃</span>",interlinearCompact([["וַיִּקַּח","et.il.prit"],["הַנָּבִיא","le.prophète"],["אֱלִישָׁע","Élisée"],["___","…"],["הַיֶּלֶד","l'enfant"],["הַמֵּת","le.mort"],["וַיַּשְׁכֵּב","et.il.coucha"],["___","…"],["הַיֶּלֶד","l'enfant"],["וַיִּשְׁכַּב","et.il.se.coucha"],["הוּא","lui"],["עַל","sur"],["הַיֶּלֶד","l'enfant"],["וַיֹּאמַר","et.il.dit"],["אֲדֹנָי","Seigneur"],["אַל־___","ne.pas"],["הָרוּחַ","l'esprit"],["מִן־הַיֶּלֶד","de-l'enfant"],["הַזֶּה׃","celui-ci"]])]
   ])}
   <details style="margin-top:10px;">
     <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
@@ -2069,12 +2159,12 @@ const lesson11 = `
 <div class="card">
   <h3><span class="en">Exercice</span>תרגיל — Décliner le nom en contexte</h3>
   <p>Complétez avec la forme suffixée du nom entre parenthèses, sur le modèle :</p>
-  <div class="rule"><span class="heb" style="font-size:1.1em;">וַיֹּאמְרוּ עִירֵנוּ (עִיר) הִיא׃</span> « Ils dirent : c'est notre ville »</div>
-  ${tableHTML(null, ["Phrase à compléter","Traduction"], [
-    ["<span class=\"heb\">1. וַיֹּאמֶר אֱלֹהִים אֶל־עַם־יִשְׂרָאֵל אַתֶּם ___ (עַם)׃</span>","« Dieu dit au peuple d'Israël : vous êtes mon peuple »"],
-    ["<span class=\"heb\">2. וַתֹּאמֶר הָאִשָּׁה לְ___ (אִישׁ) שְׁמַע בְּ___ (קוֹל)׃</span>","« La femme dit à son mari : écoute sa voix »"],
-    ["<span class=\"heb\">3. ...יֵשְׁבוּ בְנֵי־יִשְׂרָאֵל תַּחַת ___ (תְּאֵנָה) וְעַל ___ (שֻׁלְחָן)׃</span> <span class=\"tr\">(« chacun sous son figuier », idiome biblique)</span>","« ...les fils d'Israël s'assiéront chacun sous son figuier et à sa table »"],
-    ["<span class=\"heb\">4. ...וַיִּשְׁמַע אֶת־___ (קוֹל) הַיָּפֶה...קִרְאוּ לְבַת־שֶׁבַע ___ (מַלְכָּה)׃</span>","« ...il entendit sa belle voix...appelez Bethsabée notre reine »"]
+  <div class="rule"><span class="heb" style="font-size:1.1em;">וַיֹּאמְרוּ עִירֵנוּ (עִיר) הִיא׃</span> ${interlinearInline([["וַיֹּאמְרוּ","et.ils.dirent"],["עִירֵנוּ","notre.ville"],["(עִיר)","(ville)"],["הִיא׃","elle"]])}</div>
+  ${tableHTML(null, ["Phrase à compléter","Traduction littérale"], [
+    ["<span class=\"heb\">1. וַיֹּאמֶר אֱלֹהִים אֶל־עַם־יִשְׂרָאֵל אַתֶּם ___ (עַם)׃</span>",interlinearCompact([["וַיֹּאמֶר","et.il.dit"],["אֱלֹהִים","Dieu"],["אֶל־עַם־יִשְׂרָאֵל","vers-peuple-Israël"],["אַתֶּם","vous"],["___","…"],["(עַם)׃","peuple"]])],
+    ["<span class=\"heb\">2. וַתֹּאמֶר הָאִשָּׁה לְ___ (אִישׁ) שְׁמַע בְּ___ (קוֹל)׃</span>",interlinearCompact([["וַתֹּאמֶר","et.elle.dit"],["הָאִשָּׁה","la.femme"],["לְ___","à"],["(אִישׁ)","(homme)"],["שְׁמַע","écoute"],["בְּ___","dans"],["(קוֹל)׃","voix"]])],
+    ["<span class=\"heb\">3. ...יֵשְׁבוּ בְנֵי־יִשְׂרָאֵל תַּחַת ___ (תְּאֵנָה) וְעַל ___ (שֻׁלְחָן)׃</span> <span class=\"tr\">(« chacun sous son figuier », idiome biblique)</span>",interlinearCompact([["יֵשְׁבוּ","ils.s'assoiront"],["בְנֵי־יִשְׂרָאֵל","fils.de-Israël"],["תַּחַת","sous"],["___","…"],["(תְּאֵנָה)","(figuier)"],["וְעַל","et.sur"],["___","…"],["(שֻׁלְחָן)׃","table"]])],
+    ["<span class=\"heb\">4. ...וַיִּשְׁמַע אֶת־___ (קוֹל) הַיָּפֶה...קִרְאוּ לְבַת־שֶׁבַע ___ (מַלְכָּה)׃</span>",interlinearCompact([["וַיִּשְׁמַע","et.il.entendit"],["אֶת־___","(COD)"],["(קוֹל)","(voix)"],["הַיָּפֶה","le.beau"],["קִרְאוּ","appelez"],["לְבַת־שֶׁבַע","à.fille.de-Shéba"],["___","…"],["(מַלְכָּה)׃","reine"]])]
   ])}
   <details style="margin-top:10px;">
     <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
@@ -2172,7 +2262,7 @@ const lesson14 = `
   <p style="text-align:center;"><a href="#" onclick="go('conjug',{conjugIndex:12}); return false;" class="btn-reveal" style="display:inline-block;text-decoration:none;">🖊️ S'exercer sur ce tableau de conjugaison →</a></p>
 
   <div class="callout info"><span class="ico">💡</span><span>C'est cette forme qui sert de <b>présent</b> en hébreu moderne. Elle peut aussi se trouver à l'état construit (<span class="heb">יֹדְעֵי טוֹב וָרָע</span> « connaisseurs du bien et du mal ») ou recevoir un suffixe pronominal et une préposition (<span class="heb">יהוה שֹׁמְרֶךָ</span> « l'Éternel ton gardien »).</span></div>
-  <p>Comme <b>verbe</b>, le participe s'accorde en genre et en nombre avec son sujet, et peut avoir un complément à l'accusatif (<span class="heb">אַתָּה עֹבֵר אֶת־מִצְוַת הַמֶּלֶךְ</span> « tu transgresses le commandement du roi »). Il traduit le <b>présent</b> dans un contexte présent, l'<b>imparfait</b> dans un contexte passé. Précédé de l'<b>article</b>, il équivaut souvent à une <b>proposition relative</b> :</p>
+  <p>Comme <b>verbe</b>, le participe s'accorde en genre et en nombre avec son sujet, et peut avoir un complément à l'accusatif (<span class="heb">אַתָּה עֹבֵר אֶת־מִצְוַת הַמֶּלֶךְ</span> ${interlinearInline([["אַתָּה","toi"],["עֹבֵר","transgressant"],["אֶת־מִצְוַת","(COD)-commandement.de"],["הַמֶּלֶךְ","le.roi"]])}). Il traduit le <b>présent</b> dans un contexte présent, l'<b>imparfait</b> dans un contexte passé. Précédé de l'<b>article</b>, il équivaut souvent à une <b>proposition relative</b> :</p>
   ${ex('הָעָם הַיֹּשֵׁב בָּאָרֶץ',"« le peuple qui habite/habitait le pays »")}
   ${tableHTML("Conjugaison — שׁוֹמֵר « gardant »", ["","Féminin","Masculin"], [
     ["Singulier",
@@ -2228,17 +2318,17 @@ const lesson14 = `
   ], [1,2])}
   <p>Le verbe <span class="heb">שָׁתָה</span> (boire) se conjugue comme un verbe ל״ה : <span class="heb">שֹׁתֶה / שֹׁתָה / שֹׁתִים / שֹׁתוֹת</span>.</p>
   <p class="ui" style="font-size:13px;color:var(--text-soft);margin-top:14px;">Complétez chaque phrase avec le participe du verbe entre parenthèses (cliquez pour révéler le corrigé) :</p>
-  ${tableHTML(null, ["Phrase à compléter","Traduction"], [
-    ["<span class=\"heb\">1. אַבְרָם ___ (הָלַךְ) אֶל־הָאָרֶץ הַהִיא׃</span>","« Abram allait vers cette terre-là »"],
-    ["<span class=\"heb\">2. אֶסְתֵּר לֹא ___ (שָׁתָה) וְלֹא ___ (אָכַל) לֶחֶם׃</span>","« Esther ne buvait pas et ne mangeait pas de pain »"],
-    ["<span class=\"heb\">3. הָאָדָם ___ (שָׁכַב) לְבַד בַּלַּיְלָה וְהוּא ___ (קָם) לְבַד בַּבֹּקֶר׃</span>","« L'homme se couchait seul la nuit et se levait seul le matin »"],
-    ["<span class=\"heb\">4. הַכֹּהֲנִים ___ (עָמַד) לִפְנֵי סֵפֶר הַתּוֹרָה׃</span>","« Les prêtres se tiennent devant le livre de la Loi »"],
-    ["<span class=\"heb\">5. הַמּוֹרֶה ___ (קָם) מִן־הַכִּסֵּא וְגַם הַתַּלְמִידִים ___ (קָם) מִן־הַכִּסֵּא׃</span>","« Le maître se lève de la chaise et les élèves aussi se lèvent de la chaise »"],
-    ["<span class=\"heb\">6. אַתְּ ___ (אָכַל) תְּאֵנִים רַבּוֹת׃</span>","« Tu manges beaucoup de figues »"],
-    ["<span class=\"heb\">7. הַמַּלְכָּה הָרָעָה ___ (שָׁפַט) גּוֹיִם אֲחֵרִים׃</span>","« La mauvaise reine juge d'autres nations »"],
-    ["<span class=\"heb\">8. רוּת ___ (בָּא) לְבֵית לֶחֶם עִם־נָעֳמִי׃ הֵנָּה לֹא ___ (יָשַׁב) בְּמוֹאָב׃</span>","« Ruth vient à Bethléem avec Noémi ; elles n'habitent plus à Moab »"],
-    ["<span class=\"heb\">9. עַם־יִשְׂרָאֵל ___ (שָׁב) אֶל־הַמִּדְבָּר שָׁם הֵם ___ (שָׁתָה) מְעַט מַיִם׃</span>","« Le peuple d'Israël retourne au désert, là ils boivent un peu d'eau »"],
-    ["<span class=\"heb\">10. בַּלַּיְלָה אֲנַחְנוּ ___ (שָׁכַב) בָּאֹהָלִים וּבַיּוֹם הַנָּשִׁים ___ (הָלַךְ) אֶל־הַנַּחַל׃</span>","« La nuit nous nous couchons dans les tentes, et le jour les femmes vont au torrent »"]
+  ${tableHTML(null, ["Phrase à compléter","Traduction littérale"], [
+    ["<span class=\"heb\">1. אַבְרָם ___ (הָלַךְ) אֶל־הָאָרֶץ הַהִיא׃</span>",interlinearCompact([["אַבְרָם","Abram"],["___","…"],["(הָלַךְ)","(il.a.marché)"],["אֶל־הָאָרֶץ","vers-la.terre"],["הַהִיא׃","celle-là"]])],
+    ["<span class=\"heb\">2. אֶסְתֵּר לֹא ___ (שָׁתָה) וְלֹא ___ (אָכַל) לֶחֶם׃</span>",interlinearCompact([["אֶסְתֵּר","Esther"],["לֹא","pas"],["___","…"],["(שָׁתָה)","(il.but)"],["וְלֹא","et.pas"],["___","…"],["(אָכַל)","(il.mangea)"],["לֶחֶם׃","du.pain"]])],
+    ["<span class=\"heb\">3. הָאָדָם ___ (שָׁכַב) לְבַד בַּלַּיְלָה וְהוּא ___ (קָם) לְבַד בַּבֹּקֶר׃</span>",interlinearCompact([["הָאָדָם","l'homme"],["___","…"],["(שָׁכַב)","(il.s'est/était.couché)"],["לְבַד","seul"],["בַּלַּיְלָה","la.nuit"],["וְהוּא","et.lui"],["___","…"],["(קָם)","(il.se.leva)"],["לְבַד","seul"],["בַּבֹּקֶר׃","au.matin"]])],
+    ["<span class=\"heb\">4. הַכֹּהֲנִים ___ (עָמַד) לִפְנֵי סֵפֶר הַתּוֹרָה׃</span>",interlinearCompact([["הַכֹּהֲנִים","les.prêtres"],["___","…"],["(עָמַד)","(il.s'est.tenu.debout)"],["לִפְנֵי","devant"],["סֵפֶר","livre"],["הַתּוֹרָה׃","la.Torah"]])],
+    ["<span class=\"heb\">5. הַמּוֹרֶה ___ (קָם) מִן־הַכִּסֵּא וְגַם הַתַּלְמִידִים ___ (קָם) מִן־הַכִּסֵּא׃</span>",interlinearCompact([["הַמּוֹרֶה","le.maître"],["___","…"],["(קָם)","(il.se.leva)"],["מִן־הַכִּסֵּא","de-le.trône"],["וְגַם","et.aussi"],["הַתַּלְמִידִים","les.élèves"],["___","…"],["(קָם)","(il.se.leva)"],["מִן־הַכִּסֵּא׃","de-le.trône"]])],
+    ["<span class=\"heb\">6. אַתְּ ___ (אָכַל) תְּאֵנִים רַבּוֹת׃</span>",interlinearCompact([["אַתְּ","toi.(f)"],["___","…"],["(אָכַל)","(il.mangea)"],["תְּאֵנִים","des.figues"],["רַבּוֹת׃","nombreuses"]])],
+    ["<span class=\"heb\">7. הַמַּלְכָּה הָרָעָה ___ (שָׁפַט) גּוֹיִם אֲחֵרִים׃</span>",interlinearCompact([["הַמַּלְכָּה","la.reine"],["הָרָעָה","la.mauvaise"],["___","…"],["(שָׁפַט)","(il.jugea)"],["גּוֹיִם","nations"],["אֲחֵרִים׃","autres"]])],
+    ["<span class=\"heb\">8. רוּת ___ (בָּא) לְבֵית לֶחֶם עִם־נָעֳמִי׃ הֵנָּה לֹא ___ (יָשַׁב) בְּמוֹאָב׃</span>",interlinearCompact([["רוּת","Ruth"],["___","…"],["(בָּא)","(vient)"],["לְבֵית","à.maison.de"],["לֶחֶם","du.pain"],["עִם־נָעֳמִי׃","avec-Naomi"],["הֵנָּה","elles"],["לֹא","pas"],["___","…"],["(יָשַׁב)","(il.s'est.assis)"],["בְּמוֹאָב׃","en.Moab"]])],
+    ["<span class=\"heb\">9. עַם־יִשְׂרָאֵל ___ (שָׁב) אֶל־הַמִּדְבָּר שָׁם הֵם ___ (שָׁתָה) מְעַט מַיִם׃</span>",interlinearCompact([["עַם־יִשְׂרָאֵל","peuple-Israël"],["___","…"],["(שָׁב)","(il.revint)"],["אֶל־הַמִּדְבָּר","vers-le.désert"],["שָׁם","là"],["הֵם","ils"],["___","…"],["(שָׁתָה)","(il.but)"],["מְעַט","peu"],["מַיִם׃","de.l'eau"]])],
+    ["<span class=\"heb\">10. בַּלַּיְלָה אֲנַחְנוּ ___ (שָׁכַב) בָּאֹהָלִים וּבַיּוֹם הַנָּשִׁים ___ (הָלַךְ) אֶל־הַנַּחַל׃</span>",interlinearCompact([["בַּלַּיְלָה","la.nuit"],["אֲנַחְנוּ","nous"],["___","…"],["(שָׁכַב)","(il.s'est/était.couché)"],["בָּאֹהָלִים","dans.les.tentes"],["וּבַיּוֹם","et.le.jour"],["הַנָּשִׁים","les.femmes"],["___","…"],["(הָלַךְ)","(il.a.marché)"],["אֶל־הַנַּחַל׃","vers-le.torrent"]])]
   ])}
   <details style="margin-top:10px;">
     <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
@@ -2378,9 +2468,9 @@ const lesson17 = `
 <div class="card">
   <h3><span class="en en-heb">כִּי</span>La particule כִּי</h3>
   <p>La particule <span class="heb">כִּי</span> est une conjonction de subordination très fréquente dans le texte biblique.</p>
-  <p>Elle est souvent traduite par « <b>car</b> », exprimant la <b>cause</b> — c'est le cas le plus fréquent : ${ex('וְדוֹר רְבִיעִי יָשׁוּבוּ הֵנָּה כִּי לֹא־שָׁלֵם עֲוֹן הָאֱמֹרִי','« Et à la quatrième génération ils retourneront ici, car la faute des Amoréens n\'est pas complète » (Genèse 15,16)')}</p>
+  <p>Elle est souvent traduite par « <b>car</b> », exprimant la <b>cause</b> — c'est le cas le plus fréquent : ${interlinear([["וְדוֹר","et.génération"],["רְבִיעִי","quatrième"],["יָשׁוּבוּ","ils.reviendront"],["הֵנָּה","elles"],["כִּי","car"],["לֹא־שָׁלֵם","pas-complet"],["עֲוֹן","faute"],["הָאֱמֹרִי","l'Amorrite"]], null)}</p>
   <p>Après un <b>verbe de perception</b> (savoir, voir, entendre...) qui appelle un complément d'objet, elle introduit une <b>proposition complétive</b>, traduite par « que » : ${ex('יָדַעְתִּי כִּי־גָדוֹל יהוה',"« Je sais que l'Éternel est grand »")}</p>
-  <p>Elle peut aussi s'utiliser comme un <b>pronom relatif</b>, traduit par « que, pour que, alors, si, parce que… » : ${ex('שָׁמַע כִּי נָסַע מִלָּכִישׁ','« Il avait appris qu\'il était parti de Lakhish » (2 Rois 19,8)')}</p>
+  <p>Elle peut aussi s'utiliser comme un <b>pronom relatif</b>, traduit par « que, pour que, alors, si, parce que… » : ${interlinear([["שָׁמַע","il.a.écouté"],["כִּי","car"],["נָסַע","il.est.parti"],["מִלָּכִישׁ","de.Lakhish"]], null)}</p>
 </div>
 `;
 
@@ -2421,7 +2511,7 @@ const lesson18 = `
   <p>De <b>20 à 90</b> (dizaines) : on met les chiffres au pluriel — <span class="heb">עֶשְׂרִים</span> (20)… <span class="heb">תִּשְׁעִים</span> (90). Les nombres intermédiaires se joignent par <span class="heb">וְ</span> : ${ex('שִׁבְעִים וְשִׁבְעָה',"77")}</p>
   <p>De <b>100 à 900</b> : <span class="heb">מֵאָה</span> (100, état construit <span class="heb">מְאַת</span>), <span class="heb">מָאתַיִם</span> (200, forme duel), puis <span class="heb">שְׁלֹשׁ מֵאוֹת</span>, etc.</p>
   <p>De <b>1000 à 9000</b> : <span class="heb">אֶלֶף</span> (1000), <span class="heb">אַלְפַּיִם</span> (2000, forme duel), puis <span class="heb">שְׁלֹשֶׁת אֲלָפִים</span>, etc.</p>
-  <div class="callout info"><span class="ico">📝</span><span>Pour exprimer un <b>multiple</b>, le chiffre se met au duel : <span class="heb">אַרְבַּעְתַּיִם</span> « quadruple ». Pour exprimer l'<b>âge</b>, on utilise l'expression « fils de… » : <span class="heb">בֶּן־שְׁלֹשִׁים שָׁנָה דָּוִד בְּמָלְכוֹ</span> « David était âgé de 30 ans dans son règne » (2 Samuel 5,4).</span></div>
+  <div class="callout info"><span class="ico">📝</span><span>Pour exprimer un <b>multiple</b>, le chiffre se met au duel : <span class="heb">אַרְבַּעְתַּיִם</span> « quadruple ». Pour exprimer l'<b>âge</b>, on utilise l'expression « fils de… » : <span class="heb">בֶּן־שְׁלֹשִׁים שָׁנָה דָּוִד בְּמָלְכוֹ</span> ${interlinearInline([["בֶּן־שְׁלֹשִׁים","fils.de-trente"],["שָׁנָה","il.a.répété./.changé"],["דָּוִד","David"],["בְּמָלְכוֹ","dans.son.règne"]])} (2 Samuel 5,4).</span></div>
 </div>
 <div class="card">
   <h3><span class="en">Immersion</span>🎥 Vidéos complémentaires</h3>
@@ -2491,7 +2581,7 @@ const lesson20 = `
   <h3><span class="en en-heb">הִפּוּכִי</span>Le ו conversif</h3>
   <p>Le <span class="heb">ו</span> est dit « conversif » car, placé devant un Qatal ou un Yiqtol, il convertit l'accompli en inaccompli et l'inaccompli en accompli — il convertit le passé en futur et le futur en passé. Aussi appelé « inversif » ou « consécutif », c'est une forme spécifique au texte biblique, utilisée pour :</p>
   ${tableHTML(null, ["Exprimer une suite d'action (« consécutif »)","Exprimer une parole rapportée"], [[
-    "<span class=\"heb\">וּמֹשֶׁה עָלָה אֶל־הָאֱלֹהִים וַיִּקְרָא אֵלָיו יהוה</span> « Et Moïse monta vers Dieu, l'Éternel l'appela » (Exode 19,3)",
+    "<span class=\"heb\">וּמֹשֶׁה עָלָה אֶל־הָאֱלֹהִים וַיִּקְרָא אֵלָיו יהוה</span> " + interlinearInline([["וּמֹשֶׁה","et.Moïse"],["עָלָה","il.est.monté"],["אֶל־הָאֱלֹהִים","vers-est.Dieu"],["וַיִּקְרָא","et.il.appela"],["אֵלָיו","à.lui"],["יהוה","l'Éternel"]]) + " (Exode 19,3)",
     "<span class=\"heb\">וַיֹּאמֶר יהוה אֶל־אַבְרָם</span> « Et l'Éternel dit à Avram » (Genèse 12,1)"
   ]])}
 </div>
@@ -2569,12 +2659,12 @@ const lesson21 = `
     "<span class=\"heb\">אַל־תִּירָא כִּי־אִתְּךָ אָנֹכִי</span> « Ne crains pas car je suis avec toi »"
   ]])}
   <p class="ui" style="font-size:13px;color:var(--text-soft);margin-top:14px;">Transformez chaque ordre affirmatif en défense (négation), sur le modèle :</p>
-  <div class="rule"><span class="heb" style="font-size:1.1em;">בּוֹא לְבֵיתִי׃ ← <b>אַל־תָּבוֹא</b> לְבֵיתִי מָחָר׃</span> <span class="tr" style="font-style:italic;">« Viens chez moi » → « Ne viens pas chez moi demain »</span></div>
-  ${tableHTML(null, ["Ordre affirmatif à transformer","Traduction"], [
-    ["<span class=\"heb\">1. קְרָא אֶל־אֱלֹהִים בְּקוֹל גָּדוֹל׃</span>","« Invoque Dieu à voix haute ! »"],
+  <div class="rule"><span class="heb" style="font-size:1.1em;">בּוֹא לְבֵיתִי׃ ← <b>אַל־תָּבוֹא</b> לְבֵיתִי מָחָר׃</span> <span class="tr" style="font-style:italic;">${interlinearInline([["בּוֹא","viens"],["לְבֵיתִי׃","à.ma.maison"],["←",""],["אַל־תָּבוֹא","ne.pas-tu.viendras"],["לְבֵיתִי","à.ma.maison"],["מָחָר׃","demain"]])}</span></div>
+  ${tableHTML(null, ["Ordre affirmatif à transformer","Traduction littérale"], [
+    ["<span class=\"heb\">1. קְרָא אֶל־אֱלֹהִים בְּקוֹל גָּדוֹל׃</span>",interlinearCompact([["קְרָא","appelle"],["אֶל־אֱלֹהִים","vers-Dieu"],["בְּקוֹל","à.voix"],["גָּדוֹל׃","grand"]])],
     ["<span class=\"heb\">2. אֱמֹרְנָה אֱמֶת׃</span>","« Dites (f. pl.) la vérité ! »"],
-    ["<span class=\"heb\">3. בְּכוּ בְּקוֹל גָּדוֹל כִּי בְבָבֶל אַתֶּם׃</span>","« Pleurez à voix haute, car vous êtes à Babylone ! »"],
-    ["<span class=\"heb\">4. דְּעוּ כִּי אֲדֹנָי הוּא הַמֶּלֶךְ׃</span>","« Sachez que le Seigneur est le roi ! »"]
+    ["<span class=\"heb\">3. בְּכוּ בְּקוֹל גָּדוֹל כִּי בְבָבֶל אַתֶּם׃</span>",interlinearCompact([["בְּכוּ","pleurez"],["בְּקוֹל","à.voix"],["גָּדוֹל","grand"],["כִּי","car"],["בְבָבֶל","à.Babylone"],["אַתֶּם׃","vous"]])],
+    ["<span class=\"heb\">4. דְּעוּ כִּי אֲדֹנָי הוּא הַמֶּלֶךְ׃</span>",interlinearCompact([["דְּעוּ","sachez"],["כִּי","car"],["אֲדֹנָי","Seigneur"],["הוּא","lui"],["הַמֶּלֶךְ׃","le.roi"]])]
   ])}
   <details style="margin-top:10px;">
     <summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
@@ -2602,17 +2692,17 @@ const lesson21 = `
 <div class="card">
   <h3><span class="en">Exercice</span>תרגיל — Changer de genre/nombre</h3>
   <p>Transformez l'impératif selon le nouveau destinataire, sur le modèle :</p>
-  <div class="rule"><span class="heb" style="font-size:1.1em;">עֲמֹד שְׁמוּאֵל׃ ← עִמְדִי חַנָּה׃</span><div class="tr" style="font-style:italic;">« Lève-toi, Samuel ! » → « Lève-toi, Hanna ! »</div></div>
-  ${tableHTML(null, ["Phrase à transformer","Traduction"], [
-    ["<span class=\"heb\">2. עֲמֹד מֹשֶׁה עַל הַר־סִינַי׃</span>","« Tiens-toi, Moïse, sur le mont Sinaï ! »"],
+  <div class="rule"><span class="heb" style="font-size:1.1em;">עֲמֹד שְׁמוּאֵל׃ ← עִמְדִי חַנָּה׃</span><div class="tr" style="font-style:italic;">${interlinearInline([["עֲמֹד","tiens-toi-debout"],["שְׁמוּאֵל׃","Samuel"],["←",""],["עִמְדִי","avec.moi"],["חַנָּה׃","Hanna"]])}</div></div>
+  ${tableHTML(null, ["Phrase à transformer","Traduction littérale"], [
+    ["<span class=\"heb\">2. עֲמֹד מֹשֶׁה עַל הַר־סִינַי׃</span>",interlinearCompact([["עֲמֹד","tiens-toi-debout"],["מֹשֶׁה","Moïse"],["עַל","sur"],["הַר־סִינַי׃","montagne-Sinaï"]])],
     ["<span class=\"heb\">3. שֵׁב מָרְדֳּכַי עַל־הָאָרֶץ׃</span>","« Assieds-toi, Mardochée, sur la terre ! »"],
     ["<span class=\"heb\">4. קוּם לֵךְ אַבְרָהָם׃</span>","« Lève-toi, va, Abraham ! »"],
     ["<span class=\"heb\">5. שִׁכְבִי תַחַת־הַתְּאֵנָה רִבְקָה׃</span>","« Couche-toi sous le figuier, Rébecca ! »"],
     ["<span class=\"heb\">6. לְכוּ לְשָׁלוֹם אֲנָשִׁים׃</span>","« Allez en paix, hommes ! »"],
-    ["<span class=\"heb\">7. קוּמִי אִכְלִי לֶחֶם מַלְכָּה׃</span>","« Lève-toi, mange du pain, reine ! »"],
-    ["<span class=\"heb\">8. בֹּ֫אנָה שֵׁ֫בְנָה נְבִיאוֹת עַל־הַכִּסְאוֹת הָאֵלֶּה׃</span>","« Venez, asseyez-vous, prophétesses, sur ces sièges-là ! »"],
-    ["<span class=\"heb\">9. אַתֶּם בֹּ֫אוּ אִכְלוּ תְאֵנִים תַּחַת־הָעֵץ הַיָּפֶה הַזֶּה׃</span>","« Vous, venez, mangez des figues sous ce bel arbre ! »"],
-    ["<span class=\"heb\">10. קוּם שְׁפֹט גּוֹיִם רַבִּים שְׁלֹמֹה׃</span>","« Lève-toi, juge de nombreuses nations, Salomon ! »"],
+    ["<span class=\"heb\">7. קוּמִי אִכְלִי לֶחֶם מַלְכָּה׃</span>",interlinearCompact([["קוּמִי","lève-toi.(f)"],["אִכְלִי","mange.(f)"],["לֶחֶם","du.pain"],["מַלְכָּה׃","reine"]])],
+    ["<span class=\"heb\">8. בֹּ֫אנָה שֵׁ֫בְנָה נְבִיאוֹת עַל־הַכִּסְאוֹת הָאֵלֶּה׃</span>",interlinearCompact([["בֹּ֫אנָה","venez.(f)"],["שֵׁ֫בְנָה","asseyez-vous.(f)"],["נְבִיאוֹת","prophétesses"],["עַל־הַכִּסְאוֹת","sur-les.trônes"],["הָאֵלֶּה׃","ceux-ci"]])],
+    ["<span class=\"heb\">9. אַתֶּם בֹּ֫אוּ אִכְלוּ תְאֵנִים תַּחַת־הָעֵץ הַיָּפֶה הַזֶּה׃</span>",interlinearCompact([["אַתֶּם","vous"],["בֹּ֫אוּ","venez"],["אִכְלוּ","mangez"],["תְאֵנִים","figues"],["תַּחַת־הָעֵץ","sous-l'arbre"],["הַיָּפֶה","le.beau"],["הַזֶּה׃","celui-ci"]])],
+    ["<span class=\"heb\">10. קוּם שְׁפֹט גּוֹיִם רַבִּים שְׁלֹמֹה׃</span>",interlinearCompact([["קוּם","lève-toi"],["שְׁפֹט","juger"],["גּוֹיִם","nations"],["רַבִּים","nombreux"],["שְׁלֹמֹה׃","Salomon"]])],
     ["<span class=\"heb\">11. שֵׁ֫בְנָה תַלְמִידוֹת אַחֲרֵי־הַשֻּׁלְחָן׃</span>","« Asseyez-vous, élèves, derrière la table ! »"]
   ])}
   <details style="margin-top:10px;">
@@ -2640,7 +2730,7 @@ const lesson22 = `
   <p>L'infinitif absolu est une forme verbale qui n'existe pas vraiment en français. Il se vocalise <span class="heb">שָׁמוֹר</span> (ou en écriture défective <span class="heb">שָׁמֹר</span>) et sert à <b>appuyer</b> ou <b>renforcer</b> l'idée du verbe conjugué qu'il accompagne, en se plaçant avant ou après lui :</p>
   <div class="callout info"><span class="ico">🎨</span><span><span style="color:#c0392b;font-weight:700;">Rouge</span> = l'infinitif absolu, l'élément qui vient renforcer le verbe conjugué de même racine.</span></div>
   ${tableHTML(null, ["1. Devant le verbe : insistance","2. Après le verbe : action continue","3. Employé seul : impératif"], [[
-    "<span class=\"heb\"><span style=\"color:#c0392b;\">זָכֹר</span> תִּזְכֹּר אֵת אֲשֶׁר־עָשָׂה יהוה</span> — litt. « Souvenir tu te souviendras » = « Tu te souviendras bien de ce que l'Éternel a fait »",
+    "<span class=\"heb\"><span style=\"color:#c0392b;\">זָכֹר</span> תִּזְכֹּר אֵת אֲשֶׁר־עָשָׂה יהוה</span> " + interlinearInline([["זָכֹר","souvenir"],["תִּזְכֹּר","tu.te.souviendras"],["אֵת","(COD)"],["אֲשֶׁר־עָשָׂה","que-il.a.fait"],["יהוה","l'Éternel"]]) + "",
     "<span class=\"heb\">הֵמָּה הֹלְכִים <span style=\"color:#c0392b;\">הָלוֹךְ</span></span> — litt. « Eux marchant marcher » = « Eux marchant sans cesse »",
     "<span class=\"heb\"><span style=\"color:#c0392b;\">זָכוֹר</span> אֶת־יוֹם הַשַּׁבָּת</span> — « Souviens-toi du jour du Shabbat »"
   ]])}
@@ -2677,17 +2767,17 @@ const lesson22 = `
 <div class="card">
   <h3><span class="en">Exercice</span>תרגיל — הֲטוֹב… ? Est-il bon de… ?</h3>
   <p>Cette tournure emploie l'infinitif absolu pour poser une question générale, sur le modèle :</p>
-  <div class="rule"><span class="heb" style="font-size:1.15em;">אָכוֹל הַרְבֵּה לֹא טוֹב׃</span> <span class="tr" style="font-style:italic;">« Manger beaucoup n'est pas bon »</span></div>
+  <div class="rule"><span class="heb" style="font-size:1.15em;">אָכוֹל הַרְבֵּה לֹא טוֹב׃</span> <span class="tr" style="font-style:italic;">${interlinearInline([["אָכוֹל","manger"],["הַרְבֵּה","beaucoup"],["לֹא","pas"],["טוֹב׃","bon"]])}</span></div>
   <p class="ui" style="font-size:12.5px;color:var(--text-soft);">Traduisez chaque question, puis répondez librement sur ce modèle (à l'écrit ou à l'oral) :</p>
-  ${tableHTML(null, ["Question (infinitif absolu)","Traduction"], [
-    ["<span class=\"heb\">1. הֲטוֹב אָכוֹל הַרְבֵּה לֶחֶם׃</span>","« Est-il bon de manger beaucoup de pain ? »"],
+  ${tableHTML(null, ["Question (infinitif absolu)","Traduction littérale"], [
+    ["<span class=\"heb\">1. הֲטוֹב אָכוֹל הַרְבֵּה לֶחֶם׃</span>",interlinearCompact([["הֲטוֹב","est-ce-bon"],["אָכוֹל","manger"],["הַרְבֵּה","beaucoup"],["לֶחֶם׃","du.pain"]])],
     ["<span class=\"heb\">2. הֲטוֹב שָׁכוֹב כָּל־הַיּוֹם׃</span>","« Est-il bon de rester couché toute la journée ? »"],
-    ["<span class=\"heb\">3. הֲטוֹב הָלוֹךְ אַחֲרֵי אֱלֹהִים אֲחֵרִים׃</span>","« Est-il bon d'aller après des dieux étrangers ? »"],
+    ["<span class=\"heb\">3. הֲטוֹב הָלוֹךְ אַחֲרֵי אֱלֹהִים אֲחֵרִים׃</span>",interlinearCompact([["הֲטוֹב","est-ce-bon"],["הָלוֹךְ","aller"],["אַחֲרֵי","après"],["אֱלֹהִים","Dieu"],["אֲחֵרִים׃","autres"]])],
     ["<span class=\"heb\">4. הֲטוֹב יָשׁוֹב עַל־הַשֻּׁלְחָן׃</span>","« Est-il bon de s'asseoir à table ? »"],
     ["<span class=\"heb\">5. הֲטוֹב אָכוֹל מְעַט׃</span>","« Est-il bon de manger peu ? »"],
-    ["<span class=\"heb\">6. הֲטוֹב קוֹם בַּיּוֹם וְשָׁכוֹב בַּלַּיְלָה׃</span>","« Est-il bon de se lever le jour et de se coucher la nuit ? »"],
+    ["<span class=\"heb\">6. הֲטוֹב קוֹם בַּיּוֹם וְשָׁכוֹב בַּלַּיְלָה׃</span>",interlinearCompact([["הֲטוֹב","est-ce-bon"],["קוֹם","se.lever"],["בַּיּוֹם","le.jour"],["וְשָׁכוֹב","et.se.coucher"],["בַּלַּיְלָה׃","la.nuit"]])],
     ["<span class=\"heb\">7. הֲטוֹב עָמוֹד וְאָכוֹל׃</span>","« Est-il bon de manger debout ? »"],
-    ["<span class=\"heb\">8. הֲטוֹב קוֹם לִפְנֵי הַמּוֹרֶה׃</span>","« Est-il bon de se lever devant le maître ? »"]
+    ["<span class=\"heb\">8. הֲטוֹב קוֹם לִפְנֵי הַמּוֹרֶה׃</span>",interlinearCompact([["הֲטוֹב","est-ce-bon"],["קוֹם","se.lever"],["לִפְנֵי","devant"],["הַמּוֹרֶה׃","le.maître"]])]
   ], [0])}
 </div>
 `;
@@ -2771,7 +2861,7 @@ const lesson24 = `
   <h3><span class="en en-heb">יֵשׁ / אֵין</span>Les particules d'existence</h3>
   <p>L'hébreu n'a pas de mot précis pour le verbe avoir. Pour exprimer l'<b>existence</b>, il existe 2 particules :</p>
   ${tableHTML(null, ["יֵשׁ — « il y a »","אֵין — « il n'y a pas »"], [[
-    "<span class=\"heb\">כִּי יֵשׁ בַּבָּתִּים הָאֵלֶה אֵפוֹד</span> « Qu'il y a dans ces maisons un Éphod » (Juges 18,14)",
+    "<span class=\"heb\">כִּי יֵשׁ בַּבָּתִּים הָאֵלֶה אֵפוֹד</span> " + interlinearInline([["כִּי","car"],["יֵשׁ","il.y.a"],["בַּבָּתִּים","dans.les.maisons"],["הָאֵלֶה","ces"],["אֵפוֹד","éphod"]]) + " (Juges 18,14)",
     "<span class=\"heb\">וְאִישׁ אֵין בָּאָרֶץ</span> « Et d'homme il n'y a pas dans le pays » (Genèse 18,31)"
   ]])}
   <p>Suivies de la préposition <span class="heb">לְ</span>, elles expriment la <b>possession</b> :</p>
@@ -2844,13 +2934,13 @@ const lesson26 = `
 <div class="card">
   <h3><span class="en en-heb">אִם</span>La particule אִם</h3>
   <p>La particule <span class="heb">אִם</span> est une conjonction exprimant la <b>condition</b>. C'est l'équivalent du « si » français.</p>
-  ${ex('אִם־בְּחֻקֹּתַי תֵּלֵכוּ וְאֶת־מִצְוֹתַי תִּשְׁמְרוּ וַעֲשִׂיתֶם אֹתָם׃','« Si vous suivez mes lois et gardez mes commandements et les mettez en pratique… »','Lévitique 26,3 — ויקרא כו ג')}
+  ${interlinear([["אִם־בְּחֻקֹּתַי","si-dans.mes.lois"],["תֵּלֵכוּ","vous.marcherez"],["וְאֶת־מִצְוֹתַי","et.(COD)-mes.commandements"],["תִּשְׁמְרוּ","vous.garderez"],["וַעֲשִׂיתֶם","et.vous.ferez"],["אֹתָם׃","eux.(COD)"]], 'Lévitique 26,3 — ויקרא כו ג')}
   <p>Elle a cependant des sens un peu plus variés selon le sens de la phrase :</p>
   ${tableHTML(null, ["Significations","Exemples"], [
-    ["« ou…, ou… » / « soit…, soit… »<br><span class=\"tr\" style=\"font-style:italic;\">(utilisée de manière répétée, elle exprime le choix)</span>", "<span class=\"heb\">…אִם־בְּהֵמָה אִם־אִישׁ לֹא יִחְיֶה…׃</span><div class=\"tr\" style=\"font-style:italic;margin-top:4px;\">Exode 19,13 — שמות יט יג</div>"],
-    ["« quand », « lorsque », « certes », « mais »", "<span class=\"heb\">וְאִם־יִהְיֶה הַיֹּבֵל לִבְנֵי יִשְׂרָאֵל…׃</span><div class=\"tr\" style=\"font-style:italic;margin-top:4px;\">Nombres 36,4 — במדבר לו ד</div>"],
-    ["« non », « ne pas »<br><span class=\"tr\" style=\"font-style:italic;\">(dans un sens de serment)</span>", "<span class=\"heb\">אִם־יִרְאוּ אֶת־הָאָרֶץ אֲשֶׁר נִשְׁבַּעְתִּי לַאֲבֹתָם…׃</span><div class=\"tr\" style=\"font-style:italic;margin-top:4px;\">Nombres 14,23 — במדבר יד כג</div>"],
-    ["« si, est-ce que ? »<br><span class=\"tr\" style=\"font-style:italic;\">(particule interrogative)</span>", "<span class=\"heb\">אִם־אֶחְיֶה מֵחֳלִי זֶה…׃</span><div class=\"tr\" style=\"font-style:italic;margin-top:4px;\">2 Rois 1,2 — מלכים ב א ב</div>"]
+    [interlinearCompact([["אִם־בְּהֵמָה","si-bête"],["אִם־אִישׁ","si-homme"],["לֹא","pas"],["יִחְיֶה…׃","il.vivra"]]), "<span class=\"heb\">…אִם־בְּהֵמָה אִם־אִישׁ לֹא יִחְיֶה…׃</span><div class=\"tr\" style=\"font-style:italic;margin-top:4px;\">Exode 19,13 — שמות יט יג</div>"],
+    [interlinearCompact([["וְאִם־יִהְיֶה","et.si-il.sera"],["הַיֹּבֵל","le.jubilé"],["לִבְנֵי","aux.fils.de"],["יִשְׂרָאֵל…׃","Israël"]]), "<span class=\"heb\">וְאִם־יִהְיֶה הַיֹּבֵל לִבְנֵי יִשְׂרָאֵל…׃</span><div class=\"tr\" style=\"font-style:italic;margin-top:4px;\">Nombres 36,4 — במדבר לו ד</div>"],
+    [interlinearCompact([["אִם־יִרְאוּ","si-ils.verront"],["אֶת־הָאָרֶץ","(COD)-la.terre"],["אֲשֶׁר","que"],["נִשְׁבַּעְתִּי","j'ai.juré"],["לַאֲבֹתָם…׃","à.leurs.pères"]]), "<span class=\"heb\">אִם־יִרְאוּ אֶת־הָאָרֶץ אֲשֶׁר נִשְׁבַּעְתִּי לַאֲבֹתָם…׃</span><div class=\"tr\" style=\"font-style:italic;margin-top:4px;\">Nombres 14,23 — במדבר יד כג</div>"],
+    [interlinearCompact([["אִם־אֶחְיֶה","si-je.vivrai"],["מֵחֳלִי","de.ma.maladie"],["זֶה…׃2","voici"]]), "<span class=\"heb\">אִם־אֶחְיֶה מֵחֳלִי זֶה…׃</span><div class=\"tr\" style=\"font-style:italic;margin-top:4px;\">2 Rois 1,2 — מלכים ב א ב</div>"]
   ])}
 </div>
 <div class="card">
@@ -3028,7 +3118,7 @@ const lesson27 = `
   <p>Dans le texte écrit de la Bible hébraïque, nous pouvons voir, dans la marge ou en bas du texte, des mots qui corrigent certains mots du texte. Les mots dans le texte sont appelés <span class="heb">כְּתִיב</span> « écrit » et les mots de la marge <span class="heb">קְרֵי</span> « à lire ».</p>
   <p>Dans les versions numériques de la Bible hébraïque, les <span class="heb">קְרֵי</span> peuvent être mis dans la marge ou dans le texte avec le <span class="heb">כְּתִיב</span> mis entre parenthèses.</p>
   <div class="callout warn"><span class="ico">⚠️</span><span><b>Remarques :</b> ces corrections de lecture ont été effectuées par les massorètes. Ils ont écrit les corrections en marge car on ne doit pas modifier le <span class="heb">כְּתִיב</span> du texte, peu importe l'erreur (orthographe, grammaire, ou autre).</span></div>
-  ${ex('וַיֹּאמֶר אֵלָיו יְהוָה (מזה) מַה־זֶּה בְּיָדֶךָ וַיֹּאמֶר מַטֶּה׃','« Qu\'est-ce que c\'est dans ta main ? » et il répondit « un bâton ».','Exode 4,2 — שמות ד ב')}
+  ${interlinear([["וַיֹּאמֶר","et.il.dit"],["אֵלָיו","à.lui"],["יְהוָה","l'Éternel"],["(מזה)","(de.ceci)"],["מַה־זֶּה","quel-donc"],["בְּיָדֶךָ","dans.ta.main"],["וַיֹּאמֶר","et.il.dit"],["מַטֶּה׃","branche"]], 'Exode 4,2 — שמות ד ב')}
 </div>
 <div class="card">
   <h3><span class="en en-heb">רִאשׁוֹן</span>Les nombres ordinaux</h3>
@@ -3053,11 +3143,11 @@ const lesson27 = `
 <div class="card">
   <h3><span class="en en-heb">שֶ · כְּשֶ</span>Les particules שֶ et כְּשֶ</h3>
   <div class="rule"><b>La particule כַּאֲשֶׁר</b><br>Après le pronom relatif <span class="heb">אֲשֶׁר</span>, nous voyons maintenant <span class="heb">כַּאֲשֶׁר</span> qui se compose ainsi : pronom <span class="heb">אֲשֶׁר</span> + préfixe <span class="heb">כְּ</span>. Ce pronom relatif, qui signifie « <b>comme ce que</b> », est généralement traduit par « <b>lorsque</b> ». Cette particule a aussi pour sens : « suivant ce que, quand, … ».</div>
-  ${ex('וַיַּעַשׂ הָאִישׁ כַּאֲשֶׁר אָמַר יוֹסֵף','« L\'homme fit comme ce qu\'il a dit à Joseph »','Genèse 43,17 — בראשית מג יז')}
+  ${interlinear([["וַיַּעַשׂ","et.il.fit"],["הָאִישׁ","l'homme"],["כַּאֲשֶׁר","comme"],["אָמַר","il.a.dit"],["יוֹסֵף","Joseph"]], 'Genèse 43,17 — בראשית מג יז')}
   <div class="rule"><b>La particule שֶ</b>, contraction de <span class="heb">אֲשֶׁר</span><br>Cette forme contractée se place en préfixe du mot auquel elle est associée.</div>
   ${ex('יֵשׁ דָּבָר שֶׁיֹּאמַר','« Il y a une parole qui dit »','Ecclésiaste 1,10 — קהלת א י')}
   <div class="rule"><b>La particule כְּשֶ</b>, contraction de <span class="heb">כַּאֲשֶׁר</span><br>Comme précédemment, la contraction devient une particule qui se met en préfixe du mot.</div>
-  ${ex('וְגַם־בַּדֶּרֶךְ (כשהסכל) כְּשֶׁסָּכָל הֹלֵךְ','« Et aussi, sur le chemin quand/lorsque l\'insensé marche »','Ecclésiaste 10,3 — קהלת י ג')}
+  ${interlinear([["וְגַם־בַּדֶּרֶךְ","et.aussi-sur.le.chemin"],["(כשהסכל)","(quand.l'insensé)"],["כְּשֶׁסָּכָל","quand.l'insensé"],["הֹלֵךְ","va"]], 'Ecclésiaste 10,3 — קהלת י ג')}
   <div class="callout warn"><span class="ico">⚠️</span><span><b>Remarques :</b> ces particules sont très utilisées dans le livre de l'Ecclésiaste <span class="heb">קֹהֶלֶת</span>. L'exemple ci-dessus illustre à la fois le <span class="heb">כְּתִיב</span> et le <span class="heb">קְרֵי</span>.</span></div>
 </div>
 <div class="card">
@@ -5110,22 +5200,22 @@ const LIBRARY_DOCS = [
     <span class="heb" style="font-size:1.1em;">הָאִישׁ — יוֹם יָפֶה הַיּוֹם נְבִיאִי׃</span><br>
     <span class="heb" style="font-size:1.1em;">הַנָּבִיא — לֹא יָפֶה הוּא הַיּוֹם הַזֶּה וְלֹא יָפִים הֵמָּה כָּל־הַיָּמִים׃</span>
   </div>
-  <div class="tr" style="margin:10px 0;">L'homme — « Paix à toi, saint prophète. » Le prophète — « Non. » L'homme — « C'est un beau jour aujourd'hui, mon prophète. » Le prophète — « Ce jour n'est pas beau, et tous les jours ne sont pas beaux. »</div>
+  <div class="tr" style="margin:10px 0;">${interlinearInline([["הָאִישׁ","l'homme"],["הֲשָׁלוֹם־לָךְ","est-ce.paix-à.toi"],["נָבִיא","prophète"],["קָדוֹשׁ׃","saint"],["הַנָּבִיא","le.prophète"],["לֹא׃","pas"],["הָאִישׁ","l'homme"],["יוֹם","jour"],["יָפֶה","beau"],["הַיּוֹם","le.jour"],["נְבִיאִי׃","mon.prophète"],["הַנָּבִיא","le.prophète"],["לֹא","pas"],["יָפֶה","beau"],["הוּא","lui"],["הַיּוֹם","le.jour"],["הַזֶּה","celui-ci"],["וְלֹא","et.pas"],["יָפִים","beaux"],["הֵמָּה","eux"],["כָּל־הַיָּמִים׃","tout-les.jours"]])}</div>
   <div class="rule">
     <span class="heb" style="font-size:1.1em;">הָאִישׁ — יָפוֹת הַתְּאֵנִים עַל־הָעֵץ הַקָּטֹן הַזֶּה׃ הֲטוֹבוֹת הֵנָּה נָבִיא צַדִּיק׃</span><br>
     <span class="heb" style="font-size:1.1em;">הַנָּבִיא — לֹא טוֹבוֹת הֵנָּה, רָעוֹת מְאֹד׃ גַּם הֵנָּה וְגַם כָּל־הָאָרֶץ הַגְּדוֹלָה׃</span>
   </div>
-  <div class="tr" style="margin:10px 0;">L'homme — « Belles sont les figues sur ce petit arbre — sont-elles bonnes, juste prophète ? » Le prophète — « Elles ne sont pas bonnes, elles sont très mauvaises — elles, et toute la grande terre aussi. »</div>
+  <div class="tr" style="margin:10px 0;">${interlinearInline([["הָאִישׁ","l'homme"],["יָפוֹת","belles"],["הַתְּאֵנִים","les.figues"],["עַל־הָעֵץ","sur-l'arbre"],["הַקָּטֹן","le.petit"],["הַזֶּה׃","celui-ci"],["הֲטוֹבוֹת","est-ce-bonnes"],["הֵנָּה","elles"],["נָבִיא","prophète"],["צַדִּיק׃","juste"],["הַנָּבִיא","le.prophète"],["לֹא","pas"],["טוֹבוֹת","bonnes"],["הֵנָּה","elles"],["רָעוֹת","mauvaises"],["מְאֹד׃","très"],["גַּם","aussi"],["הֵנָּה","elles"],["וְגַם","et.aussi"],["כָּל־הָאָרֶץ","tout-la.terre"],["הַגְּדוֹלָה׃","la.grande"]])}</div>
   <div class="rule">
     <span class="heb" style="font-size:1.1em;">הָאִישׁ — מַה־לָּךְ נָבִיא טוֹב׃</span><br>
     <span class="heb" style="font-size:1.1em;">הַנָּבִיא — רַע הוּא הָאָדָם, רַע מְאֹד׃ הָאָרֶץ גְּדוֹלָה וּבְכָל־הֶעָרִים הָרַבּוֹת רָעִים הָאֲנָשִׁים וְרָעוֹת הַנָּשִׁים מְאֹד׃ רָעִים הַמְּלָכִים וְרָעוֹת הַמְּלָכוֹת וְרָעִים הַכֹּהֲנִים וְרַע עַם־יִשְׂרָאֵל וְרָעִים הֵמָּה כָּל־הַגּוֹיִם׃</span>
   </div>
-  <div class="tr" style="margin:10px 0;">L'homme — « Qu'as-tu, bon prophète ? » Le prophète — « L'homme est mauvais, très mauvais. La terre est grande, et dans toutes les nombreuses villes les hommes sont mauvais et les femmes très mauvaises. Mauvais sont les rois, mauvaises les reines, mauvais les prêtres, mauvais le peuple d'Israël, et mauvaises sont toutes les nations. »</div>
+  <div class="tr" style="margin:10px 0;">${interlinearInline([["הָאִישׁ","l'homme"],["מַה־לָּךְ","quel-à.toi"],["נָבִיא","prophète"],["טוֹב׃","bon"],["הַנָּבִיא","le.prophète"],["רַע","mauvais"],["הוּא","lui"],["הָאָדָם","l'homme"],["רַע","mauvais"],["מְאֹד׃","très"],["הָאָרֶץ","la.terre"],["גְּדוֹלָה","grand"],["וּבְכָל־הֶעָרִים","et.dans.tout-les.villes"],["הָרַבּוֹת","nombreuses"],["רָעִים","mauvais"],["הָאֲנָשִׁים","les.hommes"],["וְרָעוֹת","et.mauvaises"],["הַנָּשִׁים","les.femmes"],["מְאֹד׃","très"],["רָעִים","mauvais"],["הַמְּלָכִים","les.rois"],["וְרָעוֹת","et.mauvaises"],["הַמְּלָכוֹת","les.reines"],["וְרָעִים","et.mauvais"],["הַכֹּהֲנִים","les.prêtres"],["וְרַע","et.mauvais"],["עַם־יִשְׂרָאֵל","peuple-Israël"],["וְרָעִים","et.mauvais"],["הֵמָּה","eux"],["כָּל־הַגּוֹיִם׃","tout-les.nations"]])}</div>
   <div class="rule">
     <span class="heb" style="font-size:1.1em;">הָאִישׁ — אֱלֹהִים הוּא טוֹב וְאַתֶּם הַנְּבִיאִים טוֹבִים׃</span><br>
     <span class="heb" style="font-size:1.1em;">הַנָּבִיא — הֲטוֹב הוּא אֱלֹהִים׃ בְּכָל־הֶעָרִים בָּתִּים גְּדוֹלִים, וּבַבָּתִּים הַגְּדוֹלִים אֲנָשִׁים עֲשִׁירִים וְשֻׁלְחָנוֹת גְּדוֹלִים, וְעַל־הַשֻּׁלְחָנוֹת הַגְּדוֹלִים תְּאֵנִים טוֹבוֹת וְרַבּוֹת, וְהַתְּאֵנִים הַטּוֹבוֹת טוֹבוֹת מְאֹד מְאֹד הֵנָּה׃ וְאָנֹכִי נָבִיא וּבֶן־נָבִיא, וְעַל־הָאָרֶץ אֲנִי תַּחַת־עֵץ קָטֹן, וְעַל־הָעֵץ הַקָּטֹן תְּאֵנִים לֹא רַבּוֹת וְרָעוֹת מְאֹד׃</span>
   </div>
-  <div class="tr" style="margin:10px 0;">L'homme — « Dieu est bon, et vous, les prophètes, êtes bons. » Le prophète — « Dieu est-il bon ? Dans toutes les villes il y a de grandes maisons, et dans les grandes maisons des hommes riches et de grandes tables, et sur les grandes tables des figues bonnes et nombreuses, et ces bonnes figues sont très très bonnes. Et moi je suis prophète et fils de prophète, et moi je suis sur la terre sous un petit arbre, et sur le petit arbre des figues peu nombreuses et très mauvaises. »</div>
+  <div class="tr" style="margin:10px 0;">${interlinearInline([["הָאִישׁ","l'homme"],["אֱלֹהִים","Dieu"],["הוּא","lui"],["טוֹב","bon"],["וְאַתֶּם","et.vous"],["הַנְּבִיאִים","les.prophètes"],["טוֹבִים׃","bons"],["הַנָּבִיא","le.prophète"],["הֲטוֹב","est-ce-bon"],["הוּא","lui"],["אֱלֹהִים׃","Dieu"],["בְּכָל־הֶעָרִים","dans.tout-les.villes"],["בָּתִּים","des.maisons"],["גְּדוֹלִים","grandes"],["וּבַבָּתִּים","et.dans.les.maisons"],["הַגְּדוֹלִים","les.grandes"],["אֲנָשִׁים","hommes"],["עֲשִׁירִים","riches"],["וְשֻׁלְחָנוֹת","et.des.tables"],["גְּדוֹלִים","grandes"],["וְעַל־הַשֻּׁלְחָנוֹת","et.sur-les.tables"],["הַגְּדוֹלִים","les.grandes"],["תְּאֵנִים","des.figues"],["טוֹבוֹת","bonnes"],["וְרַבּוֹת","et.nombreuses"],["וְהַתְּאֵנִים","et.les.figues"],["הַטּוֹבוֹת","les.bonnes"],["טוֹבוֹת","bonnes"],["מְאֹד","très"],["מְאֹד","très"],["הֵנָּה׃","elles"],["וְאָנֹכִי","et.moi"],["נָבִיא","prophète"],["וּבֶן־נָבִיא","et.fils.de-prophète"],["וְעַל־הָאָרֶץ","et.sur-la.terre"],["אֲנִי","moi"],["תַּחַת־עֵץ","sous-arbre"],["קָטֹן","petit"],["וְעַל־הָעֵץ","et.sur-l'arbre"],["הַקָּטֹן","le.petit"],["תְּאֵנִים","des.figues"],["לֹא","pas"],["רַבּוֹת","nombreuses"],["וְרָעוֹת","et.mauvaises"],["מְאֹד׃","très"]])}</div>
 </div>
 `
   },
@@ -8205,7 +8295,7 @@ function shualiChapter3(){
     <p>Les démonstratifs peuvent être <b>sujets</b> ou <b>adjectifs épithètes</b> :</p>
     ${tableHTML(null, ["Fonction","Exemple","Sens"], [
       ["Sujet","<span class=\"heb\">זֶה הַר ׃</span>","« C'est une montagne »"],
-      ["Épithète","<span class=\"heb\">הָהָר <span class=\"ns-copule\">הַ</span>זֶּה גָּדוֹל ׃</span>","« Cette montagne est grande »"]
+      ["Épithète","<span class=\"heb\">הָהָר <span class=\"ns-copule\">הַ</span>זֶּה גָּדוֹל ׃</span>",interlinearCompact([["הָהָר","la.montagne"],["הַזֶּה","celui-ci"],["גָּדוֹל","grand"]])]
     ])}
     <div class="callout info"><span class="ico">💡</span><span>Quand le démonstratif est employé comme épithète, il est précédé de l'article défini <span class="heb">הַ־</span>, tout comme le nom qu'il qualifie.</span></div>
   </div>
@@ -8242,7 +8332,7 @@ function shualiChapter3(){
   <div class="card">
     <h3><span class="en">Grammaire</span>L'article défini devant l'adjectif</h3>
     <p>Si le nom est défini, l'adjectif épithète qui le qualifie est <b>également</b> précédé de l'article défini :</p>
-    <div class="rule"><span class="heb" style="font-size:1.15em;"><span class="ns-copule">הַ</span>מֶּ֫לֶךְ <span class="ns-copule">הַ</span>טּוֹב בְּחֶבְרוֹן הוּא׃</span><div class="tr">« Le bon roi est à Hébron »</div></div>
+    <div class="rule"><span class="heb" style="font-size:1.15em;"><span class="ns-copule">הַ</span>מֶּ֫לֶךְ <span class="ns-copule">הַ</span>טּוֹב בְּחֶבְרוֹן הוּא׃</span><div class="tr">${interlinearInline([["הַמֶּ֫לֶךְ","le.roi"],["הַטּוֹב","le.bon"],["בְּחֶבְרוֹן","à.Hébron"],["הוּא׃","lui"]])}</div></div>
     <p class="ui" style="font-size:13px;color:var(--text-soft);margin-top:12px;">Faites des phrases au moyen des éléments suivants (nom + adjectif), sur le même modèle :</p>
     ${tableHTML(null, ["Éléments","À compléter"], [
       ["<span class=\"heb\">יְרוּשָׁלַםִ / רַע</span>","<span class=\"heb\">_____________________</span>"],
@@ -8286,16 +8376,16 @@ function shualiChapter4(){
       ["<span class=\"heb\">10. שְׁמִי __קָדוֹשׁ הוּא וְאָנֹכִי __קָדוֹשׁ הוּא:</span>"]
     ])}
     <details style="margin-top:10px;"><summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
-    ${tableHTML(null, ["N°","Corrigé","Traduction"], [
+    ${tableHTML(null, ["N°","Corrigé","Traduction littérale"], [
       ["2","<span class=\"heb\">הַכֹּהֵן <b>הֶ</b>עָשִׁיר <b>Ø</b>רַע:</span>","« Le prêtre, le riche, est mauvais »"],
-      ["3","<span class=\"heb\">הַנְּבִיאָה <b>הַ</b>קְּדוֹשָׁה <b>Ø</b>חֲכָמָה הִיא:</span>","« La prophétesse, la sainte, est sage »"],
+      ["3","<span class=\"heb\">הַנְּבִיאָה <b>הַ</b>קְּדוֹשָׁה <b>Ø</b>חֲכָמָה הִיא:</span>",interlinearCompact([["הַנְּבִיאָה","la.prophétesse"],["הַקְּדוֹשָׁה","la.sainte"],["Ø","(sans.verbe)"],["חֲכָמָה","sage"],["הִיא","elle"]])],
       ["4","<span class=\"heb\">הָעִיר <b>הָ</b>רָעָה <b>Ø</b>גְדוֹלָה:</span>","« La ville, la mauvaise, est grande »"],
-      ["5","<span class=\"heb\">הָהָר <b>הַ</b>גָּדוֹל <b>Ø</b>קָדוֹשׁ הוּא:</span>","« La montagne, la grande, est sainte »"],
-      ["6","<span class=\"heb\">הַמַּלְכָּה <b>הָ</b>רָעָה <b>Ø</b>עֲשִׁירָה הִיא:</span>","« La reine, la mauvaise, est riche »"],
-      ["7","<span class=\"heb\">הַבַּ֫יִת <b>הַ</b>זֶּה <b>Ø</b>קָדוֹשׁ וְהַדֶּ֫לֶת <b>הַ</b>זֹּאת <b>Ø</b>קְדוֹשָׁה וְגַם הַשֻּׁלְחָן <b>הַ</b>זֶה <b>Ø</b>קָדוֹשׁ:</span>","« Cette maison est sainte, cette porte est sainte, et cette table aussi est sainte »"],
-      ["8","<span class=\"heb\">הַבֵּן <b>הַ</b>קָּטֹן וְ<b>הָ</b>רָע <b>Ø</b>עָנִי הוּא:</span>","« Le fils, le petit et le mauvais, est pauvre »"],
-      ["9","<span class=\"heb\">הַסֵּ֫פֶר <b>הַ</b>קָדוֹשׁ <b>הַ</b>גָּדוֹל וְ<b>הֶ</b>עָשִׁיר:</span>","« Le livre saint, grand et riche »"],
-      ["10","<span class=\"heb\">שְׁמִי <b>Ø</b>קָדוֹשׁ הוּא וְאָנֹכִי <b>Ø</b>קָדוֹשׁ הוּא:</span>","« Mon nom est saint et moi je suis saint »"]
+      ["5","<span class=\"heb\">הָהָר <b>הַ</b>גָּדוֹל <b>Ø</b>קָדוֹשׁ הוּא:</span>",interlinearCompact([["הָהָר","la.montagne"],["הַגָּדוֹל","le.grand"],["Ø","(sans.verbe)"],["קָדוֹשׁ","saint"],["הוּא","lui"]])],
+      ["6","<span class=\"heb\">הַמַּלְכָּה <b>הָ</b>רָעָה <b>Ø</b>עֲשִׁירָה הִיא:</span>",interlinearCompact([["הַמַּלְכָּה","la.reine"],["הָרָעָה","la.mauvaise"],["Ø","(sans.verbe)"],["עֲשִׁירָה","riche"],["הִיא","elle"]])],
+      ["7","<span class=\"heb\">הַבַּ֫יִת <b>הַ</b>זֶּה <b>Ø</b>קָדוֹשׁ וְהַדֶּ֫לֶת <b>הַ</b>זֹּאת <b>Ø</b>קְדוֹשָׁה וְגַם הַשֻּׁלְחָן <b>הַ</b>זֶה <b>Ø</b>קָדוֹשׁ:</span>",interlinearCompact([["הַבַּ֫יִת","la.maison"],["הַזֶּה","celui-ci"],["Ø","(sans.verbe)"],["קָדוֹשׁ","saint"],["וְהַדֶּ֫לֶת","et.la.porte"],["הַזֹּאת","cette"],["Ø","(sans.verbe)"],["קְדוֹשָׁה","sainte"],["וְגַם","et.aussi"],["הַשֻּׁלְחָן","la.table"],["הַזֶה","celui-ci"],["Ø","(sans.verbe)"],["קָדוֹשׁ","saint"]])],
+      ["8","<span class=\"heb\">הַבֵּן <b>הַ</b>קָּטֹן וְ<b>הָ</b>רָע <b>Ø</b>עָנִי הוּא:</span>",interlinearCompact([["הַבֵּן","le.fils"],["הַקָּטֹן","le.petit"],["וְהָרָע","et.le.mauvais"],["Ø","(sans.verbe)"],["עָנִי","pauvre"],["הוּא","lui"]])],
+      ["9","<span class=\"heb\">הַסֵּ֫פֶר <b>הַ</b>קָדוֹשׁ <b>הַ</b>גָּדוֹל וְ<b>הֶ</b>עָשִׁיר:</span>",interlinearCompact([["הַסֵּ֫פֶר","le.livre"],["הַקָדוֹשׁ","le.saint"],["הַגָּדוֹל","le.grand"],["וְהֶעָשִׁיר","et.le.riche"]])],
+      ["10","<span class=\"heb\">שְׁמִי <b>Ø</b>קָדוֹשׁ הוּא וְאָנֹכִי <b>Ø</b>קָדוֹשׁ הוּא:</span>",interlinearCompact([["שְׁמִי","mon.nom"],["Ø","(sans.verbe)"],["קָדוֹשׁ","saint"],["הוּא","lui"],["וְאָנֹכִי","et.moi"],["Ø","(sans.verbe)"],["קָדוֹשׁ","saint"],["הוּא","lui"]])]
     ])}
     </details>
   </div>
@@ -8352,16 +8442,16 @@ function shualiChapter5(){
   <div class="card">
     <h3><span class="en">Exercice</span>Mettez les phrases suivantes au pluriel</h3>
     <div class="rule"><span class="heb" style="font-size:1.1em;">1. הַתַּלְמִיד הַטּוֹב חָכָם הוּא: ← הַתַּלְמִידִים הַטּוֹבִים חֲכָמִים הֵ֫מָּה:</span></div>
-    ${tableHTML(null, ["Phrase à mettre au pluriel","Traduction"], [
-      ["<span class=\"heb\">2. הַנָּבִיא הַקָּדוֹשׁ צַדִּיק הוּא:</span>","« Le saint prophète est juste »"],
+    ${tableHTML(null, ["Phrase à mettre au pluriel","Traduction littérale"], [
+      ["<span class=\"heb\">2. הַנָּבִיא הַקָּדוֹשׁ צַדִּיק הוּא:</span>",interlinearCompact([["הַנָּבִיא","le.prophète"],["הַקָּדוֹשׁ","le.saint"],["צַדִּיק","juste"],["הוּא","lui"]])],
       ["<span class=\"heb\">3. מֶלֶךְ אַתָּה עַל־יִשְׂרָאֵל:</span>","« Tu es roi sur Israël »"],
-      ["<span class=\"heb\">4. הַמַּלְכָּה הָעֲשִׁירָה רָעָה הִיא:</span>","« La riche reine est mauvaise »"],
-      ["<span class=\"heb\">5. הַכִּסֵּא הַגָּדוֹל עַל־הַשֻּׁלְחָן הוּא:</span>","« Le grand trône est sur la table »"],
-      ["<span class=\"heb\">6. הַנָּבִיא הַטּוֹב בַּבַּ֫יִת הַקָּטֹן בָּעִיר הַגְּדוֹלָה הוּא:</span>","« Le bon prophète est dans la petite maison, dans la grande ville »"],
-      ["<span class=\"heb\">7. נְבִיאָה וּמוֹרָה גְדוֹלָה אַתְּ:</span>","« Tu es une prophétesse et une grande maîtresse »"],
-      ["<span class=\"heb\">8. בַּבַּיִת הֶעָנִי שֻׁלְחָן קָטֹן וְכִסֵּא וּמְנוֹרָה קְדוֹשָׁה:</span>","« Dans la maison pauvre, une petite table, un siège et une lampe sainte »"],
-      ["<span class=\"heb\">9. כֹּהֵן אָנֹכִי וְלֹא מֶלֶךְ וְלֹא נָבִיא:</span>","« Je suis prêtre, et non roi, et non prophète »"],
-      ["<span class=\"heb\">10. בֵּן טוֹב שֵׁם טוֹב הוּא:</span>","« Un bon fils est un bon nom »"]
+      ["<span class=\"heb\">4. הַמַּלְכָּה הָעֲשִׁירָה רָעָה הִיא:</span>",interlinearCompact([["הַמַּלְכָּה","la.reine"],["הָעֲשִׁירָה","la.riche"],["רָעָה","mauvaise"],["הִיא","elle"]])],
+      ["<span class=\"heb\">5. הַכִּסֵּא הַגָּדוֹל עַל־הַשֻּׁלְחָן הוּא:</span>",interlinearCompact([["הַכִּסֵּא","le.trône"],["הַגָּדוֹל","le.grand"],["עַל־הַשֻּׁלְחָן","sur-la.table"],["הוּא","lui"]])],
+      ["<span class=\"heb\">6. הַנָּבִיא הַטּוֹב בַּבַּ֫יִת הַקָּטֹן בָּעִיר הַגְּדוֹלָה הוּא:</span>",interlinearCompact([["הַנָּבִיא","le.prophète"],["הַטּוֹב","le.bon"],["בַּבַּ֫יִת","dans.la.maison"],["הַקָּטֹן","le.petit"],["בָּעִיר","dans.la.ville"],["הַגְּדוֹלָה","la.grande"],["הוּא","lui"]])],
+      ["<span class=\"heb\">7. נְבִיאָה וּמוֹרָה גְדוֹלָה אַתְּ:</span>",interlinearCompact([["נְבִיאָה","prophétesse"],["וּמוֹרָה","et.maîtresse"],["גְדוֹלָה","grande"],["אַתְּ","toi.(f)"]])],
+      ["<span class=\"heb\">8. בַּבַּיִת הֶעָנִי שֻׁלְחָן קָטֹן וְכִסֵּא וּמְנוֹרָה קְדוֹשָׁה:</span>",interlinearCompact([["בַּבַּיִת","dans.la.maison"],["הֶעָנִי","le.pauvre"],["שֻׁלְחָן","table"],["קָטֹן","petit"],["וְכִסֵּא","et.trône"],["וּמְנוֹרָה","et.chandelier"],["קְדוֹשָׁה","sainte"]])],
+      ["<span class=\"heb\">9. כֹּהֵן אָנֹכִי וְלֹא מֶלֶךְ וְלֹא נָבִיא:</span>",interlinearCompact([["כֹּהֵן","prêtre"],["אָנֹכִי","moi"],["וְלֹא","et.pas"],["מֶלֶךְ","roi"],["וְלֹא","et.pas"],["נָבִיא","prophète"]])],
+      ["<span class=\"heb\">10. בֵּן טוֹב שֵׁם טוֹב הוּא:</span>",interlinearCompact([["בֵּן","un.fils"],["טוֹב","bon"],["שֵׁם","nom"],["טוֹב","bon"],["הוּא","lui"]])]
     ])}
     <details style="margin-top:10px;"><summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé</summary>
     ${tableHTML(null, ["N°","Corrigé"], [
@@ -8428,8 +8518,8 @@ function shualiChapter6(){
     ${tableHTML(null, ["N°","Réponse possible"], [
       ["1","<span class=\"heb\">הַנָּבִיא תַּ֫חַת־הָעֵץ הַקָּטֹן:</span> « Le prophète est sous le petit arbre »"],
       ["2","<span class=\"heb\">לֹא, רָעוֹת הֵ֫נָּה:</span> « Non, elles sont mauvaises » (selon le prophète)"],
-      ["3","<span class=\"heb\">הָאָדָם רַע, וְגַם כָּל־הָאָ֫רֶץ:</span> « L'homme est mauvais, et toute la terre aussi »"],
-      ["4","<span class=\"heb\">הַתְּאֵנִים הַטּוֹבוֹת עַל־הַשֻּׁלְחָנוֹת בַּבָּתִּים הַגְּדוֹלִים, וְהַתְּאֵנִים הָרָעוֹת עַל־הָעֵץ הַקָּטֹן שֶׁל הַנָּבִיא:</span> « Les bonnes figues sont sur les tables dans les grandes maisons, et les mauvaises sont sur le petit arbre du prophète »"]
+      ["3","<span class=\"heb\">הָאָדָם רַע, וְגַם כָּל־הָאָ֫רֶץ:</span> " + interlinearInline([["הָאָדָם","l'homme"],["רַע","mauvais"],["וְגַם","et.aussi"],["כָּל־הָאָ֫רֶץ","tout-la.terre"]]) + ""],
+      ["4","<span class=\"heb\">הַתְּאֵנִים הַטּוֹבוֹת עַל־הַשֻּׁלְחָנוֹת בַּבָּתִּים הַגְּדוֹלִים, וְהַתְּאֵנִים הָרָעוֹת עַל־הָעֵץ הַקָּטֹן שֶׁל הַנָּבִיא:</span> " + interlinearInline([["הַתְּאֵנִים","les.figues"],["הַטּוֹבוֹת","les.bonnes"],["עַל־הַשֻּׁלְחָנוֹת","sur-les.tables"],["בַּבָּתִּים","dans.les.maisons"],["הַגְּדוֹלִים","les.grandes"],["וְהַתְּאֵנִים","et.les.figues"],["הָרָעוֹת","les.mauvaises"],["עַל־הָעֵץ","sur-l'arbre"],["הַקָּטֹן","le.petit"],["שֶׁל","de"],["הַנָּבִיא","le.prophète"]]) + ""]
     ])}
     </details>
   </div>
@@ -8478,12 +8568,12 @@ function shualiChapter7(){
       ["6. <span class=\"heb\">וְטוֹבִים / טוֹב / הַגּוֹיִם / הַצַּדִּיק / הַזֶּה / הָעַם / הֵמָּה / כָּל</span>"]
     ])}
     <details style="margin-top:10px;"><summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Corrigé possible</summary>
-    ${tableHTML(null, ["N°","Corrigé","Traduction"], [
-      ["2","<span class=\"heb\">הַבָּתִּים הַגְּדוֹלִים בְּחֶבְרוֹן הֵמָּה׃</span>","« Les grandes maisons sont à Hébron »"],
-      ["3","<span class=\"heb\">הַתְּאֵנִים הַטּוֹבוֹת עַל־הַשֻּׁלְחָנוֹת הַגְּדוֹלִים הֵ֫נָּה׃</span>","« Les bonnes figues sont sur les grandes tables »"],
-      ["4","<span class=\"heb\">הָעִיר הַקְּדוֹשָׁה וְהַיָּפָה הַזֹּאת תַּ֫חַת הָהָר הִיא׃</span>","« Cette ville sainte et belle est sous la montagne »"],
+    ${tableHTML(null, ["N°","Corrigé","Traduction littérale"], [
+      ["2","<span class=\"heb\">הַבָּתִּים הַגְּדוֹלִים בְּחֶבְרוֹן הֵמָּה׃</span>",interlinearCompact([["הַבָּתִּים","les.maisons"],["הַגְּדוֹלִים","les.grandes"],["בְּחֶבְרוֹן","à.Hébron"],["הֵמָּה׃","eux"]])],
+      ["3","<span class=\"heb\">הַתְּאֵנִים הַטּוֹבוֹת עַל־הַשֻּׁלְחָנוֹת הַגְּדוֹלִים הֵ֫נָּה׃</span>",interlinearCompact([["הַתְּאֵנִים","les.figues"],["הַטּוֹבוֹת","les.bonnes"],["עַל־הַשֻּׁלְחָנוֹת","sur-les.tables"],["הַגְּדוֹלִים","les.grandes"],["הֵ֫נָּה׃","elles"]])],
+      ["4","<span class=\"heb\">הָעִיר הַקְּדוֹשָׁה וְהַיָּפָה הַזֹּאת תַּ֫חַת הָהָר הִיא׃</span>",interlinearCompact([["הָעִיר","la.ville"],["הַקְּדוֹשָׁה","la.sainte"],["וְהַיָּפָה","et.la.belle"],["הַזֹּאת","cette"],["תַּ֫חַת","sous"],["הָהָר","la.montagne"],["הִיא׃","elle"]])],
       ["5","<span class=\"heb\">הַמְּלָכִים עֲשִׁירִים הֵם וְהַמְּלָכוֹת עֲשִׁירוֹת הֵ֫נָּה׃</span>","« Les rois sont riches et les reines sont riches » (noter <span class=\"heb\">וַעֲשִׁירוֹת</span> : וְ devant Hatéf)"],
-      ["6","<span class=\"heb\">הָעָם הַצַּדִּיק הַזֶּה טוֹב וְכָל־הַגּוֹיִם טוֹבִים הֵ֫מָּה׃</span>","« Ce peuple juste est bon et toutes les nations sont bonnes »"]
+      ["6","<span class=\"heb\">הָעָם הַצַּדִּיק הַזֶּה טוֹב וְכָל־הַגּוֹיִם טוֹבִים הֵ֫מָּה׃</span>",interlinearCompact([["הָעָם","le.peuple"],["הַצַּדִּיק","le.juste"],["הַזֶּה","celui-ci"],["טוֹב","bon"],["וְכָל־הַגּוֹיִם","et.tout-les.nations"],["טוֹבִים","bons"],["הֵ֫מָּה׃","eux"]])]
     ])}
     <div class="callout info"><span class="ico">💡</span><span>Plusieurs ordres de mots étaient possibles ; ceci n'est qu'une solution.</span></div>
     </details>
@@ -8523,7 +8613,7 @@ function shualiChapter8(){
       ["1","<span class=\"heb\"><span class=\"ns-copule\">הַ</span>מְּנוֹרָה <span class=\"ns-copule\">הַ</span>קְּטַנָּה וְ<span class=\"ns-copule\">הַ</span>יָּפָה <span class=\"ns-copule\">הַ</span>זֹּאת עַל־הַשֻּׁלְחָֽן׃</span>"],
       ["2","<span class=\"heb\"><span class=\"ns-copule\">הָ</span>אֱלֹהִים <span class=\"ns-copule\">הָ</span>רָעִים <span class=\"ns-copule\">הָ</span>אֵ֫לֶּה לֹא אֲדֹנָי הֶֽם׃</span>"],
       ["3","<span class=\"heb\"><span class=\"ns-copule\">הַ</span>כֹּהֵן <span class=\"ns-copule\">הַ</span>צַּדִּיק <span class=\"ns-copule\">הַ</span>זֶּה עֵלִי שְׁמֽוֹ׃</span>"],
-      ["4","<span class=\"heb\">הַעֵצִים הַגְּדוֹלִים וְהַיָּפִים הָאֵ֑לֶּה תְאֵנִים הֵֽמָּה׃</span> — la question réciproque, ex. « Ces grands et beaux arbres sont-ils des figuiers ? »"],
+      ["4","<span class=\"heb\">הַעֵצִים הַגְּדוֹלִים וְהַיָּפִים הָאֵ֑לֶּה תְאֵנִים הֵֽמָּה׃</span> — la question réciproque, ex. " + interlinearInline([["הַעֵצִים","les.arbres"],["הַגְּדוֹלִים","les.grandes"],["וְהַיָּפִים","et.les.beaux"],["הָאֵ֑לֶּה","ceux-ci"],["תְאֵנִים","figues"],["הֵֽמָּה׃","eux"]]) + ""],
       ["5","<span class=\"heb\">הֶעָרִים הַקְּדוֹשׁוֹת הָאֵ֑לֶּה עַל־הָהָר הֵֽנָּה׃</span> déjà donné : « Ces villes saintes sont sur la montagne »"]
     ])}
     </details>
@@ -8637,7 +8727,7 @@ function shualiChapter9(){
       ["8. <span class=\"heb\">הֲט֑וֹב קוֹם לִפְנֵי־הַמּוֹרֶֽה׃</span>"]
     ])}
     <details style="margin-top:10px;"><summary class="ui" style="cursor:pointer;font-size:13px;color:var(--gold-dim);">Traductions des questions</summary>
-    ${tableHTML(null,["N°","Traduction"],[
+    ${tableHTML(null,["N°","Traduction littérale"],[
       ["1","« Est-il bon de manger beaucoup de pain ? »"],
       ["2","« Est-il bon de rester couché toute la journée ? »"],
       ["3","« Est-il bon d'aller après des dieux étrangers ? »"],
@@ -9025,8 +9115,8 @@ function shualiChapter16(){
   <div class="card">
     <h3><span class="en">Grammaire</span>L'emploi de l'infinitif absolu</h3>
     <p>L'infinitif absolu (<span class="heb">שָׁפוֹט, הָלוֹךְ, יָשׁוֹב</span>) s'ajoute à un verbe conjugué pour <b>insister</b> : <span class="heb">הָלוֹךְ אֵלֵךְ</span>, litt. « aller j'irai » = « j'irai certainement ! »</p>
-    ${ex('וַיֹּ֫אמֶר פַּרְעֹה לֵאמֹר אַל־תִּשְׁמַע לְקוֹל אֲדֹנָי וַיֹּ֫אמֶר מֹשֶׁה שָׁמוֹעַ אֶשְׁמַע לְקוֹל אֲדֹנָי','« Pharaon dit : n\'écoute pas la voix du Seigneur ; Moïse dit : j\'écouterai certainement la voix du Seigneur »')}
-    ${ex('וַיֹּאמֶר אֱלֹהִים אֶל־אַבְרָהָם לֵאמֹר לֵךְ אֶל־הַר הַמּוֹרִיָּה עִם־יִצְחָק בִּנְךָ וַיֹּאמֶר אַבְרָהָם הָלוֹךְ אֵלֵךְ','« Dieu dit à Abraham : va au mont Moriah avec Isaac ton fils ; Abraham dit : j\'irai certainement »')}
+    ${interlinear([["וַיֹּ֫אמֶר","et.il.dit"],["פַּרְעֹה","Pharaon"],["לֵאמֹר","disant"],["אַל־תִּשְׁמַע","ne.pas-tu.écouteras"],["לְקוֹל","à.la.voix.de"],["אֲדֹנָי","Seigneur"],["וַיֹּ֫אמֶר","et.il.dit"],["מֹשֶׁה","Moïse"],["שָׁמוֹעַ","écouter"],["אֶשְׁמַע","j'écouterai"],["לְקוֹל","à.la.voix.de"],["אֲדֹנָי","Seigneur"]], null)}
+    ${interlinear([["וַיֹּאמֶר","et.il.dit"],["אֱלֹהִים","Dieu"],["אֶל־אַבְרָהָם","vers-Abraham"],["לֵאמֹר","disant"],["לֵךְ","va"],["אֶל־הַר","vers-montagne"],["הַמּוֹרִיָּה","Moriah"],["עִם־יִצְחָק","avec-Isaac"],["בִּנְךָ","ton.fils"],["וַיֹּאמֶר","et.il.dit"],["אַבְרָהָם","Abraham"],["הָלוֹךְ","aller"],["אֵלֵךְ","j'irai"]], null)}
   </div>
   <div class="card">
     <h3><span class="en">Exercice</span>Ajoutez l'infinitif absolu</h3>
@@ -9670,9 +9760,9 @@ function shualiChapter28(){
     <p>En français, c'est le pronom relatif lui-même qui indique le rapport entre la relative et l'antécédent (<i>qui, dont, que, où</i>). En hébreu, un seul pronom relatif est employé dans la plupart des cas — <span class="heb">אֲשֶׁר</span> — et il <b>n'indique jamais</b> lui-même cette fonction. C'est un <b>pronom rétrospectif</b>, à l'intérieur de la relative, qui s'en charge : un pronom indépendant, un suffixe, ou un adverbe, qui reprend l'antécédent et s'accorde avec lui.</p>
     ${tableHTML(null, ["Fonction du pronom rétrospectif","Exemple"], [
       ["Sujet (pronom indépendant)","<span class=\"heb\">וְהָאִישׁ אֲשֶׁר־הוּא טָהוֹר</span> « et l'homme qui est pur » — litt. « (relatif) lui est pur » (Nombres 9,13)"],
-      ["Complément d'objet (suffixe)","<span class=\"heb\">אֲחִיכֶם אֲשֶׁר־מְכַרְתֶּם אֹתִי מִצְרָיְמָה</span> « votre frère que vous avez vendu en Égypte » — litt. « (relatif) vous m'avez vendu » (Genèse 45,4)"],
-      ["Complément de lieu (suffixe + préposition)","<span class=\"heb\">הָאָרֶץ אֲשֶׁר־הוּא יֹשֵׁב בָּהּ</span> « la terre où il habite » — litt. « (relatif) il habite en elle » (Nombres 13,19)"],
-      ["Possessif (suffixe)","<span class=\"heb\">גּוֹי אֲשֶׁר לֹא־תִשְׁמַע לְשֹׁנוֹ</span> « une nation dont tu ne comprendras pas la langue » — litt. « (relatif) sa langue » (Deutéronome 28,49)"]
+      ["Complément d'objet (suffixe)","<span class=\"heb\">אֲחִיכֶם אֲשֶׁר־מְכַרְתֶּם אֹתִי מִצְרָיְמָה</span> " + interlinearInline([["אֲחִיכֶם","vos.frères"],["אֲשֶׁר־מְכַרְתֶּם","que-vous.avez.vendu"],["אֹתִי","moi.(COD)"],["מִצְרָיְמָה","vers.l'Égypte"]]) + " — litt. « (relatif) vous m'avez vendu » (Genèse 45,4)"],
+      ["Complément de lieu (suffixe + préposition)","<span class=\"heb\">הָאָרֶץ אֲשֶׁר־הוּא יֹשֵׁב בָּהּ</span> " + interlinearInline([["הָאָרֶץ","la.terre"],["אֲשֶׁר־הוּא","que-lui"],["יֹשֵׁב","habitant"],["בָּהּ","en.elle"]]) + " — litt. « (relatif) il habite en elle » (Nombres 13,19)"],
+      ["Possessif (suffixe)","<span class=\"heb\">גּוֹי אֲשֶׁר לֹא־תִשְׁמַע לְשֹׁנוֹ</span> " + interlinearInline([["גּוֹי","nation"],["אֲשֶׁר","que"],["לֹא־תִשְׁמַע","pas-tu.écouteras"],["לְשֹׁנוֹ","sa.langue"]]) + " — litt. « (relatif) sa langue » (Deutéronome 28,49)"]
     ])}
     <div class="callout info"><span class="ico">💡</span><span>Ce pronom rétrospectif est souvent <b>omis</b> quand l'antécédent est complément d'objet direct : <span class="heb">אִשָּׁה אֲשֶׁר־אָהַבְתָּ</span> « une femme que tu aimes » (Ecclésiaste 9,9), sans <span class="heb">אֹתָהּ</span>. Un second pronom relatif, <span class="heb">שֶׁ־</span>, apparaît dans des textes plus tardifs (Qohélet, Cantique des Cantiques, quelques psaumes) — et déjà, ponctuellement, dans le très ancien Cantique de Débora (Juges 5,7). Il existe aussi des relatives <b>sans aucun pronom relatif</b> : <span class="heb">בְּאֶ֫רֶץ לֹא יָדָ֫עְתָּ</span> « dans un pays (que) tu ne connais pas » (Jérémie 15,14).</span></div>
   </div>
@@ -9810,7 +9900,7 @@ function shualiChapter30(){
       ["ע״ו / ע״י","<span class=\"heb\">יָשִׂים</span> « il mettra »","<span class=\"heb\">יָשֵׂם</span> « qu'il mette »"],
       ["ל״ה","<span class=\"heb\">יִשְׁתֶּה</span> « il boira »","<span class=\"heb\">יֵשְׁתְּ</span> « qu'il boive »"]
     ])}
-    <div class="callout warn"><span class="ico">⚠️</span><span>Quand jussif et Yiqtol sont identiques, c'est la <b>syntaxe</b> qui tranche : un Yiqtol ne se met normalement pas en tête de proposition, alors qu'un jussif s'y trouve le plus souvent. Comparez : <span class="heb">וְעֵץ הַשָּׂדֶה יִתֵּן פִּרְיוֹ׃</span> « Et l'arbre du champ donnera son fruit » (Lv 26,4 — Yiqtol, pas en tête) / <span class="heb">יִתֵּן יְהוָה אוֹתָךְ לְאָלָה</span> « Que l'Éternel te donne en malédiction » (Nb 5,21 — jussif, en tête).</span></div>
+    <div class="callout warn"><span class="ico">⚠️</span><span>Quand jussif et Yiqtol sont identiques, c'est la <b>syntaxe</b> qui tranche : un Yiqtol ne se met normalement pas en tête de proposition, alors qu'un jussif s'y trouve le plus souvent. Comparez : <span class="heb">וְעֵץ הַשָּׂדֶה יִתֵּן פִּרְיוֹ׃</span> ${interlinearInline([["וְעֵץ","et.arbre"],["הַשָּׂדֶה","le.champ"],["יִתֵּן","il.donnera"],["פִּרְיוֹ׃","son.fruit"]])} (Lv 26,4 — Yiqtol, pas en tête) / <span class="heb">יִתֵּן יְהוָה אוֹתָךְ לְאָלָה</span> ${interlinearInline([["יִתֵּן","il.donnera"],["יְהוָה","l'Éternel"],["אוֹתָךְ","toi.(COD)"],["לְאָלָה","en.malédiction"]])} (Nb 5,21 — jussif, en tête).</span></div>
   </div>
 
   <div class="card">
@@ -10558,8 +10648,19 @@ function startConjugWriteQuiz(conjugIndex){
   let cells = [];
   item.tables.forEach(t=>{
     const blankCols = t.blank || [1,2];
-    t.rows.forEach(r=>{
-      blankCols.forEach(ci=>{ if(r[ci]) cells.push({label:t.title+' — '+r[0], heb:r[ci]}); });
+    const PERS = ['1ʳᵉ sg.','2ᵉ sg.','3ᵉ sg.','1ʳᵉ pl.','2ᵉ pl.','3ᵉ pl.'];
+    t.rows.forEach((r,ri)=>{
+      blankCols.forEach(ci=>{
+        if(!r[ci]) return;
+        let rl = r[0] || (t.rows.length===6 ? PERS[ri] : '');
+        const hd = String((t.headers||[])[ci]||'');
+        let g = '';
+        if(/^(Féminin|Masculin)/.test(hd)){
+          const other = ci===1 ? r[2] : r[1];
+          g = (/^(Féminin|Masculin)/.test(String((t.headers||[])[ci===1?2:1]||'')) && !other) ? 'féminin et masculin' : hd.split(' / ')[0].toLowerCase();
+        }
+        cells.push({label:t.title+' — '+[rl,g].filter(Boolean).join(' — '), heb:r[ci]});
+      });
     });
   });
   cells = shuffle(cells).slice(0, Math.min(10, cells.length));
@@ -10652,6 +10753,8 @@ function nextTypedQuestion(){
 
 /* ---- Page Exercices (menu) ---- */
 /* ---- Jeux de dialogue : conversation à choix + se présenter ---- */
+const DLG_GLOSS = {"אֵלִיָּ֫הוּ שְׁמִי׃ הֲשָׁלוֹם לְךָ": [["אֵלִיָּ֫הוּ", "Élie"], ["שְׁמִי׃", "mon.nom"], ["הֲשָׁלוֹם", "est-ce.paix"], ["לְךָ", "à.toi"]], "אָנֹכִי נָבִיא וּמוֹרֶה וְאַתָּה תַלְמִיד": [["אָנֹכִי", "moi"], ["נָבִיא", "prophète"], ["וּמוֹרֶה", "et.maître"], ["וְאַתָּה", "et.toi"], ["תַלְמִיד", "disciple"]], "הַבַּיִת — גָּדוֹל אוֹ קָטֹן": [["הַבַּיִת", "la.maison"], ["גָּדוֹל", "grand"], ["אוֹ", "ou"], ["קָטֹן", "petit"]], "וְהָעִיר — גְּדוֹלָה אוֹ קְטַנָּה": [["וְהָעִיר", "et.la.ville"], ["גְּדוֹלָה", "grand"], ["אוֹ", "ou"], ["קְטַנָּה", "petite"]], "הַמֶּלֶךְ הַטּוֹב יֹשֵׁב פֹּה — הָעָם רַע אוֹ טוֹב": [["הַמֶּלֶךְ", "le.roi"], ["הַטּוֹב", "le.bon"], ["יֹשֵׁב", "habitant"], ["פֹּה", "ici"], ["הָעָם", "le.peuple"], ["רַע", "mauvais"], ["אוֹ", "ou"], ["טוֹב", "bon"]], "אַתָּה הֹלֵךְ אֶל־הָעִיר אוֹ מִן־הָעִיר": [["אַתָּה", "toi"], ["הֹלֵךְ", "va"], ["אֶל־הָעִיר", "vers-la.ville"], ["אוֹ", "ou"], ["מִן־הָעִיר", "de-la.ville"]], "אַתְּ הֹלֶכֶת אֶל־הָעִיר אוֹ מִן־הָעִיר": [["אַתְּ", "toi.(f)"], ["הֹלֶכֶת", "allant.(f)"], ["אֶל־הָעִיר", "vers-la.ville"], ["אוֹ", "ou"], ["מִן־הָעִיר", "de-la.ville"]], "הַדֶּרֶךְ הַזֹּאת — הִיא טוֹבָה אוֹ רָעָה": [["הַדֶּרֶךְ", "le.chemin"], ["הַזֹּאת", "cette"], ["הִיא", "elle"], ["טוֹבָה", "bonne"], ["אוֹ", "ou"], ["רָעָה", "mauvaise"]], "מָה אַתָּה שֹׁאֵל פֹּה": [["מָה", "quoi.?"], ["אַתָּה", "toi"], ["שֹׁאֵל", "demandant"], ["פֹּה", "ici"]], "מָה אַתְּ שֹׁאֶלֶת פֹּה": [["מָה", "quoi.?"], ["אַתְּ", "toi.(f)"], ["שֹׁאֶלֶת", "demandant.(f)"], ["פֹּה", "ici"]], "הַאִישׁ אַתָּה אוֹ נַעַר": [["הַאִישׁ", "l'homme"], ["אַתָּה", "toi"], ["אוֹ", "ou"], ["נַעַר", "jeune.garçon"]], "הַאִשָּׁה אַתְּ אוֹ נַעֲרָה": [["הַאִשָּׁה", "la.femme"], ["אַתְּ", "toi.(f)"], ["אוֹ", "ou"], ["נַעֲרָה", "jeune.fille"]], "עַתָּה קוּם וְרֵד אֶל־הַמַּחֲנֶה": [["עַתָּה", "maintenant"], ["קוּם", "lève-toi"], ["וְרֵד", "et.descends"], ["אֶל־הַמַּחֲנֶה", "vers-le.camp"]], "עַתָּה קוּמִי וּרְדִי אֶל־הַמַּחֲנֶה": [["עַתָּה", "maintenant"], ["קוּמִי", "lève-toi.(f)"], ["וּרְדִי", "et.descends.(f)"], ["אֶל־הַמַּחֲנֶה", "vers-le.camp"]], "הֲקָרוֹב הַסֵּפֶר הַזֶּה אוֹ רָחוֹק": [["הֲקָרוֹב", "est-ce.proche"], ["הַסֵּפֶר", "le.livre"], ["הַזֶּה", "celui-ci"], ["אוֹ", "ou"], ["רָחוֹק", "loin"]], "הַאָדוֹן אַתָּה בַּבַּיִת הַזֶּה": [["הַאָדוֹן", "le.maître"], ["אַתָּה", "toi"], ["בַּבַּיִת", "dans.la.maison"], ["הַזֶּה", "celui-ci"]], "הַאָדוֹן אַתְּ בַּבַּיִת הַזֶּה": [["הַאָדוֹן", "le.maître"], ["אַתְּ", "toi.(f)"], ["בַּבַּיִת", "dans.la.maison"], ["הַזֶּה", "celui-ci"]], "הַאִם מַלְכֵי הָאָרֶץ יְדִידֶיךָ": [["הַאִם", "est-ce.que"], ["מַלְכֵי", "rois.de"], ["הָאָרֶץ", "la.terre"], ["יְדִידֶיךָ", "tes.amis"]], "הַאִם מַלְכֵי הָאָרֶץ יְדִידַיִךְ": [["הַאִם", "est-ce.que"], ["מַלְכֵי", "rois.de"], ["הָאָרֶץ", "la.terre"], ["יְדִידַיִךְ", "tes.amis.(f)"]], "מִי אַתָּה וּמָה אַתָּה מְבַקֵּשׁ": [["מִי", "qui.?"], ["אַתָּה", "toi"], ["וּמָה", "et.quel"], ["אַתָּה", "toi"], ["מְבַקֵּשׁ", "cherchant"]], "מִי אַתְּ וּמָה אַתְּ מְבַקֶּשֶׁת": [["מִי", "qui.?"], ["אַתְּ", "toi.(f)"], ["וּמָה", "et.quel"], ["אַתְּ", "toi.(f)"], ["מְבַקֶּשֶׁת", "cherchant.(f)"]], "כִּי מָה תָּבוֹא הֵנָּה": [["כִּי", "car"], ["מָה", "quoi.?"], ["תָּבוֹא", "tu.viendras"], ["הֵנָּה", "elles"]], "הֲיָדַעְתָּ כִּי גָדוֹל הַמֶּלֶךְ בָּעִיר הַזֹּאת": [["הֲיָדַעְתָּ", "as-tu.su"], ["כִּי", "car"], ["גָדוֹל", "grand"], ["הַמֶּלֶךְ", "le.roi"], ["בָּעִיר", "dans.la.ville"], ["הַזֹּאת", "cette"]], "הֲיָדַעַתְּ כִּי גָדוֹל הַמֶּלֶךְ בָּעִיר הַזֹּאת": [["הֲיָדַעַתְּ", "as-tu.su.(f)"], ["כִּי", "car"], ["גָדוֹל", "grand"], ["הַמֶּלֶךְ", "le.roi"], ["בָּעִיר", "dans.la.ville"], ["הַזֹּאת", "cette"]], "הַאִם אַתָּה מְלַמֵּד אֶת־הַתַּלְמִידִים": [["הַאִם", "est-ce.que"], ["אַתָּה", "toi"], ["מְלַמֵּד", "enseignant"], ["אֶת־הַתַּלְמִידִים", "(COD)-les.élèves"]], "הַאִם אַתְּ מְלַמֶּדֶת אֶת־הַתַּלְמִידִים": [["הַאִם", "est-ce.que"], ["אַתְּ", "toi.(f)"], ["מְלַמֶּדֶת", "enseignant.(f)"], ["אֶת־הַתַּלְמִידִים", "(COD)-les.élèves"]], "הֲשָׁמוֹר תִּשְׁמֹר אֶת־בְּרִית הַמֶּלֶךְ": [["הֲשָׁמוֹר", "est-ce.garder"], ["תִּשְׁמֹר", "tu.garderas"], ["אֶת־בְּרִית", "(COD)-alliance"], ["הַמֶּלֶךְ", "le.roi"]], "הֲנוֹלַד לְךָ בֵן בַּמִּלְחָמָה הַזֹּאת": [["הֲנוֹלַד", "est-il.né"], ["לְךָ", "à.toi"], ["בֵן", "fils"], ["בַּמִּלְחָמָה", "dans.la.guerre"], ["הַזֹּאת", "cette"]], "הֲנוֹלְדָה לָךְ בַת בַּמִּלְחָמָה הַזֹּאת": [["הֲנוֹלְדָה", "est-elle.née"], ["לָךְ", "à.toi"], ["בַת", "fille"], ["בַּמִּלְחָמָה", "dans.la.guerre"], ["הַזֹּאת", "cette"]], "הֲהִצַּלְתִּי אֶתְכֶם מִיַּד אוֹיְבֵיכֶם": [["הֲהִצַּלְתִּי", "ai-je.sauvé"], ["אֶתְכֶם", "vous.(COD)"], ["מִיַּד", "de.la.main.de"], ["אוֹיְבֵיכֶם", "vos.ennemis"]], "נָקוּמָה עַתָּה וְנוֹדֶה לַיהוה": [["נָקוּמָה", "levons-nous"], ["עַתָּה", "maintenant"], ["וְנוֹדֶה", "et.rendons.grâce"], ["לַיהוה", "à.l'Éternel"]], "הֲשָׁמוּר הָיָה הַחֹק בְּעֵינֶיךָ": [["הֲשָׁמוּר", "est-ce.gardé"], ["הָיָה", "il.y.avait"], ["הַחֹק", "la.loi"], ["בְּעֵינֶיךָ", "à.tes.yeux"]], "הֲשָׁמוּר הָיָה הַחֹק בְּעֵינַיִךְ": [["הֲשָׁמוּר", "est-ce.gardé"], ["הָיָה", "il.y.avait"], ["הַחֹק", "la.loi"], ["בְּעֵינַיִךְ", "à.tes.yeux.(f)"]], "צַדִּיק אַתָּה בְּעֵינֵי הַשֹּׁפֵט": [["צַדִּיק", "juste"], ["אַתָּה", "toi"], ["בְּעֵינֵי", "aux.yeux.de"], ["הַשֹּׁפֵט", "le.juge"]], "צַדִּיקָה אַתְּ בְּעֵינֵי הַשֹּׁפֵט": [["צַדִּיקָה", "juste.(f)"], ["אַתְּ", "toi.(f)"], ["בְּעֵינֵי", "aux.yeux.de"], ["הַשֹּׁפֵט", "le.juge"]], "הֲקַמְתָּ בַּבֹּקֶר אוֹ עוֹד יָשֵׁן אַתָּה": [["הֲקַמְתָּ", "t'es-tu.levé"], ["בַּבֹּקֶר", "au.matin"], ["אוֹ", "ou"], ["עוֹד", "pas.d'autre"], ["יָשֵׁן", "dormant"], ["אַתָּה", "toi"]], "הֲקַמְתְּ בַּבֹּקֶר אוֹ עוֹד יְשֵׁנָה אַתְּ": [["הֲקַמְתְּ", "t'es-tu.levée"], ["בַּבֹּקֶר", "au.matin"], ["אוֹ", "ou"], ["עוֹד", "pas.d'autre"], ["יְשֵׁנָה", "dormant.(f)"], ["אַתְּ", "toi.(f)"]], "הֲסַבּוֹתָ אֶת־הָהָר הַזֶּה כְּבָר": [["הֲסַבּוֹתָ", "as-tu.entouré"], ["אֶת־הָהָר", "(COD)-la.montagne"], ["הַזֶּה", "celui-ci"], ["כְּבָר", "déjà"]], "הֲסַבּוֹת אֶת־הָהָר הַזֶּה כְּבָר": [["הֲסַבּוֹת", "as-tu.entouré.(f)"], ["אֶת־הָהָר", "(COD)-la.montagne"], ["הַזֶּה", "celui-ci"], ["כְּבָר", "déjà"]], "לָ֫כְנָה בָּנוֹת וְשֵׁ֫בְנָה לְפָנַי": [["לָ֫כְנָה", "allez.(f)"], ["בָּנוֹת", "filles"], ["וְשֵׁ֫בְנָה", "et.asseyez-vous.(f)"], ["לְפָנַי", "devant.moi"]], "בָּרוּ֣ךְ אַתָּ֔ה בְּבֹאֶ֖ךָ וּבָרוּ֥ךְ אַתָּ֖ה בְּצֵאתֶֽךָ": [["בָּרוּ֣ךְ", "béni"], ["אַתָּ֔ה", "toi"], ["בְּבֹאֶ֖ךָ", "dans.ton.entrée"], ["וּבָרוּ֥ךְ", "et.béni"], ["אַתָּ֖ה", "toi"], ["בְּצֵאתֶֽךָ", "dans.ta.sortie"]], "בְּרוּכָ֣ה אַ֔תְּ בְּבֹאֵ֖ךְ וּבְרוּכָ֥ה אַ֖תְּ בְּצֵאתֵֽךְ": [["בְּרוּכָ֣ה", "bénie"], ["אַ֔תְּ", "toi.(f)"], ["בְּבֹאֵ֖ךְ", "dans.ton.entrée.(f)"], ["וּבְרוּכָ֥ה", "et.bénie"], ["אַ֖תְּ", "toi.(f)"], ["בְּצֵאתֵֽךְ", "dans.ta.sortie.(f)"]], "הֲלָמַדְתָּ הַרְבֵּה בַּדֶּרֶךְ הַזֹּאת": [["הֲלָמַדְתָּ", "as-tu.appris"], ["הַרְבֵּה", "beaucoup"], ["בַּדֶּרֶךְ", "sur.le.chemin"], ["הַזֹּאת", "cette"]], "הֲלָמַדְתְּ הַרְבֵּה בַּדֶּרֶךְ הַזֹּאת": [["הֲלָמַדְתְּ", "as-tu.appris.(f)"], ["הַרְבֵּה", "beaucoup"], ["בַּדֶּרֶךְ", "sur.le.chemin"], ["הַזֹּאת", "cette"]]};
+Object.assign(DLG_GLOSS, {"אֱלִישָׁע תַּלְמִיד אַתָּה וְנָבִיא׃": [["אֱלִישָׁע", "Élisée"], ["תַּלְמִיד", "disciple"], ["אַתָּה", "toi"], ["וְנָבִיא׃", "et.prophète"]], "טוֹב מְאֹד — עַתָּה אַתָּה יוֹדֵעַ אֶת־הָעִיר הַזֹּאת׃": [["טוֹב", "bon"], ["מְאֹד", "très"], ["עַתָּה", "maintenant"], ["אַתָּה", "toi"], ["יוֹדֵעַ", "sachant"], ["אֶת־הָעִיר", "(COD)-la.ville"], ["הַזֹּאת׃", "cette"]], "שְׁבָה עִמָּנוּ וְנוּחַ מְעַט׃": [["שְׁבָה", "assieds-toi"], ["עִמָּנוּ", "avec.nous"], ["וְנוּחַ", "et.repose-toi"], ["מְעַט׃", "peu"]], "הִנֵּה הַלֶּחֶם וְהַיַּיִן — שָׁלוֹם לָךְ׃": [["הִנֵּה", "voici"], ["הַלֶּחֶם", "le.pain"], ["וְהַיַּיִן", "et.le.vin"], ["שָׁלוֹם", "paix"], ["לָךְ׃", "à.toi"]], "טוֹב מְאֹד — שָׁלוֹם עָלֶיךָ׃": [["טוֹב", "bon"], ["מְאֹד", "très"], ["שָׁלוֹם", "paix"], ["עָלֶיךָ׃", "sur.toi"]], "טוֹב — הִנֵּה לֶחֶם בַּמַּחֲנֶה, אֱכֹל וָחְיֵה׃": [["טוֹב", "bon"], ["הִנֵּה", "voici"], ["לֶחֶם", "du.pain"], ["בַּמַּחֲנֶה", "dans.le.camp"], ["אֱכֹל", "mange"], ["וָחְיֵה׃", "et.vis"]], "בְּרָכָה עָלֶיךָ מֵאֵת אֲדֹנָי׃": [["בְּרָכָה", "bénédiction"], ["עָלֶיךָ", "sur.toi"], ["מֵאֵת", "de.la.part.de"], ["אֲדֹנָי׃", "Seigneur"]], "בּוֹא בְשָׁלוֹם — הַשַּׁעַר פָּתוּחַ לְךָ׃": [["בּוֹא", "viens"], ["בְשָׁלוֹם", "en.paix"], ["הַשַּׁעַר", "la.porte"], ["פָּתוּחַ", "ouvert"], ["לְךָ׃", "à.toi"]], "בָּרוּךְ הַמּוֹרֶה הַמְלַמֵּד בֶּאֱמֶת׃": [["בָּרוּךְ", "béni"], ["הַמּוֹרֶה", "le.maître"], ["הַמְלַמֵּד", "l'enseignant"], ["בֶּאֱמֶת׃", "avec.vérité"]], "שָׁלוֹם לְךָ הַגִּבּוֹר — נוּחַ עַתָּה׃": [["שָׁלוֹם", "paix"], ["לְךָ", "à.toi"], ["הַגִּבּוֹר", "le.vaillant"], ["נוּחַ", "repose-toi"], ["עַתָּה׃", "maintenant"]], "לֵךְ לְשָׁלוֹם וְשׁוּב בְּשָׁלוֹם׃": [["לֵךְ", "va"], ["לְשָׁלוֹם", "en.paix"], ["וְשׁוּב", "et.reviens"], ["בְּשָׁלוֹם׃", "en.paix"]], "רוּחַ טוֹבָה תְּלַוֶּה אֶתְכֶם׃": [["רוּחַ", "un.vent"], ["טוֹבָה", "bonne"], ["תְּלַוֶּה", "accompagnera"], ["אֶתְכֶם׃", "vous.(COD)"]], "לֵךְ בְּדַרְכֵי יהוה כָּל־יְמֵי חַיֶּיךָ׃": [["לֵךְ", "va"], ["בְּדַרְכֵי", "dans.les.voies.de"], ["יהוה", "l'Éternel"], ["כָּל־יְמֵי", "tout-jours.de"], ["חַיֶּיךָ׃", "ta.vie"]]});
 const DIALOGUES = [
   {
     id: 'eliyahu-elisha',
@@ -11231,7 +11334,7 @@ function viewDialogueGame(){
     return `<div class="topline"><div><div class="eyebrow">${d.title}</div><h1>🎉 Terminé</h1></div>
       <button class="navbtn" onclick="DIALOGUE=null; go('dialoguepicker')">Retour</button></div>
     <div class="card">
-      <p class="heb" style="font-size:1.15em;">${d.outro}</p>
+      ${(()=>{const oh=d.outro.split(' (')[0]; if(!DLG_GLOSS[oh]) return `<p class="heb" style="font-size:1.15em;">${d.outro}</p>`; const nm=d.outro.match(/»\s*[—-]\s*([^)]+)\)/); return `<p class="heb" style="font-size:1.15em;">${oh}</p>${interlinearCompact(DLG_GLOSS[oh])}${nm?`<p class="ui" style="font-size:12.5px;color:var(--text-soft);">${nm[1]}</p>`:''}`;})()}
       <p class="ui" style="margin-top:12px;">Score : ${g.score}/${d.turns.length}</p>
       <button class="navbtn" style="margin-top:10px;" onclick="pickPersona('${d.id}')">Rejouer →</button> <button class="navbtn" onclick="go('dialoguepicker')">Autre dialogue →</button>
     </div>`;
@@ -11243,7 +11346,7 @@ function viewDialogueGame(){
   return `<div class="topline"><div><div class="eyebrow">${d.title} — ${g.turn+1}/${d.turns.length}</div><h1>💬 Dialogue</h1></div>
     <button class="navbtn" onclick="DIALOGUE=null; go('dialoguepicker')">Quitter</button></div>
   <div class="card">
-    <div class="rule"><span class="heb" style="font-size:1.2em;">${npcLine}</span><div class="tr" style="font-style:italic;margin-top:6px;">${t.fr}</div>${glossHTML}</div>
+    <div class="rule"><span class="heb" style="font-size:1.2em;">${npcLine}</span>${DLG_GLOSS[npcLine] ? interlinearCompact(DLG_GLOSS[npcLine]) : `<div class="tr" style="font-style:italic;margin-top:6px;">${t.fr}</div>${glossHTML}`}</div>
     <p class="ui" style="font-size:12.5px;color:var(--text-soft);margin-top:12px;">Choisissez votre réponse :</p>
     <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
       ${opts.map((o,i)=>`<button class="matchbtn heb" style="text-align:right;font-size:16px;" ${g.answered?'disabled':''} onclick="answerDialogue(${i})">${esc(o.t)}</button>`).join('')}
