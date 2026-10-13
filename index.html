@@ -345,7 +345,7 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
 
 /* ---------- clavier virtuel hébreu ---------- */
 .azkeyboard{background:var(--parchment);border:1px solid var(--parchment2);border-radius:10px;padding:10px;margin:8px 0 14px;}
-.azkb-row{display:flex;gap:4px;margin-bottom:4px;justify-content:center;}
+.azkb-row{display:flex;gap:4px;margin-bottom:4px;justify-content:center;flex-wrap:wrap;}
 .azkb-row:last-child{margin-bottom:0;}
 .azkbtn{
   position:relative;min-width:30px;height:36px;flex:1;max-width:38px;padding:0 2px;border-radius:6px;border:1px solid var(--parchment2);
@@ -982,7 +982,7 @@ function hebKeyboardHTML(targetId){
   }).join('');
   return `<div class="azkeyboard">
     ${rows}
-    <div class="azkb-row"><button type="button" class="azkbtn azwide" onclick="hebKbInsert('${targetId}','&#x05BE;')" title="Maqaf">־ Maqaf</button><button type="button" class="azkbtn azwide" onclick="hebKbInsert('${targetId}',' ')">Espace</button><button type="button" class="azkbtn azwide" onclick="hebKbBackspace('${targetId}')">⌫ Effacer</button></div>
+    <div class="azkb-row"><button type="button" class="azkbtn azwide" onclick="hebKbInsert('${targetId}','&#x05BE;')" title="Maqaf">־ Maqaf</button><button type="button" class="azkbtn azwide" onclick="hebKbInsert('${targetId}','&#x05C3;')" title="Fin de verset (sof pasuq)">׃ Fin verset</button><button type="button" class="azkbtn azwide" onclick="hebKbInsert('${targetId}','&#x05AB;')" title="Accent tonique déplacé (après la voyelle)"><span class="heb" style="font-size:1.1em;">◌֫</span> Accent</button><button type="button" class="azkbtn azwide" onclick="hebKbInsert('${targetId}','&#x05BD;')" title="Meteg / silluq"><span class="heb" style="font-size:1.1em;">◌ֽ</span> Meteg</button><button type="button" class="azkbtn azwide" onclick="hebKbInsert('${targetId}','&#x05C0;')" title="Paseq">׀ Paseq</button><button type="button" class="azkbtn azwide" onclick="hebKbInsert('${targetId}',' ')">Espace</button><button type="button" class="azkbtn azwide" onclick="hebKbBackspace('${targetId}')">⌫ Effacer</button></div>
     <p class="ui" style="font-size:11px;color:var(--text-soft);margin:6px 2px 0;">Appui bref = lettre nue. Appui maintenu = voyelles/variantes (clic ou touche numérique pour choisir).</p>
   </div>`;
 }
@@ -10056,7 +10056,7 @@ function viewWorkspace(){
       <div class="ws-alpha-label">Demi-voyelles et autres signes — le ◌ est un cercle de repère, ne pas le copier</div>
       <div class="ws-alpha-grid">
         ${[['◌ֲ','hatef-patah','AltGr+À','\u05B2'],['◌ֱ','hatef-ségol','AltGr+È','\u05B1'],['◌ֳ','hatef-qamats','AltGr+)','\u05B3'],
-           ['◌ְ','shéva',':','\u05B0'],['◌ּ','dagesh','.','\u05BC'],['־','maqaf','-'],['◌֫','accent tonique (déplacé)','E','\u05AB'],['׃','fin de verset (sof pasuq)','Option+:']
+           ['◌ְ','shéva',':','\u05B0'],['◌ּ','dagesh','.','\u05BC'],['־','maqaf','-'],['◌֫','accent tonique (déplacé)','E','\u05AB'],['׃','fin de verset (sof pasuq)','Option+:','\u05C3'],['◌ֽ','meteg / silluq','Option+E','\u05BD'],['׀','paseq','Maj+E','\u05C0']
         ].map(([heb,name,key,copyVal])=>`<div class="ws-alpha-cell" onclick="wsCopyChar('${(copyVal||heb).replace(/'/g,"\\'")}', this)" title="Cliquer pour copier"><span class="heb">${heb}</span><span class="ws-alpha-name">${name}</span><span class="ws-alpha-key">${key}</span></div>`).join('')}
       </div>
     </div>
@@ -10235,7 +10235,7 @@ function wsInsertAtCaret(text){
    Table générée à partir du fichier « Clavier_hebreu_Denoual.keylayout » (Mac) :
    chaque touche physique -> [normal, Maj, Option/AltGr, Maj+Option/AltGr].
    La frappe suit la POSITION de la touche (disposition AZERTY française Apple), pas l'étiquette. */
-const DENOUAL_KB = {"KeyA": ["\u05e7", "", "", ""], "KeyS": ["\u05e1", "", "", ""], "KeyD": ["\u05d3", "", "", ""], "KeyF": ["\u05e4", "", "\u05e3", ""], "KeyH": ["\u05d4", "\u05d7", "", ""], "KeyG": ["\u05d2", "", "", ""], "KeyZ": ["\u05e9\u05c1", "\u05e9\u05c2", "", ""], "KeyX": ["", "", "", ""], "KeyC": ["\u05db", "\u05db", "\u05da", ""], "KeyV": ["\u05d5", "\u05d5\u05bc", "", ""], "KeyB": ["\u05d1\u05bc", "\u05d1", "", ""], "KeyQ": ["\u05d0", "\u05e2", "", ""], "KeyW": ["\u05d6", "", "", ""], "KeyE": ["\u05ab", "", "", ""], "KeyR": ["\u05e8", "", "", ""], "KeyY": ["\u05d9", "\u05e6", "\u05e5", ""], "KeyT": ["\u05ea", "\u05d8", "", ""], "Digit1": ["&", "1", "", ""], "Digit2": ["\u05b5", "2", "", ""], "Digit3": ["\"", "3", "", ""], "Digit4": ["'", "4", "", ""], "Digit6": ["\u00a7", "6", "", ""], "Digit5": ["(", "5", "", ""], "Equal": ["\u05be", "@", "", ""], "Digit9": ["", "9", "", ""], "Digit7": ["\u05b6", "7", "\u05b1", ""], "Minus": [")", "\u00b0", "", ""], "Digit8": ["!", "8", "", ""], "Digit0": ["\u05b7", "0", "\u05b2", ""], "BracketRight": ["$", "*", "\u20ac", ""], "KeyO": ["\u05b9", "\u05d5\u05b9", "", ""], "KeyU": ["\u05bb", "\u05d5\u05bc", "", ""], "BracketLeft": ["", "", "", ""], "KeyI": ["\u05b4", "\u05b4\u05d9", "", ""], "KeyP": ["\u05e4\u05bc", "\u05e4", "\u05e3\u05bc", ""], "KeyL": ["\u05dc", "", "", ""], "KeyJ": ["", "", "", ""], "Quote": ["", "", "", ""], "KeyK": ["\u05db\u05bc", "\u05db", "\u05da\u05bc", ""], "Semicolon": ["\u05de", "", "\u05dd", ""], "Backslash": ["%", "", "", ""], "Comma": [";", "\u05bc", "", ""], "Slash": ["=", "+", "", ""], "KeyN": ["\u05e0", "", "\u05df", ""], "KeyM": [",", "?", "", ""], "Period": ["\u05b0", "/", "\u05c3", ""], "TOPLEFT": ["\u05b8", "#", "\u05b3", ""], "ANGLE": ["<", ">", "", ""]};
+const DENOUAL_KB = {"KeyA": ["\u05e7", "", "", ""], "KeyS": ["\u05e1", "", "", ""], "KeyD": ["\u05d3", "", "", ""], "KeyF": ["\u05e4", "", "\u05e3", ""], "KeyH": ["\u05d4", "\u05d7", "", ""], "KeyG": ["\u05d2", "", "", ""], "KeyZ": ["\u05e9\u05c1", "\u05e9\u05c2", "", ""], "KeyX": ["", "", "", ""], "KeyC": ["\u05db", "\u05db", "\u05da", ""], "KeyV": ["\u05d5", "\u05d5\u05bc", "", ""], "KeyB": ["\u05d1\u05bc", "\u05d1", "", ""], "KeyQ": ["\u05d0", "\u05e2", "", ""], "KeyW": ["\u05d6", "", "", ""], "KeyE": ["\u05ab", "\u05c0", "\u05bd", ""], "KeyR": ["\u05e8", "", "", ""], "KeyY": ["\u05d9", "\u05e6", "\u05e5", ""], "KeyT": ["\u05ea", "\u05d8", "", ""], "Digit1": ["&", "1", "", ""], "Digit2": ["\u05b5", "2", "", ""], "Digit3": ["\"", "3", "", ""], "Digit4": ["'", "4", "", ""], "Digit6": ["\u00a7", "6", "", ""], "Digit5": ["(", "5", "", ""], "Equal": ["\u05be", "@", "", ""], "Digit9": ["", "9", "", ""], "Digit7": ["\u05b6", "7", "\u05b1", ""], "Minus": [")", "\u00b0", "", ""], "Digit8": ["!", "8", "", ""], "Digit0": ["\u05b7", "0", "\u05b2", ""], "BracketRight": ["$", "*", "\u20ac", ""], "KeyO": ["\u05b9", "\u05d5\u05b9", "", ""], "KeyU": ["\u05bb", "\u05d5\u05bc", "", ""], "BracketLeft": ["", "", "", ""], "KeyI": ["\u05b4", "\u05b4\u05d9", "", ""], "KeyP": ["\u05e4\u05bc", "\u05e4", "\u05e3\u05bc", ""], "KeyL": ["\u05dc", "", "", ""], "KeyJ": ["", "", "", ""], "Quote": ["", "", "", ""], "KeyK": ["\u05db\u05bc", "\u05db", "\u05da\u05bc", ""], "Semicolon": ["\u05de", "", "\u05dd", ""], "Backslash": ["%", "", "", ""], "Comma": [";", "\u05bc", "", ""], "Slash": ["=", "+", "", ""], "KeyN": ["\u05e0", "", "\u05df", ""], "KeyM": [",", "?", "", ""], "Period": ["\u05b0", "/", "\u05c3", ""], "TOPLEFT": ["\u05b8", "#", "\u05b3", ""], "ANGLE": ["<", ">", "", ""]};
 function isAltGrPressed(e){
   return !!(e.getModifierState && (e.getModifierState('AltGraph') || (e.getModifierState('Control') && e.getModifierState('Alt'))));
 }
@@ -13532,5 +13532,6 @@ function dismissDageshNotice(){
   try{ localStorage.setItem('hb_dagesh_notice_dismissed','1'); }catch(e){}
 }
 </script>
+<div id="verTag" style="position:fixed;right:6px;bottom:4px;font:10px Inter,sans-serif;color:#999;opacity:.7;pointer-events:none;z-index:5;">version 13-10-2026 · tableaux centrés</div>
 </body>
 </html>
