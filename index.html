@@ -12225,18 +12225,19 @@ function isaWordCard(w){
    +'<span class="isa-gl" onclick="this.classList.toggle(\'revealed\')"><span class="isa-gh">👆 sens</span><span class="isa-gv">'+esc(w.f)+' — '+esc(w.lem)+'</span></span><span class="ui isa-ref">'+w.r+'</span></div>'
    +'<div class="isa-body"><div class="isa-segs">'+isaSegHTML(w)+'</div><div class="ui isa-morph">'+isaMorph(w)+'</div>'
    +(w.n?'<div class="ui isa-note">ℹ️ '+esc(w.n)+'</div>':'')
-   +'<div class="ui isa-courses"><b>Cours liés</b> : '+isaCourses(w)+'</div></div></div>';
+   +'<div class="ui isa-courses"><b>Cours liés</b> : '+isaCourses(w)+'</div><div style="margin-top:6px;"><button class="btn-ghost" onclick="isaDlOne(\''+w.r+'\')">⬇️ Cette fiche</button></div></div></div>';
 }
 function viewIsa6(){
   let out='<div class="topline"><div><div class="eyebrow">יְשַׁעְיָהוּ ו׳</div><h1>📜 Esaïe 6</h1></div><button class="navbtn" onclick="go(\'isagames\')">← Esaïe 6</button></div>';
   out+='<div class="card"><p>Le chapitre en entier (13 versets, 188 mots). Pour chaque verset : 🔊 écoute, <b>traduction littérale mot à mot sur demande</b> (touchez un mot), puis une <b>analyse</b> de chaque mot — découpage (préfixes, mot, suffixes), racine, forme, temps, conjugaison — avec les <b>renvois aux cours</b>.</p>'
    +'<p style="text-align:center;"><button class="btn-reveal" onclick="go(\'isagames\')">🎮 Jouer avec Esaïe 6</button></p>'
+   +'<p style="text-align:center;"><button class="navbtn" onclick="isaDlAll()">⬇️ Télécharger toute l\'analyse (.md)</button></p>'
    +'<details class="ui" style="font-size:13px;color:var(--text-soft);"><summary>Sources et limites</summary><p>Texte : Open Hebrew Bible (OHB, d\'après le Codex de Léningrad), avec accents. Analyse morphologique : <b>STEPBible – TAHOT</b> (Tyndale House, Cambridge), licence <b>CC BY 4.0</b> — stepbible.org. Les traductions mot à mot, les racines en français et les renvois aux cours ont été établis pour cette application. <b>Elles n\'ont pas été confrontées au dictionnaire Sander</b> (le PDF fourni est une image sans texte exploitable) : à vérifier de votre côté, en particulier les mots signalés par ℹ️ (ex. נִדְמֵיתִי, sens débattu).</p></details></div>';
   for(let v=1; v<=13; v++){
     const ws=ISA6.filter(w=>w.v===v);
     const pairs=ws.map(w=>[w.h, w.f]);
     out+='<div class="card isa-verse"><h3><span class="en">Verset '+v+'</span>Esaïe 6,'+v+'</h3>'+interlinear(pairs,'')
-     +'<details class="isa-an"><summary>🔬 Analyse mot à mot du verset '+v+'</summary>'+ws.map(isaWordCard).join('')+'</details></div>';
+     +'<details class="isa-an"><summary>🔬 Analyse mot à mot du verset '+v+'</summary>'+ws.map(isaWordCard).join('')+'<p><button class="navbtn" onclick="isaDlVerse('+v+')">⬇️ Télécharger l\'analyse du verset '+v+'</button></p></details></div>';
   }
   return out;
 }
@@ -12332,7 +12333,7 @@ function igStart(mode){
   igLoad(); go('isagame');
 }
 function igLoad(){
-  const w=IG.order[IG.idx]; IG.w=w; IG.step=0; IG.answered=false; IG.card=false;
+  const w=IG.order[IG.idx]; IG.w=w; (IG.seen=IG.seen||[]).push(w); IG.step=0; IG.answered=false; IG.card=false;
   IG.steps = IG.mode==='verbes' ? igMakeVerb(w,IG.maxC) : IG.mode==='mots' ? igMakeWord(w,IG.maxC) : igMakeTrad(w);
 }
 function igAnswer(i){
@@ -12374,7 +12375,8 @@ function igFiche(w){
    +'<div class="isa-body"><div class="isa-segs">'+isaSegHTML(w)+'</div><div class="ui isa-morph">'+isaMorph(w)+'</div>'
    +(w.n?'<div class="ui isa-note">ℹ️ '+esc(w.n)+'</div>':'')
    +'<div class="ui isa-courses"><b>Cours à revoir</b> : '+isaCourses(w)+'</div>'
-   +(w.rac?'<div class="ui isa-note">📕 Dictionnaire Sander : à chercher sous la racine <span class="heb-static" dir="rtl">'+w.rac+'</span> (à vérifier).</div>':'')+'</div></div>';
+   +(w.rac?'<div class="ui isa-note">📕 Dictionnaire Sander : à chercher sous la racine <span class="heb-static" dir="rtl">'+w.rac+'</span> (à vérifier).</div>':'')
+   +'<div style="margin-top:8px;"><button class="navbtn" onclick="isaDlOne(\''+w.r+'\')">⬇️ Télécharger cette fiche</button></div></div></div>';
 }
 function viewIsaGame(){
   if(!IG) return viewIsaGames();
@@ -12382,8 +12384,8 @@ function viewIsaGame(){
   if(IG.over){
     const acc=IG.total?Math.round(IG.correct/IG.total*100):0;
     return '<div class="topline"><div><div class="eyebrow">Résultat</div><h1>'+d.icon+' '+d.title+'</h1></div></div><div class="qbox" style="text-align:center;"><div class="statgrid" style="max-width:520px;margin:0 auto 18px;"><div class="statbox"><b>'+IG.points+'</b><span>Points</span></div><div class="statbox"><b>'+IG.correct+'/'+IG.total+'</b><span>Bonnes réponses ('+acc+'%)</span></div><div class="statbox"><b>'+IG.best+'</b><span>Meilleure série</span></div></div>'
-     +(IG.wrong.length?'<div style="text-align:left;margin:0 auto 14px;max-width:620px;"><h4>À revoir</h4>'+IG.wrong.map(igFiche).join('')+'</div>':'<p>Sans faute — bravo !</p>')
-     +'<div class="flashbtns"><button class="btn-reveal" onclick="igStart(\''+IG.mode+'\')">Rejouer</button><button class="btn-ghost" onclick="IG=null; go(\'isagames\')">Autres jeux</button></div></div>';
+     +(IG.wrong.length?'<div style="text-align:left;margin:0 auto 14px;max-width:620px;"><h4>À revoir</h4>'+IG.wrong.map(igFiche).join('')+'<p><button class="btn-reveal" onclick="isaDlSession()">⬇️ Télécharger toutes les fiches à revoir</button></p></div>':'<p>Sans faute — bravo !</p>')
+     +'<div class="flashbtns"><button class="navbtn" onclick="isaDlWords(IG.seen||[],\'esaie6-fiches-partie.md\',\'Esaïe 6 — fiches de la partie\')">⬇️ Fiches de toute la partie</button><button class="btn-reveal" onclick="igStart(\''+IG.mode+'\')">Rejouer</button><button class="btn-ghost" onclick="IG=null; go(\'isagames\')">Autres jeux</button></div></div>';
   }
   const w=IG.w;
   const top='<div class="topline"><div><div class="eyebrow">'+d.title+' · jusqu\'au cours '+IG.maxC+'</div><h1>'+d.icon+' '+d.title+'</h1></div><button class="navbtn" onclick="IG=null; go(\'isagames\')">Quitter</button></div>';
@@ -12497,7 +12499,7 @@ function viewIsaGameX(){
   if(X.over){
     const acc=X.total?Math.round(X.correct/X.total*100):0;
     return '<div class="topline"><div><div class="eyebrow">Résultat</div><h1>'+d.icon+' '+d.title+'</h1></div></div><div class="qbox" style="text-align:center;"><div class="statgrid" style="max-width:520px;margin:0 auto 18px;"><div class="statbox"><b>'+X.points+'</b><span>Points</span></div><div class="statbox"><b>'+X.correct+'/'+X.total+'</b><span>Réussites ('+acc+'%)</span></div><div class="statbox"><b>'+X.best+'</b><span>Meilleure série</span></div></div>'
-     +(X.wrong.length?'<div style="text-align:left;margin:0 auto 14px;max-width:620px;"><h4>À revoir</h4>'+Array.from(new Set(X.wrong)).map(igFiche).join('')+'</div>':'<p>Sans faute — bravo !</p>')
+     +(X.wrong.length?'<div style="text-align:left;margin:0 auto 14px;max-width:620px;"><h4>À revoir</h4>'+Array.from(new Set(X.wrong)).map(igFiche).join('')+'<p><button class="btn-reveal" onclick="isaDlSession()">⬇️ Télécharger toutes les fiches à revoir</button></p></div>':'<p>Sans faute — bravo !</p>')
      +'<div class="flashbtns"><button class="btn-reveal" onclick="igxStart(\''+X.mode+'\')">Rejouer</button><button class="btn-ghost" onclick="IGX=null; go(\'isagames\')">Autres jeux</button></div></div>';
   }
   const q=X.q;
@@ -12529,6 +12531,41 @@ function viewIsaGameX(){
   return top+hud+'<div class="qbox"><div class="ui">Esaïe 6, verset '+q.v+' — touchez '+q.p.l+'.</div>'+verse
     +(X.answered?'<div class="ui" style="margin-top:10px;">'+(q.good.indexOf(q.ws[q.pick])>=0?'✓ Exact.':'✗ Ce n\'est pas celui-là.')+' Réponse'+(q.good.length>1?'s possibles':'')+' : '+q.good.map(w=>'<span class="heb" style="font-size:22px;">'+w.h+'</span>').join(' · ')+' (cours '+q.p.c+')</div>'+igFiche(q.good[0])+next:'')+'</div>';
 }
+
+/* ---------- Téléchargement des fiches (Markdown) ---------- */
+function isaStrip(h){ return String(h).replace(/<[^>]+>/g,''); }
+function isaFicheMd(w){
+  const m=w.m||{}; const L=[];
+  L.push('### '+w.h+' — '+w.f.replace(/\./g,' ')+' (Es 6,'+w.r+')');
+  w.s.forEach(s=>L.push('- '+s[0]+' : '+s[1]+(s[2]==='root'&&s[3]?' · racine '+s[3]:'')));
+  if(w.k==='Verbe'){
+    L.push('- **Racine** : '+w.rac+' ('+w.lem+')');
+    if(m.rt) L.push('- **Type de racine** : '+m.rt.split(' et ').map(t=>ISA_RTNAME[t]||t).join(' + '));
+    L.push('- **Forme verbale** : '+m.bin); L.push('- **Temps / mode** : '+m.tn);
+    if(m.pgn) L.push('- **Conjugaison** : '+m.pgn); else if(m.gn) L.push('- **Genre · nombre** : '+m.gn+(m.st?' · '+m.st:''));
+  }else{
+    L.push('- **Nature** : '+w.k);
+    if(w.rac) L.push('- **Racine** : '+w.rac+' ('+w.lem+')');
+    if(m.gn) L.push('- **Genre · nombre** : '+m.gn+(m.st?' · état '+m.st:''));
+  }
+  if(w.n) L.push('- **Note** : '+w.n);
+  L.push('- **Cours à revoir** : '+w.c.map(x=>'cours '+x[0]+' — '+isaTitle(x[0])+' ('+x[1]+')').join(' · '));
+  if(w.rac) L.push('- **Dictionnaire Sander** : à chercher sous la racine '+w.rac+' (à vérifier).');
+  return L.join('\n');
+}
+function isaDownload(name, text, type){
+  const blob=new Blob(['\ufeff'+text],{type:type||'text/markdown;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },500);
+}
+function isaDlWords(ws, name, title){
+  const uniq=Array.from(new Set(ws));
+  isaDownload(name, '# '+title+'\n\n'+uniq.map(isaFicheMd).join('\n\n---\n\n')+'\n');
+}
+function isaDlOne(r){ const w=ISA6.find(x=>x.r===r); if(w) isaDownload('fiche-es6-'+w.r+'.md', isaFicheMd(w)+'\n'); }
+function isaDlVerse(v){ isaDlWords(ISA6.filter(w=>w.v===v),'esaie6-verset-'+v+'-analyse.md','Esaïe 6,'+v+' — analyse mot à mot'); }
+function isaDlAll(){ isaDlWords(ISA6,'esaie6-analyse-complete.md','Esaïe 6 — analyse complète'); }
+function isaDlSession(){ const g=(STATE.view==='isagamex'?IGX:IG); if(!g) return; isaDlWords(g.wrong,'esaie6-fiches-a-revoir.md','Esaïe 6 — fiches à revoir'); }
 
 /*ISA6-END*/
 /*DICT-BEGIN*/
