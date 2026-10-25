@@ -6,7 +6,7 @@
    elle-même gère leur échec (mode hors-ligne, sauvegarde locale).
    À placer dans le MÊME dossier que index.html sur GitHub Pages. */
 
-const CACHE_NAME = 'hb-cache-v10';
+const CACHE_NAME = 'hb-cache-v16';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
