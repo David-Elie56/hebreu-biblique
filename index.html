@@ -455,6 +455,7 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
 .isa-blank{border-bottom:3px solid #b08d3c;min-width:60px;text-align:center;display:inline-block;font-size:26px;}
 /*ISA6-CSSEND*/
 /*ISAVOC-CSS-BEGIN*/
+
 .iv{max-width:820px}.iv-mut{color:var(--text-soft);font-size:13px}.iv-mid{font-size:18px}
 .iv-seg{display:flex;gap:6px;margin:8px 0}.iv-seg button,.iv-tabs button{border:1px solid var(--gold-dim,#c9b98a);background:var(--paper,#fff);color:var(--text);border-radius:999px;padding:8px 14px;cursor:pointer;font-size:14px}
 .iv-seg button.on,.iv-tabs button.on{background:var(--gold,#b8892b);color:#fff;border-color:var(--gold,#b8892b)}
@@ -484,6 +485,11 @@ table.gridtbl caption{caption-side:top;text-align:left;font-family:'Inter',sans-
 .iv-sel{width:100%;padding:9px;border:1px solid var(--gold-dim,#d9cfb8);border-radius:10px;background:var(--paper,#fff);color:var(--text);font-size:15px}
 .iv-qr{display:grid;grid-template-columns:auto 22px auto 1fr;gap:6px;align-items:center;padding:8px 6px;border-bottom:1px solid var(--gold-dim,#e5dcc0)}
 .iv-qc{display:flex;flex-direction:column;align-items:center;min-width:62px}.iv-qa{color:var(--gold,#b8892b);font-size:18px;text-align:center}.iv-qm{font-size:14px}
+
+.iv-snd{border:1px solid var(--gold,#b8892b);background:var(--paper,#fff);color:var(--gold,#b8892b);border-radius:50%;width:28px;height:28px;padding:0;font-size:14px;line-height:1;cursor:pointer;margin:0 5px;vertical-align:middle;flex:0 0 auto}
+.iv-snd.playing{background:var(--gold,#b8892b);color:#fff}
+.iv-vn+.iv-snd{float:left;margin-top:-2px}
+
 /*ISAVOC-CSS-END*/
 /*DICT-CSS*/
 .dc-e{border:1px solid var(--border,#d9cfb8);border-radius:10px;margin:6px 0;padding:0 10px;}
@@ -12656,6 +12662,9 @@ const IV_RANGES=[['Tout le chapitre',1,13],['v. 1-4 (la vision)',1,4],['v. 5-7 (
 const IV_QAL={"ראה": ["רָאָה", "il a vu", ""], "ישב": ["יָשַׁב", "il s'est assis, il a habité", ""], "רומ": ["רָם", "il s'est élevé", "verbe creux (ו médian)"], "נשא": ["נָשָׂא", "il a levé, porté", ""], "מלא": ["מָלֵא", "il a été plein", "verbe d'état"], "עמד": ["עָמַד", "il s'est tenu debout", ""], "כסה": ["כָּסָה", "il a couvert", "verbe ל״ה"], "עופ": ["עָף", "il a volé", "verbe creux (ו médian)"], "קרא": ["קָרָא", "il a appelé, crié", "verbe ל״א"], "אמר": ["אָמַר", "il a dit", ""], "היה": ["הָיָה", "il a été, il est devenu", "verbe ל״ה"], "כבד": ["כָּבֵד", "il a été lourd", "verbe d'état"], "נוע": ["נָע", "il a vacillé", "verbe creux (ו médian)"], "דמה": ["נִדְמָה", "il a été détruit", "ici au Nifal : נִדְמֵיתִי « je suis perdu » (Sander p. 126)"], "לקח": ["לָקַח", "il a pris", ""], "נגע": ["נָגַע", "il a touché", ""], "סור": ["סָר", "il s'est écarté", "verbe creux (ו médian)"], "כפר": ["כִּפֶּר", "il a expié", "Piel (au Pual dans Ésaïe 6 : תְּכֻפָּר)"], "שמע": ["שָׁמַע", "il a entendu", ""], "שלח": ["שָׁלַח", "il a envoyé", ""], "הלכ": ["הָלַךְ", "il est allé", ""], "בינ": ["הֵבִין", "il a compris", "Hifil (le Qal בָּן est rare)"], "ידע": ["יָדַע", "il a connu", ""], "שמנ": ["שָׁמַן", "il a engraissé, il est devenu gras", "ici au Hifil : הַשְׁמֵן « engraisse ! »"], "שעע": ["הֵשַׁע", "il a aveuglé", "Hifil seulement : הָשַׁע « aveugle ! »"], "שוב": ["שָׁב", "il est revenu", "verbe creux (ו médian)"], "רפא": ["רָפָא", "il a guéri", "verbe ל״א"], "שאה": ["שָׁאָה", "il a été dévasté", "verbe ל״ה"], "רחק": ["רָחַק", "il s'est éloigné", ""], "בער": ["בָּעַר", "il a brûlé", ""], "עזב": ["עָזַב", "il a abandonné", ""], "מות": ["מֵת", "il est mort", "verbe creux (ו médian) ; le nom est מָוֶת"], "מלכ": ["מָלַךְ", "il a régné", ""], "עזז": ["עָזַז", "il a été fort", "עֻזִּיָּה = « ma force est Yah »"], "שרפ": ["שָׂרַף", "il a brûlé", "le שָׂרָף est « le brûlant »"], "קדש": ["קָדַשׁ", "il a été saint", ""], "כלל": ["כָּלַל", "il a achevé, rendu parfait", ""], "צבא": ["צָבָא", "il a fait la guerre, il a servi", ""], "עשנ": ["עָשַׁן", "il a fumé", ""], "טמא": ["טָמֵא", "il a été impur", "verbe d'état"], "זבח": ["זָבַח", "il a sacrifié", ""], "חטא": ["חָטָא", "il a péché", "verbe ל״א"], "עלה": ["עָלָה", "il est monté", "verbe ל״ה"], "פנה": ["פָּנָה", "il s'est tourné", "verbe ל״ה"], "רגל": ["רָגַל", "il a calomnié (rare)", "le nom רֶגֶל « pied » est bien plus fréquent"], "שלכ": ["הִשְׁלִיךְ", "il a jeté", "Hifil ; שַׁלֶּכֶת « abattage »"], "נצב": ["נָצַב", "il s'est dressé", ""], "זרע": ["זָרַע", "il a semé", ""], "אדמ": ["אָדַם", "il a été rouge", ""], "שנה": ["שָׁנָה", "il a répété, changé", "verbe ל״ה"], "שממ": ["שָׁמֵם", "il a été désolé", "verbe d'état"], "קרב": ["קָרַב", "il s'est approché", ""], "רבב": ["רָבַב", "il a été nombreux (rare)", ""]};
 const IV_BYK={}; IV_ITEMS.forEach(x=>IV_BYK[x.k]=x);
 let IV_M=null, IV_T='lire', IV_RNG=0, IV_SHOWG=true, IV_WORD=null, IV_FQ=[], IV_FI=0, IV_FS=false, IV_AS=null, IV_QZ=null, IV_TR=null, IV_FM=null, IV_DQ='', IV_DS='ordre', IV_CACHE={}, IV_SV=null;
+function ivSnd(t){ return t?'<button class="iv-snd" data-t="'+esc(t)+'" onclick="event.stopPropagation();ivSay(this)" title="Écouter" aria-label="Écouter">🔊</button>':''; }
+function ivSay(b){ try{ speakHeb(b.dataset.t,b); }catch(e){} }
+function ivSpk(c){ if(c.root&&IV_QAL[c.root]) return IV_QAL[c.root][0]; return c.items[0].h; }
 const ivRnd=a=>a[Math.floor(Math.random()*a.length)];
 const ivShuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 function ivCards(m){
@@ -12682,21 +12691,21 @@ const ivPool=m=>ivCards(m).filter(ivInRange);
 function ivRangeSel(m,after){
   return '<select class="iv-sel" onchange="IV_RNG=+this.value;'+after+';renderContentOnly();">'+IV_RANGES.map((r,i)=>{const s=IV_RNG;IV_RNG=i;const n=ivPool(m).length;IV_RNG=s;return '<option value="'+i+'"'+(i===IV_RNG?' selected':'')+'>'+r[0]+' ('+n+' '+(m==='A'?'mots':'racines')+')</option>';}).join('')+'</select>';
 }
-function ivQalLine(r){ const q=IV_QAL[r]; if(!q) return ''; return '<div class="iv-qal"><span class="iv-mut">Qatal 3ms</span> <b class="heb-static iv-hs2">'+esc(q[0])+'</b> « '+esc(q[1])+' »'+(q[2]?'<div class="iv-mut">'+esc(q[2])+'</div>':'')+'</div>'; }
+function ivQalLine(r){ const q=IV_QAL[r]; if(!q) return ''; return '<div class="iv-qal"><span class="iv-mut">Qatal 3ms</span> <b class="heb-static iv-hs2">'+esc(q[0])+'</b>'+ivSnd(q[0])+' « '+esc(q[1])+' »'+(q[2]?'<div class="iv-mut">'+esc(q[2])+'</div>':'')+'</div>'; }
 /* ----- fiche d'une carte ----- */
 function ivInfo(c,m){
   let o='';
   if(m==='A'){ const x=c.items[0];
-    o+='<div><span class="iv-tag">'+esc(x.pos)+'</span><span class="iv-tag">'+(x.n>1?x.n+' fois dans le chapitre':'1 fois')+'</span></div>';
+    o+='<div>'+ivSnd(x.h)+'<span class="iv-tag">'+esc(x.pos)+'</span><span class="iv-tag">'+(x.n>1?x.n+' fois dans le chapitre':'1 fois')+'</span></div>';
     o+='<div class="iv-mid"><b>'+esc(x.s)+'</b></div><div class="iv-mut">'+esc(x.l)+'</div>';
-    if(x.r) o+='<div style="margin-top:6px">Racine : <b class="heb-static iv-hs">'+esc(x.rd)+'</b> — '+esc(x.rf)+'</div>'+ivQalLine(x.r); else if(x.rf) o+='<div class="iv-mut" style="margin-top:6px">'+esc(x.rf)+'</div>';
+    if(x.r) o+='<div style="margin-top:6px">Racine : <b class="heb-static iv-hs">'+esc(x.rd)+'</b>'+ivSnd(IV_QAL[x.r]?IV_QAL[x.r][0]:x.h)+' — '+esc(x.rf)+'</div>'+ivQalLine(x.r); else if(x.rf) o+='<div class="iv-mut" style="margin-top:6px">'+esc(x.rf)+'</div>';
     if(x.tr) o+='<div class="iv-mut">Prononciation : '+esc(x.tr)+'</div>';
     if(x.t) o+='<div class="iv-tip">💡 '+esc(x.t)+'</div>';
-    o+='<div class="iv-mut" style="margin-top:6px">Dans le chapitre : '+x.forms.map(f=>'<span class="heb-static iv-hs">'+esc(f[0])+'</span> (v. '+f[1]+')').join(' · ')+'</div>';
+    o+='<div class="iv-mut" style="margin-top:6px">Dans le chapitre : '+x.forms.map(f=>'<span class="heb-static iv-hs">'+esc(f[0])+'</span>'+ivSnd(f[0])+' (v. '+f[1]+')').join(' · ')+'</div>';
     if(x.sa) o+='<div class="iv-mut">Dictionnaire de Sander : p. '+x.sa.p+'</div>';
   }else{
     o+='<div class="iv-mid"><b>'+esc(c.fr)+'</b></div>'+ivQalLine(c.root);
-    o+=c.items.map(x=>'<div class="iv-e"><span class="heb-static iv-hs2">'+esc(x.h)+'</span> <b>'+esc(x.s)+'</b> <span class="iv-mut">('+esc(x.pos)+(x.n>1?', '+x.n+' fois':'')+')</span><div class="iv-mut">Dans le chapitre : '+x.forms.map(f=>'<span class="heb-static iv-hs">'+esc(f[0])+'</span> v.'+f[1]).join(' · ')+(x.sa?' · Sander p. '+x.sa.p:'')+'</div>'+(x.t?'<div class="iv-tip">💡 '+esc(x.t)+'</div>':'')+'</div>').join('');
+    o+=c.items.map(x=>'<div class="iv-e"><span class="heb-static iv-hs2">'+esc(x.h)+'</span>'+ivSnd(x.h)+' <b>'+esc(x.s)+'</b> <span class="iv-mut">('+esc(x.pos)+(x.n>1?', '+x.n+' fois':'')+')</span><div class="iv-mut">Dans le chapitre : '+x.forms.map(f=>'<span class="heb-static iv-hs">'+esc(f[0])+'</span>'+ivSnd(f[0])+' v.'+f[1]).join(' · ')+(x.sa?' · Sander p. '+x.sa.p:'')+'</div>'+(x.t?'<div class="iv-tip">💡 '+esc(x.t)+'</div>':'')+'</div>').join('');
   }
   return o;
 }
@@ -12725,7 +12734,7 @@ function ivTab(t){ IV_T=t; IV_WORD=null; IV_AS=null; IV_QZ=null; IV_TR=null; IV_
 /* ----- Lire ----- */
 function ivLire(m){
   return '<div class="card"><b>Ésaïe 6</b> — touchez un mot pour voir '+(m==='A'?'son sens':'sa racine')+'.<div style="margin-top:8px"><label><input type="checkbox" '+(IV_SHOWG?'checked':'')+' onchange="IV_SHOWG=this.checked;renderContentOnly();"> Afficher '+(m==='A'?'la traduction':'la racine')+' sous chaque mot</label></div></div>'
-   +IV_VERSES.map(v=>'<div class="iv-verse"><span class="iv-vn">'+v.v+'</span><div class="iv-words">'+v.w.map((w,i)=>{
+   +IV_VERSES.map(v=>'<div class="iv-verse"><span class="iv-vn">'+v.v+'</span>'+ivSnd(v.w.map(w=>w.h).join(' '))+'<div class="iv-words">'+v.w.map((w,i)=>{
      const it=w.k?IV_BYK[w.k]:null; const g=m==='A'?w.g:(it&&it.r?it.rd:(it?'(mot entier)':w.g));
      return '<div class="iv-w" onclick="ivWord('+v.v+','+i+')"><span class="heb-static iv-h">'+esc(w.h)+'</span>'+(IV_SHOWG?'<span class="iv-g">'+esc(g)+'</span>':'')+'</div>'; }).join('')+'</div></div>').join('');
 }
@@ -12734,7 +12743,7 @@ function ivClose(){ IV_WORD=null; renderContentOnly(); }
 function ivSheet(m){
   if(!IV_WORD) return '';
   const [v,i]=IV_WORD, w=IV_VERSES[v-1].w[i], it=w.k?IV_BYK[w.k]:null;
-  let o='<div class="iv-sheet"><button class="iv-x" onclick="ivClose()">×</button><div class="heb-static iv-big2">'+esc(w.h)+'</div><div class="iv-mut" style="text-align:center">v. '+v+(w.tag?' · '+esc(w.tag):'')+'</div>';
+  let o='<div class="iv-sheet"><button class="iv-x" onclick="ivClose()">×</button><div class="heb-static iv-big2">'+esc(w.h)+'</div><div style="text-align:center">'+ivSnd(w.h)+'</div><div class="iv-mut" style="text-align:center">v. '+v+(w.tag?' · '+esc(w.tag):'')+'</div>';
   if(m==='A'){ o+='<div class="iv-mid" style="text-align:center;margin:6px 0"><b>'+esc(w.g)+'</b></div>'; if(it) o+='<hr>'+ivInfo({items:[it]},'A'); }
   else if(it&&it.r){ const c=ivCards('B').find(c=>c.root===it.r); o+='<div class="iv-mid" style="text-align:center;margin:6px 0">Racine : <b class="heb-static iv-hs">'+esc(it.rd)+'</b></div><div style="text-align:center">« '+esc(c.fr)+' »</div><hr>'+ivInfo(c,'B'); }
   else if(it){ o+='<div class="iv-mid" style="text-align:center"><b>'+esc(it.s)+'</b></div><div class="iv-mut" style="text-align:center">Mot à apprendre tel quel — '+esc(it.rf||it.pos)+'</div>'+(it.t?'<div class="iv-tip">💡 '+esc(it.t)+'</div>':''); }
@@ -12749,7 +12758,7 @@ function ivFiches(m){
   if(IV_FI>=IV_FQ.length) return head+'<div class="card" style="text-align:center"><div class="iv-stat">Série terminée 🎉</div><p>Maîtrisés : '+ivMastered(m)+' / '+C.length+'</p><button class="btn-reveal" onclick="IV_FQ=[];renderContentOnly();">Série suivante</button></div>';
   const c=IV_FQ[IV_FI];
   return head+'<div class="iv-mut" style="text-align:center">Fiche '+(IV_FI+1)+' / '+IV_FQ.length+' · boîte '+(ivBox(m,c.id)+1)+'/4</div><div class="card iv-flip" onclick="IV_FS=!IV_FS;renderContentOnly();">'
-   +(IV_FS?ivInfo(c,m):'<div class="heb-static iv-big">'+esc(c.front)+'</div><div class="iv-mut" style="text-align:center">'+(m==='A'?'Quel est son sens ?':'Quel est le sens de cette racine ?')+' (touchez pour retourner)</div>')+'</div>'
+   +(IV_FS?ivInfo(c,m):'<div class="heb-static iv-big">'+esc(c.front)+'</div><div style="text-align:center">'+ivSnd(ivSpk(c))+'</div><div class="iv-mut" style="text-align:center">'+(m==='A'?'Quel est son sens ?':'Quel est le sens de cette racine ?')+' (touchez pour retourner)</div>')+'</div>'
    +(IV_FS?'<div class="iv-grid2"><button class="btn-ghost" onclick="ivRate(false)">À revoir</button><button class="btn-reveal" onclick="ivRate(true)">Je savais ✓</button></div>':'<button class="btn-reveal" style="width:100%" onclick="IV_FS=true;renderContentOnly();">Retourner la fiche</button>');
 }
 function ivRate(ok){ ivMark(IV_M,IV_FQ[IV_FI].id,ok); IV_FI++; IV_FS=false; renderContentOnly(); }
@@ -12764,7 +12773,7 @@ function ivAssoc(m){
 }
 function ivPA(side,id){
   const A=IV_AS,m=IV_M; if(!A) return;
-  if(!A.sel||A.sel.s===side){ A.sel={s:side,id}; renderContentOnly(); return; }
+  if(!A.sel||A.sel.s===side){ A.sel={s:side,id}; if(side==='L'){ const cc=ivById(m,id); if(cc) try{ speakHeb(ivSpk(cc)); }catch(e){} } renderContentOnly(); return; }
   const a=A.sel.id;
   if(a===id){ A.done[id]=true; ivMark(m,id,true); A.sel=null; if(Object.keys(A.done).length===A.cs.length) A.fin=true; renderContentOnly(); }
   else{ A.err++; A.flash=['L'+(A.sel.s==='L'?a:id),'R'+(A.sel.s==='R'?a:id)]; ivMark(m,a,false); ivMark(m,id,false); A.sel=null; renderContentOnly(); setTimeout(()=>{ if(IV_AS===A){ A.flash=null; renderContentOnly(); } },380); }
@@ -12778,12 +12787,12 @@ function ivNextQ(m){
   const alts=(same.length>=3?ivShuf(same):ivShuf(all.filter(x=>x.id!==c.id))).slice(0,3);
   let prompt,opts;
   if(m==='A'){ const kind=ivRnd(['h2f','h2f','f2h','form']);
-    if(kind==='h2f'){ prompt='<div class="heb-static iv-big">'+esc(c.front)+'</div><div class="iv-mut" style="text-align:center">Que signifie ce mot ?</div>'; opts=ivShuf([c,...alts]).map(x=>({t:x.fr,id:x.id})); }
+    if(kind==='h2f'){ prompt='<div class="heb-static iv-big">'+esc(c.front)+'</div><div style="text-align:center">'+ivSnd(ivSpk(c))+'</div><div class="iv-mut" style="text-align:center">Que signifie ce mot ?</div>'; opts=ivShuf([c,...alts]).map(x=>({t:x.fr,id:x.id})); }
     else if(kind==='f2h'){ prompt='<div class="iv-mid" style="text-align:center"><b>'+esc(c.fr)+'</b></div><div class="iv-mut" style="text-align:center">Quel est le mot hébreu ?</div>'; opts=ivShuf([c,...alts]).map(x=>({t:x.front,id:x.id,heb:1})); }
-    else{ const f=ivRnd(ivQuizForms(c)); prompt='<div class="heb-static iv-big">'+esc(f.w)+'</div><div class="iv-mut" style="text-align:center">Mot du verset '+f.v+' — que signifie le mot de base ?</div>'; opts=ivShuf([c,...alts]).map(x=>({t:x.fr,id:x.id})); }
+    else{ const f=ivRnd(ivQuizForms(c)); prompt='<div class="heb-static iv-big">'+esc(f.w)+'</div><div style="text-align:center">'+ivSnd(f.w)+'</div><div class="iv-mut" style="text-align:center">Mot du verset '+f.v+' — que signifie le mot de base ?</div>'; opts=ivShuf([c,...alts]).map(x=>({t:x.fr,id:x.id})); }
   }else{
-    if(Math.random()<.65){ const f=ivRnd(ivQuizForms(c)); prompt='<div class="heb-static iv-big">'+esc(f.w)+'</div><div class="iv-mut" style="text-align:center">Mot du verset '+f.v+' — quelle est sa racine ?</div>'; opts=ivShuf([c,...alts]).map(x=>({t:x.front,id:x.id,heb:1})); }
-    else{ prompt='<div class="heb-static iv-big">'+esc(c.front)+'</div><div class="iv-mut" style="text-align:center">Quel est le sens de cette racine ?</div>'; opts=ivShuf([c,...alts]).map(x=>({t:x.fr,id:x.id})); }
+    if(Math.random()<.65){ const f=ivRnd(ivQuizForms(c)); prompt='<div class="heb-static iv-big">'+esc(f.w)+'</div><div style="text-align:center">'+ivSnd(f.w)+'</div><div class="iv-mut" style="text-align:center">Mot du verset '+f.v+' — quelle est sa racine ?</div>'; opts=ivShuf([c,...alts]).map(x=>({t:x.front,id:x.id,heb:1})); }
+    else{ prompt='<div class="heb-static iv-big">'+esc(c.front)+'</div><div style="text-align:center">'+ivSnd(ivSpk(c))+'</div><div class="iv-mut" style="text-align:center">Quel est le sens de cette racine ?</div>'; opts=ivShuf([c,...alts]).map(x=>({t:x.fr,id:x.id})); }
   }
   Q.q={c,prompt,opts,sel:null};
 }
@@ -12791,7 +12800,7 @@ function ivStartQ(){ IV_QZ={n:0,ok:0,streak:0,best:0,wrong:[],fin:false}; ivNext
 function ivQuiz(m){
   const head='<div class="card">'+ivRangeSel(m,'IV_QZ=null')+'<div style="margin-top:8px"><button class="btn-reveal" onclick="ivStartQ()">▶ '+(IV_QZ?'Recommencer':'Commencer')+' (10 questions)</button></div></div>';
   const Q=IV_QZ; if(!Q) return head;
-  if(Q.fin) return head+'<div class="card" style="text-align:center"><div class="iv-stat">'+Q.ok+' / 10</div><p>Meilleure série : '+Q.best+' d\'affilée</p></div>'+(Q.wrong.length?'<div class="card"><b>À revoir :</b>'+Q.wrong.map(c=>'<div class="iv-e"><span class="heb-static iv-hs2">'+esc(c.front)+'</span> — '+esc(c.fr)+'</div>').join('')+'</div>':'');
+  if(Q.fin) return head+'<div class="card" style="text-align:center"><div class="iv-stat">'+Q.ok+' / 10</div><p>Meilleure série : '+Q.best+' d\'affilée</p></div>'+(Q.wrong.length?'<div class="card"><b>À revoir :</b>'+Q.wrong.map(c=>'<div class="iv-e"><span class="heb-static iv-hs2">'+esc(c.front)+'</span>'+ivSnd(ivSpk(c))+' — '+esc(c.fr)+'</div>').join('')+'</div>':'');
   const q=Q.q, done=q.sel!==null;
   return head+'<div class="iv-row iv-mut"><span>Question '+(Q.n+1)+' / 10</span><span>Série : '+Q.streak+'</span></div><div class="iv-bar"><i style="width:'+(Q.n*10)+'%"></i></div><div class="card">'+q.prompt+'</div>'
    +q.opts.map(o=>'<button class="iv-opt '+(o.heb?'heb-static iv-opth':'')+(done?(o.id===q.c.id?' good':(o.id===q.sel?' bad':'')):'')+'" '+(done?'disabled':'onclick="ivAns(\''+o.id.replace(/'/g,"\\'")+'\')"')+'>'+esc(o.t)+'</button>').join('')
@@ -12812,7 +12821,7 @@ function ivTrous(m){
   return head+'<div class="iv-verse"><span class="iv-vn">'+T.v.v+'</span><div class="iv-words">'+T.v.w.map((x,i)=>'<div class="iv-w"><span class="heb-static iv-h">'+(i===T.idx&&!done?'▢▢▢▢':esc(x.h))+'</span><span class="iv-g">'+esc(x.g)+'</span></div>').join('')+'</div></div>'
    +'<div class="iv-mut" style="text-align:center">Quel mot hébreu manque ? (sens : <b>'+esc(T.w.g)+'</b>)</div>'
    +T.opts.map((o,i)=>'<button class="iv-opt heb-static iv-opth '+(done?(o.h===T.w.h?'good':(i===T.sel?'bad':'')):'')+'" '+(done?'disabled':'onclick="ivAT('+i+')"')+'>'+esc(o.h)+'</button>').join('')
-   +(done?'<div class="card"><b>'+(T.opts[T.sel].h===T.w.h?'✓ Bien !':'✗ C\'était :')+'</b> <span class="heb-static iv-hs2">'+esc(T.w.h)+'</span> — '+esc(T.w.g)+(T.w.tag?'<br><span class="iv-mut">'+esc(T.w.tag)+'</span>':'')+'<br><button class="btn-reveal" style="width:100%;margin-top:8px" onclick="IV_TR=null;renderContentOnly();">Verset suivant →</button></div>':'');
+   +(done?'<div class="card"><b>'+(T.opts[T.sel].h===T.w.h?'✓ Bien !':'✗ C\'était :')+'</b> <span class="heb-static iv-hs2">'+esc(T.w.h)+'</span>'+ivSnd(T.w.h)+ivSnd(T.v.w.map(x=>x.h).join(' '))+' — '+esc(T.w.g)+(T.w.tag?'<br><span class="iv-mut">'+esc(T.w.tag)+'</span>':'')+'<br><button class="btn-reveal" style="width:100%;margin-top:8px" onclick="IV_TR=null;renderContentOnly();">Verset suivant →</button></div>':'');
 }
 function ivAT(i){ const T=IV_TR; if(T.sel!==null) return; T.sel=i; if(T.w.k) ivMark('A',T.w.k,T.opts[i].h===T.w.h); renderContentOnly(); }
 /* ----- Familles (racines) ----- */
@@ -12843,15 +12852,15 @@ function ivList(m){
   if(IV_DS==='alpha') L.sort((a,b)=>ivKey(a.front.replace(/ · /g,'')).localeCompare(ivKey(b.front.replace(/ · /g,''))));
   else if(IV_DS==='fr') L.sort((a,b)=>a.fr.localeCompare(b.fr,'fr'));
   else if(IV_DS==='freq') L.sort((a,b)=>b.items.reduce((s,x)=>s+x.n,0)-a.items.reduce((s,x)=>s+x.n,0));
-  let h='<div class="iv-mut" style="margin:4px 2px">'+L.length+' résultat'+(L.length>1?'s':'')+'</div>'+L.map(c=>'<div class="iv-e" onclick="var d=this.querySelector(\'.iv-dd\');d.style.display=d.style.display===\'block\'?\'none\':\'block\';"><div class="iv-row"><span class="heb-static iv-hs2">'+esc(c.front)+'</span><span style="text-align:right">'+esc(c.fr)+'<br><span class="iv-mut">'+(m==='A'?esc(c.sub||''):c.items.length+' mot'+(c.items.length>1?'s':''))+'</span></span></div><div class="iv-dd" style="display:none;margin-top:6px">'+ivInfo(c,m)+'</div></div>').join('');
-  if(m==='B'&&!q) h+='<div class="card"><b>Mots à apprendre tels quels (sans racine verbale)</b>'+ivFree().map(x=>'<div class="iv-e"><span class="heb-static iv-hs2">'+esc(x.h)+'</span> '+esc(x.s)+' <span class="iv-mut">('+esc(x.pos)+(x.rf?' — '+esc(x.rf):'')+')</span>'+(x.t?'<div class="iv-tip">💡 '+esc(x.t)+'</div>':'')+'</div>').join('')+'</div>';
+  let h='<div class="iv-mut" style="margin:4px 2px">'+L.length+' résultat'+(L.length>1?'s':'')+'</div>'+L.map(c=>'<div class="iv-e" onclick="var d=this.querySelector(\'.iv-dd\');d.style.display=d.style.display===\'block\'?\'none\':\'block\';"><div class="iv-row"><span><span class="heb-static iv-hs2">'+esc(c.front)+'</span>'+ivSnd(ivSpk(c))+'</span><span style="text-align:right">'+esc(c.fr)+'<br><span class="iv-mut">'+(m==='A'?esc(c.sub||''):c.items.length+' mot'+(c.items.length>1?'s':''))+'</span></span></div><div class="iv-dd" style="display:none;margin-top:6px">'+ivInfo(c,m)+'</div></div>').join('');
+  if(m==='B'&&!q) h+='<div class="card"><b>Mots à apprendre tels quels (sans racine verbale)</b>'+ivFree().map(x=>'<div class="iv-e"><span class="heb-static iv-hs2">'+esc(x.h)+'</span>'+ivSnd(x.h)+' '+esc(x.s)+' <span class="iv-mut">('+esc(x.pos)+(x.rf?' — '+esc(x.rf):'')+')</span>'+(x.t?'<div class="iv-tip">💡 '+esc(x.t)+'</div>':'')+'</div>').join('')+'</div>';
   return h;
 }
 /* ----- Bilan ----- */
 function ivBilan(m){
   const C=ivCards(m), cnt=[0,0,0,0]; C.forEach(c=>cnt[ivBox(m,c.id)]++); const wk=C.filter(c=>ivBox(m,c.id)===0);
   return '<div class="card"><div class="iv-stat">'+ivMastered(m)+' / '+C.length+'</div><div class="iv-mut">'+(m==='A'?'mots':'racines')+' maîtrisé'+(ivMastered(m)>1?'s':'')+'</div><div class="iv-bar" style="margin:8px 0"><i style="width:'+Math.round(ivMastered(m)/C.length*100)+'%"></i></div><div class="iv-grid2"><div>Nouveaux / à revoir : <b>'+cnt[0]+'</b></div><div>En cours : <b>'+cnt[1]+'</b></div><div>Presque acquis : <b>'+cnt[2]+'</b></div><div>Maîtrisés : <b>'+cnt[3]+'</b></div></div></div>'
-   +(wk.length&&wk.length<C.length?'<div class="card"><b>À travailler en priorité</b>'+wk.slice(0,12).map(c=>'<div class="iv-e"><span class="heb-static iv-hs2">'+esc(c.front)+'</span> — '+esc(c.fr)+'</div>').join('')+'</div>':'')
+   +(wk.length&&wk.length<C.length?'<div class="card"><b>À travailler en priorité</b>'+wk.slice(0,12).map(c=>'<div class="iv-e"><span class="heb-static iv-hs2">'+esc(c.front)+'</span>'+ivSnd(ivSpk(c))+' — '+esc(c.fr)+'</div>').join('')+'</div>':'')
    +'<div class="card iv-mut">Votre progression est enregistrée avec votre compte.<br><button class="btn-ghost" style="margin-top:8px" onclick="if(confirm(\'Remettre à zéro la progression de cette version ?\')){PROGRESS.isavoc=PROGRESS.isavoc||{};PROGRESS.isavoc[IV_M]={};saveProgress();renderContentOnly();}">Remettre à zéro</button></div>';
 }
 
@@ -12863,7 +12872,7 @@ function ivQatal(m){
    +'<div class="iv-seg" style="margin:0"><button class="'+(IV_QV===0?'on':'')+'" onclick="IV_QV=0;renderContentOnly();">📋 Tableau</button><button class="'+(IV_QV===1?'on':'')+'" onclick="IV_QV=1;IV_QH={};renderContentOnly();">🙈 Je m\'entraîne</button></div></div>';
   h+='<div class="iv-qt">';
   withQ.forEach(c=>{ const q=IV_QAL[c.root], hid=IV_QV===1&&!IV_QH[c.id];
-    h+='<div class="iv-qr" '+(IV_QV===1?'onclick="IV_QH[\''+c.id+'\']=1;renderContentOnly();"':'')+'><div class="iv-qc"><span class="heb-static iv-hs2">'+esc(c.front)+'</span><span class="iv-mut">racine</span></div><div class="iv-qa">→</div><div class="iv-qc"><span class="heb-static iv-hs2">'+(hid?'· · ·':esc(q[0]))+'</span><span class="iv-mut">qatal 3ms</span></div><div class="iv-qm"><b>'+(hid?'touchez pour voir':esc(q[1]))+'</b><div class="iv-mut">'+(m==='A'?c.items.map(x=>x.h+' '+x.s).map(esc).join(' · '):c.items.length+' mot'+(c.items.length>1?'s':'')+' dans le chapitre')+(!hid&&q[2]?' · '+esc(q[2]):'')+'</div></div></div>'; });
+    h+='<div class="iv-qr" '+(IV_QV===1?'onclick="IV_QH[\''+c.id+'\']=1;renderContentOnly();"':'')+'><div class="iv-qc"><span class="heb-static iv-hs2">'+esc(c.front)+'</span><span class="iv-mut">racine</span></div><div class="iv-qa">→</div><div class="iv-qc"><span class="heb-static iv-hs2">'+(hid?'· · ·':esc(q[0]))+'</span>'+(hid?'':ivSnd(q[0]))+'<span class="iv-mut">qatal 3ms</span></div><div class="iv-qm"><b>'+(hid?'touchez pour voir':esc(q[1]))+'</b><div class="iv-mut">'+(m==='A'?c.items.map(x=>x.h+' '+x.s).map(esc).join(' · '):c.items.length+' mot'+(c.items.length>1?'s':'')+' dans le chapitre')+(!hid&&q[2]?' · '+esc(q[2]):'')+'</div></div></div>'; });
   h+='</div>';
   if(noQ.length) h+='<div class="card"><b>Racines sans verbe usuel (noms)</b>'+noQ.map(c=>'<div class="iv-e"><span class="heb-static iv-hs2">'+esc(c.front)+'</span> — '+esc(c.fr)+' <span class="iv-mut">('+c.items.map(x=>x.h).join(', ')+')</span></div>').join('')+'</div>';
   return h;
