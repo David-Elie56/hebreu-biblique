@@ -814,6 +814,29 @@ button.bb-lem{border:1px solid var(--border,#ccc);background:transparent;border-
   border:5px solid transparent; border-top-color:var(--ink2);
 }
 .corr-tip:hover .corr-tip-bubble{display:block;}
+/*BIDICSS*/.hb{direction:rtl;unicode-bidi:isolate}
+/*CANTCSS*/.azcant{margin:6px 0 0}.azcant summary{cursor:pointer;font-size:13px;color:var(--text-soft)}.azcant-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:4px;margin-top:6px}.azcb{width:100%;min-height:72px;padding:2px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}.azcb .heb{display:block;font-size:22px;height:40px;line-height:44px;padding-top:6px;overflow:visible}.azcb .azsub{position:static!important;font-size:9px;line-height:1.1;text-align:center;opacity:.85;margin-top:2px}
+/*BNCSS*/.bn-v{background:rgba(184,137,43,.18);border-bottom:3px solid #b8892b;border-radius:4px}.bn-mod>div{margin-top:4px}.bn-grid{display:block}.bn-text .bb-v{line-height:2.6;direction:rtl;text-align:right;font-size:22px}.bn-text .bb-n{direction:ltr}
+.bn-w{display:inline-block;text-align:center;padding:0 3px 1px;border-radius:5px;cursor:pointer;margin:1px 0;font-family:"SBL Hebrew","Ezra SIL","Frank Ruehl CLM","Times New Roman",serif}
+.bn-w.on{outline:2px solid var(--gold,#b8892b)}.bn-dim{opacity:.55}
+.bn-t{display:block;font-family:var(--ui-font,inherit);font-size:9px;line-height:1;letter-spacing:.2px;margin-top:-4px;font-weight:700;direction:ltr}
+.bn-q{background:rgba(47,111,179,.15);border-bottom:3px solid #2f6fb3}.bn-q .bn-t{color:#2f6fb3}
+.bn-N{background:rgba(46,154,107,.16);border-bottom:3px solid #2e9a6b}.bn-N .bn-t{color:#2e9a6b}
+.bn-p{background:rgba(217,130,43,.18);border-bottom:3px solid #d9822b}.bn-p .bn-t{color:#b86a1a}
+.bn-P{background:rgba(160,82,45,.18);border-bottom:3px solid #a0522d}.bn-P .bn-t{color:#a0522d}
+.bn-h{background:rgba(192,57,43,.15);border-bottom:3px solid #c0392b}.bn-h .bn-t{color:#c0392b}
+.bn-H{background:rgba(142,68,173,.16);border-bottom:3px solid #8e44ad}.bn-H .bn-t{color:#8e44ad}
+.bn-t.x,.bn-x{background:rgba(127,140,141,.2);border-bottom:3px solid #7f8c8d}.bn-x .bn-t{color:#5d6d6e}
+.bn-t{}
+.bn-w.bn-t{}
+.bn-lg{border:1.5px solid transparent;border-radius:14px;padding:3px 10px;font-size:13px;cursor:pointer;background:var(--card-bg,#fff);opacity:.45;font-family:var(--ui-font,inherit)}
+.bn-lg.on{opacity:1}.bn-lg.bn-q{border-color:#2f6fb3}.bn-lg.bn-N{border-color:#2e9a6b}.bn-lg.bn-p{border-color:#d9822b}.bn-lg.bn-P{border-color:#a0522d}.bn-lg.bn-h{border-color:#c0392b}.bn-lg.bn-H{border-color:#8e44ad}.bn-lg.bn-x{border-color:#7f8c8d}
+.bn-leg{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;align-items:center}
+.bn-chip{display:inline-block;border:1.5px solid;border-radius:12px;padding:1px 8px;font-size:12px;margin:2px 2px}
+.bn-big{border-left:5px solid;padding:4px 10px;margin:6px 0}.bn-bn{font-weight:800;font-size:18px}.bn-he{font-size:20px;margin-inline-start:8px}
+.bn-bars{margin:6px 0}.bn-bar{display:flex;align-items:center;gap:6px;margin:3px 0;font-size:13px}.bn-bl{width:64px;flex:none}.bn-bf{height:14px;border-radius:7px;display:block}.bn-bn2{font-weight:700}
+.bn-det{margin:6px 0}.bn-lst{padding:4px 10px;columns:2;column-gap:20px}.bn-lst div{break-inside:avoid;margin:2px 0}
+@media(min-width:900px){.bn-grid{display:grid;grid-template-columns:1fr 340px;gap:14px;align-items:start}.bn-side{position:sticky;top:10px}}
 </style>
 </head>
 <body>
@@ -1163,6 +1186,8 @@ function buildAzVariants(key){
 function buildAzNiqqudVariants(baseChar){
   return niqqudComboSet(baseChar);
 }
+const CANT_MARKS=[["0591", "etnahta"], ["0592", "segol (accent)"], ["0593", "shalshelet"], ["0594", "zaqef qatan"], ["0595", "zaqef gadol"], ["0596", "tipeha"], ["0597", "revia"], ["0598", "zarqa"], ["0599", "pashta"], ["059A", "yetiv"], ["059B", "tevir"], ["059C", "geresh"], ["059D", "geresh muqdam"], ["059E", "gershayim"], ["059F", "qarney para"], ["05A0", "telisha gedola"], ["05A1", "pazer"], ["05A2", "atnah hafukh"], ["05A3", "munah"], ["05A4", "mahapakh"], ["05A5", "merkha"], ["05A6", "merkha kefula"], ["05A7", "darga"], ["05A8", "qadma"], ["05A9", "telisha qetana"], ["05AA", "yerah ben yomo"], ["05AB", "ole"], ["05AC", "iluy"], ["05AD", "dehi"], ["05AE", "zinor"], ["05AF", "cercle de la massora"]];
+function hebCantHTML(targetId){return '<details class="azcant"><summary>Cantillation (téamim)</summary><div class="azcant-g">'+CANT_MARKS.map(m=>'<button type="button" class="azkbtn azcb" title="'+m[1]+'" onclick="hebKbInsert(\''+targetId+'\',String.fromCharCode(0x'+m[0]+'))"><span class="heb">\u25CC'+String.fromCharCode(parseInt(m[0],16))+'</span><span class="azsub">'+m[1]+'</span></button>').join('')+'</div><p class="ui" style="font-size:11px;color:var(--text-soft);margin:4px 2px 0;">Tapez la lettre et la voyelle, puis le signe : il se pose sur la lettre précédente.</p></details>';}
 function hebKeyboardHTML(targetId){
   const rows = AZERTY_ROWS.map(row=>{
     const keys = row.map(k=>{
@@ -1175,6 +1200,7 @@ function hebKeyboardHTML(targetId){
   return `<div class="azkeyboard">
     ${rows}
     <div class="azkb-row"><button type="button" class="azkbtn azwide" onclick="hebKbInsert('${targetId}','&#x05BE;')" title="Maqaf">־ Maqaf</button><button type="button" class="azkbtn azwide" onclick="hebKbInsert('${targetId}','&#x05C3;')" title="Fin de verset (sof pasuq)">׃ Fin verset</button><button type="button" class="azkbtn azwide" onclick="hebKbInsert('${targetId}','&#x05AB;')" title="Accent tonique déplacé (après la voyelle)"><span class="heb" style="font-size:1.1em;">◌֫</span> Accent</button><button type="button" class="azkbtn azwide" onclick="hebKbInsert('${targetId}','&#x05BD;')" title="Meteg / silluq"><span class="heb" style="font-size:1.1em;">◌ֽ</span> Meteg</button><button type="button" class="azkbtn azwide" onclick="hebKbInsert('${targetId}','&#x05C0;')" title="Paseq">׀ Paseq</button><button type="button" class="azkbtn azwide" onclick="hebKbInsert('${targetId}',' ')">Espace</button><button type="button" class="azkbtn azwide" onclick="hebKbBackspace('${targetId}')">⌫ Effacer</button></div>
+    ${hebCantHTML(targetId)}
     <p class="ui" style="font-size:11px;color:var(--text-soft);margin:6px 2px 0;">Appui bref = lettre nue. Appui maintenu = voyelles/variantes (clic ou touche numérique pour choisir).</p>
   </div>`;
 }
@@ -1478,6 +1504,39 @@ function escapeNoteHTML(text){
   const esc = String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   return esc.replace(/([\u0591-\u05F4]+)/g, '<span class="heb">$1</span>');
 }
+/*BIDI-BEGIN*/
+function bidiFix(root){
+  try{
+    root=root||document.body; if(!root||root.nodeType!==1) return;
+    const HR=/[\u0590-\u05FF\uFB1D-\uFB4F]+(?:[ \u00A0]+[\u0590-\u05FF\uFB1D-\uFB4F]+)*/g;
+    const tw=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null);
+    const list=[]; let n;
+    while((n=tw.nextNode())){ if(/[\u0590-\u05FF\uFB1D-\uFB4F]/.test(n.nodeValue)) list.push(n); }
+    list.forEach(t=>{
+      const par=t.parentElement; if(!par) return;
+      if(par.closest('.hb,script,style,textarea,input,select,option,[contenteditable="true"]')) return;
+      if(getComputedStyle(par).direction==='rtl') return;
+      const v=t.nodeValue; HR.lastIndex=0;
+      const frag=document.createDocumentFragment(); let last=0,m,any=false;
+      while((m=HR.exec(v))){
+        any=true;
+        if(m.index>last) frag.appendChild(document.createTextNode(v.slice(last,m.index)));
+        const sp=document.createElement('span'); sp.className='hb'; sp.setAttribute('dir','rtl'); sp.textContent=m[0]; frag.appendChild(sp);
+        last=m.index+m[0].length;
+      }
+      if(!any) return;
+      if(last<v.length) frag.appendChild(document.createTextNode(v.slice(last)));
+      par.replaceChild(frag,t);
+    });
+  }catch(e){}
+}
+(function(){
+  let tm=null;
+  function sched(){ clearTimeout(tm); tm=setTimeout(()=>{ const m=document.getElementById('main'); if(m) bidiFix(m); },30); }
+  function start(){ try{ new MutationObserver(sched).observe(document.body,{childList:true,subtree:true}); sched(); }catch(e){} }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start); else start();
+})();
+/*BIDI-END*/
 function enhanceHebrewText(scopeEl){
   scopeEl = scopeEl || document;
   const processed = new Set();
@@ -8301,7 +8360,7 @@ function renderSidebar(){
     ${SESSION.role==='student'?'':`<div class="navitem ${STATE.view==='dict'?'active':''}" onclick="go('dict')"><span class="num">📖</span>Dictionnaire complet</div>`}
     <div class="navitem ${STATE.view==='bible'?'active':''}" onclick="go('bible')"><span class="num">📜</span>Bible hébraïque</div>
     <div class="navitem ${STATE.view==='isavoc'?'active':''}" onclick="go('isavoc')"><span class="num">📘</span>Ésaïe 6 · Vocabulaire</div>
-    <div class="navitem ${STATE.view==='bibsyn'?'active':''}" onclick="go('bibsyn')"><span class="num">🔬</span>Bible analysée</div>
+    <div class="navitem ${STATE.view==='bibsyn'?'active':''}" onclick="go('bibsyn')"><span class="num">🔬</span>Bible analysée</div><div class="navitem ${STATE.view==='bibbin'?'active':''}" onclick="go('bibbin')"><span class="num">🧱</span>Bible des binyanim</div>
     <div class="navitem ${STATE.view==='exercices'?'active':''}" onclick="go('exercices')"><span class="num">ת</span>Exercices</div>`;
   if(SESSION.role==='student'){
     h += `<div class="navitem ${STATE.view==='exammenu'||STATE.view==='exam'?'active':''}" onclick="go('exammenu')"><span class="num">✎</span>Examens</div>`;
@@ -8342,6 +8401,7 @@ function renderSidebar(){
   th += `<button class="${STATE.view==='bible'?'active':''}" onclick="go('bible')">📜 Bible hébraïque</button>`;
   th += `<button class="${STATE.view==='isavoc'?'active':''}" onclick="go('isavoc')">📘 Ésaïe 6</button>`;
   th += `<button class="${STATE.view==='bibsyn'?'active':''}" onclick="go('bibsyn')">🔬 Bible analysée</button>`;
+  th += `<button class="${STATE.view==='bibbin'?'active':''}" onclick="go('bibbin')">🧱 Bible des binyanim</button>`;
   th += `<button class="${STATE.view==='exercices'?'active':''}" onclick="go('exercices')">Exercices</button>`;
   if(SESSION.role==='student') th += `<button class="${STATE.view==='exammenu'?'active':''}" onclick="go('exammenu')">Examens</button>`;
   th += `<button class="${STATE.view==='library'||STATE.view==='librarydoc'?'active':''}" onclick="go('library')">📚 Bibliothèque</button>`;
@@ -8373,7 +8433,7 @@ function renderShualiSidebar(sb){
     h += `<div class="navitem ${STATE.view==='shualichapter'&&STATE.shchapter===n?'active':''} ${has?'':'disabled'}" onclick="${has?`go('shualichapter',{shchapter:${n}})`:''}"><span class="num">${n}</span>${c.title}${has?'':' <span style=\"font-size:10px;opacity:.6;\">(à venir)</span>'}</div>`;
   });
   h += `</div>`;
-  h += `<div class="navgroup"><div class="navitem ${STATE.view==='bible'?'active':''}" onclick="go('bible')"><span class="num">📜</span>Bible hébraïque</div><div class="navitem ${STATE.view==='isavoc'?'active':''}" onclick="go('isavoc')"><span class="num">📘</span>Ésaïe 6 · Vocabulaire</div><div class="navitem ${STATE.view==='bibsyn'?'active':''}" onclick="go('bibsyn')"><span class="num">🔬</span>Bible analysée</div></div>`;
+  h += `<div class="navgroup"><div class="navitem ${STATE.view==='bible'?'active':''}" onclick="go('bible')"><span class="num">📜</span>Bible hébraïque</div><div class="navitem ${STATE.view==='isavoc'?'active':''}" onclick="go('isavoc')"><span class="num">📘</span>Ésaïe 6 · Vocabulaire</div><div class="navitem ${STATE.view==='bibsyn'?'active':''}" onclick="go('bibsyn')"><span class="num">🔬</span>Bible analysée</div><div class="navitem ${STATE.view==='bibbin'?'active':''}" onclick="go('bibbin')"><span class="num">🧱</span>Bible des binyanim</div></div>`;
   h += `<div class="navgroup"><div class="navitem" onclick="doLogout()">🚪 Se déconnecter</div></div>`;
   sb.innerHTML = h;
 }
@@ -11011,6 +11071,68 @@ function gnLegendHTML(){
     <span><i style="background:#b5401e;"></i>Ajout (préfixe/suffixe/changement)</span>
   </div>`;
 }
+/*SUPP-BEGIN*/
+/* Compléments de cours : tableaux présents dans les PDF sources (Bibliques.com) et absents du cours de l'appli */
+function suppTbl(cap, heads, rows){
+  const H=s=>`<span class="heb">${s}</span>`;
+  return `<div class="tblwrap"><table class="gridtbl"><caption>${cap}</caption><thead><tr>${heads.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>{
+    if(c==null) return '<td></td>';
+    if(c&&c.span) return `<td colspan="${c.span}" style="text-align:center;" class="common">${H(c.h)}</td>`;
+    return i===0&&!/[֐-׿]/.test(c)?`<td>${c}</td>`:`<td>${/[֐-׿]/.test(c)?c.split(' / ').map(H).join(' / '):c}</td>`;}).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
+const SUPP_P=['1ʳᵉ sg.','2ᵉ sg.','3ᵉ sg.','1ʳᵉ pl.','2ᵉ pl.','3ᵉ pl.'];
+function suppCard(src, inner){return `<div class="card"><h3><span class="en">Complément — d'après le cours source (${src})</span>Compléments du cours</h3>${inner}</div>`;}
+const COURSE_SUPP = {
+ 13: ()=>suppCard('leçon 11, qal qatal',
+   suppTbl('Qatal du qal — le verbe קָטַל « tuer » (modèle des cours sources)',['Personne','Féminin','Masculin'],[
+    [SUPP_P[0],{span:2,h:'קָטַלְתִּי'}],[SUPP_P[1],'קָטַלְתְּ','קָטַלְתָּ'],[SUPP_P[2],'קָטְלָה','קָטַל'],[SUPP_P[3],{span:2,h:'קָטַלְנוּ'}],[SUPP_P[4],'קְטַלְתֶּן','קְטַלְתֶּם'],[SUPP_P[5],{span:2,h:'קָטְלוּ'}]])
+   +`<p class="ui">Les trois premières lettres sont toujours la racine. Formes communes au masculin et au féminin : 1ʳᵉ sg., 1ʳᵉ pl., 3ᵉ pl. Une lettre <span class="heb">בגדכפת</span> précédée d'un shéwa prend un daguesh : ici à la 2ᵉ pl. (<span class="heb">קְטַלְתֶּם</span>, <span class="heb">קְטַלְתֶּן</span>).</p>`),
+ 14: ()=>suppCard('leçon 26, le participe',
+   suppTbl('Participe actif — שָׁמַר « garder » et שָׁמַע « écouter »',['','Masc. sg.','Masc. pl.','Fém. sg.','Fém. pl.'],[
+    ['garder','שֹׁמֵר','שֹׁמְרִים / שׁוֹמְרִים','שֹׁמֶרֶת / שֹׁמְרָה','שֹׁמְרוֹת'],['écouter','שֹׁמֵעַ','שֹׁמְעִים','שֹׁמַעַת','שֹׁמְעוֹת']])
+   +`<p class="ui">Les verbes lamed-gutturale prennent un patah furtif sous la gutturale (<span class="heb">שֹׁמֵעַ</span>) et sont vocalisés en a au féminin singulier (<span class="heb">שֹׁמַעַת</span>). On trouve aussi la forme régulière <span class="heb">שֹׁמְרָה</span>. Écriture pleine ou défective possible : <span class="heb">יֹשֵׁב</span> / <span class="heb">יוֹשֵׁב</span>.</p>`),
+ 15: ()=>suppCard('leçon 13, qal qatal (2)',
+   suppTbl('Qatal des verbes lamed-hé — גָּלָה « révéler, partir en exil »',['Personne','Féminin','Masculin'],[
+    [SUPP_P[0],{span:2,h:'גָּלִיתִי'}],[SUPP_P[1],'גָּלִית','גָּלִיתָ'],[SUPP_P[2],'גָּלְתָה','גָּלָה'],[SUPP_P[3],{span:2,h:'גָּלִינוּ'}],[SUPP_P[4],'גְּלִיתֶן','גְּלִיתֶם'],[SUPP_P[5],{span:2,h:'גָּלוּ'}]])
+   +`<p class="ui">Le verbe vient de l'ancien <span class="heb">גלי</span> : le yod apparaît partout où il aurait dû se maintenir.</p>`
+   +suppTbl('D\'où viennent ces formes',['Ancienne forme','Forme biblique'],[['גָּלַיתִי','גָּלִיתִי'],['גָּלַיתָ','גָּלִיתָ'],['גָּלַית','גָּלִית'],['גָּלַי','גָּלָה'],['גָּלְיָה','גָּלְתָה'],['גָּלַינוּ','גְּלִינוּ'],['גְּלַיתֶם','גְּלִיתֶם'],['גְּלַיתֶן','גְּלִיתֶן'],['גָּלְיוּ','גָּלוּ']])
+   +`<p class="ui">Dans la seconde syllabe, <span class="heb">לִי &lt; לַי</span>. Le <span class="heb">ת</span> des 2ᵉ personnes et de la 1ʳᵉ sg. ne prend pas de daguesh : il suit une voyelle. En fin de mot, le yod tombe : 3ᵉ pl. le <span class="heb">וּ</span> demeure ; 3ᵉ m. sg. le hé allonge la voyelle précédente ; 3ᵉ f. sg. elle se forme sur la 3ᵉ m. sg. + <span class="heb">ת</span>.</p>`),
+ 16: ()=>suppCard('leçon 21, le yiqtol (1)',
+   suppTbl('Yiqtol du qal — קָטַל « tuer »',['Personne','Féminin','Masculin'],[
+    [SUPP_P[0],{span:2,h:'אֶקְטֹל'}],[SUPP_P[1],'תִּקְטְלִי','תִּקְטֹל'],[SUPP_P[2],'תִּקְטֹל','יִקְטֹל'],[SUPP_P[3],{span:2,h:'נִקְטֹל'}],[SUPP_P[4],'תִּקְטֹלְנָה','תִּקְטְלוּ'],[SUPP_P[5],'תִּקְטֹלְנָה','יִקְטְלוּ']])
+   +`<p class="ui">Aux consonnes de la racine on ajoute un préfixe et une vocalisation. Aux 2ᵉ et 3ᵉ pers. du masc. pluriel, le premier daguesh est quiescent (il ferme la syllabe), le second est voisé. Les 2ᵉ et 3ᵉ pers. du fém. pluriel sont identiques.</p>`),
+ 11: ()=>suppCard('leçons 23 et 22, noms et prépositions avec suffixes',
+   suppTbl('Suffixes sur un nom singulier — סוּס « cheval » (m.) et סוּסָה « jument » (f.)',['Personne','Nom masculin','Nom féminin'],[
+    ['1ʳᵉ sg.','סוּסִי','סוּסָתִי'],['2ᵉ sg. f.','סוּסֵךְ','סוּסָתֵךְ'],['2ᵉ sg. m.','סוּסְךָ','סוּסָתְךָ'],['3ᵉ sg. f.','סוּסָהּ','סוּסָתָהּ'],['3ᵉ sg. m.','סוּסוֹ','סוּסָתוֹ'],['1ʳᵉ pl.','סוּסֵנוּ','סוּסָתֵנוּ'],['2ᵉ pl. f.','סוּסְכֶן','סוּסַתְכֶן'],['2ᵉ pl. m.','סוּסְכֶם','סוּסַתְכֶם'],['3ᵉ pl. f.','סוּסָן','סוּסָתָן'],['3ᵉ pl. m.','סוּסָם','סוּסָתָם']])
+   +`<p class="ui">Le nom muni d'un suffixe ne prend plus l'article. Le nom féminin remplace son <span class="heb">ה</span> final par <span class="heb">ת</span>. Exemples : <span class="heb">סוּסְךָ</span> ton cheval · <span class="heb">בֵּיתְךָ</span> ta maison · <span class="heb">דְּבָרְךָ</span> ta parole · <span class="heb">סוּסָתְךָ</span> ta jument.</p>`
+   +suppTbl('La particule אֵת avec suffixes',['Personne','אֵת + complément d\'objet','אֵת « avec »'],[
+    ['1ʳᵉ sg.','אֹתִי','אִתִּי'],['2ᵉ sg. m.','אֹתְךָ','אִתְּךָ'],['2ᵉ sg. f.','אֹתָךְ','אִתָּךְ'],['3ᵉ sg. m.','אֹתוֹ','אִתּוֹ'],['3ᵉ sg. f.','אֹתָהּ','אִתָּהּ'],['1ʳᵉ pl.','אֹתָנוּ','אִתָּנוּ'],['2ᵉ pl. m.','אֶתְכֶם','אִתְּכֶם'],['2ᵉ pl. f.','אֶתְכֶן','אִתְּכֶן'],['3ᵉ pl. m.','אֹתָם','אִתָּם'],['3ᵉ pl. f.','אֹתָן','אִתָּן']])
+   +`<p class="ui">Le daguesh du <span class="heb">ת</span> est toujours présent dans <span class="heb">אֵת</span> « avec », jamais dans la particule du complément. L'aleph se vocalise en hiréq pour « avec » et en holem pour le complément, sauf aux 2ᵉ pers. du pluriel.</p>`),
+ 12: ()=>suppCard('leçon 24, suffixes des noms pluriels ; leçon 22 (2), prépositions',
+   suppTbl('Suffixes sur un nom pluriel — סוּסִים « chevaux » (m.) et סוּסוֹת « juments » (f.)',['Personne','Nom masculin','Nom féminin'],[
+    ['1ʳᵉ sg.','סוּסַי','סוּסוֹתַי'],['2ᵉ sg. f.','סוּסַיִךְ','סוּסוֹתַיִךְ'],['2ᵉ sg. m.','סוּסֶיךָ','סוּסוֹתֶיךָ'],['3ᵉ sg. f.','סוּסֶיהָ','סוּסוֹתֶיהָ'],['3ᵉ sg. m.','סוּסָיו','סוּסוֹתָיו'],['1ʳᵉ pl.','סוּסֵינוּ','סוּסוֹתֵינוּ'],['2ᵉ pl. f.','סוּסֵיכֶן','סוּסוֹתֵיכֶן'],['2ᵉ pl. m.','סוּסֵיכֶם','סוּסוֹתֵיכֶם'],['3ᵉ pl. f.','סוּסֵיהֶן','סוּסוֹתֵיהֶן'],['3ᵉ pl. m.','סוּסֵיהֶם','סוּסוֹתֵיהֶם']])
+   +`<p class="ui">Le suffixe s'accorde au possesseur : <span class="heb">סוּסָיו</span> ses chevaux (à lui) · <span class="heb">סוּסֶיהָ</span> ses chevaux (à elle) · <span class="heb">סוּסוֹתָיו</span> ses juments (à lui) · <span class="heb">סוּסוֹתֶיהָ</span> ses juments (à elle). La marque des noms pluriels est le <span class="heb">י</span> intercalé avant le suffixe (il ne se prononce pas mais permet de les identifier). La 3ᵉ f. sg. n'a plus besoin de mappiq : elle est vocalisée.</p>`
+   +suppTbl('Les prépositions מִן « de » et כְּ « comme » avec suffixes',['Personne','מִן','כְּ'],[
+    ['1ʳᵉ sg.','מִמֶּנִּי','כָּמוֹנִי'],['2ᵉ sg. m.','מִמְּךָ','כָּמוֹךָ'],['2ᵉ sg. f.','מִמֵּךְ','כָּמוֹךְ'],['3ᵉ sg. m.','מִמֶּנּוּ','כָּמוֹהוּ'],['3ᵉ sg. f.','מִמֶּנָּה','כָּמוֹהָ'],['1ʳᵉ pl.','מִמֶּנּוּ','כָּמוֹנוּ'],['2ᵉ pl. m.','מִכֶּם','כָּכֶם'],['2ᵉ pl. f.','מִכֶּן','כָּכֶן'],['3ᵉ pl. m.','מֵהֶם / מֵהֵמָּה','כָּהֵם'],['3ᵉ pl. f.','מֵהֶן / מֵהֵנָּה','כָּהֵן / כָּהֵנָּה']])
+   +`<p class="ui"><span class="heb">מִן</span> : le nûn assimilé donne un daguesh à la consonne suivante ; la 3ᵉ m. sg. et la 1ʳᵉ pl. sont semblables ; devant une gutturale (qui ne peut être redoublée) le hiréq s'allonge en <span class="heb">מֵ</span>.</p>`
+   +suppTbl('Récapitulation : prépositions avec le suffixe 1ʳᵉ sg.',['Préposition','Avec suffixe','Sens'],[
+    ['בְּ','בִּי','à, dans, par, avec'],['כְּ','כָּמוֹנִי','comme'],['לְ','לִי','à, pour'],['מִן','מִמֶּנִּי','de'],['עִם','עִמִּי','avec'],['אֵת','אִתִּי','avec'],['אֶל','אֵלַי','à, vers'],['עַל','עָלַי','sur, contre'],['תַּחַת','תַּחְתַּי','sous'],['בֵּין','בֵּינִי','entre'],['אַחֲרֵי','אַחֲרַי','après, derrière'],['עַד','עָדַי','jusqu\'à']])),
+ 20: ()=>suppCard('leçon 35, le weqatal',
+   suppTbl('Weqatal du qal — קָטַל « tuer »',['Personne','Féminin','Masculin'],[
+    [SUPP_P[0],{span:2,h:'וְקָטַלְתִּי'}],[SUPP_P[1],'וְקָטַלְתְּ','וְקָטַלְתָּ'],[SUPP_P[2],'וְקָטְלָה','וְקָטַל'],[SUPP_P[3],{span:2,h:'וְקָטַלְנוּ'}],[SUPP_P[4],'וּקְטַלְתֶּן','וּקְטַלְתֶּם'],[SUPP_P[5],{span:2,h:'וְקָטְלוּ'}]])
+   +suppTbl('Weqatal du qal — אָכַל « manger »',['Personne','Féminin','Masculin'],[
+    [SUPP_P[0],{span:2,h:'וְאָכַלְתִּי'}],[SUPP_P[1],'וְאָכַלְתְּ','וְאָכַלְתָּ'],[SUPP_P[2],'וְאָכְלָה','וְאָכַל'],[SUPP_P[3],{span:2,h:'וְאָכַלְנוּ'}],[SUPP_P[4],'וַאֲכַלְתֶּן','וַאֲכַלְתֶּם'],[SUPP_P[5],{span:2,h:'וְאָכְלוּ'}]])
+   +`<p class="ui">L'accent se porte sur la dernière syllabe. La vocalisation du waw suit les règles habituelles : devant un shéwa, comme devant les labiales (<span class="heb">במ"ף</span>), il devient <span class="heb">וּ</span> ; devant un shéwa voisé, le waw prend la voyelle brève correspondante : <span class="heb">וַאֲהַבְתֶּם</span>.</p>`
+   +`<div class="example"><span class="heb">שְׁמַע יִשְׂרָאֵל אֶת־הַחֻקִּים וְאֶת־הַמִּשְׁפָּטִים</span> <span class="fr">Écoute, Israël, les lois et les décrets…</span><br><span class="heb">וּלְמַדְתֶּם אֹתָם</span> <span class="fr">et vous les apprendrez</span><br><span class="heb">וּשְׁמַרְתֶּם לַעֲשֹׂתָם</span> <span class="fr">et vous observerez de les pratiquer</span></div>`
+   +`<p class="ui">Le qatal exprime ce qui était concrètement advenu ; l'ajout d'un waw oriente le verbe vers l'avenir.</p>`),
+ 25: ()=>suppCard('leçon 37, qal (fin) : le participe passif',
+   suppTbl('Participe passif du qal — קָטַל « tuer » et שָׁמַע « écouter »',['','Masc. sg.','Masc. pl.','Fém. sg.','Fém. pl.'],[
+    ['tuer','קָטוּל','קְטוּלִים','קְטוּלָה','קְטוּלוֹת'],['écouter','שָׁמוּעַ','שְׁמוּעִים','שְׁמוּעָה','שְׁמוּעוֹת']])
+   +`<p class="ui">Le participe passif s'emploie comme un adjectif : épithète (avec l'article si le nom est déterminé) ou attribut. Il se décline comme un adjectif : à partir du masculin singulier, on déduit les autres formes.</p>`
+   +`<div class="example"><span class="heb">כָּל־הָאָלוֹת הַכְּתוּבוֹת</span> <span class="fr">toutes les malédictions écrites</span><br><span class="heb">אָרוּר אַתָּה</span> <span class="fr">tu es maudit</span></div>`+`<div class="card"><h3><span class="en">Exercices du cours source (leçon 41, Bibliques.com)</span>Exercices — participe passif et révisions</h3><p class="ui">Essayez d'abord, puis cliquez sur l'énoncé pour voir la réponse. Les corrigés sont proposés ici, le PDF source n'en donne pas.</p><h4>1. Mettre aux quatre formes du participe passif</h4><details style="margin:6px 0;"><summary><span class="heb">שָׁמַר</span></summary><div style="padding:4px 10px;"><span class="heb">שָׁמוּר</span> · <span class="heb">שְׁמוּרָה</span> · <span class="heb">שְׁמוּרִים</span> · <span class="heb">שְׁמוּרוֹת</span></div></details><details style="margin:6px 0;"><summary><span class="heb">כָּתַב</span></summary><div style="padding:4px 10px;"><span class="heb">כָּתוּב</span> · <span class="heb">כְּתוּבָה</span> · <span class="heb">כְּתוּבִים</span> · <span class="heb">כְּתוּבוֹת</span></div></details><details style="margin:6px 0;"><summary><span class="heb">בֵּרַךְ</span></summary><div style="padding:4px 10px;"><span class="heb">בָּרוּךְ</span> · <span class="heb">בְּרוּכָה</span> · <span class="heb">בְּרוּכִים</span> · <span class="heb">בְּרוּכוֹת</span></div></details><h4>2. Traduire les expressions</h4><details style="margin:6px 0;"><summary><span class="heb">בֵּן אֵין לָהּ</span></summary><div style="padding:4px 10px;">elle n'a pas de fils</div></details><details style="margin:6px 0;"><summary><span class="heb">אֵין לוֹ בֵּן</span></summary><div style="padding:4px 10px;">il n'a pas de fils</div></details><details style="margin:6px 0;"><summary><span class="heb">אֵין לָהּ אָב וָאֵם</span></summary><div style="padding:4px 10px;">elle n'a ni père ni mère</div></details><details style="margin:6px 0;"><summary><span class="heb">לֹא־הָיוּ לוֹ בָּנִים</span></summary><div style="padding:4px 10px;">il n'avait pas de fils</div></details><details style="margin:6px 0;"><summary><span class="heb">וּבָנִים לֹא־הָיוּ לָהֶם</span></summary><div style="padding:4px 10px;">et ils n'avaient pas de fils</div></details><details style="margin:6px 0;"><summary><span class="heb">יֵשׁ לָנוּ אָב זָקֵן</span></summary><div style="padding:4px 10px;">nous avons un vieux père</div></details><details style="margin:6px 0;"><summary><span class="heb">הֲיֵשׁ־לָכֶם אָב אוֹ־אָח</span></summary><div style="padding:4px 10px;">avez-vous un père ou un frère ?</div></details><h4>3. Vocabulaire</h4><details style="margin:6px 0;"><summary><span class="heb">אֹיְבֵי יְהוָה</span></summary><div style="padding:4px 10px;">les ennemis de l'Éternel</div></details><details style="margin:6px 0;"><summary><span class="heb">אוֹיְבֵי יִשְׂרָאֵל</span></summary><div style="padding:4px 10px;">les ennemis d'Israël</div></details><details style="margin:6px 0;"><summary><span class="heb">אָלוֹת</span></summary><div style="padding:4px 10px;">malédictions</div></details><details style="margin:6px 0;"><summary><span class="heb">הָאָרוֹן</span></summary><div style="padding:4px 10px;">l'arche</div></details><details style="margin:6px 0;"><summary><span class="heb">אָדוֹן</span></summary><div style="padding:4px 10px;">seigneur, maître</div></details><details style="margin:6px 0;"><summary><span class="heb">אָלָה</span></summary><div style="padding:4px 10px;">malédiction, serment</div></details><details style="margin:6px 0;"><summary><span class="heb">אוֹיֵב</span></summary><div style="padding:4px 10px;">ennemi</div></details><details style="margin:6px 0;"><summary><span class="heb">הַבַּעַל</span></summary><div style="padding:4px 10px;">le maître (le baal)</div></details><details style="margin:6px 0;"><summary><span class="heb">סֵפֶר</span></summary><div style="padding:4px 10px;">livre</div></details><details style="margin:6px 0;"><summary><span class="heb">סְפָרִים</span></summary><div style="padding:4px 10px;">livres</div></details><details style="margin:6px 0;"><summary><span class="heb">אֹיְבִים</span></summary><div style="padding:4px 10px;">ennemis</div></details><details style="margin:6px 0;"><summary><span class="heb">הָאָלָה</span></summary><div style="padding:4px 10px;">la malédiction</div></details><details style="margin:6px 0;"><summary><span class="heb">בַּעַל־הַבַּיִת</span></summary><div style="padding:4px 10px;">le maître de la maison</div></details><details style="margin:6px 0;"><summary><span class="heb">הַבְּרָכָה</span></summary><div style="padding:4px 10px;">la bénédiction</div></details><details style="margin:6px 0;"><summary><span class="heb">הַבְּרָכוֹת</span></summary><div style="padding:4px 10px;">les bénédictions</div></details><details style="margin:6px 0;"><summary><span class="heb">הַסֵּפֶר</span></summary><div style="padding:4px 10px;">le livre</div></details><h4>4. Traduire les phrases</h4><details style="margin:6px 0;"><summary><span class="heb">וְעַתָּה אֲרוּרִים אַתֶּם</span></summary><div style="padding:4px 10px;">Et maintenant, vous êtes maudits.</div></details><details style="margin:6px 0;"><summary><span class="heb">הַבְּרִית הַכְּתוּבָה בְּסֵפֶר הַתּוֹרָה הַזֶּה</span></summary><div style="padding:4px 10px;">l'alliance écrite dans ce livre de la loi</div></details><details style="margin:6px 0;"><summary><span class="heb">הֲלֹא־הִיא כְתוּבָה עַל־סֵפֶר תּוֹרַת־מֹשֶׁה</span></summary><div style="padding:4px 10px;">N'est-elle pas écrite dans le livre de la loi de Moïse ?</div></details><details style="margin:6px 0;"><summary><span class="heb">בָּרוּךְ אַתָּה בָּעִיר וּבָרוּךְ אַתָּה בַּשָּׂדֶה</span></summary><div style="padding:4px 10px;">Béni seras-tu dans la ville, et béni seras-tu dans les champs.</div></details><details style="margin:6px 0;"><summary><span class="heb">הִנֵּה אֲרוֹן הַבְּרִית אֲדוֹן כָּל־הָאָרֶץ עֹבֵר לִפְנֵיכֶם בַּיַּרְדֵּן</span></summary><div style="padding:4px 10px;">Voici : l'arche de l'alliance du maître de toute la terre passe devant vous dans le Jourdain.</div></details><details style="margin:6px 0;"><summary><span class="heb">כֹּה אָמַר יְהוָה אֱלֹהֵי יִשְׂרָאֵל אָרוּר הָאִישׁ אֲשֶׁר לֹא יִשְׁמַע אֶת־דִּבְרֵי הַבְּרִית הַזֹּאת</span></summary><div style="padding:4px 10px;">Ainsi a dit l'Éternel, le Dieu d'Israël : maudit soit l'homme qui n'écoutera pas les paroles de cette alliance.</div></details></div>`)
+};
+function courseSuppHTML(n){try{const f=COURSE_SUPP[n];return f?f():''}catch(e){return ''}}
+/*SUPP-END*/
 function viewCours(){
   const n = STATE.lesson;
   if(!isLessonUnlocked(n)){
@@ -11038,6 +11160,7 @@ function viewCours(){
   </div>
   ${gnLegendHTML()}
   ${LESSONS[n-1]}
+  ${courseSuppHTML(n)}
   ${notesHTML}
   ${vocabMatchCardHTML(n)}
   <div class="lesson-nav">
@@ -13592,7 +13715,7 @@ async function bibLoad(){
     BIB=JSON.parse(await new Response(stream).text());
     BIB.byCode={}; BIB.B.forEach(b=>BIB.byCode[b.c]=b);
   }catch(e){ BIB_ERR=String(e&&e.message||e); }
-  BIB_LOADING=false; if(STATE.view==='bible'||STATE.view==='bibsyn') renderContentOnly();
+  BIB_LOADING=false; if(STATE.view==='bible'||STATE.view==='bibsyn'||STATE.view==='bibbin') renderContentOnly();
 }
 function bibDMap(){ if(!BIB_UI._dm){ BIB_UI._dm={}; try{ dcAll().forEach(e=>BIB_UI._dm[e.id]=e); }catch(e){} } return BIB_UI._dm; }
 /* ---------- décodage de la morphologie (OSHB) ---------- */
@@ -13721,6 +13844,110 @@ function bibNav(dc){
   else if(c>bk.ch.length){ if(bi<BIB.B.length-1){ bi++; BIB_UI.b=BIB.B[bi].c; c=1; } else c=bk.ch.length; }
   BIB_UI.c=c; BIB_UI.sel=null; BIB_UI.mode='read'; renderContentOnly(); window.scrollTo(0,0);
 }
+/*BINYAN-BEGIN*/
+const BN={reveal:false,b:'Gen',c:1,tags:true,dim:true,cant:false,on:{q:1,N:1,p:1,P:1,h:1,H:1,t:1,x:1},sel:null,stats:null,intro:true};
+const BN_K=['q','N','p','P','h','H','t','x'];
+const BN_INFO={
+ q:{he:'קַל',fr:'Qal',ab:'Q',ref:'פָּעַל',ex:'כָּתַב',exfr:'il a écrit',sens:'actif simple : l\'action sans nuance particulière (« léger », la forme de base). Le Qal passif (rare) est regroupé ici.',col:'#2f6fb3'},
+ N:{he:'נִפְעַל',fr:'Nifal',ab:'N',ref:'נִפְעַל',ex:'נִכְתַּב',exfr:'il a été écrit',sens:'passif du qal (« il a été écrit »), réfléchi (« se garder ») ou réciproque (« se battre »).',col:'#2e9a6b'},
+ p:{he:'פִּעֵּל',fr:'Piel',ab:'Pi',ref:'פִּעֵּל',ex:'לִמֵּד',exfr:'il a enseigné (qal : il a appris)',sens:'intensif (« briser en morceaux »), factitif (« faire apprendre » = enseigner) ou déclaratif (« déclarer saint »).',col:'#d9822b'},
+ P:{he:'פֻּעַל',fr:'Pual',ab:'Pu',ref:'פֻּעַל',ex:'יֻלַּד',exfr:'il est né (Es 9,5)',sens:'passif du piel.',col:'#a0522d'},
+ h:{he:'הִפְעִיל',fr:'Hifil',ab:'Hi',ref:'הִפְעִיל',ex:'הִמְלִיךְ',exfr:'il a fait régner (qal : il a régné)',sens:'causatif actif : « faire faire » l\'action du qal (faire régner, faire sortir, faire tomber…).',col:'#c0392b'},
+ H:{he:'הָפְעַל',fr:'Hofal',ab:'Ho',ref:'הָפְעַל',ex:'הָמְלַךְ',exfr:'il a été fait roi (Dn 9,1)',sens:'passif du hifil.',col:'#8e44ad'},
+ t:{he:'הִתְפַּעֵּל',fr:'Hitpael',ab:'Hit',ref:'הִתְפַּעֵּל',ex:'הִתְקַדֵּשׁ',exfr:'il s\'est sanctifié (piel : sanctifier)',sens:'réfléchi du piel (« se sanctifier »), itératif (« aller et venir »), ou « se présenter comme… ».',col:'#16a2b8'},
+ x:{he:'אֲחֵרִים',fr:'Autres',ab:'…',ref:'',ex:'',exfr:'',sens:'binyanim rares : polel, polal, hitpolel (racines creuses), pilpel, poel, palel, etc.',col:'#7f8c8d'}
+};
+function bnKey(st){ return st==='q'||st==='Q'?'q':('NpPhHt'.includes(st)?st:'x'); }
+function bnVerb(w){ /* -> {key,st,seg,num,m} ou null */
+  const segs=bibWordInfo(w); const s=segs.find(x=>/^V/.test(x.m)); if(!s) return null;
+  return {key:bnKey(s.m[1]),st:s.m[1],seg:s,num:s.num,m:s.m};
+}
+function bnStats(){
+  if(BN.stats) return BN.stats;
+  const tot={},lem={}; let n=0; BN_K.forEach(k=>tot[k]=0);
+  BIB.B.forEach(b=>b.ch.forEach(ch=>ch.forEach(ws=>ws.forEach(w=>{
+    const mo=BIB.MT[w[2]]||''; if(mo.indexOf('V')<0) return;
+    const ms=mo.split('/'); if(ms[0]&&/^[HA]/.test(ms[0])) ms[0]=ms[0].slice(1);
+    const ls=(BIB.LT[w[1]]||'').split('/');
+    ms.forEach((m,i)=>{ if(/^V/.test(m)){ const k=bnKey(m[1]); tot[k]++; n++; const num=((ls[i]||'').match(/\d+/)||[])[0]; if(num){ (lem[num]=lem[num]||{})[k]=(lem[num][k]||0)+1; } } });
+  }))));
+  BN.stats={tot,lem,n}; return BN.stats;
+}
+function bnGo(b,c){ if(b){BN.b=b;} if(c) BN.c=c; BN.sel=null; renderContentOnly(); window.scrollTo(0,0); }
+function bnToggle(k){ BN.on[k]=BN.on[k]?0:1; renderContentOnly(); }
+function bnAll(v){ BN_K.forEach(k=>BN.on[k]=v?1:0); renderContentOnly(); }
+function bnSel(v,i){ BN.sel={v,i}; renderContentOnly(); const p=document.getElementById('bnPanel'); if(p&&window.innerWidth<900) p.scrollIntoView({block:'nearest'}); }
+function bnWordHTML(ws,v,i){
+  const w=ws[i]; let t=w[0].replace(/\//g,''); if(!BN.cant) t=t.replace(/[֑-֯]/g,'');
+  const vb=bnVerb(w); const sel=BN.sel&&BN.sel.v===v&&BN.sel.i===i;
+  let cl='bn-w'+(sel?' on':'');
+  if(vb&&!BN.reveal&&!sel){ return '<span class="bn-w bn-v" onclick="bnSel('+v+','+i+')">'+esc(t)+'</span>'+(w[0].endsWith('־')?'':' '); }
+  if(vb&&(sel||BN.on[vb.key])){ cl+=' bn-'+vb.key; return '<span class="'+cl+'" onclick="bnSel('+v+','+i+')">'+esc(t)+((BN.tags&&BN.reveal)?'<small class="bn-t">'+BN_INFO[vb.key].ab+'</small>':'')+'</span>'+(w[0].endsWith('־')?'':' '); }
+  if(BN.dim) cl+=' bn-dim';
+  return '<span class="'+cl+'" onclick="bnSel('+v+','+i+')">'+esc(t)+'</span>'+(w[0].endsWith('־')?'':' ');
+}
+function bnPanelHTML(chapter){
+  const s=BN.sel; if(!s) return '<div class="card ui bb-hint">Touchez un mot : si c\'est un verbe, son <b>shem</b> (binyan), sa racine, sa forme et le sens s\'affichent ici.</div>';
+  const ws=chapter[s.v-1], w=ws&&ws[s.i]; if(!w) return '';
+  const vb=bnVerb(w);
+  const bk=BIB.byCode[BN.b];
+  let h='<div class="card bb-panel" id="bnPanel"><div class="bb-ph"><span class="bb-big">'+esc(w[0].replace(/\//g,'').replace(/[־׃]/g,'').replace(/[֑-֯]/g,''))+'</span><span class="ui bb-ref">'+esc(bibRef(BN.b,BN.c,s.v))+'</span></div>';
+  if(!vb){ const segs=bibWordInfo(w); segs.forEach(x=>{ h+='<div class="ui bb-d"><b>'+esc(x.t)+'</b> — '+esc(x.prefix?'préfixe : '+x.fr:(x.morph||''))+'</div>'; }); return h+'<div class="ui bb-w2" style="margin-top:6px;">Ce mot n\'est pas un verbe.</div></div>'; }
+  const I=BN_INFO[vb.key], L=vb.num?BIB.L[vb.num]:null, g=vb.num?bibGloss(vb.num):{t:''};
+  h+='<div class="bn-big" style="border-color:'+I.col+'"><span class="bn-bn" style="color:'+I.col+'">'+esc(BIB_STEM[vb.st]||I.fr)+'</span>'+(I.he&&vb.key!=='x'?' <span class="heb bn-he">'+I.he+'</span>':'')+'<div class="ui">'+esc(I.sens)+'</div></div>';
+  h+='<div class="ui bb-d"><div><b>Forme</b> : '+esc(bibSeg(vb.m))+'</div>'
+   +(L?'<div><b>Mot de base</b> : <span class="heb bb-lem">'+esc(L.h)+'</span>'+(bibRoot(L,vb.m)?' · <b>racine</b> <span class="heb">'+esc(bibRoot(L,vb.m))+'</span>':'')+'</div>':'')
+   +(g.t?'<div><b>Sens</b> : '+esc(g.t)+'</div>':'')+'</div>';
+  h+='<div class="ui bb-d bn-mod"><b>Modèles, sans contexte</b>'
+   +'<div><span class="bn-lg bn-q on" style="cursor:default">Qal</span> <span class="heb">'+BN_INFO.q.ex+'</span> — '+BN_INFO.q.exfr+'</div>'
+   +(vb.key!=='q'&&vb.key!=='x'?'<div><span class="bn-lg bn-'+vb.key+' on" style="cursor:default">'+I.fr+'</span> <span class="heb">'+I.ex+'</span> — '+I.exfr+'</div>':'')+'</div>';
+  if(vb.num){ const st=bnStats().lem[vb.num]||{}; const parts=BN_K.filter(k=>st[k]).map(k=>'<span class="bn-chip" style="border-color:'+BN_INFO[k].col+';color:'+BN_INFO[k].col+'">'+BN_INFO[k].fr+' '+st[k]+'</span>');
+    if(parts.length) h+='<div class="ui bb-d" style="margin-top:6px;"><b>Ce verbe dans toute la Bible</b> : '+parts.join(' ')+'</div>';
+    h+='<div class="bb-act"><button class="navbtn" onclick="bibLemma(\''+vb.num+'\');go(\'bible\')">🔎 Tous les versets avec ce verbe</button></div>'; }
+  return h+'</div>';
+}
+function viewBinyan(){
+  const top='<div class="topline"><div><div class="eyebrow">בִּנְיָנִים</div><h1>🧱 Bible des binyanim</h1></div><button class="navbtn" onclick="go(\'bible\')">← Bible</button></div>';
+  if(!BIB){ bibLoad(); return top+'<div class="card ui">'+(BIB_ERR?'Chargement impossible : '+esc(BIB_ERR):'Chargement de la Bible (39 livres)…')+'</div>'; }
+  const bk=BIB.byCode[BN.b]||BIB.B[0]; BN.b=bk.c; const nch=bk.ch.length; BN.c=Math.min(Math.max(BN.c,1),nch);
+  const chap=bk.ch[BN.c-1];
+  const bopts=BIB.B.map(b=>'<option value="'+b.c+'"'+(b.c===BN.b?' selected':'')+'>'+esc(bibTr(b)+' ('+bibAbbr(b)+')')+'</option>').join('');
+  let copts=''; for(let i=1;i<=nch;i++) copts+='<option value="'+i+'"'+(i===BN.c?' selected':'')+'>'+i+'</option>';
+  /* comptage du chapitre */
+  const cnt={},lems={}; BN_K.forEach(k=>{cnt[k]=0;lems[k]={};}); let nv=0;
+  chap.forEach(ws=>ws.forEach(w=>{ const vb=bnVerb(w); if(vb){ cnt[vb.key]++; nv++; const key=vb.num||('?'+w[0]); const o=lems[vb.key][key]||(lems[vb.key][key]={num:vb.num,n:0,ex:w[0]}); o.n++; } }));
+  let h=top+'<div class="bn">';
+  h+='<div class="card bn-ctl"><div class="syn-row"><select class="syn-sel" onchange="bnGo(this.value,1)">'+bopts+'</select><select class="syn-sel" onchange="bnGo(null,+this.value)">'+copts+'</select>'
+   +'<button class="navbtn" onclick="bnGo(null,'+Math.max(1,BN.c-1)+')">◀</button><button class="navbtn" onclick="bnGo(null,'+Math.min(nch,BN.c+1)+')">▶</button></div>';
+  h+='<div class="syn-row syn-opt"><label><input type="checkbox" '+(BN.reveal?'checked':'')+' onchange="BN.reveal=this.checked;renderContentOnly();"> <b>révéler les shem</b> (couleur + nom de chaque binyan)</label></div>';
+  h+='<div class="bn-leg">'+BN_K.map(k=>'<button class="bn-lg bn-'+k+(BN.on[k]?' on':'')+'" onclick="bnToggle(\''+k+'\')" title="'+esc(BN_INFO[k].sens)+'">'+BN_INFO[k].fr+' <b>'+cnt[k]+'</b></button>').join('')
+   +'<button class="navbtn" onclick="bnAll(1)">Tout</button><button class="navbtn" onclick="bnAll(0)">Aucun</button></div>';
+  h+='<div class="syn-row syn-opt">'+(true?'<label><input type="checkbox" '+(BN.tags?'checked':'')+' onchange="BN.tags=this.checked;renderContentOnly();"> étiquette du shem sous chaque verbe (si « révéler » est coché)</label>':'')
+   +'<label><input type="checkbox" '+(BN.dim?'checked':'')+' onchange="BN.dim=this.checked;renderContentOnly();"> estomper les mots qui ne sont pas des verbes</label>'
+   +'<label><input type="checkbox" '+(BN.cant?'checked':'')+' onchange="BN.cant=this.checked;renderContentOnly();"> cantillation</label></div></div>';
+  /* intro : les shem */
+  h+='<div class="card"><h3 style="cursor:pointer" onclick="BN.intro=!BN.intro;renderContentOnly();">'+(BN.intro?'▾':'▸')+' Les shem (שֵׁם = « nom ») des binyanim</h3>';
+  if(BN.intro){
+    h+='<p class="ui">Un <b>binyan</b> (בִּנְיָן, « construction ») est une forme du verbe qui en modifie le sens. Chaque verbe de la Bible se lit dans un binyan, reconnaissable à ses préfixes et à sa vocalisation. Les noms viennent de la forme du verbe modèle <span class="heb">פָּעַל</span> (« faire ») dans chaque binyan.</p>';
+    h+='<div class="tblwrap"><table class="gridtbl"><thead><tr><th>Binyan</th><th>Nom</th><th>Exemple</th><th>Sens général</th></tr></thead><tbody>'
+     +BN_K.filter(k=>k!=='x').map(k=>{const I=BN_INFO[k];return '<tr><td><span class="bn-lg bn-'+k+' on" style="cursor:default">'+I.fr+'</span></td><td><span class="heb">'+I.he+'</span></td><td><span class="heb">'+I.ex+'</span><br><small>'+I.exfr+'</small></td><td style="text-align:left">'+I.sens+'</td></tr>';}).join('')+'</tbody></table></div>';
+    const st=bnStats(); h+='<p class="ui"><b>Dans toute la Bible hébraïque</b> ('+st.n.toLocaleString('fr-FR')+' formes verbales) : '+BN_K.map(k=>'<span class="bn-chip" style="border-color:'+BN_INFO[k].col+';color:'+BN_INFO[k].col+'">'+BN_INFO[k].fr+' '+st.tot[k].toLocaleString('fr-FR')+' ('+(100*st.tot[k]/st.n).toFixed(1).replace('.',',')+' %)</span>').join(' ')+'</p>';
+    h+='<p class="ui bb-w2">Les cours 1 à 25 portent surtout sur le qal ; les autres binyanim viennent ensuite. Les couleurs de cette page sont là pour s\'habituer à les reconnaître dans le texte.</p>';
+  }
+  h+='</div>';
+  /* bilan du chapitre */
+  h+='<div class="card"><h3>'+esc(bibTr(bk))+' '+BN.c+' — '+nv+' formes verbales</h3>'+(nv?(false?'':'<div class="bn-bars">'+BN_K.filter(k=>cnt[k]).map(k=>'<div class="bn-bar"><span class="bn-bl">'+BN_INFO[k].fr+'</span><span class="bn-bf" style="width:'+Math.max(3,Math.round(100*cnt[k]/nv))+'%;background:'+BN_INFO[k].col+'"></span><span class="bn-bn2">'+cnt[k]+'</span></div>').join('')+'</div>'):'<p class="ui">Aucun verbe dans ce chapitre.</p>');
+  BN_K.filter(k=>cnt[k]).forEach(k=>{
+    const arr=Object.values(lems[k]).sort((a,b)=>b.n-a.n);
+    h+='<details class="bn-det"><summary style="color:'+BN_INFO[k].col+'"><b>'+BN_INFO[k].fr+'</b> — '+arr.length+' verbe'+(arr.length>1?'s':'')+' ('+cnt[k]+' formes)</summary><div class="ui bn-lst">'+arr.map(o=>{const L=o.num?BIB.L[o.num]:null,g=o.num?bibGloss(o.num):{t:''};return '<div><span class="heb bb-lem">'+esc(L?L.h:o.ex.replace(/\//g,''))+'</span>'+(g.t?' — '+esc(g.t):'')+' <small>×'+o.n+'</small></div>';}).join('')+'</div></details>';
+  });
+  h+='</div>';
+  h+='<div class="bn-grid"><div class="bn-text card">'+chap.map((ws,vi)=>'<div class="bb-v"><span class="bb-n">'+(vi+1)+'</span>'+ws.map((w,i)=>bnWordHTML(ws,vi+1,i)).join('')+'</div>').join('')+'</div><div class="bn-side">'+bnPanelHTML(chap)+'</div></div>';
+  h+='<div class="lesson-nav"><button class="navbtn" onclick="bnGo(null,'+Math.max(1,BN.c-1)+')" '+(BN.c<=1?'disabled':'')+'>← Chapitre précédent</button><button class="navbtn" onclick="bnGo(null,'+Math.min(nch,BN.c+1)+')" '+(BN.c>=nch?'disabled':'')+'>Chapitre suivant →</button></div>';
+  h+='<div class="ui bb-w2" style="margin:8px 2px">Analyse automatique d\'après l\'Open Scriptures Hebrew Bible (CC BY 4.0). À vérifier avec une grammaire.</div></div>';
+  return h;
+}
+/*BINYAN-END*/
 function viewBible(){
   BIB_UI._dm=null;
   const top='<div class="topline"><div><div class="eyebrow">תַּנַ״ךְ</div><h1>📜 La Bible hébraïque</h1></div></div>';
@@ -13765,6 +13992,7 @@ function viewExercices(){
   <div class="topline"><div><div class="eyebrow">תַּרְגִּילִים</div><h1>Exercices</h1></div></div>
   <div class="exlist">
     <div class="extile" onclick="go('vocabgames')"><h4>🎮 Jeux de vocabulaire</h4><p>Éclair, analyse de mots selon les cours vus, lecture sans voyelles, racines et familles de mots.</p><div class="go">Jouer →</div></div>
+    <div class="extile" onclick="go('bibbin')"><h4>🧱 Bible des binyanim</h4><p>Chaque verbe de la Bible coloré selon son shem : Qal, Nifal, Piel, Pual, Hifil, Hofal, Hitpael.</p><div class="go">Ouvrir →</div></div>
     <div class="extile" onclick="go('bibsyn')"><h4>🔬 Bible analysée</h4><p>Toute la Bible : chaque mot, chaque groupe de mots et la construction des phrases (sujet, verbe, objet, propositions…).</p><div class="go">Ouvrir →</div></div>
     <div class="extile" onclick="go('isavoc')"><h4>📘 Ésaïe 6 · Vocabulaire</h4><p>Les mots et les racines du chapitre, avec le qatal 3ms de chaque racine : fiches, association, quiz, dictionnaire.</p><div class="go">Ouvrir →</div></div>
     <div class="extile" onclick="go('isagames')"><h4>📜 Esaïe 6</h4><p>Le chapitre en entier : lecture mot à mot, analyse liée aux cours et six jeux (ordre du verset, texte à trous, trouve le mot, analyse des verbes et des mots, traduction).</p><div class="go">Ouvrir →</div></div>
@@ -14975,6 +15203,7 @@ function renderContentOnly(){
   else if(STATE.view==='isagames') html = viewIsaGames();
   else if(STATE.view==='isavoc') html = viewIsaVoc();
   else if(STATE.view==='bibsyn') html = viewBibSyn();
+  else if(STATE.view==='bibbin') html = viewBinyan();
   else if(STATE.view==='isagame') html = viewIsaGame();
   else if(STATE.view==='vocabgame') html = viewVocabGame();
   else if(STATE.view==='memblocks') html = viewMemoryBlocks();
@@ -14984,6 +15213,7 @@ function renderContentOnly(){
   else if(STATE.view==='dialoguegame') html = viewDialogueGame();
   main.innerHTML = html;
   enhanceHebrewText(main);
+  bidiFix(main);
   if(STATE.view==='cours' && isLessonUnlocked(STATE.lesson)) attachBlockComments(main, STATE.lesson);
   if(STATE.view==='handwriting') setupHandwritingCanvas();
 }
