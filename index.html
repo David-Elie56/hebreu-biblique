@@ -12982,12 +12982,25 @@ function ivPA(side,id){
   else{ A.err++; A.flash=['L'+(A.sel.s==='L'?a:id),'R'+(A.sel.s==='R'?a:id)]; ivMark(m,a,false); ivMark(m,id,false); A.sel=null; renderContentOnly(); setTimeout(()=>{ if(IV_AS===A){ A.flash=null; renderContentOnly(); } },380); }
 }
 /* ----- Quiz classique (sens du mot de base) ----- */
+const IV_STOP=new Set(['le','la','les','de','du','des','un','une','et','a','au','en','se','qui','que','ou','est','etre','pas','ne','sur','dans','par','pour','avec','son','sa','ses','ce','cet','cette','il','elle','ils','elles','tu','je','nous','vous','faire']);
+function ivToks(t){ return String(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').split(/[^a-z]+/).filter(w=>w.length>2&&!IV_STOP.has(w)).map(w=>w.replace(/(s|e|es|er|ir)$/,'')); }
+/* choisit n distracteurs dont le sens (fr) n'a aucun mot en commun avec la bonne réponse ni entre eux, et dont le texte hébreu diffère */
+function ivDistinct(list,c,n){
+  const used=new Set(ivToks(c.fr)); const fronts=new Set([c.front]); const out=[];
+  for(const x of list){
+    if(x.id===c.id||fronts.has(x.front)) continue;
+    const t=ivToks(x.fr); if(!t.length||t.some(w=>used.has(w))) continue;
+    out.push(x); fronts.add(x.front); t.forEach(w=>used.add(w)); if(out.length>=n) break;
+  }
+  if(out.length<n){ for(const x of list){ if(out.length>=n) break; if(x.id===c.id||out.indexOf(x)>=0||fronts.has(x.front)) continue; if(String(x.fr).trim().toLowerCase()===String(c.fr).trim().toLowerCase()) continue; out.push(x); fronts.add(x.front); } }
+  return out;
+}
 function ivQuizForms(c){ const o=[]; c.items.forEach(x=>x.forms.forEach(f=>o.push({w:f[0],v:f[1],it:x}))); return o; }
 function ivNextQ0(m){
   const Q=IV_QZ0; if(Q.n>=10){ Q.fin=true; return; }
   const pool=ivPool(m), c=ivPick(m,1,pool.length>=4?pool:ivCards(m))[0], all=ivCards(m);
   const same=all.filter(x=>x.id!==c.id&&(m==='B'||x.items[0].pos===c.items[0].pos));
-  const alts=(same.length>=3?ivShuf(same):ivShuf(all.filter(x=>x.id!==c.id))).slice(0,3);
+  const alts=ivDistinct(same.length>=3?ivShuf(same):ivShuf(all.filter(x=>x.id!==c.id)),c,3);
   let prompt,opts;
   if(m==='A'){ const kind=ivRnd(['h2f','h2f','f2h','form']);
     if(kind==='h2f'){ prompt='<div class="heb-static iv-big">'+esc(c.front)+'</div><div style="text-align:center">'+ivSnd(ivSpk(c))+'</div><div class="iv-mut" style="text-align:center">Que signifie ce mot ?</div>'; opts=ivShuf([c,...alts]).map(x=>({t:x.fr,id:x.id})); }
@@ -13036,11 +13049,11 @@ function ivNextQ(m){
   const uniq=(arr,f)=>{ const o=[],s={}; arr.forEach(x=>{ const k=f(x); if(!s[k]){s[k]=1;o.push(x);} }); return o; };
   if(kind==='h2g'){
     prompt=hebP+ivCtx(t)+'<div class="iv-mut" style="text-align:center">Que signifie ce mot, tel qu\'il est dans le verset ?</div>';
-    const alts=uniq(ivShuf(all.filter(x=>x.w.g!==t.w.g)),x=>x.w.g).slice(0,3);
+    const tk=new Set(ivToks(t.w.g)); const alts=uniq(ivShuf(all.filter(x=>x.w.g!==t.w.g&&!ivToks(x.w.g).some(w=>tk.has(w)))),x=>x.w.g).filter((x,i,ar)=>ar.slice(0,i).every(y=>!ivToks(y.w.g).some(w=>ivToks(x.w.g).indexOf(w)>=0))).slice(0,3);
     correct='h:'+t.w.h; opts=ivShuf([t,...alts]).map(x=>({t:x.w.g,id:'h:'+x.w.h}));
   }else if(kind==='g2h'){
     prompt='<div class="iv-mid" style="text-align:center"><b>'+esc(t.w.g)+'</b></div><div class="iv-mut" style="text-align:center">Quel est le mot hébreu exact, au verset '+t.v.v+' ?</div>';
-    const alts=uniq(ivShuf(all.filter(x=>x.w.h!==t.w.h&&x.w.g!==t.w.g)),x=>x.w.h).slice(0,3);
+    const tk=new Set(ivToks(t.w.g)); const alts=uniq(ivShuf(all.filter(x=>x.w.h!==t.w.h&&x.w.g!==t.w.g&&!ivToks(x.w.g).some(w=>tk.has(w)))),x=>x.w.h).slice(0,3);
     correct='h:'+t.w.h; opts=ivShuf([t,...alts]).map(x=>({t:x.w.h,id:'h:'+x.w.h,heb:1}));
   }else if(kind==='h2r'){
     prompt=hebP+ivCtx(t)+'<div class="iv-mut" style="text-align:center">Quelle est la racine de ce mot ?</div>';
