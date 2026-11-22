@@ -817,6 +817,7 @@ button.bb-lem{border:1px solid var(--border,#ccc);background:transparent;border-
 /*BIDICSS*/.hb{direction:rtl;unicode-bidi:isolate}
 /*CANTCSS*/.azcant{margin:6px 0 0}.azcant summary{cursor:pointer;font-size:13px;color:var(--text-soft)}.azcant-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:4px;margin-top:6px}.azcb{width:100%;min-height:72px;padding:2px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}.azcb .heb{display:block;font-size:22px;height:40px;line-height:44px;padding-top:6px;overflow:visible}.azcb .azsub{position:static!important;font-size:9px;line-height:1.1;text-align:center;opacity:.85;margin-top:2px}
 /*SYNMINICSS*/.syn-mini{position:fixed;top:64px;right:10px;width:min(300px,calc(100vw - 20px));max-height:60vh;overflow:auto;background:var(--paper,#fff);border:2px solid var(--gold,#b8892b);border-radius:12px;padding:10px 12px;z-index:60;box-shadow:0 6px 22px rgba(0,0,0,.3);font-size:13px;line-height:1.4}.syn-mini .syn-x{position:absolute;top:2px;right:6px;left:auto}.syn-mini .syn-mh{font-size:24px;text-align:center}.syn-mini .syn-mr{margin-top:6px}.syn-mini ul{margin:2px 0 0;padding-left:16px}.syn-mini a{color:var(--gold-d,#8a6a1c);font-weight:600}
+/*D2CSS*/.d2g{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:7px;margin:8px 0}.d2b{font-size:24px;padding:8px 0;border:1.5px solid var(--gold,#b8892b);border-radius:10px;background:var(--paper,#fff);cursor:pointer;color:inherit}.d2b.off{opacity:.25;cursor:default}.d2b:not(.off):active{background:#f3e3b8}.d2cur{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.d2chips{display:flex;gap:6px;flex-wrap:wrap}.d2c{font-size:20px;padding:4px 10px;border:1px solid var(--gold,#b8892b);border-radius:8px;background:var(--paper,#fff);cursor:pointer;color:inherit}
 /*BNCSS*/.bn-sv{direction:ltr;margin:2px 0 14px;padding:6px 10px;border-right:3px solid #b8892b;background:rgba(184,137,43,.07);border-radius:6px;font-size:14px}.bn-sv .syn-plan{margin:0;padding-left:18px}.bn-v{background:rgba(184,137,43,.18);border-bottom:3px solid #b8892b;border-radius:4px}.bn-mod>div{margin-top:4px}.bn-grid{display:block}.bn-text .bb-v{line-height:2.6;direction:rtl;text-align:right;font-size:22px}.bn-text .bb-n{direction:ltr}
 .bn-w{display:inline-block;text-align:center;padding:0 3px 1px;border-radius:5px;cursor:pointer;margin:1px 0;font-family:"SBL Hebrew","Ezra SIL","Frank Ruehl CLM","Times New Roman",serif}
 .bn-w.on{outline:2px solid var(--gold,#b8892b)}.bn-dim{opacity:.55}
@@ -13589,7 +13590,7 @@ function dcEntryHTML(e){
     +(e._mod?'<button class="btn-ghost" onclick="dcRestore(\''+e.id+'\')">↩︎ Version d\'origine</button>':'')
     +'<button class="btn-ghost" onclick="dcDel(\''+e.id+'\')">🗑</button></div></div></details>';
 }
-function viewDict(){
+function viewDictHe(){
   const all=dcAll(); const list=all.filter(dcMatches);
   const letters=DICT_ORD.split('').map(l=>'<button class="dc-l'+(DICT_UI.letter===l?' on':'')+'" onclick="DICT_UI.letter=(DICT_UI.letter===\''+l+'\'?\'\':\''+l+'\'); DICT_UI.limit=60; renderContentOnly()">'+l+'</button>').join('');
   const nSa=all.filter(e=>e.sa&&e.sa.t).length;
@@ -13610,6 +13611,57 @@ function viewDict(){
    +'<label class="navbtn" style="cursor:pointer;">⬆️ Importer<input type="file" accept="application/json" style="display:none;" onchange="dcImport(this)"></label>'
    +'<br>Envoyez-moi l\'export pour que je complète les entrées avec le Sander et que je les intègre à la base.</div>';
 }
+/*DICT2-BEGIN*/
+DICT_UI.mode='he'; DICT_UI.rac=''; DICT_UI.fp='';
+function d2Key(e){ return String(e.fr||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z]/g,''); }
+function d2Mode(m){ DICT_UI.mode=m; DICT_UI.limit=60; DICT_UI.open=null; renderContentOnly(); window.scrollTo(0,0); }
+function d2Add(k,c){ DICT_UI[k]+=c; DICT_UI.limit=60; renderContentOnly(); }
+function d2Back(k){ DICT_UI[k]=DICT_UI[k].slice(0,-1); DICT_UI.limit=60; renderContentOnly(); }
+function d2Clear(k){ DICT_UI[k]=''; DICT_UI.limit=60; renderContentOnly(); }
+function d2Set(k,v){ DICT_UI[k]=v; DICT_UI.limit=60; renderContentOnly(); }
+function d2Tabs(){
+  const b=(m,t)=>'<button class="'+(DICT_UI.mode===m?'btn-reveal':'navbtn')+'" onclick="d2Mode(\''+m+'\')">'+t+'</button>';
+  return '<div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;">'+b('he','🔤 Hébreu → Français')+b('rac','🌱 Recherche par racine')+b('fr','🔁 Français → Hébreu')+'</div></div>';
+}
+function d2Pad(k,letters,next,cur,rtl){
+  return '<div class="d2g" dir="'+(rtl?'rtl':'ltr')+'">'+letters.map(l=>{
+    const ok=next.has(l);
+    return '<button class="d2b'+(rtl?' heb':'')+(ok?'':' off')+'" '+(ok?'':'disabled ')+'onclick="d2Add(\''+k+'\',\''+l+'\')">'+(rtl?l:l.toUpperCase())+'</button>';
+  }).join('')+'</div>';
+}
+function d2Bar(k,cur,rtl){
+  return '<div class="d2cur"><span class="'+(rtl?'heb':'')+'" dir="'+(rtl?'rtl':'ltr')+'" style="font-size:'+(rtl?'34':'28')+'px;font-weight:700;letter-spacing:'+(rtl?'2':'3')+'px;min-width:60px;display:inline-block;">'+(cur?(rtl?cur:cur.toUpperCase()):'…')+'</span> '
+   +'<button class="navbtn" onclick="d2Back(\''+k+'\')" '+(cur?'':'disabled')+'>⌫ Effacer la dernière lettre</button> <button class="navbtn" onclick="d2Clear(\''+k+'\')" '+(cur?'':'disabled')+'>✕ Tout effacer</button></div>';
+}
+function viewDict(){
+  const mode=DICT_UI.mode||'he';
+  if(mode==='he') return d2Tabs()+viewDictHe();
+  const all=dcAll();
+  const head='<div class="topline"><div><div class="eyebrow">מִלּוֹן</div><h1>📖 Dictionnaire</h1></div></div>'+d2Tabs();
+  if(mode==='rac'){
+    const pre=DICT_UI.rac;
+    const rs=all.filter(e=>e.rac&&dcLet(e.rac).indexOf(pre)===0);
+    const next=new Set(); rs.forEach(e=>{ const c=dcLet(e.rac)[pre.length]; if(c) next.add(c); });
+    const roots={}; rs.forEach(e=>{ (roots[dcLet(e.rac)]=roots[dcLet(e.rac)]||[]).push(e); });
+    const rk=Object.keys(roots).sort();
+    let o=head+'<div class="card"><p class="ui" style="margin:0 0 8px;"><b>Recherche par racine</b> : touchez les lettres de la racine, une à une (ex. <span class="heb">מ</span> puis <span class="heb">ל</span> puis <span class="heb">כ</span>). Seules les lettres qui mènent à une racine du dictionnaire sont actives.</p>'
+     +d2Bar('rac',pre,true)+d2Pad('rac',DICT_ORD.split(''),pre?next:new Set(DICT_ORD.split('')),pre,true)+'</div>';
+    if(!pre) return o+'<p class="ui" style="color:var(--text-soft);">Choisissez la première lettre de la racine.</p>';
+    o+='<div class="card"><p class="ui" style="margin:0 0 6px;"><b>'+rk.length+'</b> racine'+(rk.length>1?'s':'')+' · <b>'+rs.length+'</b> mot'+(rs.length>1?'s':'')+'</p><div class="d2chips" dir="rtl">'
+     +rk.map(r=>'<button class="d2c heb" onclick="d2Set(\'rac\',\''+r+'\')">'+r+'</button>').join('')+'</div></div>';
+    rs.sort((a,b)=>dcLet(a.rac)<dcLet(b.rac)?-1:dcLet(a.rac)>dcLet(b.rac)?1:0);
+    return o+'<div id="dcList">'+dcListHTML(rs)+'</div>';
+  }
+  const pre=DICT_UI.fp;
+  const fs=all.filter(e=>d2Key(e).length&&d2Key(e).indexOf(pre)===0).sort((a,b)=>d2Key(a).localeCompare(d2Key(b))||(a.h<b.h?-1:1));
+  const next=new Set(); fs.forEach(e=>{ const c=d2Key(e)[pre.length]; if(c) next.add(c); });
+  const LAT='abcdefghijklmnopqrstuvwxyz'.split('');
+  let o=head+'<div class="card"><p class="ui" style="margin:0 0 8px;"><b>Français → hébreu biblique</b> : touchez les lettres du mot français, autant que vous voulez (« Ma », « Mai », « Mais »…). Les mots hébreux correspondants s\'affichent en dessous.</p>'
+   +d2Bar('fp',pre,false)+d2Pad('fp',LAT.filter(l=>pre?next.has(l):all.some(e=>d2Key(e)[0]===l)),pre?next:new Set(LAT),pre,false)+'</div>';
+  if(!pre) return o+'<p class="ui" style="color:var(--text-soft);">Choisissez la première lettre du mot français.</p>';
+  return o+'<div id="dcList">'+dcListHTML(fs)+'</div>';
+}
+/*DICT2-END*/
 function dcListHTML(list){
   const shown=list.slice(0,DICT_UI.limit);
   return '<p class="ui" style="color:var(--text-soft);font-size:12.5px;">'+list.length+' résultat'+(list.length>1?'s':'')+'</p>'+shown.map(dcEntryHTML).join('')
@@ -13772,11 +13824,20 @@ function bibGateSet(v){ const b=document.getElementById('gtB').value,c=+document
   if(v==='bibbin'){BN.b=b;BN.c=c;} else if(v==='bibsyn'){SYN.b=b;SYN.c=c;SYN.vf=0;} else {BIB_UI.b=b;BIB_UI.c=c;}
   BIB_GO[v]=1; renderContentOnly(); }
 function bibGateCh(){ const b=document.getElementById('gtB').value, e=BIB_IDX.find(x=>x[0]===b), el=document.getElementById('gtC'); let o=''; for(let i=1;i<=e[3];i++) o+='<option value="'+i+'">'+i+'</option>'; el.innerHTML=o; }
+let OFFL={n:0,state:''};
+async function offlineSyntax(){
+  if(OFFL.state==='run') return; OFFL.state='run'; OFFL.n=0; let fail=0;
+  const upd=()=>{ const e=document.getElementById('offMsg'); if(e) e.textContent=OFFL.state==='run'?('Téléchargement… '+OFFL.n+' / '+BIB_IDX.length):(fail?('Terminé : '+(OFFL.n-fail)+' livres enregistrés, '+fail+' échec(s). Vous pouvez recommencer.'):'✅ Les '+BIB_IDX.length+' livres sont enregistrés : la construction des phrases marche hors connexion.'); };
+  upd();
+  for(const x of BIB_IDX){ try{ const r=await fetch('syntaxe/'+x[0]+'.json.gz'); if(!r.ok) fail++; else await r.arrayBuffer(); }catch(e){ fail++; } OFFL.n++; upd(); }
+  OFFL.state='done'; upd();
+}
 function bibGateHTML(v,top,cb,cc){
   return top+'<div class="card ui"><p><b>Choisissez d\'abord le livre et le chapitre</b> : rien ne se charge avant que vous touchiez « Ouvrir ».</p>'
    +'<div class="syn-row"><select class="syn-sel" id="gtB" onchange="bibGateCh()">'+BIB_IDX.map(x=>'<option value="'+x[0]+'"'+(x[0]===cb?' selected':'')+'>'+esc(x[1]+' ('+x[2]+')')+'</option>').join('')+'</select>'
    +'<select class="syn-sel" id="gtC">'+(function(){const e=BIB_IDX.find(x=>x[0]===cb)||BIB_IDX[0];let o='';for(let i=1;i<=e[3];i++)o+='<option value="'+i+'"'+(i===cc?' selected':'')+'>'+i+'</option>';return o;})()+'</select>'
-   +'<button class="navbtn" onclick="bibGateSet(\''+v+'\')">Ouvrir ▶</button></div></div>';
+   +'<button class="navbtn" onclick="bibGateSet(\''+v+'\')">Ouvrir ▶</button></div>'
+   +'<p class="ui" style="margin-top:12px;font-size:13px;"><button class="navbtn" onclick="offlineSyntax()">📥 Enregistrer la construction des phrases de toute la Bible (≈ 7 Mo) pour l\'utiliser sans connexion</button> <span id="offMsg"></span></p></div>';
 }
 /*GATE-END*/
 const BIB_UI={b:'Gen',c:1,q:'',mode:'read',sel:null,size:30,hits:null,lemNum:null,lemTitle:'',limit:80,frLems:null};

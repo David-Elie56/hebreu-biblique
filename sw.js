@@ -6,7 +6,7 @@
    elle-même gère leur échec (mode hors-ligne, sauvegarde locale).
    À placer dans le MÊME dossier que index.html sur GitHub Pages. */
 
-const CACHE_NAME = 'hb-cache-v36';
+const CACHE_NAME = 'hb-cache-v38';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
@@ -46,7 +46,7 @@ self.addEventListener('fetch', (event) => {
         return response;
       })
       .catch(() =>
-        caches.match(event.request).then((cached) => cached || caches.match('./index.html'))
+        caches.match(event.request).then((cached) => cached || (event.request.mode === 'navigate' ? caches.match('./index.html') : Response.error()))
       )
   );
 });
